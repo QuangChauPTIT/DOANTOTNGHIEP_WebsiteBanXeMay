@@ -1,0 +1,40 @@
+﻿@using WebsiteBanXeMay.Models;
+@using WebsiteBanXeMay.ViewModels;
+
+
+@{ IEnumerable<THUONGHIEU> lstThuongHieu = (IEnumerable<THUONGHIEU>)ViewBag.lstThuongHieu;
+    IEnumerable<KieuSanPhamViewModel> lstKieuSanPham = (IEnumerable<KieuSanPhamViewModel>)ViewBag.lstKieuSanPham; }
+<div class="hb-menu">
+    <nav>
+        <ul>
+            <li><a id="contentNone" href="">Trang chủ</a></li>
+            <li class="megamenu-holder">
+                <a href="shop-left-sidebar.html">Thương hiệu</a>
+                <ul class="hb-dropdown">
+                    @if (lstThuongHieu.Count() > 0)
+                    {
+                        foreach (var ThuongHieu in lstThuongHieu)
+                        {
+                            <li><a href="">@ThuongHieu.TENTH</a></li>
+                        }
+                    }
+                </ul>
+            </li>
+            <li class="megamenu-holder">
+                <a href="shop-left-sidebar.html">Loại xe</a>
+                <ul class="hb-dropdown">
+                    @if (lstKieuSanPham.Count() > 0)
+                    {
+                        foreach (var KieuSanPham in lstKieuSanPham)
+                        {
+                            <li><a href="">@KieuSanPham.TENKIEU</a></li>
+                        }
+                    }
+                </ul>
+            </li>
+            <li><a id="contentNone" href="">Công nghệ</a></li>
+            <li><a href="">Liên hệ</a></li>
+        </ul>
+    </nav>
+</div>
+

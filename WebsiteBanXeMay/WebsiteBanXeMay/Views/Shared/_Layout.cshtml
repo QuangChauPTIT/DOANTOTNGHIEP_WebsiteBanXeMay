@@ -1,0 +1,131 @@
+﻿<!doctype html>
+<html class="no-js" lang="zxx">
+
+<!-- index28:48-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>LIMUPA</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/Asset/images/favicon.png">
+    <!-- Material Design Iconic Font-V2.2.0 -->
+    <link rel="stylesheet" href="~/Assets/css/material-design-iconic-font.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Assets/css/font-awesome.min.css">
+    <!-- Font Awesome Stars-->
+    <link rel="stylesheet" href="~/Assets/css/fontawesome-stars.css">
+    <!-- Meanmenu CSS -->
+    <link rel="stylesheet" href="~/Assets/css/meanmenu.css">
+    <!-- owl carousel CSS -->
+    <link rel="stylesheet" href="~/Assets/css/owl.carousel.min.css">
+    <!-- Slick Carousel CSS -->
+    <link rel="stylesheet" href="~/Assets/css/slick.css">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="~/Assets/css/animate.css">
+    <!-- Jquery-ui CSS -->
+    <link rel="stylesheet" href="~/Assets/css/jquery-ui.min.css">
+    <!-- Venobox CSS -->
+    <link rel="stylesheet" href="~/Assets/css/venobox.css">
+    <!-- Nice Select CSS -->
+    <link rel="stylesheet" href="~/Assets/css/nice-select.css">
+    <!-- Magnific Popup CSS -->
+    <link rel="stylesheet" href="~/Assets/css/magnific-popup.css">
+    <!-- Bootstrap V4.1.3 Fremwork CSS -->
+    <link rel="stylesheet" href="~/Assets/css/bootstrap.min.css">
+    <!-- Helper CSS -->
+    <link rel="stylesheet" href="~/Assets/css/helper.css">
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="~/Assets/css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="~/Assets/css/responsive.css">
+    <!-- jQuery-V1.12.4 -->
+    <script src="~/Assets/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/Assets/js/simple.money.format.js"></script>
+    <!-- Modernizr js -->
+    <script src="~/Assets/js/vendor/modernizr-2.8.3.min.js"></script>
+
+</head>
+<body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <!-- Begin Body Wrapper -->
+    <div class="body-wrapper">
+        <!-- Begin Header Area -->
+        <header>
+            @{Html.RenderPartial("~/Views/Shared/Header/HeaderStyle1/_HeaderTop.cshtml");}
+            @{Html.RenderPartial("~/Views/Shared/Header/HeaderStyle1/_HeaderMiddle.cshtml");}
+            @{Html.RenderPartial("~/Views/Shared/Header/HeaderStyle1/_HeaderBottom.cshtml");}
+            <!-- Begin Mobile Menu Area -->
+            <div class="mobile-menu-area d-lg-none d-xl-none col-12">
+                <div class="container">
+                    <div class="row">
+                        <div class="mobile-menu">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Menu Area End Here -->
+        </header>
+        <!-- Header Area End Here -->
+        @RenderBody()
+        <!-- Begin Footer Area -->
+        <div class="footer">
+            @{Html.RenderPartial("~/Views/Shared/Footer/_FooterTop.cshtml");}
+            @{Html.RenderPartial("~/Views/Shared/Footer/_FooterMiddle.cshtml");}
+            @{Html.RenderPartial("~/Views/Shared/Footer/_FooterBottom.cshtml");}
+        </div>
+        <!-- Footer Area End Here -->
+    </div>
+    <!-- Body Wrapper End Here -->
+    <!-- Popper js -->
+    <script src="~/Assets/js/vendor/popper.min.js"></script>
+    <!-- Bootstrap V4.1.3 Fremwork js -->
+    <script src="~/Assets/js/bootstrap.min.js"></script>
+    <!-- Ajax Mail js -->
+    <script src="~/Assets/js/ajax-mail.js"></script>
+    <!-- Meanmenu js -->
+    <script src="~/Assets/js/jquery.meanmenu.min.js"></script>
+    <!-- Wow.min js -->
+    <script src="~/Assets/js/wow.min.js"></script>
+    <!-- Slick Carousel js -->
+    <script src="~/Assets/js/slick.min.js"></script>
+    <!-- Owl Carousel-2 js -->
+    <script src="~/Assets/js/owl.carousel.min.js"></script>
+    <!-- Magnific popup js -->
+    <script src="~/Assets/js/jquery.magnific-popup.min.js"></script>
+    <!-- Isotope js -->
+    <script src="~/Assets/js/isotope.pkgd.min.js"></script>
+    <!-- Imagesloaded js -->
+    <script src="~/Assets/js/imagesloaded.pkgd.min.js"></script>
+    <!-- Mixitup js -->
+    <script src="~/Assets/js/jquery.mixitup.min.js"></script>
+    <!-- Countdown -->
+    <script src="~/Assets/js/jquery.countdown.min.js"></script>
+    <!-- Counterup -->
+    <script src="~/Assets/js/jquery.counterup.min.js"></script>
+    <!-- Waypoints -->
+    <script src="~/Assets/js/waypoints.min.js"></script>
+    <!-- Barrating -->
+    <script src="~/Assets/js/jquery.barrating.min.js"></script>
+    <!-- Jquery-ui -->
+    <script src="~/Assets/js/jquery-ui.min.js"></script>
+    <!-- Venobox -->
+    <script src="~/Assets/js/venobox.min.js"></script>
+    <!-- Nice Select js -->
+    <script src="~/Assets/js/jquery.nice-select.min.js"></script>
+    <!-- ScrollUp js -->
+    <script src="~/Assets/js/scrollUp.min.js"></script>
+    <!-- Main/Activator js -->
+    <script src="~/Assets/js/main.js"></script>
+
+    <script>
+        $('.money').simpleMoneyFormat();
+        //$('#lstLoaiSanPhamMoi').addClass('pt-60');
+    </script>
+</body>
+
+<!-- index30:23-->
+</html>
