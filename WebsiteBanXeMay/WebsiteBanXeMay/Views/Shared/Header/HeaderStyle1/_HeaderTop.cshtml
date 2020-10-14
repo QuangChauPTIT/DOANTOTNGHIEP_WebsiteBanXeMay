@@ -1,4 +1,8 @@
-﻿ <!-- Begin Header Top Area -->
+﻿@using WebsiteBanXeMay.ViewModels;
+@using WebsiteBanXeMay.Common;
+
+@{ var TaiKhoanViewModel = Context.Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;}
+<!-- Begin Header Top Area -->
 <div class="header-top">
     <div class="container">
         <div class="row">
@@ -16,42 +20,46 @@
                 <div class="header-top-right">
                     <ul class="ht-menu">
                         <!-- Begin Setting Area -->
-                        <li>
-                            <div class="ht-setting-trigger"><span>Trần Quang Châu</span></div>
-                            <div class="setting ht-setting">
-                                <ul class="ht-setting-list">
-                                    <li><a href="">Tài khoản</a></li>
-                                    <li><a href="">Đơn hàng</a></li>
-                                    <li><a href="">Đăng xuất</a></li>
-                                    @*<li><a href="">Đăng ký</a></li>*@
-                                </ul>
-                            </div>
-                        </li>
+
+                        @if (TaiKhoanViewModel == null)
+                        {
+                            <li>
+                                <div class="ht-setting-trigger"><span>Tài khoản</span></div>
+                                <div class="setting ht-setting">
+                                    <ul class="ht-setting-list">
+                                        <li>@Html.ActionLink("Đăng nhập", "DangNhap", "TaiKhoan", new { ReturnUrl = Request.Url.PathAndQuery }, null)</li>
+                                        <li>@Html.ActionLink("Đăng ký", "DangKy", "TaiKhoan", new { ReturnUrl = Request.Url.PathAndQuery }, null)</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        }
+                        else if (TaiKhoanViewModel != null)
+                        {
+                            <li>
+                                <div class="ht-setting-trigger"><span>@TaiKhoanViewModel.HOTEN</span></div>
+                                <div class="setting ht-setting">
+                                    <ul class="ht-setting-list">
+                                        @if (TaiKhoanViewModel.NHOMQUYEN.Equals("customer"))
+                                        {
+                                            <li><a href="">Tài khoản</a></li>
+                                            <li><a href="">Đơn hàng</a></li>
+                                            <li>@Html.ActionLink("Đăng xuất", "DangXuat", "TaiKhoan")</li>
+                                        }
+                                        else if (TaiKhoanViewModel.NHOMQUYEN.Equals("staff") || TaiKhoanViewModel.NHOMQUYEN.Equals("admin"))
+                                        {
+                                            <li><a href="">Quản lý</a></li>
+                                            <li>@Html.ActionLink("Đăng xuất", "DangXuat", "TaiKhoan")</li>
+                                        }
+                                        else if (TaiKhoanViewModel.NHOMQUYEN.Equals("shipper"))
+                                        {
+                                            <li><a href="">Quản lý</a></li>
+                                            <li>@Html.ActionLink("Đăng xuất", "DangXuat", "TaiKhoan")</li>
+                                        }
+                                    </ul>
+                                </div>
+                            </li>
+                        }
                         <!-- Setting Area End Here -->
-                        <!-- Begin Currency Area -->
-                        <li>
-                            <span class="currency-selector-wrapper">Tiền tệ :</span>
-                            <div class="ht-currency-trigger"><span>VND $</span></div>
-                            <div class="currency ht-currency">
-                                <ul class="ht-setting-list">
-                                    <li class="active"><a href="#">VND $</a></li>
-                                    <li><a href="#">USD $</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <!-- Currency Area End Here -->
-                        <!-- Begin Language Area -->
-                        <li>
-                            <span class="language-selector-wrapper">Ngôn ngữ :</span>
-                            <div class="ht-language-trigger"><span>English</span></div>
-                            <div class="language ht-language">
-                                <ul class="ht-setting-list">
-                                    <li class="active"><a href="#"><img src="~/Assets/images/menu/flag-icon/1.jpg" alt="">English</a></li>
-                                    <li><a href="#"><img src="~/Assets/images/menu/flag-icon/2.jpg" alt="">Français</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <!-- Language Area End Here -->
                     </ul>
                 </div>
             </div>

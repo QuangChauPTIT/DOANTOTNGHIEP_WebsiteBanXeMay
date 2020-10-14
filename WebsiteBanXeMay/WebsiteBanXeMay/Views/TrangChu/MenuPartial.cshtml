@@ -7,33 +7,33 @@
 <div class="hb-menu">
     <nav>
         <ul>
-            <li><a id="contentNone" href="">Trang chủ</a></li>
+            <li><a id="contentNone" href="/TrangChu">Trang chủ</a></li>
             <li class="megamenu-holder">
-                <a href="shop-left-sidebar.html">Thương hiệu</a>
+                <a href="">Thương hiệu</a>
                 <ul class="hb-dropdown">
-                    @if (lstThuongHieu.Count() > 0)
+                    @if (lstThuongHieu != null && lstThuongHieu.Count() > 0)
                     {
                         foreach (var ThuongHieu in lstThuongHieu)
                         {
-                            <li><a href="">@ThuongHieu.TENTH</a></li>
+                            <li>@Html.ActionLink(ThuongHieu.TENTH,"Index", "LoaiSanPham", new { MaTH = ThuongHieu.MATH},null)</li>
                         }
                     }
                 </ul>
             </li>
             <li class="megamenu-holder">
-                <a href="shop-left-sidebar.html">Loại xe</a>
+                <a href="">Loại xe</a>
                 <ul class="hb-dropdown">
-                    @if (lstKieuSanPham.Count() > 0)
+                    @if (lstKieuSanPham != null && lstKieuSanPham.Count() > 0)
                     {
                         foreach (var KieuSanPham in lstKieuSanPham)
                         {
-                            <li><a href="">@KieuSanPham.TENKIEU</a></li>
+                    <li>@Html.ActionLink(KieuSanPham.TENKIEU, "Index", "LoaiSanPham", new { Kieu = KieuSanPham.MAKIEU }, null)</li>
                         }
                     }
                 </ul>
             </li>
-            <li><a id="contentNone" href="">Công nghệ</a></li>
-            <li><a href="">Liên hệ</a></li>
+            <li><a id="contentNone" href="/TrangChu">Công nghệ</a></li>
+            <li><a href="/TrangChu">Liên hệ</a></li>
         </ul>
     </nav>
 </div>

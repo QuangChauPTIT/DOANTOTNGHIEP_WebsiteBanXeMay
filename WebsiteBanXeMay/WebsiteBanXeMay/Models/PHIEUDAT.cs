@@ -33,6 +33,7 @@ namespace WebsiteBanXeMay.Models
         public Nullable<int> MANVD { get; set; }
         public Nullable<int> MANVGH { get; set; }
         public int MAKH { get; set; }
+        public Nullable<int> MAQUAN { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HOADON> HOADONs { get; set; }
@@ -43,5 +44,6 @@ namespace WebsiteBanXeMay.Models
         public virtual ICollection<PHIEUTRA> PHIEUTRAs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SANPHAM> SANPHAMs { get; set; }
+        public virtual QUAN QUAN { get; set; }
     }
 }

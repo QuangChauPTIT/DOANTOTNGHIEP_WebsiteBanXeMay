@@ -43,5 +43,7 @@ namespace WebsiteBanXeMay.Models
         public virtual DbSet<SANPHAMTANGKEM> SANPHAMTANGKEMs { get; set; }
         public virtual DbSet<TAIKHOAN> TAIKHOANs { get; set; }
         public virtual DbSet<THUONGHIEU> THUONGHIEUx { get; set; }
+        public virtual DbSet<QUAN> QUANs { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }

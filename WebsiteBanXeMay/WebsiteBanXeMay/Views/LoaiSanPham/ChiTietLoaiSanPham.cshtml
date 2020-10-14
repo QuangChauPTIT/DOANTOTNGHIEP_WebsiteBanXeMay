@@ -5,13 +5,25 @@
 }
 
 @{ChiTietLoaiSanPhamViewModel LoaiSanPham = ViewBag.LoaiSanPham as ChiTietLoaiSanPhamViewModel;
-IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPhamLienQuan = ViewBag.lstLoaiSanPhamLienQuan as IEnumerable<LoaiSanPhamViewModel>;}
+    IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPhamLienQuan = ViewBag.lstLoaiSanPhamLienQuan as IEnumerable<LoaiSanPhamViewModel>;}
 <style>
     .convertImage {
-        height:300px;
+        height: 300px;
         width: 300px;
         margin-right: auto;
         object-fit: contain
+    }
+
+    .colorContent {
+        color: #666;
+    }
+
+    .Quantity {
+        color: black !important;
+        font-size: 16px
+    }
+    .hide{
+        display:none;
     }
 </style>
 
@@ -27,125 +39,228 @@ IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPhamLienQuan = ViewBag.lstLoaiSanPha
 </div>
 
 <div class="content-wraper">
-        <div class="container">
-            <div class="row single-product-area">
-                <div class="col-lg-5 col-md-6">
-                    <div class="product-details-left sp-tab-style-left-page">
-                        <div class="product-details-images slider-navigation-1 mt-50">
-                            <div class="lg-image">
-                                <a class="popup-img venobox vbox-item" href="@Url.Content("~/Assets/upload/images/"+LoaiSanPham.HINHANH)" data-gall="myGallery">
-                                    <img class="convertImage" src="@Url.Content("~/Assets/upload/images/"+LoaiSanPham.HINHANH)" alt="@LoaiSanPham.HINHANH ">
-                                </a>
+    <div class="container">
+        <div class="row single-product-area">
+            <div class="col-lg-5 col-md-6">
+                <div class="product-details-left sp-tab-style-left-page">
+                    <div class="product-details-images slider-navigation-1 mt-50">
+                        <div class="lg-image">
+                            <a class="popup-img venobox vbox-item" href="@Url.Content("~/Assets/upload/images/"+LoaiSanPham.HINHANH)" data-gall="myGallery">
+                                <img class="convertImage" src="@Url.Content("~/Assets/upload/images/"+LoaiSanPham.HINHANH)" alt="@LoaiSanPham.HINHANH ">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="tab-style-left">
+                        <div class="sm-image"><img class="convertImageSmall" src="@Url.Content("~/Assets/upload/images/"+LoaiSanPham.HINHANH)" alt="@LoaiSanPham.HINHANH "></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7 col-md-6">
+                <div class="product-details-view-content pt-20">
+                    <div class="product-info">
+                        <h2>@LoaiSanPham.TENLOAI</h2>
+                        <span class="product-details-ref">Thương hiệu: @LoaiSanPham.TENTH</span>
+                        <div class="rating-box pt-20">
+                            <ul class="rating rating-with-review-item">
+                                @for (int i = 0; i < LoaiSanPham.MUCDANHGIA; i++)
+                                {
+                                    <li><i class="fa fa-star"></i></li>
+                                }
+                                @for (int i = 0; i < 5 - LoaiSanPham.MUCDANHGIA; i++)
+                                {
+                                    <li class="no-star"><i class="fa fa-star"></i></li>
+                                }
+                                <li>
+                                    <span class="colorContent">
+                                        <span style="margin:10px 10px;color:#c8c8c8 !important">|</span>
+                                        <span class="Quantity">@LoaiSanPham.SOLUONGDANHGIA</span> Đánh giá
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="colorContent">
+                                        <span style="margin:10px 10px;color:#c8c8c8 !important">|</span>
+                                        <span class="Quantity">@LoaiSanPham.SOLUONGDABAN</span>  Đã bán
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="price-box pt-20">
+                            @if (LoaiSanPham.PHANTRAM > 0)
+                            {
+                                <span class="new-price new-price-2 money">
+                                    @LoaiSanPham.GIAKM
+                                </span>
+                                <span class="old-price money colorContent" style="text-decoration:line-through;margin-left:2%">
+                                    @LoaiSanPham.GIA
+                                </span>
+                                <span class="discount-percentage" style="color:red;margin-left:2%">@LoaiSanPham.PHANTRAM %</span>
+                            }
+                            else
+                            {
+                                <span class="new-price new-price-2 money">
+                                    @LoaiSanPham.GIA
+                                </span>
+                            }
+                        </div>
+                        @if (LoaiSanPham.NGAYKETTHUCKM != null)
+                        {
+                            <div class="product-desc">
+                                <p><span> Giá và khuyến mãi dự kiến áp dụng đến @LoaiSanPham.NGAYKETTHUCKM.Value.ToString("dd/MM") </span> </p>
+                                @if (LoaiSanPham.lstSANPHAMTANGKEM != null && LoaiSanPham.lstSANPHAMTANGKEM.Count() > 0)
+                                {
+                                    foreach (var SanPhamTangKem in LoaiSanPham.lstSANPHAMTANGKEM)
+                                    {
+                                        <p><i class="fa fa-check-square-o"></i><span> Tặng @SanPhamTangKem.SOLUONGSPTK @SanPhamTangKem.TENSPTK </span> </p>
+                                    }
+                                }
+                            </div>
+
+                        }
+                        <div class="single-add-to-cart">
+                            <form action="#" class="cart-quantity">
+                                <div class="quantity">
+                                    <label>Số lượng</label>
+                                    <div class="cart-plus-minus">
+                                        <input class="cart-plus-minus-box" value="1" type="text" readonly>
+                                        <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
+                                        <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
+                                    </div>
+                                </div>
+                                <button class="add-to-cart" type="submit">Thêm vào giỏ</button>
+                            </form>
+                        </div>
+                        <div class="QuantityInStock hide">
+                            <span>Số lượng tồn còn @LoaiSanPham.SOLUONGTON sản phẩm</span>
+                        </div>
+                        <div class="product-additional-info pt-25">
+                            <div class="product-social-sharing pt-25">
+                                <ul>
+                                    <li class="facebook"><a href="#"><i class="fa fa-facebook"></i>Facebook</a></li>
+                                    <li class="twitter"><a href="#"><i class="fa fa-twitter"></i>Twitter</a></li>
+                                    <li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i>Google +</a></li>
+                                    <li class="instagram"><a href="#"><i class="fa fa-instagram"></i>Instagram</a></li>
+                                </ul>
                             </div>
                         </div>
-                        <div class="tab-style-left">
-                            <div class="sm-image"><img class="convertImageSmall" src="@Url.Content("~/Assets/upload/images/"+LoaiSanPham.HINHANH)" alt="@LoaiSanPham.HINHANH "></div>
+                        <div class="block-reassurance">
+                            <ul>
+                                <li>
+                                    <div class="reassurance-item">
+                                        <div class="reassurance-icon">
+                                            <i class="fa fa-check-square-o"></i>
+                                        </div>
+                                        <p>Chính sách ưu đãi tuyệt vời</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="reassurance-item">
+                                        <div class="reassurance-icon">
+                                            <i class="fa fa-truck"></i>
+                                        </div>
+                                        <p>Giao hàng tận nơi từ cửa hàng gần nhất</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="reassurance-item">
+                                        <div class="reassurance-icon">
+                                            <i class="fa fa-exchange"></i>
+                                        </div>
+                                        <p>Chính sách hoàn trả khi có hư hỏng trong vòng 1 tháng</p>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                <div class="col-lg-7 col-md-6">
-                    <div class="product-details-view-content pt-60">
-                        <div class="product-info">
-                            <h2>@LoaiSanPham.TENLOAI</h2>
-                            <span class="product-details-ref">Thương hiệu: @LoaiSanPham.TENTH</span>
-                            <div class="rating-box pt-20">
-                                <ul class="rating rating-with-review-item">
-                                    @for (int i = 0; i < LoaiSanPham.DANHGIA; i++)
-                                    {
-                                        <li><i class="fa fa-star-o"></i></li>
-                                    }
-                                    @for (int i = 0; i < 5 - LoaiSanPham.DANHGIA; i++)
-                                    {
-                                        <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                    }
-                                    <li class="review-item"><a href="#">Read Review</a></li>
-                                    <li class="review-item"><a href="#">Write Review</a></li>
-                                </ul>
-                            </div>
-                            <div class="price-box pt-20">
-                                @if (LoaiSanPham.PHANTRAM > 0)
-                                {
-                                    <span class="new-price new-price-2 money">
-                                        @LoaiSanPham.GIAKM
-                                    </span>
-                                    <span class="old-price money" style="text-decoration:line-through;margin-left:2%">
-                                        @LoaiSanPham.GIA
-                                    </span>
-                                    <span class="discount-percentage" style="color:red;margin-left:2%">@LoaiSanPham.PHANTRAM %</span>
-                                }
-                                else
-                                {
-                                    <span class="new-price new-price-2 money">
-                                        @LoaiSanPham.GIA
-                                    </span>
-                                }
-                            </div>
-                            @if (LoaiSanPham.NGAYKETTHUCKM != null)
-                            {
-                        <div class="product-desc">
-                            <p><span> Giá và khuyến mãi dự kiến áp dụng đến @LoaiSanPham.NGAYKETTHUCKM.Value.ToString("dd/MM") </span> </p>
-                            @if (LoaiSanPham.lstSANPHAMTANGKEM != null && LoaiSanPham.lstSANPHAMTANGKEM.Count() > 0)
-                            {
-                                foreach (var SanPhamTangKem in LoaiSanPham.lstSANPHAMTANGKEM)
-                                {
-                                    <p><i class="fa fa-check-square-o"></i><span> Tặng @SanPhamTangKem.SOLUONGSPTK @SanPhamTangKem.TENSPTK </span> </p>
-                                }
-                            }
+<div class="product-area pt-35">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="li-product-tab">
+                    <ul class="nav li-product-menu">
+                        <li><a class="active" data-toggle="tab" href="#description"><span>Mô tả</span></a></li>
+                        <li><a data-toggle="tab" href="#reviews"><span>Đánh giá</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content">
+            <div id="description" class="tab-pane active show" role="tabpanel">
+                <div class="product-description">
+                    <span>@Html.Raw(LoaiSanPham.MOTA)</span>
+                </div>
+            </div>
+            <div id="reviews" class="tab-pane" role="tabpanel">
+                <div class="product-reviews" style="padding: 0 0 !important">
+                    <div class="product-details-comment-block">
+                        <div class="comment-details">
+                            @Html.Action("DanhGiaPartial", "DanhGia", new { MaLoai = LoaiSanPham.MALOAI })
                         </div>
-
-                            }
-                            <div class="single-add-to-cart">
-                                <form action="#" class="cart-quantity">
-                                    <div class="quantity">
-                                        <label>Số lượng</label>
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" value="1" type="text" readonly>
-                                            <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                            <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
+                        <div class="review-btn">
+                            <a class="review-links" href="#" data-toggle="modal" data-target="#mymodal">Đánh giá</a>
+                        </div>
+                        <div class="modal fade modal-wrapper" id="mymodal">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <h3 class="review-page-title">Đánh giá</h3>
+                                        <div class="modal-inner-area row">
+                                            <div class="col-lg-5">
+                                                <div class="li-review-product">
+                                                    <img src="@Url.Content("~/Assets/upload/images/"+LoaiSanPham.HINHANH)" alt="@LoaiSanPham.HINHANH ">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <div class="li-review-content">
+                                                    <div class="feedback-area">
+                                                        <div class="feedback">
+                                                            <h3 class="feedback-title">@LoaiSanPham.TENLOAI</h3>
+                                                            @using (Ajax.BeginForm("ThemDanhGia",
+                                                                "DanhGia",
+                                                                new {MaLoai = LoaiSanPham.MALOAI},
+                                                                new AjaxOptions
+                                                                {
+                                                                    HttpMethod = "POST",
+                                                                    UpdateTargetId = "DanhGiaID",
+                                                                    InsertionMode = InsertionMode.Replace,
+                                                                }))
+                                                            {
+                                                                <p class="your-opinion">
+                                                                    <label>Đánh giá</label>
+                                                                    <span>
+                                                                        <select class="star-rating" name="MucDanhGia">
+                                                                            <option value="1">1</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="3">3</option>
+                                                                            <option value="4">4</option>
+                                                                            <option value="5">5</option>
+                                                                        </select>
+                                                                    </span>
+                                                                </p>
+                                                                <p class="feedback-form">
+                                                                    <label for="feedback">Nội dung</label>
+                                                                    <textarea id="feedback" name="NoiDung" cols="45" rows="8" aria-required="true"></textarea>
+                                                                </p>
+                                                                <div class="feedback-input">
+                                                                    <div class="feedback-btn pb-15">
+                                                                        <a href="#" class="close" data-dismiss="modal">Đóng</a>
+                                                                        <a href="#" class="submitReview">Đăng</a>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <button class="add-to-cart" type="submit">Thêm vào giỏ</button>
-                                </form>
-                            </div>
-                            <div class="product-additional-info pt-25">
-                                <a class="wishlist-btn" href=""><i class="fa fa-heart-o"></i>Thêm vào danh sách yêu thích</a>
-                                <div class="product-social-sharing pt-25">
-                                    <ul>
-                                        <li class="facebook"><a href="#"><i class="fa fa-facebook"></i>Facebook</a></li>
-                                        <li class="twitter"><a href="#"><i class="fa fa-twitter"></i>Twitter</a></li>
-                                        <li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i>Google +</a></li>
-                                        <li class="instagram"><a href="#"><i class="fa fa-instagram"></i>Instagram</a></li>
-                                    </ul>
                                 </div>
-                            </div>
-                            <div class="block-reassurance">
-                                <ul>
-                                    <li>
-                                        <div class="reassurance-item">
-                                            <div class="reassurance-icon">
-                                                <i class="fa fa-check-square-o"></i>
-                                            </div>
-                                            <p>Chính sách ưu đãi tuyệt vời</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="reassurance-item">
-                                            <div class="reassurance-icon">
-                                                <i class="fa fa-truck"></i>
-                                            </div>
-                                            <p>Giao hàng tận nơi từ cửa hàng gần nhất</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="reassurance-item">
-                                            <div class="reassurance-icon">
-                                                <i class="fa fa-exchange"></i>
-                                            </div>
-                                            <p>Chính sách hoàn trả khi có hư hỏng trong vòng 1 tháng</p>
-                                        </div>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     </div>
@@ -153,152 +268,7 @@ IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPhamLienQuan = ViewBag.lstLoaiSanPha
             </div>
         </div>
     </div>
-
-@*<div class="product-area pt-35">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="li-product-tab">
-                        <ul class="nav li-product-menu">
-                            <li><a class="active" data-toggle="tab" href="#description"><span>Mô tả</span></a></li>
-                            <li><a data-toggle="tab" href="#product-details"><span>Chi tiết</span></a></li>
-                            <li><a data-toggle="tab" href="#reviews"><span>Bình luận</span></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-content">
-                <div id="description" class="tab-pane active show" role="tabpanel">
-                    <div class="product-description">
-                        <span>@Html.Raw(SanPham.MOTA)</span>
-                    </div>
-                </div>
-                <div id="product-details" class="tab-pane" role="tabpanel">
-                    <div class="product-details-manufacturer">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <p><span>Màn hình:</span></p>
-                                <p><span>Hệ điều hành:</span></p>
-                                <p><span>Camera sau:</span></p>
-                                <p><span>Camera trước:</span></p>
-                                <p><span>CPU:</span></p>
-                                <p><span>RAM:</span></p>
-                                <p><span>Bộ nhớ trong:</span></p>
-                                <p><span>Thẻ sim:</span></p>
-                                <p><span>Dung lượng pin:</span></p>
-                            </div>
-                            <div class="col-md-9">
-                                <p> @SanPham.MANHINH</p>
-                                <p> @SanPham.TENHDH</p>
-                                <p> @SanPham.CAMERASAU</p>
-                                <p>@SanPham.CAMERATRUOC</p>
-                                <p> @SanPham.CPU</p>
-                                <p>@SanPham.TENRAM</p>
-                                <p> @SanPham.TENROM</p>
-                                <p> @SanPham.THESIM</p>
-                                <p>@SanPham.DUNGLUONGPIN</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="reviews" class="tab-pane" role="tabpanel">
-                    <div class="product-reviews">
-                        <div class="product-details-comment-block">
-                            <div class="comment-review">
-                                <span>Grade</span>
-                                <ul class="rating">
-                                    <li><i class="fa fa-star-o"></i></li>
-                                    <li><i class="fa fa-star-o"></i></li>
-                                    <li><i class="fa fa-star-o"></i></li>
-                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                </ul>
-                            </div>
-                            <div class="comment-author-infos pt-25">
-                                <span>HTML 5</span>
-                                <em>01-12-18</em>
-                            </div>
-                            <div class="comment-details">
-                                <h4 class="title-block">Demo</h4>
-                                <p>Plaza</p>
-                            </div>
-                            <div class="review-btn">
-                                <a class="review-links" href="#" data-toggle="modal" data-target="#mymodal">Write Your Review!</a>
-                            </div>
-                            <div class="modal fade modal-wrapper" id="mymodal">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                            <h3 class="review-page-title">Write Your Review</h3>
-                                            <div class="modal-inner-area row">
-                                                <div class="col-lg-6">
-                                                    <div class="li-review-product">
-                                                        <img src="~/Content/images/product/large-size/3.jpg" alt="Li's Product">
-                                                        <div class="li-review-product-desc">
-                                                            <p class="li-product-name">Today is a good day Framed poster</p>
-                                                            <p>
-                                                                <span>Beach Camera Exclusive Bundle - Includes Two Samsung Radiant 360 R3 Wi-Fi Bluetooth Speakers. Fill The Entire Room With Exquisite Sound via Ring Radiator Technology. Stream And Control R3 Speakers Wirelessly With Your Smartphone. Sophisticated, Modern Design </span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="li-review-content">
-                                                        <div class="feedback-area">
-                                                            <div class="feedback">
-                                                                <h3 class="feedback-title">Our Feedback</h3>
-                                                                <form action="#">
-                                                                    <p class="your-opinion">
-                                                                        <label>Your Rating</label>
-                                                                        <span>
-                                                                            <select class="star-rating">
-                                                                                <option value="1">1</option>
-                                                                                <option value="2">2</option>
-                                                                                <option value="3">3</option>
-                                                                                <option value="4">4</option>
-                                                                                <option value="5">5</option>
-                                                                            </select>
-                                                                        </span>
-                                                                    </p>
-                                                                    <p class="feedback-form">
-                                                                        <label for="feedback">Your Review</label>
-                                                                        <textarea id="feedback" name="comment" cols="45" rows="8" aria-required="true"></textarea>
-                                                                    </p>
-                                                                    <div class="feedback-input">
-                                                                        <p class="feedback-form-author">
-                                                                            <label for="author">
-                                                                                Name<span class="required">*</span>
-                                                                            </label>
-                                                                            <input id="author" name="author" value="" size="30" aria-required="true" type="text">
-                                                                        </p>
-                                                                        <p class="feedback-form-author feedback-form-email">
-                                                                            <label for="email">
-                                                                                Email<span class="required">*</span>
-                                                                            </label>
-                                                                            <input id="email" name="email" value="" size="30" aria-required="true" type="text">
-                                                                            <span class="required"><sub>*</sub> Required fields</span>
-                                                                        </p>
-                                                                        <div class="feedback-btn pb-15">
-                                                                            <a href="#" class="close" data-dismiss="modal" aria-label="Close">Close</a>
-                                                                            <a href="#">Submit</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>*@
+</div>
 
 @if (lstLoaiSanPhamLienQuan != null && lstLoaiSanPhamLienQuan.Count() > 0)
 {
@@ -340,13 +310,13 @@ IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPhamLienQuan = ViewBag.lstLoaiSanPha
                                                     </h5>
                                                     <div class="rating-box">
                                                         <ul class="rating">
-                                                            @for (int i = 0; i < LoaiSanPhamLienQuan.DANHGIA; i++)
+                                                            @for (int i = 0; i < LoaiSanPhamLienQuan.MUCDANHGIA; i++)
                                                             {
-                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
                                                             }
-                                                            @for (int i = 0; i < 5 - LoaiSanPhamLienQuan.DANHGIA; i++)
+                                                            @for (int i = 0; i < 5 - LoaiSanPhamLienQuan.MUCDANHGIA; i++)
                                                             {
-                                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                                                <li class="no-star"><i class="fa fa-star"></i></li>
                                                             }
                                                         </ul>
                                                     </div>
@@ -378,7 +348,6 @@ IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPhamLienQuan = ViewBag.lstLoaiSanPha
                                             <div class="add-actions">
                                                 <ul class="add-actions-link">
                                                     <li class="add-cart active"><a href="#">Thêm vào giỏ</a></li>
-                                                    <li><a class="links-details" href=""><i class="fa fa-heart-o"></i></a></li>
                                                     <li><a href="/LoaiSanPham/ChiTietLoaiSanPham/@LoaiSanPhamLienQuan.MALOAI" title="Chi tiết sản phẩm" class="quick-view-btn"><i class="fa fa-eye"></i></a></li>
                                                 </ul>
                                             </div>
@@ -396,4 +365,36 @@ IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPhamLienQuan = ViewBag.lstLoaiSanPha
 }
 
 
+<script>
+    var model = @Html.Raw(Json.Encode(LoaiSanPham));
+    $(".cart-plus-minus").append('<div class="dec qtybutton"><i class="fa fa-angle-down"></i></div><div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>');
+    $(".qtybutton").on("click", function () {
+        var $button = $(this);
+        var oldValue = $button.parent().find("input").val();
+        if ($button.hasClass('inc')) {
+            var newVal = parseFloat(oldValue);
+            if (newVal == model.SOLUONGTON) {
+                newVal = parseFloat(oldValue);
+                $(".QuantityInStock").removeClass('hide');
+            }
+            else {
+                var newVal = parseFloat(oldValue) + 1;
+                $(".QuantityInStock").addClass('hide');
+            }
+        } else {
+            if (oldValue > 1) {
+                var newVal = parseFloat(oldValue) - 1;
+            } else {
+                newVal = 1;
+            }
+            $(".QuantityInStock").addClass('hide');
+        }
+        $button.parent().find("input").val(newVal);
+    });
 
+    $(document).ready(function () {
+        $('.submitReview').click(function () {
+            $(this).submit();
+        })
+    })
+</script>

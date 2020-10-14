@@ -45,6 +45,12 @@
         <AssociationConnector Association="BANXEMAYONLINEModel.FK_PHIEUTRA_PHIEUDAT" ManuallyRouted="false" />
         <AssociationConnector Association="BANXEMAYONLINEModel.FK_SANPHAM_PHIEUDAT1" ManuallyRouted="false" />
         <AssociationConnector Association="BANXEMAYONLINEModel.FK_SANPHAM_PHIEUTRA" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BANXEMAYONLINEModel.QUAN" Width="1.5" PointX="0.75" PointY="10" />
+        <AssociationConnector Association="BANXEMAYONLINEModel.FK_KHACHHANG_TAIKHOAN" />
+        <AssociationConnector Association="BANXEMAYONLINEModel.FK_NHANVIEN_QUAN" />
+        <AssociationConnector Association="BANXEMAYONLINEModel.FK_NHANVIEN_TAIKHOAN" />
+        <AssociationConnector Association="BANXEMAYONLINEModel.FK_PHIEUDAT_QUAN" />
+        <EntityTypeShape EntityType="BANXEMAYONLINEModel.sysdiagram" Width="1.5" PointX="12.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

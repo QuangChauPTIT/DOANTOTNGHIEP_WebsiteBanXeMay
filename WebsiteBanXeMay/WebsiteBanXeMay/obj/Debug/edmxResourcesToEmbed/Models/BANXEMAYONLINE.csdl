@@ -43,9 +43,11 @@
     </Key>
     <Property Name="MAKH" Type="Int32" Nullable="false" />
     <Property Name="MALOAI" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="SOLUONG" Type="Int32" Nullable="false" />
     <NavigationProperty Name="KHACHHANG" Relationship="Self.FK_DANHGIA_KHACHHANG" FromRole="DANHGIA" ToRole="KHACHHANG" />
     <NavigationProperty Name="LOAISANPHAM" Relationship="Self.FK_DANHGIA_LOAISANPHAM" FromRole="DANHGIA" ToRole="LOAISANPHAM" />
+    <Property Name="NOIDUNG" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MUCDANHGIA" Type="Int32" Nullable="false" />
+    <Property Name="NGAY" Type="DateTime" Nullable="false" Precision="3" />
   </EntityType>
   <EntityType Name="HOADON">
     <Key>
@@ -72,6 +74,7 @@
     <Property Name="EMAIL" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="DANHGIAs" Relationship="Self.FK_DANHGIA_KHACHHANG" FromRole="KHACHHANG" ToRole="DANHGIA" />
     <NavigationProperty Name="PHIEUDATs" Relationship="Self.FK_PHIEUDAT_KHACHHANG" FromRole="KHACHHANG" ToRole="PHIEUDAT" />
+    <NavigationProperty Name="TAIKHOAN" Relationship="BANXEMAYONLINEModel.FK_KHACHHANG_TAIKHOAN" FromRole="KHACHHANG" ToRole="TAIKHOAN" />
   </EntityType>
   <EntityType Name="KHUYENMAI">
     <Key>
@@ -133,6 +136,9 @@
     <NavigationProperty Name="PHIEUDATs1" Relationship="Self.FK_PHIEUDAT_NHANVIEN1" FromRole="NHANVIEN" ToRole="PHIEUDAT" />
     <NavigationProperty Name="PHIEUNHAPs" Relationship="Self.FK_PHIEUNHAP_NHANVIEN" FromRole="NHANVIEN" ToRole="PHIEUNHAP" />
     <NavigationProperty Name="PHIEUTRAs" Relationship="Self.FK_PHIEUTRA_NHANVIEN" FromRole="NHANVIEN" ToRole="PHIEUTRA" />
+    <Property Name="MAQUAN" Type="Int32" />
+    <NavigationProperty Name="QUAN" Relationship="BANXEMAYONLINEModel.FK_NHANVIEN_QUAN" FromRole="NHANVIEN" ToRole="QUAN" />
+    <NavigationProperty Name="TAIKHOAN" Relationship="BANXEMAYONLINEModel.FK_NHANVIEN_TAIKHOAN" FromRole="NHANVIEN" ToRole="TAIKHOAN" />
   </EntityType>
   <EntityType Name="NHOMQUYEN">
     <Key>
@@ -163,6 +169,8 @@
     <NavigationProperty Name="NHANVIEN1" Relationship="Self.FK_PHIEUDAT_NHANVIEN1" FromRole="PHIEUDAT" ToRole="NHANVIEN" />
     <NavigationProperty Name="PHIEUTRAs" Relationship="Self.FK_PHIEUTRA_PHIEUDAT" FromRole="PHIEUDAT" ToRole="PHIEUTRA" />
     <NavigationProperty Name="SANPHAMs" Relationship="Self.FK_SANPHAM_PHIEUDAT1" FromRole="PHIEUDAT" ToRole="SANPHAM" />
+    <Property Name="MAQUAN" Type="Int32" />
+    <NavigationProperty Name="QUAN" Relationship="BANXEMAYONLINEModel.FK_PHIEUDAT_QUAN" FromRole="PHIEUDAT" ToRole="QUAN" />
   </EntityType>
   <EntityType Name="PHIEUNHAP">
     <Key>
@@ -217,6 +225,8 @@
     <Property Name="PASSWORD" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="MANQ" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="NHOMQUYEN" Relationship="Self.FK_TAIKHOAN_NHOMQUYEN" FromRole="TAIKHOAN" ToRole="NHOMQUYEN" />
+    <NavigationProperty Name="KHACHHANGs" Relationship="BANXEMAYONLINEModel.FK_KHACHHANG_TAIKHOAN" FromRole="TAIKHOAN" ToRole="KHACHHANG" />
+    <NavigationProperty Name="NHANVIENs" Relationship="BANXEMAYONLINEModel.FK_NHANVIEN_TAIKHOAN" FromRole="TAIKHOAN" ToRole="NHANVIEN" />
   </EntityType>
   <EntityType Name="THUONGHIEU">
     <Key>
@@ -597,5 +607,90 @@
       <End Role="PHIEUTRA" EntitySet="PHIEUTRAs" />
       <End Role="SANPHAM" EntitySet="SANPHAMs" />
     </AssociationSet>
+    <EntitySet Name="QUANs" EntityType="BANXEMAYONLINEModel.QUAN" />
+    <AssociationSet Name="FK_KHACHHANG_TAIKHOAN" Association="BANXEMAYONLINEModel.FK_KHACHHANG_TAIKHOAN">
+      <End Role="TAIKHOAN" EntitySet="TAIKHOANs" />
+      <End Role="KHACHHANG" EntitySet="KHACHHANGs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NHANVIEN_QUAN" Association="BANXEMAYONLINEModel.FK_NHANVIEN_QUAN">
+      <End Role="QUAN" EntitySet="QUANs" />
+      <End Role="NHANVIEN" EntitySet="NHANVIENs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NHANVIEN_TAIKHOAN" Association="BANXEMAYONLINEModel.FK_NHANVIEN_TAIKHOAN">
+      <End Role="TAIKHOAN" EntitySet="TAIKHOANs" />
+      <End Role="NHANVIEN" EntitySet="NHANVIENs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PHIEUDAT_QUAN" Association="BANXEMAYONLINEModel.FK_PHIEUDAT_QUAN">
+      <End Role="QUAN" EntitySet="QUANs" />
+      <End Role="PHIEUDAT" EntitySet="PHIEUDATs" />
+    </AssociationSet>
+    <EntitySet Name="sysdiagrams" EntityType="BANXEMAYONLINEModel.sysdiagram" />
   </EntityContainer>
+  <EntityType Name="QUAN">
+    <Key>
+      <PropertyRef Name="MAQUAN" />
+    </Key>
+    <Property Name="MAQUAN" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TENQUAN" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="NHANVIENs" Relationship="BANXEMAYONLINEModel.FK_NHANVIEN_QUAN" FromRole="QUAN" ToRole="NHANVIEN" />
+    <NavigationProperty Name="PHIEUDATs" Relationship="BANXEMAYONLINEModel.FK_PHIEUDAT_QUAN" FromRole="QUAN" ToRole="PHIEUDAT" />
+  </EntityType>
+  <Association Name="FK_KHACHHANG_TAIKHOAN">
+    <End Type="BANXEMAYONLINEModel.TAIKHOAN" Role="TAIKHOAN" Multiplicity="1" />
+    <End Type="BANXEMAYONLINEModel.KHACHHANG" Role="KHACHHANG" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TAIKHOAN">
+        <PropertyRef Name="EMAIL" />
+      </Principal>
+      <Dependent Role="KHACHHANG">
+        <PropertyRef Name="EMAIL" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NHANVIEN_QUAN">
+    <End Type="BANXEMAYONLINEModel.QUAN" Role="QUAN" Multiplicity="0..1" />
+    <End Type="BANXEMAYONLINEModel.NHANVIEN" Role="NHANVIEN" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QUAN">
+        <PropertyRef Name="MAQUAN" />
+      </Principal>
+      <Dependent Role="NHANVIEN">
+        <PropertyRef Name="MAQUAN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NHANVIEN_TAIKHOAN">
+    <End Type="BANXEMAYONLINEModel.TAIKHOAN" Role="TAIKHOAN" Multiplicity="1" />
+    <End Type="BANXEMAYONLINEModel.NHANVIEN" Role="NHANVIEN" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TAIKHOAN">
+        <PropertyRef Name="EMAIL" />
+      </Principal>
+      <Dependent Role="NHANVIEN">
+        <PropertyRef Name="EMAIL" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PHIEUDAT_QUAN">
+    <End Type="BANXEMAYONLINEModel.QUAN" Role="QUAN" Multiplicity="0..1" />
+    <End Type="BANXEMAYONLINEModel.PHIEUDAT" Role="PHIEUDAT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QUAN">
+        <PropertyRef Name="MAQUAN" />
+      </Principal>
+      <Dependent Role="PHIEUDAT">
+        <PropertyRef Name="MAQUAN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
 </Schema>

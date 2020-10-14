@@ -53,7 +53,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 text-center pt-xs-30">
+            <div class="col-lg-4 col-md-4 text-center pt-xs-30 pl-0">
                 <div class="li-banner">
                     <a href="#">
                         <img src="~/Assets/upload/banner/1.jpg" alt="">
@@ -71,24 +71,24 @@
 
 @if (lstLoaiSanPhamKhuyenMai != null && lstLoaiSanPhamKhuyenMai.Count() > 0)
 {
-    <section class="product-area li-laptop-product pt-60 pb-45">
+    <section class="product-area li-laptop-product pt-40 pb-45">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="li-section-title">
                         <h2>
-                            <span>SẢN PHẨM KHUYẾN MÃI</span>
+                            <span>Sản phẩm khuyến mãi</span>
                         </h2>
                         <ul class="li-sub-category-list">
-                            @if (lstLoaiSanPhamKhuyenMai.Count() > 10)
+                            @if (lstLoaiSanPhamKhuyenMai.Count() > 1)
                             {
-                                <li><a href="">Xem tất cả @lstLoaiSanPhamKhuyenMai.Count() xe máy >></a></li>
+                                <li><a href="/TrangChu/LoaiSanPhamKhuyenMai?Trang=1">Xem tất cả @lstLoaiSanPhamKhuyenMai.Count() xe máy >></a></li>
                             }
                         </ul>
                     </div>
                     <div class="row">
                         <div class="product-active owl-carousel">
-                            @Html.Partial("LoaiSanPhamPartial", lstLoaiSanPhamKhuyenMai.Take(10))
+                            @Html.Partial("Top10LoaiSanPhamPartial", lstLoaiSanPhamKhuyenMai.Take(10))
                         </div>
                     </div>
                 </div>
@@ -113,18 +113,18 @@ else
                 <div class="col-lg-12">
                     <div class="li-section-title">
                         <h2>
-                            <span>SẢN PHẨM MỚI</span>
+                            <span>Sản phẩm mới</span>
                         </h2>
                         <ul class="li-sub-category-list">
-                            @if (lstLoaiSanPhamMoi.Count() > 10)
+                            @if (lstLoaiSanPhamMoi.Count() > 1)
                             {
-                                <li><a href="">Xem tất cả @lstLoaiSanPhamMoi.Count() xe máy >></a></li>
+                                <li><a href="/TrangChu/LoaiSanPhamMoi?Trang=1">Xem tất cả @lstLoaiSanPhamMoi.Count() xe máy >></a></li>
                             }
                         </ul>
                     </div>
                     <div class="row">
                         <div class="product-active owl-carousel">
-                            @Html.Partial("LoaiSanPhamPartial", lstLoaiSanPhamMoi)
+                            @Html.Partial("Top10LoaiSanPhamPartial", lstLoaiSanPhamMoi)
                         </div>
                     </div>
                 </div>
@@ -141,18 +141,18 @@ else
                 <div class="col-lg-12">
                     <div class="li-section-title">
                         <h2>
-                            <span>SẢN PHẨM BÁN CHẠY</span>
+                            <span>Sản phẩm bán chạy</span>
                         </h2>
                         <ul class="li-sub-category-list">
-                            @if (lstLoaiSanPhamBanChay.Count() > 10)
+                            @if (lstLoaiSanPhamBanChay.Count() > 1)
                             {
-                                <li><a href="">Xem tất cả @lstLoaiSanPhamBanChay.Count() xe máy >></a></li>
+                                <li><a href="/TrangChu/LoaiSanPhamBanChay?Trang=1">Xem tất cả @lstLoaiSanPhamBanChay.Count() xe máy >></a></li>
                             }
                         </ul>
                     </div>
                     <div class="row">
                         <div class="product-active owl-carousel">
-                            @Html.Partial("LoaiSanPhamPartial", lstLoaiSanPhamBanChay)
+                            @Html.Partial("Top10LoaiSanPhamPartial", lstLoaiSanPhamBanChay)
                         </div>
                     </div>
                 </div>
@@ -164,7 +164,7 @@ else
 {
     <script>
         $(function () {
-            $('#lstLoaiSanPhamBanChay').addClass('pt-60');
+            $('#lstLoaiSanPhamBanChay').addClass('pt-40');
         });
     </script>
 }

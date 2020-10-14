@@ -15,6 +15,6 @@ namespace WebsiteBanXeMay.ViewModels
         public double GIAKM { get; set; }
         public double PHANTRAM { get; set; }
         public string TENTH { get; set; }
-        public int DANHGIA { get; set; }
+        public int MUCDANHGIA { get; set; }
     }
 }

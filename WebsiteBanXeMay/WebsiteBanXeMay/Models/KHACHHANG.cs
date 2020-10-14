@@ -34,5 +34,6 @@ namespace WebsiteBanXeMay.Models
         public virtual ICollection<DANHGIA> DANHGIAs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUDAT> PHIEUDATs { get; set; }
+        public virtual TAIKHOAN TAIKHOAN { get; set; }
     }
 }

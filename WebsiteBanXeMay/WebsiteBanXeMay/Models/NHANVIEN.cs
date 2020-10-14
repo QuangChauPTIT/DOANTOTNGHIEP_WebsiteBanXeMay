@@ -32,6 +32,7 @@ namespace WebsiteBanXeMay.Models
         public string DIACHI { get; set; }
         public string SDT { get; set; }
         public string EMAIL { get; set; }
+        public Nullable<int> MAQUAN { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<KHUYENMAI> KHUYENMAIs { get; set; }
@@ -43,5 +44,7 @@ namespace WebsiteBanXeMay.Models
         public virtual ICollection<PHIEUNHAP> PHIEUNHAPs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUTRA> PHIEUTRAs { get; set; }
+        public virtual QUAN QUAN { get; set; }
+        public virtual TAIKHOAN TAIKHOAN { get; set; }
     }
 }

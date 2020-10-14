@@ -1,0 +1,677 @@
+﻿@using WebsiteBanXeMay.Models;
+@using WebsiteBanXeMay.ViewModels;
+@using WebsiteBanXeMay.Utils;
+
+<style>
+    .customRating {
+        padding-left: 15px;
+    }
+
+        .customRating li i {
+            font-size: 16px !important;
+        }
+
+        .customRating.active {
+            background-color: #eeeeee;
+            border-radius: 25px;
+            color: red;
+        }
+
+    .categori-checkbox a:hover {
+        color: red;
+    }
+
+    .categori-checkbox a.active {
+        color: red;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+@{ IEnumerable<THUONGHIEU> lstThuongHieu = (IEnumerable<THUONGHIEU>)ViewBag.lstThuongHieu;
+    IEnumerable<KieuSanPhamViewModel> lstKieuSanPham = (IEnumerable<KieuSanPhamViewModel>)ViewBag.lstKieuSanPham;
+    PageUtil LoaiSanPhamModel = (PageUtil)ViewBag.LoaiSanPhamModel;
+}
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="breadcrumb-content">
+            <ul>
+                <li><a href="/TrangChu">Trang chủ</a></li>
+                <li class="active">Sản phẩm</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="content-wraper pt-20 pb-60 pt-sm-30">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 order-1 order-lg-2">
+                <!-- shop-top-bar start -->
+                <div class="shop-top-bar">
+                    <div class="shop-bar-inner">
+                        <div class="product-view-mode">
+                            <!-- shop-item-filter-list start -->
+                            <ul class="nav shop-item-filter-list">
+                                <li>
+                                    @Html.ActionLink("Hàng mới",
+                                                  "Index",
+                                                   new
+                                                   {
+                                                       TenLoaiSanPham = ViewBag.TenLoaiSanPham,
+                                                       MaTH = ViewBag.MaTH,
+                                                       Kieu = ViewBag.Kieu,
+                                                       MucDanhGia = ViewBag.MucDanhGia,
+                                                       GiaTu = ViewBag.GiaTu,
+                                                       GiaDen = ViewBag.GiaDen,
+                                                       SapXep = "new"
+                                                   },
+                                                    new { @value = "new" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Bán chạy",
+                                                  "Index",
+                                                   new
+                                                   {
+                                                       TenLoaiSanPham = ViewBag.TenLoaiSanPham,
+                                                       MaTH = ViewBag.MaTH,
+                                                       Kieu = ViewBag.Kieu,
+                                                       MucDanhGia = ViewBag.MucDanhGia,
+                                                       GiaTu = ViewBag.GiaTu,
+                                                       GiaDen = ViewBag.GiaDen,
+                                                       SapXep = "sell"
+                                                   },
+                                                    new { @value = "sell" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Giảm giá",
+                                                 "Index",
+                                                  new
+                                                  {
+                                                      TenLoaiSanPham = ViewBag.TenLoaiSanPham,
+                                                      MaTH = ViewBag.MaTH,
+                                                      Kieu = ViewBag.Kieu,
+                                                      MucDanhGia = ViewBag.MucDanhGia,
+                                                      GiaTu = ViewBag.GiaTu,
+                                                      GiaDen = ViewBag.GiaDen,
+                                                      SapXep = "sale"
+                                                  },
+                                                  new { @value = "sale" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Giá cao",
+                                                 "Index",
+                                                 new
+                                                 {
+                                                     TenLoaiSanPham = Request.Params.Get("TenLoaiSanPham"),
+                                                     MaTTenLoaiSanPham = ViewBag.TenLoaiSanPham,
+                                                     MaTH = ViewBag.MaTH,
+                                                     Kieu = ViewBag.Kieu,
+                                                     MucDanhGia = ViewBag.MucDanhGia,
+                                                     GiaTu = ViewBag.GiaTu,
+                                                     GiaDen = ViewBag.GiaDen,
+                                                     SapXep = "desc"
+                                                 },
+                                                  new { @value = "desc" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Giá thấp",
+                                                 "Index",
+                                                  new
+                                                  {
+                                                      TenLoaiSanPham = ViewBag.TenLoaiSanPham,
+                                                      MaTH = ViewBag.MaTH,
+                                                      Kieu = ViewBag.Kieu,
+                                                      MucDanhGia = ViewBag.MucDanhGia,
+                                                      GiaTu = ViewBag.GiaTu,
+                                                      GiaDen = ViewBag.GiaDen,
+                                                      SapXep = "asc"
+                                                  },
+                                                  new { @value = "asc" })
+                                </li>
+
+                            </ul>
+                            <!-- shop-item-filter-list end -->
+                        </div>
+
+                    </div>
+                </div>
+                <!-- shop-top-bar end -->
+                <!-- shop-products-wrapper start -->
+                <div class="shop-products-wrapper pt-15">
+                    <div id="IdLoaiSanPham" class="product-area shop-product-area col-lg-12">
+                        @if (LoaiSanPhamModel.Data.Count() > 0)
+                        {
+                            <div class="row">
+                                @foreach (var LoaiSanPham in LoaiSanPhamModel.PaginatedResult())
+                                {
+                                    <div style="width:235px;margin:15px 3px 40px">
+                                        <div class="single-product-wrap">
+                                            <div class="product-image">
+                                                <a href="/LoaiSanPham/ChiTietLoaiSanPham/@LoaiSanPham.MALOAI">
+                                                    <img src=@Url.Content("~/Assets/upload/images/" + LoaiSanPham.HINHANH) height="170" width="180" alt="@LoaiSanPham.HINHANH">
+                                                </a>
+                                                @if (LoaiSanPham.TRANGTHAI == 0)
+                                                {
+                                                    <span class="sticker">Mới</span>
+                                                }
+                                            </div>
+                                            <div class="product_desc">
+                                                <div class="product_desc_info">
+                                                    <div class="product-review">
+                                                        <h5 class="manufacturer">
+                                                            <a href="">@LoaiSanPham.TENTH</a>
+                                                        </h5>
+                                                        <div class="rating-box">
+                                                            <ul class="rating">
+                                                                @for (int i = 0; i < LoaiSanPham.MUCDANHGIA; i++)
+                                                                {
+                                                                    <li><i class="fa fa-star"></i></li>
+                                                                }
+                                                                @for (int i = 0; i < 5 - LoaiSanPham.MUCDANHGIA; i++)
+                                                                {
+                                                                    <li class="no-star"><i class="fa fa-star"></i></li>
+                                                                }
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <h4>
+                                                        <a class="product_name" href="/LoaiSanPham/ChiTietLoaiSanPham/@LoaiSanPham.MALOAI">
+                                                            @LoaiSanPham.TENLOAI
+                                                        </a>
+                                                    </h4>
+                                                    <div class="price-box">
+                                                        @if (LoaiSanPham.PHANTRAM > 0)
+                                                        {
+                                                            <span class="new-price new-price-2 money">
+                                                                @LoaiSanPham.GIAKM
+                                                            </span>
+                                                            <span class="old-price money">
+                                                                @LoaiSanPham.GIA
+                                                            </span>
+                                                            <span class="discount-percentage">@LoaiSanPham.PHANTRAM %</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="new-price new-price-2 money">
+                                                                @LoaiSanPham.GIA
+                                                            </span>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="add-actions">
+                                                    <ul class="add-actions-link">
+                                                        <li class="add-cart active"><a href="#">Thêm vào giỏ</a></li>
+                                                        <li><a href="/LoaiSanPham/ChiTietLoaiSanPham/@LoaiSanPham.MALOAI" title="Chi tiết loại sản phẩm" class="quick-view-btn"><i class="fa fa-eye"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="paginatoin-area mt-65">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12">
+                                        <ul class="pagination-box">
+                                            <li>
+                                                @Html.ActionLink("Trước",
+                                                               "Index",
+                                                                new
+                                                                {
+                                                                    TenLoaiSanPham = ViewBag.TenLoaiSanPham,
+                                                                    MaTH = ViewBag.MaTH,
+                                                                    Kieu = ViewBag.Kieu,
+                                                                    MucDanhGia = ViewBag.MucDanhGia,
+                                                                    GiaTu = ViewBag.GiaTu,
+                                                                    GiaDen = ViewBag.GiaDen,
+                                                                    SapXep = ViewBag.SapXep,
+                                                                    Trang = LoaiSanPhamModel.CurrentPage > 1 ? LoaiSanPhamModel.CurrentPage - 1 : 1
+                                                                }, null)
+                                            </li>
+                                            @for (int page = 1; page <= LoaiSanPhamModel.PageCount(); page++)
+                                            {
+                                                <li class="@(page == LoaiSanPhamModel.CurrentPage ? "CurrentPage active" : null)">
+                                                    @Html.ActionLink(page.ToString(),
+                                                                    "Index",
+                                                                     new
+                                                                     {
+                                                                         TenLoaiSanPham = ViewBag.TenLoaiSanPham,
+                                                                         MaTH = ViewBag.MaTH,
+                                                                         Kieu = ViewBag.Kieu,
+                                                                         MucDanhGia = ViewBag.MucDanhGia,
+                                                                         GiaTu = ViewBag.GiaTu,
+                                                                         GiaDen = ViewBag.GiaDen,
+                                                                         SapXep = ViewBag.SapXep,
+                                                                         Trang = page
+                                                                     }, null)
+                                                </li>
+                                            }
+                                            <li>
+                                                @Html.ActionLink("Sau",
+                                                               "Index",
+                                                                new
+                                                                {
+                                                                    TenLoaiSanPham = ViewBag.TenLoaiSanPham,
+                                                                    MaTH = ViewBag.MaTH,
+                                                                    Kieu = ViewBag.Kieu,
+                                                                    MucDanhGia = ViewBag.MucDanhGia,
+                                                                    GiaTu = ViewBag.GiaTu,
+                                                                    GiaDen = ViewBag.GiaDen,
+                                                                    SapXep = ViewBag.SapXep,
+                                                                    Trang = LoaiSanPhamModel.CurrentPage < LoaiSanPhamModel.PageCount() ? LoaiSanPhamModel.CurrentPage + 1 : LoaiSanPhamModel.PageCount()
+                                                                }, null)
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-center text-black">Không có sản phẩm cần tìm.</p>
+                        }
+                    </div>
+                </div>
+                <!-- shop-products-wrapper end -->
+            </div>
+            <div class="col-lg-2 order-2 order-lg-1 p-0">
+                <!--sidebar-categores-box start  -->
+                <div class="sidebar-categores-box">
+                    <div class="sidebar-title">
+                        <h2>Bộ lọc tìm kiếm</h2>
+                        <p>@Request.Params.Get("TenLoaiSanPham")</p>
+                        <button class="btn-clear-all mt-0 mb-20 btn-clear-brand hidden"></button>
+                        <button class="btn-clear-all mt-0 mb-20 btn-clear-type hidden"></button>
+                        <button class="btn-clear-all mt-0 mb-20 btn-clear-rating hidden"></button>
+                        <button class="btn-clear-all mt-0 mb-20  btn-clear-sort hidden"></button>
+                    </div>
+
+                    <!-- filter-sub-area start -->
+                    @if (lstThuongHieu != null && lstThuongHieu.Count() > 0)
+                    {
+                        <div class="filter-sub-area">
+                            <h5 class="filter-sub-titel">Thương hiệu</h5>
+                            <div class="categori-checkbox">
+                                <ul class="Brand">
+                                    @foreach (var ThuongHieu in lstThuongHieu)
+                                    {
+                                        <li>
+                                            @Html.ActionLink(ThuongHieu.TENTH,
+                                                            "Index",
+                                                            new
+                                                            {
+                                                                TenLoaiSanPham = ViewBag.TenLoaiSanPham,
+                                                                MaTH = ThuongHieu.MATH,
+                                                                Kieu = ViewBag.Kieu,
+                                                                MucDanhGia = ViewBag.MucDanhGia,
+                                                                GiaTu = ViewBag.GiaTu,
+                                                                GiaDen = ViewBag.GiaDen,
+                                                                SapXep = ViewBag.SapXep,
+                                                            },
+                                                            new { @value = ThuongHieu.MATH })
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                    <!-- filter-sub-area end -->
+                    <!-- filter-sub-area start -->
+                    @if (lstKieuSanPham != null && lstKieuSanPham.Count() > 0)
+                    {
+                        <div class="filter-sub-area pt-sm-10 pt-xs-10">
+                            <h5 class="filter-sub-titel">Kiểu sản phẩm</h5>
+                            <div class="categori-checkbox">
+                                <ul class="Type">
+                                    @foreach (var KieuSanPham in lstKieuSanPham)
+                                    {
+                                        <li>
+                                            @Html.ActionLink(KieuSanPham.TENKIEU,
+                                                            "Index",
+                                                            new
+                                                            {
+                                                                TenLoaiSanPham = ViewBag.TenLoaiSanPham,
+                                                                MaTH = ViewBag.MaTH,
+                                                                Kieu = KieuSanPham.MAKIEU,
+                                                                MucDanhGia = ViewBag.MucDanhGia,
+                                                                GiaTu = ViewBag.GiaTu,
+                                                                GiaDen = ViewBag.GiaDen,
+                                                                SapXep = ViewBag.SapXep,
+                                                            },
+                                                            new { @value = KieuSanPham.MAKIEU })
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                    <!-- filter-sub-area end -->
+                    <!-- filter-sub-area start -->
+                    <div class="filter-sub-area pt-sm-10 pb-sm-15 pb-xs-15">
+                        <h5 class="filter-sub-titel">Đánh giá</h5>
+                        <div class="categori-checkbox">
+                            <div class="rating-box">
+                                <a value="5"
+                                   href="@Url.Action("Index",
+                                        new
+                                        {
+                                            TenLoaiSanPham = ViewBag.TenLoaiSanPham,
+                                            MaTH = ViewBag.MaTH,
+                                            Kieu = ViewBag.Kieu,
+                                            MucDanhGia = 5,
+                                            GiaTu = ViewBag.GiaTu,
+                                            GiaDen = ViewBag.GiaDen,
+                                            SapXep = ViewBag.SapXep,
+                                        })">
+
+                                    <ul class="rating customRating">
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                    </ul>
+                                </a>
+                                <a value="4"
+                                   href="@Url.Action("Index",
+                                        new
+                                        {
+                                            TenLoaiSanPham = ViewBag.TenLoaiSanPham,
+                                            MaTH = ViewBag.MaTH,
+                                            Kieu = ViewBag.Kieu,
+                                            MucDanhGia = 4,
+                                            GiaTu = ViewBag.GiaTu,
+                                            GiaDen = ViewBag.GiaDen,
+                                            SapXep = ViewBag.SapXep,
+                                        })">
+
+                                    <ul class="rating customRating">
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li class="no-star"><i class="fa fa-star"></i></li>
+                                        <li><span>trở lên</span></li>
+                                    </ul>
+                                </a>
+                                <a value="3"
+                                   href="@Url.Action("Index",
+                                        new
+                                        {
+                                            TenLoaiSanPham = ViewBag.TenLoaiSanPham,
+                                            MaTH = ViewBag.MaTH,
+                                            Kieu = ViewBag.Kieu,
+                                            MucDanhGia = 3,
+                                            GiaTu = ViewBag.GiaTu,
+                                            GiaDen = ViewBag.GiaDen,
+                                            SapXep = ViewBag.SapXep,
+                                        })">
+
+                                    <ul class="rating customRating">
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li class="no-star"><i class="fa fa-star"></i></li>
+                                        <li class="no-star"><i class="fa fa-star"></i></li>
+                                        <li><span>trở lên</span></li>
+                                    </ul>
+                                </a>
+                                <a value="2"
+                                   href="@Url.Action("Index",
+                                        new
+                                        {
+                                            TenLoaiSanPham = ViewBag.TenLoaiSanPham,
+                                            MaTH = ViewBag.MaTH,
+                                            Kieu = ViewBag.Kieu,
+                                            MucDanhGia = 2,
+                                            GiaTu = ViewBag.GiaTu,
+                                            GiaDen = ViewBag.GiaDen,
+                                            SapXep = ViewBag.SapXep,
+                                        })">
+
+                                    <ul class="rating customRating">
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li class="no-star"><i class="fa fa-star"></i></li>
+                                        <li class="no-star"><i class="fa fa-star"></i></li>
+                                        <li class="no-star"><i class="fa fa-star"></i></li>
+                                        <li><span>trở lên</span></li>
+                                    </ul>
+                                </a>
+
+                                <a value="1"
+                                   href="@Url.Action("Index",
+                                        new
+                                        {
+                                            TenLoaiSanPham = ViewBag.TenLoaiSanPham,
+                                            MaTH = ViewBag.MaTH,
+                                            Kieu = ViewBag.Kieu,
+                                            MucDanhGia = 1,
+                                            GiaTu = ViewBag.GiaTu,
+                                            GiaDen = ViewBag.GiaDen,
+                                            SapXep = ViewBag.SapXep,
+                                        })">
+
+                                    <ul class="rating customRating">
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li class="no-star"><i class="fa fa-star"></i></li>
+                                        <li class="no-star"><i class="fa fa-star"></i></li>
+                                        <li class="no-star"><i class="fa fa-star"></i></li>
+                                        <li class="no-star"><i class="fa fa-star"></i></li>
+                                        <li><span>trở lên</span></li>
+                                    </ul>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- filter-sub-area start -->
+                    <div class="filter-sub-area pt-sm-10 pt-xs-10">
+                        <h5 class="filter-sub-titel">Khoảng giá</h5>
+                        <div class="color-categoriy">
+                            <label>Giá từ:</label>
+                            <input type="text" name="GiaTu" class="form-control fromPrice" />
+                            <label>Giá đến:</label>
+                            <input type="text" name="GiaDen" class="form-control toPrice" />
+                            <div class="filter-sub-area pt-sm-10 pt-xs-10 mt-30">
+                                <a role="button" class="form-control btn-success text-center submitPrice" style="cursor:pointer">Áp dụng</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- filter-sub-area end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //Click
+    $(document).ready(function () {
+        $('.nav a').click(function () {
+            $('.nav a.active').removeClass('active');
+            $(this).addClass('active');
+            $('.btn-clear-sort').removeClass('hidden');
+            $('.btn-clear-sort').text("Sắp xếp: " + $(this).text())
+        });
+        $('.customRating').click(function () {
+            $('.customRating.active').removeClass('active');
+            $(this).addClass('active');
+            $('.btn-clear-rating').removeClass('hidden');
+            $('.btn-clear-rating').text("Đánh giá: " + $(this).parent('a').attr('value'))
+        });
+        $('.Brand a').click(function () {
+            $('.Brand a.active').removeClass('active');
+            $(this).addClass('active');
+            $('.btn-clear-brand').removeClass('hidden');
+            $('.btn-clear-brand').text("Thương hiệu: " + $(this).text())
+        });
+        $('.Type a').click(function () {
+            $('.Type a.active').removeClass('active');
+            $(this).addClass('active');
+            $('.btn-clear-type').removeClass('hidden');
+            $('.btn-clear-type').text("Kiểu: " + $(this).text())
+        });
+
+        $('.submitPrice').click(function () {
+            var TenLoaiSanPham = @Html.Raw(Json.Encode(ViewBag.TenLoaiSanPham));
+            var MaTH = @Html.Raw(Json.Encode(ViewBag.MaTH));
+            var Kieu = @Html.Raw(Json.Encode(ViewBag.Kieu));
+            var MucDanhGia = @Html.Raw(Json.Encode(ViewBag.MucDanhGia));
+            var SapXep = @Html.Raw(Json.Encode(ViewBag.SapXep));
+            var GiaTu = $('.fromPrice').val();
+            var GiaDen = $('.toPrice').val();
+
+            var Params = new URLSearchParams(window.location.search);
+            if (TenLoaiSanPham !== undefined && TenLoaiSanPham !== null && TenLoaiSanPham !== "") {
+                Params.set("TenLoaiSanPham", TenLoaiSanPham);
+            }
+            else {
+                if (Params.has("MaTH") === true) {
+                    Params.delete("MaTH");
+                }
+            }
+
+            if (MaTH !== undefined && MaTH !== null && MaTH !== "") {
+                Params.set("MaTH", MaTH);
+            }
+            else {
+                if (Params.has("MaTH") === true) {
+                    Params.delete("MaTH");
+                }
+            }
+
+            if (Kieu !== undefined && Kieu !== null && Kieu !== "") {
+                Params.set("Kieu", Kieu);
+            }
+            else {
+                if (Params.has("Kieu") === true) {
+                    Params.delete("Kieu");
+                }
+            }
+
+            if (SapXep !== undefined && SapXep !== null && SapXep !== "") {
+                Params.set("SapXep", SapXep);
+            }
+            else {
+                if (Params.has("SapXep") === true) {
+                    Params.delete("SapXep");
+                }
+            }
+
+            if (MucDanhGia !== undefined && MucDanhGia !== null && MucDanhGia !== "") {
+                Params.set("MucDanhGia", MucDanhGia);
+            }
+            else {
+                if (Params.has("MucDanhGia") === true) {
+                    Params.delete("MucDanhGia");
+                }
+            }
+
+
+            if (GiaTu !== undefined && GiaTu !== null && GiaTu !== "") {
+                Params.set("GiaTu", GiaTu);
+            }
+            else {
+                if (Params.has("GiaTu") === true) {
+                    Params.delete("GiaTu");
+                }
+            }
+
+            if (GiaDen !== undefined && GiaDen !== null && GiaDen !== "") {
+                Params.set("GiaDen", GiaDen);
+            }
+            else {
+                if (Params.has("GiaDen") === true) {
+                    Params.delete("GiaDen");
+                }
+            }
+
+            Params.set("Trang", 1);
+            var queryParams = "?" + Params.toString();
+            location.href = queryParams;
+        })
+
+
+        //==========================================================
+
+        $('.btn-clear-brand').click(function () {
+            var Params = new URLSearchParams(window.location.search);
+            Params.delete("MaTH");
+            var queryParams = "?" + Params.toString();
+            location.href = queryParams;
+            $('.btn-clear-brand').addClass('hidden');
+        })
+
+        $('.btn-clear-type').click(function () {
+            var Params = new URLSearchParams(window.location.search);
+            Params.delete("Kieu");
+            var queryParams = "?" + Params.toString();
+            location.href = queryParams;
+            $('.btn-clear-type').addClass('hidden');
+        })
+
+        $('.btn-clear-rating').click(function () {
+            var Params = new URLSearchParams(window.location.search);
+            Params.delete("MucDanhGia");
+            var queryParams = "?" + Params.toString();
+            location.href = queryParams;
+            $('.btn-clear-rating').addClass('hidden');
+        })
+
+        $('.btn-clear-sort').click(function () {
+            var Params = new URLSearchParams(window.location.search);
+            Params.delete("SapXep");
+            var queryParams = "?" + Params.toString();
+            location.href = queryParams;
+            $('.btn-clear-sort').addClass('hidden');
+        })
+    });
+    //auto reload
+    $(function () {
+        var Params = new URLSearchParams(window.location.search);
+        $('.nav a').each(function (index, el) {
+            var sort = $(el).attr("value");
+            if (sort === Params.get("SapXep")) {
+                $(el).addClass('active');
+                $('.btn-clear-sort').removeClass('hidden');
+                $('.btn-clear-sort').text("Sắp xếp: " + $(this).text())
+                return false;
+            }
+        });
+        $(".customRating").each(function (index, el) {
+            var rating = $(el).parent('a').attr("value");
+            if (rating === Params.get("MucDanhGia")) {
+                $(el).addClass('active');
+                $('.btn-clear-rating').removeClass('hidden');
+                $('.btn-clear-rating').text("Đánh giá: " + $(this).parent('a').attr('value'))
+                return false;
+            }
+        });
+
+        $('.Brand a').each(function (index, el) {
+            var brand = $(el).attr("value");
+            if (brand === Params.get("MaTH")) {
+                $(el).addClass('active');
+                $('.btn-clear-brand').removeClass('hidden');
+                $('.btn-clear-brand').text("Thương hiệu: " + $(this).text())
+                return false;
+            }
+        });
+
+        $('.Type a').each(function (index, el) {
+            var type = $(el).attr("value");
+            if (type === Params.get("Kieu")) {
+                $(el).addClass('active');
+                $('.btn-clear-type').removeClass('hidden');
+                $('.btn-clear-type').text("Kiểu: " + $(this).text())
+                return false;
+            }
+        });
+
+        $('.fromPrice').val(Params.get("GiaTu"))
+        $('.toPrice').val(Params.get("GiaDen"))
+    });
+
+
+</script>

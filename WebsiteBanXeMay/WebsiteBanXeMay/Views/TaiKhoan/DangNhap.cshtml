@@ -1,0 +1,53 @@
+﻿@using WebsiteBanXeMay.Models;
+
+@model TAIKHOAN
+@{
+    ViewBag.Title = "DangNhap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-section mb-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 mb-30">
+                <!-- Login Form s-->
+
+                @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <div class="login-form col-sm-5" style="margin:auto">
+                        <h1 class="login-title text-center">Đăng nhập</h1>
+                        <div class="row">
+                            <div class="col-md-12 col-12 mb-20">
+                                <label>Email</label>
+                                <input class="mb-0" type="email" name="EMAIL" value="@ViewBag.Email" placeholder="Email">
+                                @Html.ValidationMessageFor(model => model.EMAIL,"", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-12 mb-20">
+                                <label>Mật khẩu</label>
+                                <input class="mb-0" type="password" name="PASSWORD" value="@ViewBag.Password" placeholder="Mật khẩu">
+                                @Html.ValidationMessageFor(model => model.PASSWORD, "", new { @class = "text-danger" })
+                                @Html.ValidationMessage("error", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="col-md-8">
+                                <div class="check-box d-inline-block ml-0 ml-md-2 mt-10">
+                                    <input type="checkbox" id="remember_me" name="LuuDangNhap" value="true">
+                                    <label for="remember_me">Lưu đăng nhập</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
+                                <a href="#"> Quên mật khẩu?</a>
+                            </div>
+                            <div class="col-md-12">
+
+                                <button class="register-button mt-0">Login</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
