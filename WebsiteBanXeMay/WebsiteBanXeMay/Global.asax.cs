@@ -59,6 +59,7 @@ namespace WebsiteBanXeMay
                                              where taikhoan.EMAIL == email
                                              select new TaiKhoanViewModel
                                              {
+                                                 MA = khachhang.MAKH,
                                                  EMAIL = taikhoan.EMAIL,
                                                  HOTEN = khachhang.HO + " " + khachhang.TEN,
                                                  NHOMQUYEN = taikhoan.MANQ
@@ -74,6 +75,7 @@ namespace WebsiteBanXeMay
                                                  where taikhoan.EMAIL == email
                                                  select new TaiKhoanViewModel
                                                  {
+                                                     MA = khachhang.MANV,
                                                      EMAIL = taikhoan.EMAIL,
                                                      HOTEN = khachhang.HO + " " + khachhang.TEN,
                                                      NHOMQUYEN = taikhoan.MANQ

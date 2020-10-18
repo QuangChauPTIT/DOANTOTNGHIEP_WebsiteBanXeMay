@@ -29,7 +29,7 @@ namespace WebsiteBanXeMay.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult DangNhap(TAIKHOAN Model, bool? LuuDangNhap, string ReturnUrl)
+        public ActionResult DangNhap(TAIKHOAN Model, bool? LuuDangNhap, string ReturnUrl = null)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +68,7 @@ namespace WebsiteBanXeMay.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult DangKy(KhachHangViewModel Model, string ReturnUrl)
+        public ActionResult DangKy(KhachHangViewModel Model, string ReturnUrl = null)
         {
             if (ModelState.IsValid)
             {

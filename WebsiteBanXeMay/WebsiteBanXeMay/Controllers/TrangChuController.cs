@@ -32,7 +32,7 @@ namespace WebsiteBanXeMay.Controllers
         {
             var LoaiSanPhamKhuyenMaiModel = new PageUtil
             {
-                PageSize = 2,
+                PageSize = 25,
                 Data = lstLoaiSanPham(null, null).Where(x => x.PHANTRAM > 0),
                 CurrentPage = Trang
             };
@@ -58,17 +58,12 @@ namespace WebsiteBanXeMay.Controllers
         {
             var LoaiSanPhamBanChayModel = new PageUtil
             {
-                PageSize = 2,
+                PageSize = 25,
                 Data = lstLoaiSanPham(null, true),
                 CurrentPage = Trang
             };
             return View(LoaiSanPhamBanChayModel);
         }
-
-
-
-        //========================================  Partial   ====================================================
-
 
         // Hiển thị danh sách 10 loại sản phẩm cho 3 phần: khuyến mãi, bán chạy, mới
         [HttpGet]

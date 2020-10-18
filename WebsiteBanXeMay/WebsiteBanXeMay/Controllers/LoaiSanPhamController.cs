@@ -41,14 +41,22 @@ namespace WebsiteBanXeMay.Controllers
         [HttpGet]
         public ActionResult ChiTietLoaiSanPham(string Id)
         {
-            var MaTH = DB.LOAISANPHAMs.Where(x => x.MALOAI == Id).Select(y => y.MATH).FirstOrDefault();
-
             ViewBag.LoaiSanPham = LoaiSanPham(Id);
-            ViewBag.lstLoaiSanPhamLienQuan = lstLoaiSanPhamLienQuan(MaTH);
+            var TaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
+            if(TaiKhoan != null)
+            {
+                ViewBag.KiemTraChoPhepDanhGia = KiemTraChoPhepDanhGia(Id, TaiKhoan.MA);
+            }    
             return View();
         }
 
-
+        [HttpGet]
+        public ActionResult LoaiSanPhamLienQuanPartial(string MaLoai)
+        {
+            var MaTH = DB.LOAISANPHAMs.Where(x => x.MALOAI == MaLoai).Select(y => y.MATH).FirstOrDefault();
+            var Model = lstLoaiSanPhamLienQuan(MaTH);
+            return PartialView(Model);
+        }
         //=======================================   Lấy dữ liệu từ Database =========================================
 
         // Loại sản phẩm
@@ -76,30 +84,30 @@ namespace WebsiteBanXeMay.Controllers
 
             // Loại sản phẩm có khuyến mãi và không khuyến mãi
             var QueryLoaiSanPham_T = from query_soluongton in QueryTongSoLuongSanPham
-                                   join loaisanpham in DB.LOAISANPHAMs on query_soluongton.MALOAI equals loaisanpham.MALOAI
-                                   join thuonghieu in DB.THUONGHIEUx on loaisanpham.MATH equals thuonghieu.MATH
-                                   join ct_khuyenmai in DB.CT_KHUYENMAI on loaisanpham.MALOAI equals ct_khuyenmai.MALOAI into ct_khuyenmai_T
-                                   from g1 in ct_khuyenmai_T.DefaultIfEmpty()
-                                   join khuyenmai in DB.KHUYENMAIs on g1.MAKM equals khuyenmai.MAKM into khuyenmai_T
-                                   from g2 in khuyenmai_T.DefaultIfEmpty()
-                                   join query_yeuthich in QueryLoaiSanPhamYeuThich on query_soluongton.MALOAI equals query_yeuthich.MALOAI into query_yeuthich_T
-                                   from g3 in query_yeuthich_T.DefaultIfEmpty()
-                                   where (query_soluongton.SOLUONGTON > 0
-                                   && (string.IsNullOrEmpty(TenLoaiSanPham) || loaisanpham.TENLOAI.ToLower().Contains(TenLoaiSanPham.ToLower()))
-                                   && (string.IsNullOrEmpty(MaTH) || loaisanpham.MATH == MaTH)
-                                   && (Kieu == null || loaisanpham.LOAI == Kieu))
-                                   select new LoaiSanPhamViewModel
-                                   {
-                                       MALOAI = loaisanpham.MALOAI,
-                                       TENLOAI = loaisanpham.TENLOAI,
-                                       HINHANH = loaisanpham.HINHANH,
-                                       TRANGTHAI = loaisanpham.TRANGTHAI,
-                                       TENTH = thuonghieu.TENTH,
-                                       PHANTRAM = g1 != null ? (g2.NGAYBATDAU <= DateTime.Now && g2.NGAYKETTHUC >= DateTime.Now ? g1.PHANTRAM : 0) : 0,
-                                       GIA = loaisanpham.GIA,
-                                       GIAKM = g1 != null ? (g2.NGAYBATDAU <= DateTime.Now && g2.NGAYKETTHUC >= DateTime.Now ? loaisanpham.GIA - loaisanpham.GIA * g1.PHANTRAM / 100 : loaisanpham.GIA) : loaisanpham.GIA,
-                                       MUCDANHGIA = g3 != null ? g3.MUCDANHGIA : 0
-                                   };
+                                     join loaisanpham in DB.LOAISANPHAMs on query_soluongton.MALOAI equals loaisanpham.MALOAI
+                                     join thuonghieu in DB.THUONGHIEUx on loaisanpham.MATH equals thuonghieu.MATH
+                                     join ct_khuyenmai in DB.CT_KHUYENMAI on loaisanpham.MALOAI equals ct_khuyenmai.MALOAI into ct_khuyenmai_T
+                                     from g1 in ct_khuyenmai_T.DefaultIfEmpty()
+                                     join khuyenmai in DB.KHUYENMAIs on g1.MAKM equals khuyenmai.MAKM into khuyenmai_T
+                                     from g2 in khuyenmai_T.DefaultIfEmpty()
+                                     join query_yeuthich in QueryLoaiSanPhamYeuThich on query_soluongton.MALOAI equals query_yeuthich.MALOAI into query_yeuthich_T
+                                     from g3 in query_yeuthich_T.DefaultIfEmpty()
+                                     where (query_soluongton.SOLUONGTON > 0
+                                     && (string.IsNullOrEmpty(TenLoaiSanPham) || loaisanpham.TENLOAI.ToLower().Contains(TenLoaiSanPham.ToLower()))
+                                     && (string.IsNullOrEmpty(MaTH) || loaisanpham.MATH == MaTH)
+                                     && (Kieu == null || loaisanpham.LOAI == Kieu))
+                                     select new LoaiSanPhamViewModel
+                                     {
+                                         MALOAI = loaisanpham.MALOAI,
+                                         TENLOAI = loaisanpham.TENLOAI,
+                                         HINHANH = loaisanpham.HINHANH,
+                                         TRANGTHAI = loaisanpham.TRANGTHAI,
+                                         TENTH = thuonghieu.TENTH,
+                                         PHANTRAM = g1 != null ? (g2.NGAYBATDAU <= DateTime.Now && g2.NGAYKETTHUC >= DateTime.Now ? g1.PHANTRAM : 0) : 0,
+                                         GIA = loaisanpham.GIA,
+                                         GIAKM = g1 != null ? (g2.NGAYBATDAU <= DateTime.Now && g2.NGAYKETTHUC >= DateTime.Now ? loaisanpham.GIA - loaisanpham.GIA * g1.PHANTRAM / 100 : loaisanpham.GIA) : loaisanpham.GIA,
+                                         MUCDANHGIA = g3 != null ? g3.MUCDANHGIA : 0
+                                     };
 
             var QueryLoaiSanPham = QueryLoaiSanPham_T.Where(x => (GiaTu == null || x.GIAKM >= GiaTu) && (GiaDen == null || x.GIAKM <= GiaDen) && (MucDanhGia == null || x.MUCDANHGIA >= MucDanhGia));
             if (SapXep != null)
@@ -167,7 +175,7 @@ namespace WebsiteBanXeMay.Controllers
             return DB.THUONGHIEUx.ToList();
         }
         //Chi tiết loại sản phẩm
-        public ChiTietLoaiSanPhamViewModel LoaiSanPham(string MaLoai)
+        private ChiTietLoaiSanPhamViewModel LoaiSanPham(string MaLoai)
         {
             // Số sao đánh giá từ user
             var QueryLoaiSanPhamYeuThich = (from danhgia in DB.DANHGIAs
@@ -262,18 +270,41 @@ namespace WebsiteBanXeMay.Controllers
             }
             return QueryLoaiSanPhamKhuyenMai;
         }
+
+        //Kiểm tra đã mua loại sản phẩm này chưa để cho phép đánh giá
+        private bool KiemTraChoPhepDanhGia(string MaLoai, int MaKH)
+        {
+            var QueryLoaiSanPhamDaMua = (from khachhang in DB.KHACHHANGs
+                                        join phieudat in DB.PHIEUDATs on khachhang.MAKH equals phieudat.MAKH
+                                        join sanpham in DB.SANPHAMs on phieudat.MAPD equals sanpham.MAPD
+                                        join ct_phieunhap in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_phieunhap.MACTPN
+                                        join loaisanpham in DB.LOAISANPHAMs on ct_phieunhap.MALOAI equals loaisanpham.MALOAI
+                                        where
+                                        (khachhang.MAKH == MaKH)
+                                        && (phieudat.TRANGTHAI == 2)
+                                        && (sanpham.MAPD != null)
+                                        && (loaisanpham.MALOAI == MaLoai)
+                                        select new
+                                        {
+                                            MALOAI = loaisanpham.MALOAI,
+                                            MAKH = khachhang.MAKH
+                                        }).FirstOrDefault();
+            if(QueryLoaiSanPhamDaMua != null)
+            {
+                return true;
+            }
+            return false;
+        }
         // Danh sách loại sản phẩm liên quan về thương hiệu
         private IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPhamLienQuan(string MaTH)
         {
-            // Số sao đánh giá từ user
-            var QueryLoaiSanPhamYeuThich = (from loaisanpham in DB.LOAISANPHAMs
-                                            join danhgia in DB.DANHGIAs on loaisanpham.MALOAI equals danhgia.MALOAI into loaisanpham_T
-                                            from g1 in loaisanpham_T.DefaultIfEmpty()
+            var QueryLoaiSanPhamYeuThich = (from danhgia in DB.DANHGIAs
+                                            join loaisanpham in DB.LOAISANPHAMs on danhgia.MALOAI equals loaisanpham.MALOAI
                                             select new
                                             {
-                                                MALOAI = loaisanpham.MALOAI,
-                                                MUCDANHGIA = g1 != null ? g1.MUCDANHGIA : 0
-                                            }).GroupBy(x => x.MALOAI).Select(y => new { MALOAI = y.Key, MUCDANHGIA = (int)(Math.Round((double)y.Sum(z => z.MUCDANHGIA) / y.Count())) });
+                                                MALOAI = danhgia.MALOAI,
+                                                MUCDANHGIA = danhgia.MUCDANHGIA
+                                            }).GroupBy(x => x.MALOAI).Select(y => new { MALOAI = y.Key, MUCDANHGIA = (int)(Math.Round((double)y.Sum(z => z.MUCDANHGIA) / y.Count())), SOLUONGDANHGIA = y.Count() });
 
             // Số lượng tồn của sản phẩm
             var QueryTongSoLuongSanPham = (from sanpham in DB.SANPHAMs
@@ -286,31 +317,30 @@ namespace WebsiteBanXeMay.Controllers
                                                SOLUONGTON = g.Count()
                                            }).GroupBy(x => x.MALOAI).Select(y => new { MALOAI = y.Key, SOLUONGTON = y.Sum(z => z.SOLUONGTON) });
 
-            // Loại sản phẩm có khuyến mãi và không khuyến mãi
-            var QueryLoaiSanPhamKhuyenMai = from query_soluongton in QueryTongSoLuongSanPham
-                                            join query_yeuthich in QueryLoaiSanPhamYeuThich on query_soluongton.MALOAI equals query_yeuthich.MALOAI
-                                            join loaisanpham in DB.LOAISANPHAMs on query_soluongton.MALOAI equals loaisanpham.MALOAI
-                                            join thuonghieu in DB.THUONGHIEUx on loaisanpham.MATH equals thuonghieu.MATH
-                                            join ct_khuyenmai in DB.CT_KHUYENMAI on loaisanpham.MALOAI equals ct_khuyenmai.MALOAI into ct_khuyenmai_T
-                                            from g1 in ct_khuyenmai_T.DefaultIfEmpty()
-                                            join khuyenmai in DB.KHUYENMAIs on g1.MAKM equals khuyenmai.MAKM into khuyenmai_T
-                                            from g2 in khuyenmai_T.DefaultIfEmpty()
-                                            where (loaisanpham.TRANGTHAI == 0 || loaisanpham.TRANGTHAI == 1) && thuonghieu.MATH == MaTH && query_soluongton.SOLUONGTON > 0
-                                            select new LoaiSanPhamViewModel
-                                            {
-                                                MALOAI = loaisanpham.MALOAI,
-                                                TENLOAI = loaisanpham.TENLOAI,
-                                                HINHANH = loaisanpham.HINHANH,
-                                                TRANGTHAI = loaisanpham.TRANGTHAI,
-                                                TENTH = thuonghieu.TENTH,
-                                                PHANTRAM = g1 != null ? (g2.NGAYBATDAU <= DateTime.Now && g2.NGAYKETTHUC >= DateTime.Now ? g1.PHANTRAM : 0) : 0,
-                                                GIA = loaisanpham.GIA,
-                                                GIAKM = g1 != null ? (g2.NGAYBATDAU <= DateTime.Now && g2.NGAYKETTHUC >= DateTime.Now ? loaisanpham.GIA - loaisanpham.GIA * g1.PHANTRAM / 100 : loaisanpham.GIA) : loaisanpham.GIA,
-                                                MUCDANHGIA = query_yeuthich.MUCDANHGIA
-                                            };
-            return QueryLoaiSanPhamKhuyenMai.ToList();
+           // Loại sản phẩm có khuyến mãi và không khuyến mãi
+            var QueryLoaiSanPham = from query_soluongton in QueryTongSoLuongSanPham
+                                   join loaisanpham in DB.LOAISANPHAMs on query_soluongton.MALOAI equals loaisanpham.MALOAI
+                                   join thuonghieu in DB.THUONGHIEUx on loaisanpham.MATH equals thuonghieu.MATH
+                                   join ct_khuyenmai in DB.CT_KHUYENMAI on loaisanpham.MALOAI equals ct_khuyenmai.MALOAI into ct_khuyenmai_T
+                                   from g1 in ct_khuyenmai_T.DefaultIfEmpty()
+                                   join khuyenmai in DB.KHUYENMAIs on g1.MAKM equals khuyenmai.MAKM into khuyenmai_T
+                                   from g2 in khuyenmai_T.DefaultIfEmpty()
+                                   join query_yeuthich in QueryLoaiSanPhamYeuThich on query_soluongton.MALOAI equals query_yeuthich.MALOAI into query_yeuthich_T
+                                   from g3 in query_yeuthich_T.DefaultIfEmpty()
+                                   where ((loaisanpham.TRANGTHAI == 0 || loaisanpham.TRANGTHAI == 1) && loaisanpham.MATH == MaTH && query_soluongton.SOLUONGTON > 0)
+                                   select new LoaiSanPhamViewModel
+                                   {
+                                       MALOAI = loaisanpham.MALOAI,
+                                       TENLOAI = loaisanpham.TENLOAI,
+                                       HINHANH = loaisanpham.HINHANH,
+                                       TRANGTHAI = loaisanpham.TRANGTHAI,
+                                       TENTH = thuonghieu.TENTH,
+                                       PHANTRAM = g1 != null ? (g2.NGAYBATDAU <= DateTime.Now && g2.NGAYKETTHUC >= DateTime.Now ? g1.PHANTRAM : 0) : 0,
+                                       GIA = loaisanpham.GIA,
+                                       GIAKM = g1 != null ? (g2.NGAYBATDAU <= DateTime.Now && g2.NGAYKETTHUC >= DateTime.Now ? loaisanpham.GIA - loaisanpham.GIA * g1.PHANTRAM / 100 : loaisanpham.GIA) : loaisanpham.GIA,
+                                       MUCDANHGIA = g3 != null ? g3.MUCDANHGIA : 0
+                                   };
+            return QueryLoaiSanPham.ToList();
         }
-
-
     }
 }

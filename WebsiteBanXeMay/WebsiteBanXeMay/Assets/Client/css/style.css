@@ -1666,7 +1666,7 @@ textarea:focus {
 .minicart > ul > li > a > img {
 	width: 100%;
 }
-.minicart .minicart-product-list li button.close {
+.minicart .minicart-product-list li a.close {
 	-webkit-box-flex: 100;
 	-ms-flex-positive: 100;
 	flex-grow: 100;
@@ -1676,7 +1676,7 @@ textarea:focus {
 	font-size: 14px;
 	z-index: 1;
 }
-.minicart .minicart-product-list li button.close:hover {
+.minicart .minicart-product-list li a.close:hover {
 	color: #fed700;
 }
 .minicart .minicart-total {

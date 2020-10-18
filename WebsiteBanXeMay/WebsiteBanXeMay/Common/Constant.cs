@@ -8,5 +8,6 @@ namespace WebsiteBanXeMay.Common
     public static class Constant
     {
         public const string SESSION_TAIKHOAN = "ACCOUNT";
+        public const string SESSION_CART = "CART";
     }
 }

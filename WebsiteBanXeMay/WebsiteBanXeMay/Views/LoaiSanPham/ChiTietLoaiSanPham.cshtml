@@ -1,11 +1,12 @@
 ﻿@using WebsiteBanXeMay.ViewModels;
+@using WebsiteBanXeMay.Common;
 @{
     ViewBag.Title = "Chi tiết loại sản phẩm";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{ChiTietLoaiSanPhamViewModel LoaiSanPham = ViewBag.LoaiSanPham as ChiTietLoaiSanPhamViewModel;
-    IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPhamLienQuan = ViewBag.lstLoaiSanPhamLienQuan as IEnumerable<LoaiSanPhamViewModel>;}
+    var TaiKhoanViewModel = Context.Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;}
 <style>
     .convertImage {
         height: 300px;
@@ -22,8 +23,9 @@
         color: black !important;
         font-size: 16px
     }
-    .hide{
-        display:none;
+
+    .hidden {
+        display: none;
     }
 </style>
 
@@ -118,19 +120,30 @@
 
                         }
                         <div class="single-add-to-cart">
-                            <form action="#" class="cart-quantity">
+                            @using (Ajax.BeginForm("ThemGioHang",
+                                                "GioHang",
+                                                new {MaLoai = LoaiSanPham.MALOAI},
+                                                new AjaxOptions
+                                                {
+                                                    HttpMethod = "POST",
+                                                    InsertionMode = InsertionMode.Replace,
+                                                    UpdateTargetId = "GioHangID",
+                                                    OnFailure = "OnFailure"
+                                                },
+                                                new { @class = "cart-quantity" }))
+                            {
                                 <div class="quantity">
                                     <label>Số lượng</label>
                                     <div class="cart-plus-minus">
-                                        <input class="cart-plus-minus-box" value="1" type="text" readonly>
+                                        <input class="cart-plus-minus-box" name="SoLuong" value="1" type="text" readonly>
                                         <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
                                         <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
                                     </div>
                                 </div>
                                 <button class="add-to-cart" type="submit">Thêm vào giỏ</button>
-                            </form>
+                            }
                         </div>
-                        <div class="QuantityInStock hide">
+                        <div class="QuantityInStock hidden">
                             <span>Số lượng tồn còn @LoaiSanPham.SOLUONGTON sản phẩm</span>
                         </div>
                         <div class="product-additional-info pt-25">
@@ -200,69 +213,12 @@
                 <div class="product-reviews" style="padding: 0 0 !important">
                     <div class="product-details-comment-block">
                         <div class="comment-details">
+                            @Html.Action("Index", "DanhGia", new { MaLoai = LoaiSanPham.MALOAI })
+                        </div>
+                        @if (TaiKhoanViewModel != null && ViewBag.KiemTraChoPhepDanhGia == true)
+                        {
                             @Html.Action("DanhGiaPartial", "DanhGia", new { MaLoai = LoaiSanPham.MALOAI })
-                        </div>
-                        <div class="review-btn">
-                            <a class="review-links" href="#" data-toggle="modal" data-target="#mymodal">Đánh giá</a>
-                        </div>
-                        <div class="modal fade modal-wrapper" id="mymodal">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <h3 class="review-page-title">Đánh giá</h3>
-                                        <div class="modal-inner-area row">
-                                            <div class="col-lg-5">
-                                                <div class="li-review-product">
-                                                    <img src="@Url.Content("~/Assets/upload/images/"+LoaiSanPham.HINHANH)" alt="@LoaiSanPham.HINHANH ">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7">
-                                                <div class="li-review-content">
-                                                    <div class="feedback-area">
-                                                        <div class="feedback">
-                                                            <h3 class="feedback-title">@LoaiSanPham.TENLOAI</h3>
-                                                            @using (Ajax.BeginForm("ThemDanhGia",
-                                                                "DanhGia",
-                                                                new {MaLoai = LoaiSanPham.MALOAI},
-                                                                new AjaxOptions
-                                                                {
-                                                                    HttpMethod = "POST",
-                                                                    UpdateTargetId = "DanhGiaID",
-                                                                    InsertionMode = InsertionMode.Replace,
-                                                                }))
-                                                            {
-                                                                <p class="your-opinion">
-                                                                    <label>Đánh giá</label>
-                                                                    <span>
-                                                                        <select class="star-rating" name="MucDanhGia">
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4">4</option>
-                                                                            <option value="5">5</option>
-                                                                        </select>
-                                                                    </span>
-                                                                </p>
-                                                                <p class="feedback-form">
-                                                                    <label for="feedback">Nội dung</label>
-                                                                    <textarea id="feedback" name="NoiDung" cols="45" rows="8" aria-required="true"></textarea>
-                                                                </p>
-                                                                <div class="feedback-input">
-                                                                    <div class="feedback-btn pb-15">
-                                                                        <a href="#" class="close" data-dismiss="modal">Đóng</a>
-                                                                        <a href="#" class="submitReview">Đăng</a>
-                                                                    </div>
-                                                                </div>
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -270,99 +226,7 @@
     </div>
 </div>
 
-@if (lstLoaiSanPhamLienQuan != null && lstLoaiSanPhamLienQuan.Count() > 0)
-{
-    <section class="product-area li-laptop-product pt-30 pb-50">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="li-section-title">
-                        <h2>
-                            <span>SẢN PHẨM LIÊN QUAN</span>
-                        </h2>
-                        <ul class="li-sub-category-list">
-                            @if (lstLoaiSanPhamLienQuan.Count() > 10)
-                            {
-                                <li><a href="">Xem tất cả @lstLoaiSanPhamLienQuan.Count() xe máy >></a></li>
-                            }
-                        </ul>
-                    </div>
-                    <div class="row">
-                        <div class="product-active owl-carousel">
-                            @foreach (var LoaiSanPhamLienQuan in lstLoaiSanPhamLienQuan.Take(10))
-                            {
-                                <div class="col-lg-12">
-                                    <div class="single-product-wrap">
-                                        <div class="product-image">
-                                            <a href="/LoaiSanPham/ChiTietLoaiSanPham/@LoaiSanPhamLienQuan.MALOAI">
-                                                <img src=@Url.Content("~/Assets/upload/images/" + LoaiSanPhamLienQuan.HINHANH) height="170" width="180" alt="@LoaiSanPhamLienQuan.HINHANH">
-                                            </a>
-                                            @if (LoaiSanPhamLienQuan.TRANGTHAI == 0)
-                                            {
-                                                <span class="sticker">Mới</span>
-                                            }
-                                        </div>
-                                        <div class="product_desc">
-                                            <div class="product_desc_info">
-                                                <div class="product-review">
-                                                    <h5 class="manufacturer">
-                                                        <a href="">@LoaiSanPhamLienQuan.TENTH</a>
-                                                    </h5>
-                                                    <div class="rating-box">
-                                                        <ul class="rating">
-                                                            @for (int i = 0; i < LoaiSanPhamLienQuan.MUCDANHGIA; i++)
-                                                            {
-                                                                <li><i class="fa fa-star"></i></li>
-                                                            }
-                                                            @for (int i = 0; i < 5 - LoaiSanPhamLienQuan.MUCDANHGIA; i++)
-                                                            {
-                                                                <li class="no-star"><i class="fa fa-star"></i></li>
-                                                            }
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <h4>
-                                                    <a class="product_name" href="/LoaiSanPham/ChiTietLoaiSanPham/@LoaiSanPhamLienQuan.MALOAI">
-                                                        @LoaiSanPhamLienQuan.TENLOAI
-                                                    </a>
-                                                </h4>
-                                                <div class="price-box">
-                                                    @if (LoaiSanPhamLienQuan.PHANTRAM > 0)
-                                                    {
-                                                        <span class="new-price new-price-2 money">
-                                                            @LoaiSanPhamLienQuan.GIAKM
-                                                        </span>
-                                                        <span class="old-price money">
-                                                            @LoaiSanPhamLienQuan.GIA
-                                                        </span>
-                                                        <span class="discount-percentage">@LoaiSanPhamLienQuan.PHANTRAM %</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="new-price new-price-2 money">
-                                                            @LoaiSanPhamLienQuan.GIA
-                                                        </span>
-                                                    }
-                                                </div>
-                                            </div>
-                                            <div class="add-actions">
-                                                <ul class="add-actions-link">
-                                                    <li class="add-cart active"><a href="#">Thêm vào giỏ</a></li>
-                                                    <li><a href="/LoaiSanPham/ChiTietLoaiSanPham/@LoaiSanPhamLienQuan.MALOAI" title="Chi tiết sản phẩm" class="quick-view-btn"><i class="fa fa-eye"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-}
+@Html.Action("LoaiSanPhamLienQuanPartial", "LoaiSanPham", new { MaLoai = LoaiSanPham.MALOAI })
 
 
 <script>
@@ -375,11 +239,11 @@
             var newVal = parseFloat(oldValue);
             if (newVal == model.SOLUONGTON) {
                 newVal = parseFloat(oldValue);
-                $(".QuantityInStock").removeClass('hide');
+                $(".QuantityInStock").removeClass('hidden');
             }
             else {
                 var newVal = parseFloat(oldValue) + 1;
-                $(".QuantityInStock").addClass('hide');
+                $(".QuantityInStock").addClass('hidden');
             }
         } else {
             if (oldValue > 1) {
@@ -387,7 +251,7 @@
             } else {
                 newVal = 1;
             }
-            $(".QuantityInStock").addClass('hide');
+            $(".QuantityInStock").addClass('hidden');
         }
         $button.parent().find("input").val(newVal);
     });

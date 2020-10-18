@@ -125,12 +125,24 @@
     <script src="~/Assets/Client/js/main.js"></script>
 
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <script>
+
         $('.money').simpleMoneyFormat();
-        //$('.CurrentPage').simpleParameterBrower();
+        function OnSuccess() {
+            $('#mymodal').modal('hide');
+        }
+
+        function OnFailure(res) {
+            var obj = $.parseJSON(res.responseText);
+            Swal.fire({
+                title: 'Lỗi',
+                text: obj.message,
+                icon: 'error',
+                //allowOutsideClick: false
+            })
+        }
     </script>
 </body>
-
-<!-- index30:23-->
 </html>

@@ -132,6 +132,7 @@
     <Compile Include="Areas\Shipper\ShipperAreaRegistration.cs" />
     <Compile Include="Common\Constant.cs" />
     <Compile Include="Controllers\DanhGiaController.cs" />
+    <Compile Include="Controllers\GioHangController.cs" />
     <Compile Include="Controllers\LoaiSanPhamController.cs" />
     <Compile Include="Controllers\TaiKhoanController.cs" />
     <Compile Include="Controllers\TrangChuController.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Utils\PageUtil.cs" />
     <Compile Include="ViewModels\ChiTietLoaiSanPhamViewModel.cs" />
     <Compile Include="ViewModels\DanhGiaViewModel.cs" />
+    <Compile Include="ViewModels\GioHangViewModel.cs" />
     <Compile Include="ViewModels\KhachHangViewModel.cs" />
     <Compile Include="ViewModels\KieuSanPhamViewModel.cs" />
     <Compile Include="ViewModels\LoaiSanPhamViewModel.cs" />
@@ -458,9 +460,13 @@
     <Content Include="Views\TrangChu\LoaiSanPhamBanChay.cshtml" />
     <Content Include="Views\LoaiSanPham\Index.cshtml" />
     <Content Include="Views\TrangChu\Top10LoaiSanPhamPartial.cshtml" />
-    <Content Include="Views\DanhGia\DanhGiaPartial.cshtml" />
     <Content Include="Views\TaiKhoan\DangNhap.cshtml" />
     <Content Include="Views\TaiKhoan\DangKy.cshtml" />
+    <Content Include="Views\DanhGia\Index.cshtml" />
+    <Content Include="Views\DanhGia\DanhGiaPartial.cshtml" />
+    <Content Include="Views\GioHang\GioHangPartial.cshtml" />
+    <Content Include="Views\LoaiSanPham\LoaiSanPhamLienQuanPartial.cshtml" />
+    <Content Include="Views\GioHang\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

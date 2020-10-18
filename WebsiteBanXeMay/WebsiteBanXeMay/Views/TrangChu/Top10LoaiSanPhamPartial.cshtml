@@ -60,7 +60,19 @@
                 </div>
                 <div class="add-actions">
                     <ul class="add-actions-link">
-                        <li class="add-cart active"><a href="#">Thêm vào giỏ</a></li>
+                        <li class="add-cart active">
+                            @Ajax.ActionLink("Thêm vào giỏ",
+                                           "ThemGioHang",
+                                           "GioHang",
+                                           new { MaLoai = LoaiSanPham.MALOAI, SoLuong = 1 },
+                                           new AjaxOptions
+                                           {
+                                               HttpMethod = "POST",
+                                               InsertionMode = InsertionMode.Replace,
+                                               UpdateTargetId = "GioHangID",
+                                               OnFailure = "OnFailure"
+                                           }, null)
+                        </li>
                         <li><a href="/LoaiSanPham/ChiTietLoaiSanPham/@LoaiSanPham.MALOAI" title="Chi tiết loại sản phẩm" class="quick-view-btn"><i class="fa fa-eye"></i></a></li>
                     </ul>
                 </div>
