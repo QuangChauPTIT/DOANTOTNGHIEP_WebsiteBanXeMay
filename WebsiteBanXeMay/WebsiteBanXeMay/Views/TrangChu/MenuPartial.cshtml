@@ -2,8 +2,8 @@
 @using WebsiteBanXeMay.ViewModels;
 
 
-@{ IEnumerable<THUONGHIEU> lstThuongHieu = (IEnumerable<THUONGHIEU>)ViewBag.lstThuongHieu;
-    IEnumerable<KieuSanPhamViewModel> lstKieuSanPham = (IEnumerable<KieuSanPhamViewModel>)ViewBag.lstKieuSanPham; }
+@{ IEnumerable<THUONGHIEU> lstThuongHieu = ViewBag.lstThuongHieu as IEnumerable<THUONGHIEU>;
+    IEnumerable<KieuSanPhamViewModel> lstKieuSanPham = ViewBag.lstKieuSanPham as IEnumerable<KieuSanPhamViewModel>; }
 <div class="hb-menu">
     <nav>
         <ul>

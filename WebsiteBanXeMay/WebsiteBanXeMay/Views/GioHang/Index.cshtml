@@ -41,7 +41,17 @@
                                 @foreach (var LoaiSanPham in Model)
                                 {
                                     <tr>
-                                        <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
+                                        <td class="li-product-remove">
+                                            <a data-ajax="true"
+                                               data-ajax-success="success"
+                                               data-ajax-failure="OnFailure"
+                                               data-ajax-method="POST"
+                                               data-ajax-mode="replace"
+                                               data-ajax-update="#GioHangID"
+                                               href="/GioHang/XoaGioHang?MaLoai=@LoaiSanPham.MALOAI">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </td>
                                         <td class="li-product-thumbnail"><a href="/LoaiSanPham/ChiTietLoaiSanPham/@LoaiSanPham.MALOAI"><img src=@Url.Content("~/Assets/upload/images/" + LoaiSanPham.HINHANH) height="100" width="110" alt="@LoaiSanPham.HINHANH"></a></td>
                                         <td class="li-product-name"><a href="/LoaiSanPham/ChiTietLoaiSanPham/@LoaiSanPham.MALOAI">@LoaiSanPham.TENLOAI</a></td>
                                         <td class="product-subtotal"><span class="amount money text-theme">@LoaiSanPham.GIA</span></td>
@@ -80,7 +90,7 @@
                                     <li>Tiền vận chuyển<span class="money text-theme">0</span></li>
                                     <li>Tổng tiền<span class="total money text-theme"></span></li>
                                 </ul>
-                                <a href="#">Đặt hàng</a>
+                                @Html.ActionLink("Đặt hàng", "Index", "ThanhToan");
                             </div>
                         </div>
                     </div>

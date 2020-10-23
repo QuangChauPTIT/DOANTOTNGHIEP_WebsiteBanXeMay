@@ -13,6 +13,7 @@ namespace WebsiteBanXeMay.Models
     public class TAIKHOANMetadata
     {
         [Required(ErrorMessage = "Email là bắt buộc")]
+        [EmailAddress(ErrorMessage ="Email không hợp lệ")]
         public string EMAIL { get; set; }
         [Required(ErrorMessage = "Mật khẩu là bắt buộc")]
         public string PASSWORD { get; set; }

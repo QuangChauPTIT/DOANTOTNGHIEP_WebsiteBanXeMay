@@ -4,9 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{ IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPhamKhuyenMai = (IEnumerable<LoaiSanPhamViewModel>)ViewBag.lstLoaiSanPhamKhuyenMai;
-    IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPhamMoi = (IEnumerable<LoaiSanPhamViewModel>)ViewBag.lstLoaiSanPhamMoi;
-    IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPhamBanChay = (IEnumerable<LoaiSanPhamViewModel>)ViewBag.lstLoaiSanPhamBanChay;
+@{ IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPhamKhuyenMai = ViewBag.lstLoaiSanPhamKhuyenMai as IEnumerable<LoaiSanPhamViewModel>;
+    IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPhamMoi = ViewBag.lstLoaiSanPhamMoi as IEnumerable<LoaiSanPhamViewModel>;
+    IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPhamBanChay = ViewBag.lstLoaiSanPhamBanChay as IEnumerable<LoaiSanPhamViewModel>;
 
 }
 

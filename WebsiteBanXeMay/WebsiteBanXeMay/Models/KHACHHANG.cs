@@ -18,7 +18,7 @@ namespace WebsiteBanXeMay.Models
         public KHACHHANG()
         {
             this.DANHGIAs = new HashSet<DANHGIA>();
-            this.PHIEUDATs = new HashSet<PHIEUDAT>();
+            this.PHIEUMUAs = new HashSet<PHIEUMUA>();
         }
     
         public int MAKH { get; set; }
@@ -27,13 +27,15 @@ namespace WebsiteBanXeMay.Models
         public bool GIOITINH { get; set; }
         public System.DateTime NGAYSINH { get; set; }
         public string DIACHI { get; set; }
+        public int MAQUAN { get; set; }
         public string SDT { get; set; }
         public string EMAIL { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DANHGIA> DANHGIAs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUDAT> PHIEUDATs { get; set; }
+        public virtual QUAN QUAN { get; set; }
         public virtual TAIKHOAN TAIKHOAN { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PHIEUMUA> PHIEUMUAs { get; set; }
     }
 }

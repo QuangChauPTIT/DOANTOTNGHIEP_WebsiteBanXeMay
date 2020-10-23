@@ -1,0 +1,135 @@
+﻿@using WebsiteBanXeMay.ViewModels;
+@model IEnumerable<PhieuMuaViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wraper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- shop-top-bar start -->
+                <div class="shop-top-bar">
+                    <div class="shop-bar-inner">
+                        <div class="product-view-mode">
+                            <!-- shop-item-filter-list start -->
+                            <ul class="nav shop-item-filter-list">
+                                <li>
+                                    @Html.ActionLink("Tất cả",
+                                                  "Index",
+                                                   null,
+                                                   null)
+                                            </li>
+                                <li>
+                                    @Html.ActionLink("Chờ xác nhận",
+                                                  "Index",
+                                                   new
+                                                   {
+                                                       TrangThai = 0
+                                                   },
+                                                    new { @value = 0 })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Đang giao",
+                                                 "Index",
+                                                  new
+                                                  {
+                                                      TrangThai = 1
+                                                  },
+                                                  new { @value = 1 })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Đã giao",
+                                                 "Index",
+                                                 new
+                                                 {
+                                                     TrangThai = 2
+                                                 },
+                                                  new { @value = 2 })
+                                </li>
+
+                            </ul>
+                            <!-- shop-item-filter-list end -->
+                        </div>
+
+                    </div>
+                </div>
+                <!-- shop-top-bar end -->
+            </div>
+            <div class="col-md-12">
+                <!--Shopping Cart Area Strat-->
+                <div class="Shopping-cart-area pb-60">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-content table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="li-product-thumbnail">Hình ảnh</th>
+                                                <th class="cart-product-name">Tên sản phẩm</th>
+                                                <th class="li-product-quantity">Số lượng</th>
+                                                <th class="li-product-subtotal">Giá</th>
+                                                <th class="li-product-subtotal" style="width:30%">Thông tin người nhận</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var PhieuMuaViewModel in Model)
+                                            {
+                                            <tr>
+                                                <td class="li-product-thumbnail"><a href="/LoaiSanPham/ChiTietLoaiSanPham/@PhieuMuaViewModel.MALOAI"><img src=@Url.Content("~/Assets/upload/images/" + PhieuMuaViewModel.HINHANH) height="100" width="110" alt="@PhieuMuaViewModel.HINHANH"></a></td>
+                                                <td class="li-product-name"><a href="/LoaiSanPham/ChiTietLoaiSanPham/@PhieuMuaViewModel.MALOAI">@PhieuMuaViewModel.TENLOAI</a></td>
+                                                <td class="product-subtotal"><span class="amount">@PhieuMuaViewModel.SOLUONG</span></td>
+                                                <td class="product-subtotal"><span class="amount money text-theme">@(PhieuMuaViewModel.GIA * PhieuMuaViewModel.SOLUONG)</span></td>
+                                                <td class="">
+                                                    <div class="row p-0 m-0">
+                                                        <span class="col-12 text-left"><span style="font-weight:bold">Họ tên:</span> @(PhieuMuaViewModel.HO + " "+PhieuMuaViewModel.TEN)</span>
+                                                        <span class="col-12 text-left"><span style="font-weight:bold">Địa chỉ:</span> @(PhieuMuaViewModel.DIACHI + ", "+PhieuMuaViewModel.TENQUAN)</span>
+                                                        <span class="col-12 text-left"><span style="font-weight:bold">SDT:</span> @(PhieuMuaViewModel.SDT)</span>
+                                                        <span class="col-12 text-left"><span style="font-weight:bold">Ngày mua:</span> @(PhieuMuaViewModel.NGAYMUA.ToString("dd/MM/yyyy HH:mm:ss"))</span>
+                                                        <span class="col-12 text-left"><span style="font-weight:bold">Ngày giao:</span> @(PhieuMuaViewModel.NGAYGIAO.ToString("dd/MM/yyyy HH:mm:ss"))</span>
+                                                    </div>
+                                                    
+                                                </td>
+                                            </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Shopping Cart Area End-->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.nav a').click(function () {
+            $('.nav a.active').removeClass('active');
+            $(this).addClass('active');
+        });
+    });
+
+    //auto reload
+    $(function () {
+        var Params = new URLSearchParams(window.location.search);
+        $('.nav a').each(function (index, el) {
+            var sort = $(el).attr("value");
+            if (sort === Params.get("TrangThai")) {
+                $(el).addClass('active');
+                return false;
+            }
+        });
+        $('.nav a').each(function (index, el) {
+            if (Params.get("TrangThai") == null) {
+                $(el).addClass('active');
+                return false;
+            }
+        });
+    });
+</script>

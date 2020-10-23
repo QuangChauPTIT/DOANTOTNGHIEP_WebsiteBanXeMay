@@ -9,5 +9,6 @@ namespace WebsiteBanXeMay.Common
     {
         public const string SESSION_TAIKHOAN = "ACCOUNT";
         public const string SESSION_CART = "CART";
+        public const string SESSION_PHIEUMUA = "PHIEUMUA";
     }
 }

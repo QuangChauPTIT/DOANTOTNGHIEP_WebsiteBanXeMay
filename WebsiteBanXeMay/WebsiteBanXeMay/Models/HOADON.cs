@@ -15,11 +15,11 @@ namespace WebsiteBanXeMay.Models
     public partial class HOADON
     {
         public string MAHD { get; set; }
-        public int MAPD { get; set; }
+        public int MAPM { get; set; }
         public System.DateTime NGAY { get; set; }
         public double THANHTIEN { get; set; }
         public string MASOTHUE { get; set; }
     
-        public virtual PHIEUDAT PHIEUDAT { get; set; }
+        public virtual PHIEUMUA PHIEUMUA { get; set; }
     }
 }

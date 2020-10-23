@@ -1,0 +1,168 @@
+﻿@using WebsiteBanXeMay.Models
+@using WebsiteBanXeMay.ViewModels
+@model PHIEUMUA
+@{
+    ViewBag.Title = "ThemPhieuMua";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ List<GioHangViewModel> lstLoaiSanPhamTrongGioHang = ViewBag.lstLoaiSanPhamTrongGioHang as List<GioHangViewModel>;
+    IEnumerable<QUAN> lstQuan = ViewBag.lstQuan as IEnumerable<QUAN>;}
+
+
+
+<!-- Begin Li's Breadcrumb Area -->
+@*<div class="breadcrumb-area">
+        <div class="container">
+            <div class="breadcrumb-content">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active">Checkout</li>
+                </ul>
+            </div>
+        </div>
+    </div>*@
+<!-- Li's Breadcrumb Area End Here -->
+<!--Checkout Area Strat-->
+@if (lstLoaiSanPhamTrongGioHang != null && lstQuan != null)
+{
+    <div class="checkout-area pt-60 pb-30">
+        <div class="container">
+            @using (Html.BeginForm("ThemPhieuMua", "PhieuMua", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="row">
+
+                    <div class="col-lg-6 col-12">
+                        <div class="checkbox-form">
+                            <h3>Thông tin đặt hàng</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="checkout-form-list">
+                                        <label>Họ <span class="required">*</span></label>
+                                        <input placeholder="Họ" name="HO" value="@ViewBag.HO" type="text">
+                                        @Html.ValidationMessageFor(model => model.HO, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="checkout-form-list">
+                                        <label>Tên <span class="required">*</span></label>
+                                        <input placeholder="Tên" name="TEN" value="@ViewBag.TEN" type="text">
+                                        @Html.ValidationMessageFor(model => model.TEN, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="checkout-form-list">
+                                        <label>Địa chỉ  <span class="required">*</span></label>
+                                        <input placeholder="Địa chỉ" name="DIACHI" value="@ViewBag.DIACHI" type="text">
+                                        @Html.ValidationMessageFor(model => model.DIACHI, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="country-select clearfix">
+                                        <label>Quận huyện (Khu vực Hồ Chí Minh)<span class="required">*</span></label>
+                                        <select class="nice-select wide" name="MAQUAN">
+                                            @foreach (var Quan in lstQuan)
+                                            {
+                                                <option value="@Quan.MAQUAN" @(Quan.MAQUAN == ViewBag.MAQUAN ? "selected" : null)>@Quan.TENQUAN</option>
+                                            }
+                                        </select>
+                                        @Html.ValidationMessageFor(model => model.MAQUAN, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="checkout-form-list">
+                                        <label>Số điên thoại <span class="required">*</span></label>
+                                        <input placeholder="Số điện thoại" name="SDT" value="@ViewBag.SDT" type="text">
+                                        @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="checkout-form-list">
+                                        <label>Ngày giao <span class="required">*</span></label>
+                                        <input type="datetime-local" id="NgayGiaoID" name="NGAYGIAO">
+                                        @Html.ValidationMessageFor(model => model.NGAYGIAO, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="different-address">
+                                <div class="order-notes">
+                                    <div class="checkout-form-list">
+                                        <label>Nội dung</label>
+                                        <textarea cols="30" rows="10" name="NOIDUNGCHUY" placeholder="Nội dung chú ý của khách hàng"></textarea>
+                                        @Html.ValidationMessage("error", new { @class = "text-danger col-md-12 text-center" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <div class="your-order">
+                            <h3>Đơn đặt hàng</h3>
+                            <div class="your-order-table table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="cart-product-name">Sản phẩm</th>
+                                            <th class="cart-product-total">Giá tiền</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var LoaiSanPham in lstLoaiSanPhamTrongGioHang)
+                                        {
+                                            <tr class="cart_item">
+                                                <td class="cart-product-name"> @LoaiSanPham.TENLOAI<strong class="product-quantity"> × @LoaiSanPham.SOLUONG</strong></td>
+                                                <td class="cart-product-total"><span class="amount money">@(LoaiSanPham.GIA * LoaiSanPham.SOLUONG)</span></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="cart-subtotal">
+                                            <th>Tiền vận chuyển</th>
+                                            <td><span class="amount money">0</span></td>
+                                        </tr>
+                                        <tr class="order-total">
+                                            <th>Tổng tiền</th>
+                                            <td><strong><span class="amount total money"></span></strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="payment-method">
+                                <div class="payment-accordion">
+                                    <div class="order-button-payment">
+                                        <input value="Tiến hành đặt hàng" type="submit">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+    <!--Checkout Area End-->
+
+    <script>
+    (function ($) {
+        var model = @Html.Raw(Json.Encode(lstLoaiSanPhamTrongGioHang));
+        var lst = Object.values(model);
+        var total = 0;
+        for (i = 0; i < lst.length; i++) {
+            total += lst[i].GIA * lst[i].SOLUONG;
+        }
+        $('.total').text(total)
+
+        var now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        var date = now.toISOString().slice(0,16);
+        $('#NgayGiaoID').val(date)
+    })(jQuery);
+    </script>
+}
+else
+{
+    <span>Bạn chưa đặt hàng</span>
+}

@@ -16,6 +16,7 @@ namespace WebsiteBanXeMay.Controllers
 
         //=======================================  Action  =======================================
         // GET: GioHang
+        [HttpGet]
         public ActionResult Index()
         {
             var GioHang = Session[Constant.SESSION_CART];
@@ -28,14 +29,13 @@ namespace WebsiteBanXeMay.Controllers
         }
 
         //Ajax
-        [HttpGet]
         public ActionResult GioHangPartial()
         {
             var GioHang = Session[Constant.SESSION_CART];
             var lstLoaiSanPham = new List<GioHangViewModel>();
             if (GioHang != null)
             {
-                lstLoaiSanPham =GioHang as List<GioHangViewModel>;
+                lstLoaiSanPham = GioHang as List<GioHangViewModel>;
             }
             return PartialView(lstLoaiSanPham);
         }
@@ -46,7 +46,7 @@ namespace WebsiteBanXeMay.Controllers
         {
             if (MaLoai != null)
             {
-                var GioHang =  Session[Constant.SESSION_CART];
+                var GioHang = Session[Constant.SESSION_CART];
                 if (GioHang != null)
                 {
                     // Session đã tồn tại
@@ -60,10 +60,10 @@ namespace WebsiteBanXeMay.Controllers
                             {
                                 var SoLuongTam = LoaiSanPham.SOLUONG + SoLuong;
                                 //Kiểm tra tránh số lượng đặt lớn hơn số lượng tồn trong kho
-                                if (SoLuongTonSanPham(MaLoai) < SoLuongTam)
+                                if (TinhSoLuongTonLoaiSanPham(MaLoai) < SoLuongTam)
                                 {
                                     Response.StatusCode = 500;
-                                    return Json(new { message = "Số lượng tồn chỉ còn :" + SoLuongTonSanPham(MaLoai) });
+                                    return Json(new { message = "Số lượng tồn chỉ còn :" + TinhSoLuongTonLoaiSanPham(MaLoai) });
                                 }
                                 LoaiSanPham.SOLUONG += SoLuong;
                                 break;
@@ -74,9 +74,9 @@ namespace WebsiteBanXeMay.Controllers
                     {
                         // Sản phẩm chưa tồn tại trong session
                         // Kiểm tra số lượng nhập có lớn hơn tồn không
-                        if (SoLuongTonSanPham(MaLoai) >= SoLuong)
+                        if (TinhSoLuongTonLoaiSanPham(MaLoai) >= SoLuong)
                         {
-                            var objLoaiSanPham = this.LoaiSanPham(MaLoai);
+                            var objLoaiSanPham = ThongTinChiTietLoaiSanPham(MaLoai);
                             if (objLoaiSanPham != null)
                             {
                                 var LoaiSanPham = new GioHangViewModel
@@ -93,7 +93,7 @@ namespace WebsiteBanXeMay.Controllers
                         else
                         {
                             Response.StatusCode = 500;
-                            return Json(new { message = "Số lượng tồn chỉ còn :" + SoLuongTonSanPham(MaLoai) });
+                            return Json(new { message = "Số lượng tồn chỉ còn :" + TinhSoLuongTonLoaiSanPham(MaLoai) });
                         }
                     }
                     Session[Constant.SESSION_CART] = lstLoaiSanPham;
@@ -103,10 +103,10 @@ namespace WebsiteBanXeMay.Controllers
                 {
                     // Session chưa tồn tại
                     // Kiểm tra số lượng nhập có lớn hơn tồn không
-                    if (SoLuongTonSanPham(MaLoai) >= SoLuong)
+                    if (TinhSoLuongTonLoaiSanPham(MaLoai) >= SoLuong)
                     {
                         var lstLoaiSanPham = new List<GioHangViewModel>();
-                        var objLoaiSanPham = this.LoaiSanPham(MaLoai);
+                        var objLoaiSanPham = ThongTinChiTietLoaiSanPham(MaLoai);
                         if (objLoaiSanPham != null)
                         {
                             var LoaiSanPham = new GioHangViewModel
@@ -125,7 +125,7 @@ namespace WebsiteBanXeMay.Controllers
                     else
                     {
                         Response.StatusCode = 500;
-                        return Json(new { message = "Số lượng tồn chỉ còn :" + SoLuongTonSanPham(MaLoai) });
+                        return Json(new { message = "Số lượng tồn chỉ còn :" + TinhSoLuongTonLoaiSanPham(MaLoai) });
                     }
                 }
                 return PartialView("GioHangPartial");
@@ -172,10 +172,10 @@ namespace WebsiteBanXeMay.Controllers
                             if (LoaiSanPham.MALOAI == MaLoai)
                             {
                                 //Kiểm tra tránh số lượng đặt lớn hơn số lượng tồn trong kho
-                                if (SoLuongTonSanPham(MaLoai) < SoLuong)
+                                if (TinhSoLuongTonLoaiSanPham(MaLoai) < SoLuong)
                                 {
                                     Response.StatusCode = 500;
-                                    return Json(new { message = "Số lượng tồn chỉ còn :" + SoLuongTonSanPham(MaLoai) });
+                                    return Json(new { message = "Số lượng tồn chỉ còn :" + TinhSoLuongTonLoaiSanPham(MaLoai) });
                                 }
                                 LoaiSanPham.SOLUONG = SoLuong;
                                 break;
@@ -192,12 +192,12 @@ namespace WebsiteBanXeMay.Controllers
         }
         //===========================================  Lấy dữ liệu Database =================================================
         // Lấy thông tin loại sản phẩm thâm vào giỏ hàng
-        private GioHangViewModel LoaiSanPham(string MaLoai)
+        private GioHangViewModel ThongTinChiTietLoaiSanPham(string MaLoai)
         {
             // Số lượng tồn của sản phẩm
-            var QuerySoLuongTonSanPham = (from sanpham in DB.SANPHAMs
+            var querySoLuongTonSanPham = (from sanpham in DB.SANPHAMs
                                           join ct_sanpham in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_sanpham.MACTPN
-                                          where string.IsNullOrEmpty(sanpham.MAPD.ToString())
+                                          where sanpham.MAPM == null
                                           group sanpham by sanpham.MACTPN into g
                                           select new
                                           {
@@ -206,7 +206,7 @@ namespace WebsiteBanXeMay.Controllers
                                           }).GroupBy(x => x.MALOAI).Select(y => new { MALOAI = y.Key, SOLUONGTON = y.Sum(z => z.SOLUONGTON) });
 
             // Loại sản phẩm có khuyến mãi và không khuyến mãi
-            var QueryLoaiSanPham = (from query_soluongton in QuerySoLuongTonSanPham
+            var queryLoaiSanPham = (from query_soluongton in querySoLuongTonSanPham
                                     join loaisanpham in DB.LOAISANPHAMs on query_soluongton.MALOAI equals loaisanpham.MALOAI
                                     join ct_khuyenmai in DB.CT_KHUYENMAI on loaisanpham.MALOAI equals ct_khuyenmai.MALOAI into ct_khuyenmai_T
                                     from g1 in ct_khuyenmai_T.DefaultIfEmpty()
@@ -220,23 +220,23 @@ namespace WebsiteBanXeMay.Controllers
                                         HINHANH = loaisanpham.HINHANH,
                                         GIA = g1 != null ? (g2.NGAYBATDAU <= DateTime.Now && g2.NGAYKETTHUC >= DateTime.Now ? loaisanpham.GIA - loaisanpham.GIA * g1.PHANTRAM / 100 : loaisanpham.GIA) : loaisanpham.GIA
                                     }).FirstOrDefault();
-            return QueryLoaiSanPham;
+            return queryLoaiSanPham;
         }
 
-        private int SoLuongTonSanPham(string MaLoai)
+        private int TinhSoLuongTonLoaiSanPham(string MaLoai)
         {
             // Số lượng tồn của sản phẩm
-            var QuerySoLuongTonSanPham = (from sanpham in DB.SANPHAMs
+            var querySoLuongTonSanPham = (from sanpham in DB.SANPHAMs
                                           join ct_sanpham in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_sanpham.MACTPN
                                           join loaisanpham in DB.LOAISANPHAMs on ct_sanpham.MALOAI equals loaisanpham.MALOAI
-                                          where (string.IsNullOrEmpty(sanpham.MAPD.ToString()) && loaisanpham.MALOAI == MaLoai)
+                                          where (string.IsNullOrEmpty(sanpham.MAPM.ToString()) && loaisanpham.MALOAI == MaLoai)
                                           group sanpham by sanpham.MACTPN into g
                                           select new
                                           {
                                               MALOAI = g.Select(x => x.CT_PHIEUNHAP.MALOAI).FirstOrDefault(),
                                               SOLUONGTON = g.Count()
                                           }).GroupBy(x => x.MALOAI).Select(y => new { MALOAI = y.Key, SOLUONGTON = y.Sum(z => z.SOLUONGTON) }).FirstOrDefault();
-            return QuerySoLuongTonSanPham.SOLUONGTON;
+            return querySoLuongTonSanPham.SOLUONGTON;
 
 
         }

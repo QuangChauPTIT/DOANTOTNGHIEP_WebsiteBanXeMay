@@ -9,7 +9,8 @@ namespace WebsiteBanXeMay.ViewModels
     {
         public int MA { get; set; }
         public string EMAIL { get; set; }
-        public string HOTEN { get; set; }
+        public string HO{ get; set; }
+        public string TEN { get; set; }
         public string NHOMQUYEN { get; set; }
     }
 }

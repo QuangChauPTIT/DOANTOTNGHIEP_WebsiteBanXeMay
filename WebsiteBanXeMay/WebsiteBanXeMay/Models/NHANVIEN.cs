@@ -18,10 +18,11 @@ namespace WebsiteBanXeMay.Models
         public NHANVIEN()
         {
             this.KHUYENMAIs = new HashSet<KHUYENMAI>();
-            this.PHIEUDATs = new HashSet<PHIEUDAT>();
-            this.PHIEUDATs1 = new HashSet<PHIEUDAT>();
+            this.PHIEUMUAs = new HashSet<PHIEUMUA>();
+            this.PHIEUMUAs1 = new HashSet<PHIEUMUA>();
             this.PHIEUNHAPs = new HashSet<PHIEUNHAP>();
             this.PHIEUTRAs = new HashSet<PHIEUTRA>();
+            this.QUANs = new HashSet<QUAN>();
         }
     
         public int MANV { get; set; }
@@ -32,19 +33,19 @@ namespace WebsiteBanXeMay.Models
         public string DIACHI { get; set; }
         public string SDT { get; set; }
         public string EMAIL { get; set; }
-        public Nullable<int> MAQUAN { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<KHUYENMAI> KHUYENMAIs { get; set; }
+        public virtual TAIKHOAN TAIKHOAN { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUDAT> PHIEUDATs { get; set; }
+        public virtual ICollection<PHIEUMUA> PHIEUMUAs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUDAT> PHIEUDATs1 { get; set; }
+        public virtual ICollection<PHIEUMUA> PHIEUMUAs1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUNHAP> PHIEUNHAPs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUTRA> PHIEUTRAs { get; set; }
-        public virtual QUAN QUAN { get; set; }
-        public virtual TAIKHOAN TAIKHOAN { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QUAN> QUANs { get; set; }
     }
 }

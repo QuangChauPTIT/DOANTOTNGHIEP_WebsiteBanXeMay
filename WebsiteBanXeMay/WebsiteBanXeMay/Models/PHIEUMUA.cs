@@ -12,38 +12,39 @@ namespace WebsiteBanXeMay.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PHIEUDAT
+    public partial class PHIEUMUA
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PHIEUDAT()
+        public PHIEUMUA()
         {
             this.HOADONs = new HashSet<HOADON>();
             this.PHIEUTRAs = new HashSet<PHIEUTRA>();
             this.SANPHAMs = new HashSet<SANPHAM>();
         }
     
-        public int MAPD { get; set; }
-        public System.DateTime NGAYDAT { get; set; }
+        public int MAPM { get; set; }
+        public System.DateTime NGAYMUA { get; set; }
         public string HO { get; set; }
         public string TEN { get; set; }
         public string DIACHI { get; set; }
+        public int MAQUAN { get; set; }
         public string SDT { get; set; }
         public System.DateTime NGAYGIAO { get; set; }
         public int TRANGTHAI { get; set; }
+        public string NOIDUNGCHUY { get; set; }
         public Nullable<int> MANVD { get; set; }
         public Nullable<int> MANVGH { get; set; }
         public int MAKH { get; set; }
-        public Nullable<int> MAQUAN { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HOADON> HOADONs { get; set; }
         public virtual KHACHHANG KHACHHANG { get; set; }
         public virtual NHANVIEN NHANVIEN { get; set; }
         public virtual NHANVIEN NHANVIEN1 { get; set; }
+        public virtual QUAN QUAN { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUTRA> PHIEUTRAs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SANPHAM> SANPHAMs { get; set; }
-        public virtual QUAN QUAN { get; set; }
     }
 }

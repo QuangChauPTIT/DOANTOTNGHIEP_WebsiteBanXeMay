@@ -2,13 +2,12 @@
 @model List<GioHangViewModel>
 
 <ul id="GioHangID" class="hm-menu">
-    <!-- Begin Header Mini Cart Area -->
     <li class="hm-minicart">
         <div class="hm-minicart-trigger">
             <span class="item-icon"></span>
             <span class="item-text">
                 Giỏ hàng
-                <span class="cart-item-count">@Model.Count()</span>
+                <span class="cart-item-count">@if (Model != null && Model.Count() > 0) { @Model.Count()}</span>
             </span>
         </div>
         <span></span>
@@ -44,14 +43,13 @@
                     <a href="/GioHang" class="li-button li-button-dark li-button-fullwidth li-button-sm">
                         <span>Xem tất cả</span>
                     </a>
-                    <a href="" class="li-button li-button-dark li-button-fullwidth li-button-sm">
-                        <span>Thanh toán</span>
+                    <a href="/PhieuMua/ThemPhieuMua" class="li-button li-button-dark li-button-fullwidth li-button-sm">
+                        <span>Đặt hàng</span>
                     </a>
                 </div>
             </div>
         }
     </li>
-    <!-- Header Mini Cart Area End Here -->
 </ul>
 <script>
     (function ($) {
@@ -75,7 +73,7 @@
 
     function success() {
         var url = window.location.pathname;
-        if (url == "/GioHang") {
+        if (url == "/GioHang" || url == "/PhieuMua/ThemPhieuMua") {
             window.location.reload();
         }
     }

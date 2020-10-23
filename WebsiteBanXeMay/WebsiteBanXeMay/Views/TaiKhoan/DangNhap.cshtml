@@ -19,7 +19,7 @@
                     <div class="login-form col-sm-5" style="margin:auto">
                         <h1 class="login-title text-center">Đăng nhập</h1>
                         <div class="row">
-                            <div class="col-md-12 col-12 mb-20">
+                            <div class="col-12 mb-20">
                                 <label>Email</label>
                                 <input class="mb-0" type="email" name="EMAIL" value="@ViewBag.Email" placeholder="Email">
                                 @Html.ValidationMessageFor(model => model.EMAIL,"", new { @class = "text-danger" })
@@ -40,9 +40,8 @@
                             <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
                                 <a href="#"> Quên mật khẩu?</a>
                             </div>
-                            <div class="col-md-12">
-
-                                <button class="register-button mt-0">Login</button>
+                            <div class="col-8 m-auto">
+                                <button class="register-button mt-0">Đăng nhập</button>
                             </div>
                         </div>
                     </div>

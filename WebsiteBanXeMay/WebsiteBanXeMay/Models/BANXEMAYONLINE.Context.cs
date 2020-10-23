@@ -36,14 +36,14 @@ namespace WebsiteBanXeMay.Models
         public virtual DbSet<NHACUNGCAP> NHACUNGCAPs { get; set; }
         public virtual DbSet<NHANVIEN> NHANVIENs { get; set; }
         public virtual DbSet<NHOMQUYEN> NHOMQUYENs { get; set; }
-        public virtual DbSet<PHIEUDAT> PHIEUDATs { get; set; }
+        public virtual DbSet<PHIEUMUA> PHIEUMUAs { get; set; }
         public virtual DbSet<PHIEUNHAP> PHIEUNHAPs { get; set; }
         public virtual DbSet<PHIEUTRA> PHIEUTRAs { get; set; }
+        public virtual DbSet<QUAN> QUANs { get; set; }
         public virtual DbSet<SANPHAM> SANPHAMs { get; set; }
         public virtual DbSet<SANPHAMTANGKEM> SANPHAMTANGKEMs { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TAIKHOAN> TAIKHOANs { get; set; }
         public virtual DbSet<THUONGHIEU> THUONGHIEUx { get; set; }
-        public virtual DbSet<QUAN> QUANs { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }

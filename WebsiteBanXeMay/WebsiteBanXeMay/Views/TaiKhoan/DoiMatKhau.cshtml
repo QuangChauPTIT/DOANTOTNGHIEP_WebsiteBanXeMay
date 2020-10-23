@@ -1,0 +1,47 @@
+﻿@using WebsiteBanXeMay.ViewModels;
+
+@model DoiMatKhauViewModel
+@{
+    ViewBag.Title = "DoiMatKhau";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-section mb-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 mb-30">
+                <!-- Login Form s-->
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <div class="login-form col-sm-5" style="margin:auto">
+                        <h1 class="login-title text-center">Đổi mật khẩu</h1>
+                        <div class="row">
+                            <div class="col-12 mb-20">
+                                <label>Mật khẩu cũ</label>
+                                <input class="mb-0" type="password" name="OLD_PASSWORD" placeholder="Mật khẩu cũ">
+                                @Html.ValidationMessageFor(model => model.OLD_PASSWORD, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-12 mb-20">
+                                <label>Mật khẩu mới</label>
+                                <input class="mb-0" type="password" name="NEW_PASSWORD" placeholder="Mật khẩu mới">
+                                @Html.ValidationMessageFor(model => model.NEW_PASSWORD, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-12 mb-20">
+                                <label>Nhập lại mật khẩu</label>
+                                <input class="mb-0" type="password" name="CONFIRM_PASSWORD" placeholder="Nhập lại mật khẩu">
+                                @Html.ValidationMessageFor(model => model.CONFIRM_PASSWORD, "", new { @class = "text-danger" })
+                                @Html.ValidationMessage("error", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-8 m-auto">
+                                <button class="register-button mt-0">Lưu</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

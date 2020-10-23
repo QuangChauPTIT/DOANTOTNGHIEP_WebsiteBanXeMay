@@ -164,3 +164,5 @@ D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\o
 D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\obj\Debug\WebsiteBanXeMay.csproj.CopyComplete
 D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\obj\Debug\WebsiteBanXeMay.dll
 D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\obj\Debug\WebsiteBanXeMay.pdb
+D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\bin\PayPal.dll
+D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\bin\PayPal.xml

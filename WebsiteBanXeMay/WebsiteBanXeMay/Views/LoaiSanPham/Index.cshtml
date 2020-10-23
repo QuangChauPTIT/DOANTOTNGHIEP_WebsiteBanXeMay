@@ -29,9 +29,9 @@
         display: none;
     }
 </style>
-@{ IEnumerable<THUONGHIEU> lstThuongHieu = (IEnumerable<THUONGHIEU>)ViewBag.lstThuongHieu;
-    IEnumerable<KieuSanPhamViewModel> lstKieuSanPham = (IEnumerable<KieuSanPhamViewModel>)ViewBag.lstKieuSanPham;
-    PageUtil LoaiSanPhamModel = (PageUtil)ViewBag.LoaiSanPhamModel;
+@{ IEnumerable<THUONGHIEU> lstThuongHieu = ViewBag.lstThuongHieu as IEnumerable<THUONGHIEU>;
+    IEnumerable<KieuSanPhamViewModel> lstKieuSanPham = ViewBag.lstKieuSanPham as IEnumerable<KieuSanPhamViewModel>;
+    PageUtil LoaiSanPhamModel = ViewBag.LoaiSanPhamModel as PageUtil;
 }
 <div class="breadcrumb-area">
     <div class="container">

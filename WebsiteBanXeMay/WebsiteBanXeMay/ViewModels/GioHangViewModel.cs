@@ -5,6 +5,7 @@ using System.Web;
 
 namespace WebsiteBanXeMay.ViewModels
 {
+    // Giỏ hàng
     [Serializable]
     public class GioHangViewModel
     {

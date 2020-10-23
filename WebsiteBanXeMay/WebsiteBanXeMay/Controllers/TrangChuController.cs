@@ -66,7 +66,6 @@ namespace WebsiteBanXeMay.Controllers
         }
 
         // Hiển thị danh sách 10 loại sản phẩm cho 3 phần: khuyến mãi, bán chạy, mới
-        [HttpGet]
         [ChildActionOnly]
         public ActionResult Top10LoaiSanPhamPartial()
         {
@@ -101,7 +100,7 @@ namespace WebsiteBanXeMay.Controllers
         private IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPham(int? TrangThai, bool? BanChay)
         {
             // Số sao đánh giá từ user
-            var QueryLoaiSanPhamYeuThich = (from danhgia in DB.DANHGIAs
+            var queryLoaiSanPhamYeuThich = (from danhgia in DB.DANHGIAs
                                             join loaisanpham in DB.LOAISANPHAMs on danhgia.MALOAI equals loaisanpham.MALOAI
                                             select new
                                             {
@@ -110,25 +109,25 @@ namespace WebsiteBanXeMay.Controllers
                                             }).GroupBy(x => x.MALOAI).Select(y => new { MALOAI = y.Key, MUCDANHGIA = (int)(Math.Round((double)y.Sum(z => z.MUCDANHGIA) / y.Count())), SOLUONGDANHGIA = y.Count() });
 
             // Số lượng tồn của sản phẩm
-            var QueryTongSoLuongSanPham = (from sanpham in DB.SANPHAMs
-                                           join ct_sanpham in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_sanpham.MACTPN
-                                           where string.IsNullOrEmpty(sanpham.MAPD.ToString())
-                                           group sanpham by sanpham.MACTPN into g
-                                           select new
-                                           {
-                                               MALOAI = g.Select(x => x.CT_PHIEUNHAP.MALOAI).FirstOrDefault(),
-                                               SOLUONGTON = g.Count()
-                                           }).GroupBy(x => x.MALOAI).Select(y => new { MALOAI = y.Key, SOLUONGTON = y.Sum(z => z.SOLUONGTON) });
+            var querySoLuongTonLoaiSanPham = (from sanpham in DB.SANPHAMs
+                                              join ct_sanpham in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_sanpham.MACTPN
+                                              where sanpham.MAPM == null
+                                              group sanpham by sanpham.MACTPN into g
+                                              select new
+                                              {
+                                                  MALOAI = g.Select(x => x.CT_PHIEUNHAP.MALOAI).FirstOrDefault(),
+                                                  SOLUONGTON = g.Count()
+                                              }).GroupBy(x => x.MALOAI).Select(y => new { MALOAI = y.Key, SOLUONGTON = y.Sum(z => z.SOLUONGTON) });
 
             // Loại sản phẩm có khuyến mãi và không khuyến mãi
-            var QueryLoaiSanPham = from query_soluongton in QueryTongSoLuongSanPham
+            var queryLoaiSanPham = from query_soluongton in querySoLuongTonLoaiSanPham
                                    join loaisanpham in DB.LOAISANPHAMs on query_soluongton.MALOAI equals loaisanpham.MALOAI
                                    join thuonghieu in DB.THUONGHIEUx on loaisanpham.MATH equals thuonghieu.MATH
                                    join ct_khuyenmai in DB.CT_KHUYENMAI on loaisanpham.MALOAI equals ct_khuyenmai.MALOAI into ct_khuyenmai_T
                                    from g1 in ct_khuyenmai_T.DefaultIfEmpty()
                                    join khuyenmai in DB.KHUYENMAIs on g1.MAKM equals khuyenmai.MAKM into khuyenmai_T
                                    from g2 in khuyenmai_T.DefaultIfEmpty()
-                                   join query_yeuthich in QueryLoaiSanPhamYeuThich on query_soluongton.MALOAI equals query_yeuthich.MALOAI into query_yeuthich_T
+                                   join query_yeuthich in queryLoaiSanPhamYeuThich on query_soluongton.MALOAI equals query_yeuthich.MALOAI into query_yeuthich_T
                                    from g3 in query_yeuthich_T.DefaultIfEmpty()
                                    where (TrangThai == null ? (loaisanpham.TRANGTHAI == 0 || loaisanpham.TRANGTHAI == 1) : loaisanpham.TRANGTHAI == TrangThai && query_soluongton.SOLUONGTON > 0)
                                    select new LoaiSanPhamViewModel
@@ -147,19 +146,19 @@ namespace WebsiteBanXeMay.Controllers
 
             if (BanChay != null)
             {
-                // Số lượng sản phẩm bán được
-                var QuerySoLuongSanPhamDaBan = (from sanpham in DB.SANPHAMs
-                                                join ct_sanpham in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_sanpham.MACTPN
-                                                where !string.IsNullOrEmpty(sanpham.MAPD.ToString())
-                                                group sanpham by sanpham.MACTPN into g
-                                                select new
-                                                {
-                                                    MALOAI = g.Select(x => x.CT_PHIEUNHAP.MALOAI).FirstOrDefault(),
-                                                    MUCDANHGIA = g.Count()
-                                                }).GroupBy(x => x.MALOAI).Select(y => new { MALOAI = y.Key, MUCDANHGIA = y.Sum(z => z.MUCDANHGIA) }).Where(k => k.MUCDANHGIA > 2).Select(h => new { MALOAI = h.MALOAI });
+                // Sản phẩm đã bán > 2
+                var querySanPhamDaBan = (from sanpham in DB.SANPHAMs
+                                         join ct_sanpham in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_sanpham.MACTPN
+                                         where sanpham.MAPM != null
+                                         group sanpham by sanpham.MACTPN into g
+                                         select new
+                                         {
+                                             MALOAI = g.Select(x => x.CT_PHIEUNHAP.MALOAI).FirstOrDefault(),
+                                             SOLUONG = g.Count()
+                                         }).GroupBy(x => x.MALOAI).Select(y => new { MALOAI = y.Key, SOLUONG = y.Sum(z => z.SOLUONG) }).Where(k => k.SOLUONG > 2).Select(h => new { MALOAI = h.MALOAI });
                 // Loại sản phẩm bán chạy
-                var QueryLoaiSanPhamBanChay = from query_daban in QuerySoLuongSanPhamDaBan
-                                              join query in QueryLoaiSanPham on query_daban.MALOAI equals query.MALOAI
+                var queryLoaiSanPhamBanChay = from query_daban in querySanPhamDaBan
+                                              join query in queryLoaiSanPham on query_daban.MALOAI equals query.MALOAI
                                               select new LoaiSanPhamViewModel
                                               {
                                                   MALOAI = query.MALOAI,
@@ -172,9 +171,9 @@ namespace WebsiteBanXeMay.Controllers
                                                   GIAKM = query.GIAKM,
                                                   MUCDANHGIA = query.MUCDANHGIA
                                               };
-                return QueryLoaiSanPhamBanChay.ToList();
+                return queryLoaiSanPhamBanChay.ToList();
             }
-            return QueryLoaiSanPham.ToList();
+            return queryLoaiSanPham.ToList();
         }
 
 

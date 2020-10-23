@@ -1,0 +1,90 @@
+﻿@using WebsiteBanXeMay.Models;
+@model KHACHHANG
+@{
+    ViewBag.Title = "ThongTin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{ IEnumerable<QUAN> lstQuan = ViewBag.lstQuan as IEnumerable<QUAN>;}
+<div class="page-section mb-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <div class="login-form col-sm-7" style="margin:auto">
+                        <h4 class="login-title text-center">Đăng ký</h4>
+                        <div class="row">
+                            <div class="col-md-6 col-12 mb-20">
+                                <label>Họ <span class="required">*</span></label>
+                                <input class="mb-0" type="text" name="HO" value="@ViewBag.HO" placeholder="Họ">
+                                @Html.ValidationMessageFor(model => model.HO, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6 col-12 mb-20">
+                                <label>Tên <span class="required">*</span></label>
+                                <input class="mb-0" type="text" name="TEN" value="@ViewBag.TEN" placeholder="Tên">
+                                @Html.ValidationMessageFor(model => model.TEN, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6 mb-20">
+                                <label>Giới tính <span class="required">*</span></label>
+                                <div class="row col-md-12">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <input class="mb-0" style="width:15%" type="radio" name="GIOITINH" @(ViewBag.GIOITINH == false ? "checked" : null) value="false">
+                                            <label class="mt-15 ml-5">Nam</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <input class="mb-0" style="width:15%" type="radio" name="GIOITINH" @(ViewBag.GIOITINH == true ? "checked" : null) value="true">
+                                            <label class="mt-15 ml-5">Nữ</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.GIOITINH, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="col-md-6 mb-20">
+                                <label>Ngày sinh <span class="required">*</span></label>
+                                <input class="mb-0" type="date" name="NGAYSINH" value="@ViewBag.NGAYSINH.ToString("yyyy-MM-dd")" placeholder="Ngày sinh">
+                                @Html.ValidationMessageFor(model => model.NGAYSINH, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-12 mb-20">
+                                <label>Địa chỉ <span class="required">*</span></label>
+                                <input class="mb-0" type="text" name="DIACHI" value="@ViewBag.DIACHI" placeholder="Địa chỉ">
+                                @Html.ValidationMessageFor(model => model.DIACHI, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6 mb-20">
+                                <label>Quận huyện (Khu vực Hồ Chí Minh) <span class="required">*</span></label>
+                                <select class="nice-select wide" name="MAQUAN">
+                                    @foreach (var Quan in lstQuan)
+                                    {
+                                        <option value="@Quan.MAQUAN" @(Quan.MAQUAN == ViewBag.MAQUAN ? "selected" : null)>@Quan.TENQUAN</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.MAQUAN, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6 mb-20">
+                                <label>Số điện thoại <span class="required">*</span></label>
+                                <input class="mb-0" type="text" name="SDT" value="@ViewBag.SDT" autocomplete="off" placeholder="Số điện thoại">
+                                @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6 mb-20">
+                                <label>Email <span class="required">*</span></label>
+                                <input class="mb-0" type="text" name="EMAIL" value="@ViewBag.EMAIL" readonly placeholder="Email là tài khoản đăng nhập">
+                                @Html.ValidationMessageFor(model => model.EMAIL, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.ValidationMessage("error", new { @class = "text-danger col-md-12 text-center" })
+                            <div class="col-md-6 m-auto">
+                                <button class="register-button mt-0">Lưu</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

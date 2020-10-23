@@ -17,16 +17,19 @@ namespace WebsiteBanXeMay.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public QUAN()
         {
+            this.KHACHHANGs = new HashSet<KHACHHANG>();
+            this.PHIEUMUAs = new HashSet<PHIEUMUA>();
             this.NHANVIENs = new HashSet<NHANVIEN>();
-            this.PHIEUDATs = new HashSet<PHIEUDAT>();
         }
     
         public int MAQUAN { get; set; }
         public string TENQUAN { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NHANVIEN> NHANVIENs { get; set; }
+        public virtual ICollection<KHACHHANG> KHACHHANGs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUDAT> PHIEUDATs { get; set; }
+        public virtual ICollection<PHIEUMUA> PHIEUMUAs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NHANVIEN> NHANVIENs { get; set; }
     }
 }

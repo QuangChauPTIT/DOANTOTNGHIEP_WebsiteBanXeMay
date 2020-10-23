@@ -25,10 +25,10 @@ namespace WebsiteBanXeMay.Models
         public string PASSWORD { get; set; }
         public string MANQ { get; set; }
     
-        public virtual NHOMQUYEN NHOMQUYEN { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<KHACHHANG> KHACHHANGs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NHANVIEN> NHANVIENs { get; set; }
+        public virtual NHOMQUYEN NHOMQUYEN { get; set; }
     }
 }

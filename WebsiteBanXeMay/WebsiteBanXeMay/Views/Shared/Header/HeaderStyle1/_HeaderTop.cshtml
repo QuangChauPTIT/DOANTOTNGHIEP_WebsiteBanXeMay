@@ -1,7 +1,7 @@
 ﻿@using WebsiteBanXeMay.ViewModels;
 @using WebsiteBanXeMay.Common;
 
-@{ var TaiKhoanViewModel = Context.Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;}
+@{ var TaiKhoan = Context.Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;}
 <!-- Begin Header Top Area -->
 <div class="header-top">
     <div class="container">
@@ -21,7 +21,7 @@
                     <ul class="ht-menu">
                         <!-- Begin Setting Area -->
 
-                        @if (TaiKhoanViewModel == null)
+                        @if (TaiKhoan == null)
                         {
                             <li>
                                 <div class="ht-setting-trigger"><span>Tài khoản</span></div>
@@ -33,24 +33,25 @@
                                 </div>
                             </li>
                         }
-                        else if (TaiKhoanViewModel != null)
+                        else if (TaiKhoan != null)
                         {
                             <li>
-                                <div class="ht-setting-trigger"><span>@TaiKhoanViewModel.HOTEN</span></div>
+                                <div class="ht-setting-trigger"><span>@(TaiKhoan.HO +" "+ TaiKhoan.TEN)</span></div>
                                 <div class="setting ht-setting">
                                     <ul class="ht-setting-list">
-                                        @if (TaiKhoanViewModel.NHOMQUYEN.Equals("customer"))
+                                        @if (TaiKhoan.NHOMQUYEN.Equals("customer"))
                                         {
-                                            <li><a href="">Tài khoản</a></li>
-                                            <li><a href="">Đơn hàng</a></li>
+                                            <li>@Html.ActionLink("Thông tin", "ThongTin", "TaiKhoan")</li>
+                                            <li>@Html.ActionLink("Đơn hàng", "Index", "PhieuMua")</li>
+                                            <li>@Html.ActionLink("Đổi mật khẩu", "DoiMatKhau", "TaiKhoan")</li>
                                             <li>@Html.ActionLink("Đăng xuất", "DangXuat", "TaiKhoan")</li>
                                         }
-                                        else if (TaiKhoanViewModel.NHOMQUYEN.Equals("staff") || TaiKhoanViewModel.NHOMQUYEN.Equals("admin"))
+                                        else if (TaiKhoan.NHOMQUYEN.Equals("staff") || TaiKhoan.NHOMQUYEN.Equals("admin"))
                                         {
                                             <li><a href="">Quản lý</a></li>
                                             <li>@Html.ActionLink("Đăng xuất", "DangXuat", "TaiKhoan")</li>
                                         }
-                                        else if (TaiKhoanViewModel.NHOMQUYEN.Equals("shipper"))
+                                        else if (TaiKhoan.NHOMQUYEN.Equals("shipper"))
                                         {
                                             <li><a href="">Quản lý</a></li>
                                             <li>@Html.ActionLink("Đăng xuất", "DangXuat", "TaiKhoan")</li>

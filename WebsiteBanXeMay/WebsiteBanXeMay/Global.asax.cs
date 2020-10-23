@@ -60,8 +60,9 @@ namespace WebsiteBanXeMay
                                              select new TaiKhoanViewModel
                                              {
                                                  MA = khachhang.MAKH,
-                                                 EMAIL = taikhoan.EMAIL,
-                                                 HOTEN = khachhang.HO + " " + khachhang.TEN,
+                                                 EMAIL = khachhang.EMAIL,
+                                                 HO = khachhang.HO,
+                                                 TEN = khachhang.TEN,
                                                  NHOMQUYEN = taikhoan.MANQ
                                              }).FirstOrDefault();
                     if(TaiKhoanKhachHang != null )
@@ -71,13 +72,14 @@ namespace WebsiteBanXeMay
                     else
                     {
                         var TaiKhoanNhanVien = (from taikhoan in DB.TAIKHOANs
-                                                 join khachhang in DB.NHANVIENs on taikhoan.EMAIL equals khachhang.EMAIL
+                                                 join nhanvien in DB.NHANVIENs on taikhoan.EMAIL equals nhanvien.EMAIL
                                                  where taikhoan.EMAIL == email
                                                  select new TaiKhoanViewModel
                                                  {
-                                                     MA = khachhang.MANV,
-                                                     EMAIL = taikhoan.EMAIL,
-                                                     HOTEN = khachhang.HO + " " + khachhang.TEN,
+                                                     MA = nhanvien.MANV,
+                                                     EMAIL = nhanvien.EMAIL,
+                                                     HO = nhanvien.HO,
+                                                     TEN = nhanvien.TEN,
                                                      NHOMQUYEN = taikhoan.MANQ
                                                  }).FirstOrDefault();
                         if(TaiKhoanNhanVien != null)

@@ -16,8 +16,8 @@ namespace WebsiteBanXeMay.Models
     {
         public int MAKH { get; set; }
         public string MALOAI { get; set; }
-        public string NOIDUNG { get; set; }
         public int MUCDANHGIA { get; set; }
+        public string NOIDUNG { get; set; }
         public System.DateTime NGAY { get; set; }
     
         public virtual KHACHHANG KHACHHANG { get; set; }
