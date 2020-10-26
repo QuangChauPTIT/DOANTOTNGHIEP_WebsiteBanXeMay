@@ -29,6 +29,7 @@ namespace WebsiteBanXeMay.Controllers
         }
 
         //Ajax
+        [ChildActionOnly]
         public ActionResult GioHangPartial()
         {
             var GioHang = Session[Constant.SESSION_CART];

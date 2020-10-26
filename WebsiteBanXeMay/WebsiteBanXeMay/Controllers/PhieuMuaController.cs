@@ -122,22 +122,38 @@ namespace WebsiteBanXeMay.Controllers
                                                 (sanpham.MAPM != null)
                                                 && (TrangThai == null ? (phieumua.TRANGTHAI == 0 || phieumua.TRANGTHAI == 1 || phieumua.TRANGTHAI == 2) : phieumua.TRANGTHAI == TrangThai)
                                                 && (phieumua.MAKH == MaKH)
-                                                group sanpham by sanpham.MACTPN into g
                                                 select new
                                                 {
-                                                    MALOAI = g.Select(x => x.CT_PHIEUNHAP.MALOAI).FirstOrDefault(),
-                                                    HO = g.Select(x => x.PHIEUMUA.HO).FirstOrDefault(),
-                                                    TEN = g.Select(x => x.PHIEUMUA.TEN).FirstOrDefault(),
-                                                    DIACHI = g.Select(x => x.PHIEUMUA.DIACHI).FirstOrDefault(),
-                                                    TENQUAN = g.Select(x => x.PHIEUMUA.QUAN).FirstOrDefault().TENQUAN,
-                                                    SDT = g.Select(x => x.PHIEUMUA.SDT).FirstOrDefault(),
-                                                    NGAYMUA = g.Select(x => x.PHIEUMUA.NGAYMUA).FirstOrDefault(),
-                                                    NGAYGIAO = g.Select(x => x.PHIEUMUA.NGAYGIAO).FirstOrDefault(),
-                                                    SOLUONG = g.Count(),
-                                                    GIA = g.Select(x => x.GIA).FirstOrDefault()
+                                                    MAPM = phieumua.MAPM,
+                                                    MALOAI = ct_sanpham.MALOAI,
+                                                    HO = phieumua.HO,
+                                                    TEN = phieumua.TEN,
+                                                    DIACHI = phieumua.DIACHI,
+                                                    TENQUAN = quan.TENQUAN,
+                                                    SDT = phieumua.SDT,
+                                                    NGAYMUA = phieumua.NGAYMUA,
+                                                    NGAYGIAO = phieumua.NGAYGIAO,
+                                                    SOLUONG = 1,
+                                                    GIA = sanpham.GIA
                                                 });
-
-            var queryLoaiSanPhamDaDatTheoPhieuMua = (from query in querySoLuongLoaiSanPhamDaDat
+            var querySoLuongLoaiSanPhamDatTheoPhieuMua = (from query_SoLuongLoaiSanPhamDaDat in querySoLuongLoaiSanPhamDaDat
+                                                          group query_SoLuongLoaiSanPhamDaDat by new { query_SoLuongLoaiSanPhamDaDat.MAPM, query_SoLuongLoaiSanPhamDaDat.MALOAI } into g
+                                                          select new
+                                                          {
+                                                              MAPM = g.Key.MALOAI,
+                                                              MALOAI = g.Select(x => x.MALOAI).FirstOrDefault(),
+                                                              HO = g.Select(x => x.HO).FirstOrDefault(),
+                                                              TEN = g.Select(x => x.TEN).FirstOrDefault(),
+                                                              DIACHI = g.Select(x => x.DIACHI).FirstOrDefault(),
+                                                              TENQUAN = g.Select(x => x.TENQUAN).FirstOrDefault(),
+                                                              SDT = g.Select(x => x.SDT).FirstOrDefault(),
+                                                              NGAYMUA = g.Select(x => x.NGAYMUA).FirstOrDefault(),
+                                                              NGAYGIAO = g.Select(x => x.NGAYGIAO).FirstOrDefault(),
+                                                              SOLUONG = g.Sum(x=>x.SOLUONG),
+                                                              GIA = g.Select(x => x.GIA).FirstOrDefault(),
+                                                          }).ToList();
+                                                         
+            var queryLoaiSanPhamDaDatTheoPhieuMua = (from query in querySoLuongLoaiSanPhamDatTheoPhieuMua
                                                      join loaisanpham in DB.LOAISANPHAMs on query.MALOAI equals loaisanpham.MALOAI
                                                      select new PhieuMuaViewModel
                                                      {

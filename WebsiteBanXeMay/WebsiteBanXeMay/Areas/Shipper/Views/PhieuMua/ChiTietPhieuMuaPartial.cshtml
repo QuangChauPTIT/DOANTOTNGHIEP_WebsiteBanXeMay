@@ -1,0 +1,68 @@
+﻿@using WebsiteBanXeMay.ViewModels;
+@model IEnumerable<PhieuMuaViewModel>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Duyệt đơn hàng có mã: @ViewBag.MAPM</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Danh sách đơn hàng</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Mã loại sản phẩm</th>
+                            <th>Tên loại sản phẩm</th>
+                            <th>Hình ảnh</th>
+                            <th>Số lượng</th>
+                            <th>Giá</th>
+                        </tr>
+                        @if (Model.Count() > 0)
+                        {
+                            foreach (var PhieuMuaViewModel in Model)
+                            {
+                                <tr>
+                                    <td>@PhieuMuaViewModel.MALOAI</td>
+                                    <td>@PhieuMuaViewModel.TENLOAI</td>
+                                    <td>
+                                        <img src="@Url.Content("~/Assets/upload/images/"+PhieuMuaViewModel.HINHANH)" width="100" height="100" alt="@PhieuMuaViewModel.HINHANH ">
+                                    </td>
+                                    <td>
+                                        @PhieuMuaViewModel.SOLUONG
+                                    </td>
+                                    <td>
+                                        <span class="money" style="color:red">@(PhieuMuaViewModel.GIA *PhieuMuaViewModel.SOLUONG)</span>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7" class="text-center"><span>Không có dữ liệu</span></td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-close" title="Đóng"></i></button>
+</div>
+
+<script>
+    $('.money').simpleMoneyFormat();
+</script>
+
+
+
+

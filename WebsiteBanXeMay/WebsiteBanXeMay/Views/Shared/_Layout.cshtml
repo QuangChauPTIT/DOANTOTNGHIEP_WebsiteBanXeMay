@@ -58,9 +58,9 @@
     <div class="body-wrapper">
         <!-- Begin Header Area -->
         <header>
-            @{Html.RenderPartial("~/Views/Shared/Header/HeaderStyle1/_HeaderTop.cshtml");}
-            @{Html.RenderPartial("~/Views/Shared/Header/HeaderStyle1/_HeaderMiddle.cshtml");}
-            @{Html.RenderPartial("~/Views/Shared/Header/HeaderStyle1/_HeaderBottom.cshtml");}
+            @{Html.RenderPartial("~/Views/Shared/Header/_Partial_HeaderTop.cshtml");}
+            @{Html.RenderPartial("~/Views/Shared/Header/_Partial_HeaderMiddle.cshtml");}
+            @{Html.RenderPartial("~/Views/Shared/Header/_Partial_HeaderBottom.cshtml");}
             <!-- Begin Mobile Menu Area -->
             <div class="mobile-menu-area d-lg-none d-xl-none col-12">
                 <div class="container">
@@ -76,9 +76,9 @@
         @RenderBody()
         <!-- Begin Footer Area -->
         <div class="footer">
-            @{Html.RenderPartial("~/Views/Shared/Footer/_FooterTop.cshtml");}
-            @{Html.RenderPartial("~/Views/Shared/Footer/_FooterMiddle.cshtml");}
-            @{Html.RenderPartial("~/Views/Shared/Footer/_FooterBottom.cshtml");}
+            @{Html.RenderPartial("~/Views/Shared/Footer/_Partial_FooterTop.cshtml");}
+            @{Html.RenderPartial("~/Views/Shared/Footer/_Partial_FooterMiddle.cshtml");}
+            @{Html.RenderPartial("~/Views/Shared/Footer/_Partial_FooterBottom.cshtml");}
         </div>
         <!-- Footer Area End Here -->
     </div>

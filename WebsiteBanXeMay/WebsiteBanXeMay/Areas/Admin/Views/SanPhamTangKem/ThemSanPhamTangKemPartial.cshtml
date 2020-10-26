@@ -1,0 +1,28 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Thêm sản phẩm tặng kèm</h4>
+</div>
+<div class="modal-body">
+    <form name="SPTKForm">
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col-md-6">
+                <label>Mã sản phẩm tặng kèm<span class="required">*</span></label>
+                <input placeholder="Mã sản phẩm tặng kèm" name="MASPTK" class="form-control" value="" type="text">
+            </div>
+            <div class="col-md-6">
+                <label>Tên sản phầm tặng kèm<span class="required">*</span></label>
+                <input placeholder="Tên sản phầm tặng kèm" name="TENSPTK" class="form-control" value="" type="text">
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-close" title="Đóng"></i></button>
+    <button type="button" class="btn btn-success" onclick="Insert()" style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
+</div>
+
+

@@ -1,0 +1,71 @@
+﻿@using WebsiteBanXeMay.ViewModels;
+@using WebsiteBanXeMay.Common;
+
+@{ var TaiKhoan = Context.Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;}
+<!-- Begin Header Top Area -->
+<div class="header-top">
+    <div class="container">
+        <div class="row">
+            <!-- Begin Header Top Left Area -->
+            <div class="col-lg-3 col-md-4">
+                <div class="header-top-left">
+                    <ul class="phone-wrap">
+                        <li><span>Liên hệ:</span><a href="#"> (+033) 4342 948 </a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Header Top Left Area End Here -->
+            <!-- Begin Header Top Right Area -->
+            <div class="col-lg-9 col-md-8">
+                <div class="header-top-right">
+                    <ul class="ht-menu">
+                        <!-- Begin Setting Area -->
+
+                        @if (TaiKhoan == null)
+                        {
+                            <li>
+                                <div class="ht-setting-trigger"><span>Tài khoản</span></div>
+                                <div class="setting ht-setting">
+                                    <ul class="ht-setting-list">
+                                        <li>@Html.ActionLink("Đăng nhập", "DangNhap", "TaiKhoan", new { ReturnUrl = Request.Url.PathAndQuery }, null)</li>
+                                        <li>@Html.ActionLink("Đăng ký", "DangKy", "TaiKhoan", new { ReturnUrl = Request.Url.PathAndQuery }, null)</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        }
+                        else if (TaiKhoan != null)
+                        {
+                            <li>
+                                <div class="ht-setting-trigger"><span>@(TaiKhoan.HO +" "+ TaiKhoan.TEN)</span></div>
+                                <div class="setting ht-setting">
+                                    <ul class="ht-setting-list">
+                                        @if (TaiKhoan.NHOMQUYEN.Equals("customer"))
+                                        {
+                                            <li>@Html.ActionLink("Thông tin", "ThongTin", "TaiKhoan")</li>
+                                            <li>@Html.ActionLink("Đơn hàng", "Index", "PhieuMua")</li>
+                                            <li>@Html.ActionLink("Đổi mật khẩu", "DoiMatKhau", "TaiKhoan")</li>
+                                            <li>@Html.ActionLink("Đăng xuất", "DangXuat", "TaiKhoan")</li>
+                                        }
+                                        else if (TaiKhoan.NHOMQUYEN.Equals("staff") || TaiKhoan.NHOMQUYEN.Equals("admin"))
+                                        {
+                                            <li>@Html.ActionLink("Quản lý", "PhieuMuaChuaDuyet", "PhieuMua", new { area = "Admin" }, null)</li>
+                                            <li>@Html.ActionLink("Đăng xuất", "DangXuat", "TaiKhoan")</li>
+                                        }
+                                        else if (TaiKhoan.NHOMQUYEN.Equals("shipper"))
+                                        {
+                                            <li>@Html.ActionLink("Quản lý", "Index", "PhieuMua", new { area = "Shipper" }, null)</li>
+                                            <li>@Html.ActionLink("Đăng xuất", "DangXuat", "TaiKhoan")</li>
+                                        }
+                                    </ul>
+                                </div>
+                            </li>
+                        }
+                        <!-- Setting Area End Here -->
+                    </ul>
+                </div>
+            </div>
+            <!-- Header Top Right Area End Here -->
+        </div>
+    </div>
+</div>
+<!-- Header Top Area End Here -->

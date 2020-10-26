@@ -111,8 +111,8 @@ namespace WebsiteBanXeMay.Controllers
                                             }
                                         }
                                     }
-                                    Session.Remove(Constant.SESSION_PHIEUMUA);
-                                    Session.Remove(Constant.SESSION_CART);
+                                    Session[Constant.SESSION_PHIEUMUA] = null;
+                                    Session[Constant.SESSION_CART] = null;
                                     transaction.Commit();
                                 }
                                 catch

@@ -1,0 +1,133 @@
+﻿@using WebsiteBanXeMay.Utils;
+@model PageUtil
+@{
+    ViewBag.Title = "PhieuMuaDaGiao";
+    Layout = "~/Areas/Shipper/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    @*content-wrapper*@
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Lịch sử giao hàng
+        </h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-dashboard"></i> Danh mục</li>
+            <li class="active">Lịch sử giao hàng</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Danh sách đơn hàng</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Mã phiếu mua</th>
+                                <th>Thông tin khách hàng</th>
+                                <th>Nội dung chú ý</th>
+                                <th>Ngày mua</th>
+                                <th>Ngày giao</th>
+                                <th>Nhân viên duyệt hàng</th>
+                                <th>Nhân viên giao hàng</th>
+                                <th>Tác vụ</th>
+                            </tr>
+                            @if (Model.Data.Count() > 0)
+                            {
+                                foreach (var PhieuMuaViewModel in Model.PaginatedResult())
+                                {
+                                    <tr>
+                                        <td>@PhieuMuaViewModel.MAPM</td>
+                                        <td>
+                                            <div class="row">
+                                                <span class="col-md-12">Họ tên:<span class="text-blue"> @(PhieuMuaViewModel.HO+" "+ @PhieuMuaViewModel.TEN)</span></span>
+                                                <span class="col-md-12">Địa chỉ:<span class="text-blue"> @(PhieuMuaViewModel.DIACHI+", "+PhieuMuaViewModel.TENQUAN )</span></span>
+                                                <span class="col-md-12">Số điện thoại:<span class="text-blue"> @PhieuMuaViewModel.SDT</span></span>
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            @PhieuMuaViewModel.NOIDUNGCHUY
+                                        </td>
+                                        <td>
+                                            @PhieuMuaViewModel.NGAYMUA.ToString("dd/MM/yyyy hh:mm:ss")
+                                        </td>
+                                        <td>
+                                            @PhieuMuaViewModel.NGAYGIAO.ToString("dd/MM/yyyy hh:mm:ss")
+                                        </td>
+                                        <td>
+                                            <span class="col-md-12">Mã nhân viên:<span class="text-blue"> @(PhieuMuaViewModel.MANVD)</span></span>
+                                            <span class="col-md-12">Họ tên:<span class="text-blue">@(PhieuMuaViewModel.HONVD+" "+ @PhieuMuaViewModel.TENNVD)</span></span>
+                                        </td>
+                                        <td>
+                                            <span class="col-md-12">Mã nhân viên:<span class="text-blue"> @(PhieuMuaViewModel.MANVGH)</span></span>
+                                            <span class="col-md-12">Họ tên:<span class="text-blue"> @(PhieuMuaViewModel.HONVGH+" "+ @PhieuMuaViewModel.TENNVGH)</span></span>
+                                        </td>
+                                        <td>
+                                            <button title="Xem chi tiết" class="btn btn-warning" onclick="getChiTietPhieuMua(@PhieuMuaViewModel.MAPM)"><i class="fa fa-info"></i></button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="8" class="text-center"><span>Không có dữ liệu</span></td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer clearfix">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            <li>
+                                @Html.ActionLink("Trước", "PhieuMuaDaGiao", new { Trang = Model.CurrentPage > 1 ? Model.CurrentPage - 1 : 1 }, null)
+                            </li>
+                            @for (int page = 1; page <= Model.PageCount(); page++)
+                            {
+                                <li class="@(page == Model.CurrentPage ? "CurrentPage active" : null)">
+                                    @Html.ActionLink(page.ToString(), "PhieuMuaDaGiao", new { Trang = page }, null)
+                                </li>
+                            }
+                            <li>
+                                @Html.ActionLink("Sau", "PhieuMuaDaGiao", new { Trang = Model.CurrentPage < Model.PageCount() ? Model.CurrentPage + 1 : Model.PageCount() }, null)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+<div class="modal fade" id="PhieuMuaModal" role="dialog" aria-labelledby="PhieuMuaModalLable" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="PhieuMuaModalBody">
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<script>
+    function getChiTietPhieuMua(id) {
+        $.ajax({
+            type: "GET",
+            url: "/Shipper/PhieuMua/ChiTietPhieuMuaPartial?MaPM=" + id,
+            success: function (res) {
+                $("#PhieuMuaModalBody").html(res);
+                $("#PhieuMuaModal").modal('show')
+            }
+        })
+    };
+</script>

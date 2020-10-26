@@ -27,7 +27,6 @@ namespace WebsiteBanXeMay.Controllers
                 CurrentPage = Trang
             };
             ViewBag.LoaiSanPhamModel = LoaiSanPhamModel;
-
             ViewBag.TenLoaiSanPham = TenLoaiSanPham;
             ViewBag.MaTH = MaTH;
             ViewBag.Kieu = Kieu;

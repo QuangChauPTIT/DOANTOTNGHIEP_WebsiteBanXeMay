@@ -117,6 +117,7 @@
           <ScalarProperty Name="DIACHI" ColumnName="DIACHI" />
           <ScalarProperty Name="SDT" ColumnName="SDT" />
           <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+          <ScalarProperty Name="MAQUANPHUTRACH" ColumnName="MAQUANPHUTRACH" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -223,13 +224,5 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="PHUTRACH" TypeName="BANXEMAYONLINEModel.PHUTRACH" StoreEntitySet="PHUTRACH">
-      <EndProperty Name="NHANVIEN">
-        <ScalarProperty Name="MANV" ColumnName="MANV" />
-      </EndProperty>
-      <EndProperty Name="QUAN">
-        <ScalarProperty Name="MAQUAN" ColumnName="MAQUAN" />
-      </EndProperty>
-    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

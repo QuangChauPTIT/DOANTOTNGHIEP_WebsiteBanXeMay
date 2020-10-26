@@ -17,7 +17,7 @@ namespace WebsiteBanXeMay.Areas.Admin
             context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
-                new { controller = "TrangChu", action = "Index", id = UrlParameter.Optional },
+                new { controller = "PhieuMua", action = "Index", id = UrlParameter.Optional },
                 new[] { "WebsiteBanXeMay.Areas.Admin.Controllers" }
             );
         }

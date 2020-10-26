@@ -22,7 +22,6 @@ namespace WebsiteBanXeMay.Models
             this.PHIEUMUAs1 = new HashSet<PHIEUMUA>();
             this.PHIEUNHAPs = new HashSet<PHIEUNHAP>();
             this.PHIEUTRAs = new HashSet<PHIEUTRA>();
-            this.QUANs = new HashSet<QUAN>();
         }
     
         public int MANV { get; set; }
@@ -33,9 +32,11 @@ namespace WebsiteBanXeMay.Models
         public string DIACHI { get; set; }
         public string SDT { get; set; }
         public string EMAIL { get; set; }
+        public int MAQUANPHUTRACH { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<KHUYENMAI> KHUYENMAIs { get; set; }
+        public virtual QUAN QUAN { get; set; }
         public virtual TAIKHOAN TAIKHOAN { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUMUA> PHIEUMUAs { get; set; }
@@ -45,7 +46,5 @@ namespace WebsiteBanXeMay.Models
         public virtual ICollection<PHIEUNHAP> PHIEUNHAPs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUTRA> PHIEUTRAs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QUAN> QUANs { get; set; }
     }
 }

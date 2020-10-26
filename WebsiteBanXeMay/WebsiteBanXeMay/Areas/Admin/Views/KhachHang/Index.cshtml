@@ -1,0 +1,96 @@
+﻿@using WebsiteBanXeMay.Utils;
+@model PageUtil
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    @*content-wrapper*@
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Nhân viên
+        </h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-dashboard"></i> Danh mục</li>
+            <li><a href="#">Quản lý danh mục</a></li>
+            <li class="active">Khách hàng</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Danh sách khách hàng</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Mã nhân viên</th>
+                                <th style="width:30%">Thông tin khách hàng</th>
+                                <th>Email</th>
+                                <th>Số điện thoại</th>
+                            </tr>
+                            @if (Model.Data.Count() > 0)
+                            {
+                                foreach (var KhachHangViewModel in Model.PaginatedResult())
+                                {
+                                    <tr>
+                                        <td>@KhachHangViewModel.MAKH</td>
+                                        <td>
+                                            <div class="row">
+                                                <span class="col-md-12">Họ tên:<span class="text-blue"> @(KhachHangViewModel.HO+" "+ KhachHangViewModel.TEN)</span></span>
+                                                <span class="col-md-12">Ngày sinh:<span class="text-blue"> @KhachHangViewModel.NGAYSINH.ToString("dd/MM/yyyy")</span></span>
+                                                <span class="col-md-12">Giới tính:<span class="text-blue"> @(KhachHangViewModel.GIOITINH == false?"Nam":"Nữ" )</span></span>
+                                                <span class="col-md-12">Địa chỉ:<span class="text-blue"> @(KhachHangViewModel.DIACHI)</span></span>
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            @KhachHangViewModel.EMAIL
+                                        </td>
+                                        <td>
+                                            @KhachHangViewModel.SDT
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center"><span>Không có dữ liệu</span></td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer clearfix">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            <li>
+                                @Html.ActionLink("Trước", "Index", new { Trang = Model.CurrentPage > 1 ? Model.CurrentPage - 1 : 1 }, null)
+                            </li>
+                            @for (int page = 1; page <= Model.PageCount(); page++)
+                            {
+                                <li class="@(page == Model.CurrentPage ? "active" : null)">
+                                    @Html.ActionLink(page.ToString(), "Index", new { Trang = page }, null)
+                                </li>
+                            }
+                            <li>
+                                @Html.ActionLink("Sau", "Index", new { Trang = Model.CurrentPage < Model.PageCount() ? Model.CurrentPage + 1 : Model.PageCount() }, null)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+
+

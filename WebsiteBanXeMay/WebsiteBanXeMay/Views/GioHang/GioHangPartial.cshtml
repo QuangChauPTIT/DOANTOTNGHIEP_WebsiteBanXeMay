@@ -1,57 +1,60 @@
 ﻿@using WebsiteBanXeMay.ViewModels
 @model List<GioHangViewModel>
 
-<ul id="GioHangID" class="hm-menu">
-    <li class="hm-minicart">
-        <div class="hm-minicart-trigger">
-            <span class="item-icon"></span>
-            <span class="item-text">
-                Giỏ hàng
-                <span class="cart-item-count">@if (Model != null && Model.Count() > 0) { @Model.Count()}</span>
-            </span>
-        </div>
-        <span></span>
-        @if (Model != null && Model.Count() > 0)
-        {
-            <div class="minicart">
-                <ul class="minicart-product-list">
-                    @foreach (var LoaiSanPham in Model.Take(3))
-                    {
-                        <li>
-                            <a href="/LoaiSanPham/ChiTietLoaiSanPham/@LoaiSanPham.MALOAI" class="minicart-product-image">
-                                <img src=@Url.Content("~/Assets/upload/images/" + LoaiSanPham.HINHANH) height="50" width="50" alt="@LoaiSanPham.HINHANH">
-                            </a>
-                            <div class="minicart-product-details">
-                                <h6><a href="/LoaiSanPham/ChiTietLoaiSanPham/@LoaiSanPham.MALOAI">@LoaiSanPham.TENLOAI</a></h6>
-                                <span class="text-theme"><span class="money1">@LoaiSanPham.GIA</span> x @LoaiSanPham.SOLUONG</span>
-                            </div>
-                            <a data-ajax="true"
-                               data-ajax-success="success"
-                               data-ajax-failure="OnFailure"
-                               data-ajax-method="POST"
-                               data-ajax-mode="replace"
-                               data-ajax-update="#GioHangID"
-                               href="/GioHang/XoaGioHang?MaLoai=@LoaiSanPham.MALOAI"
-                               class="close">
-                                <i class="fa fa-close"></i>
-                            </a>
-                        </li>
-                    }
-                </ul>
-                <p class="minicart-total">Tổng tiền: <span class="money text-theme total"></span></p>
-                <div class="minicart-button">
-                    <a href="/GioHang" class="li-button li-button-dark li-button-fullwidth li-button-sm">
-                        <span>Xem tất cả</span>
-                    </a>
-                    <a href="/PhieuMua/ThemPhieuMua" class="li-button li-button-dark li-button-fullwidth li-button-sm">
-                        <span>Đặt hàng</span>
-                    </a>
-                </div>
+@if (Model != null)
+{
+    <ul id="GioHangID" class="hm-menu">
+        <li class="hm-minicart">
+            <div class="hm-minicart-trigger">
+                <span class="item-icon"></span>
+                <span class="item-text">
+                    Giỏ hàng
+                    <span class="cart-item-count">@if (Model != null && Model.Count() > 0)
+                    {@Model.Count()}</span>
+                </span>
             </div>
-        }
-    </li>
-</ul>
-<script>
+            <span></span>
+            @if (Model != null && Model.Count() > 0)
+            {
+                <div class="minicart">
+                    <ul class="minicart-product-list">
+                        @foreach (var LoaiSanPham in Model.Take(3))
+                        {
+                            <li>
+                                <a href="/LoaiSanPham/ChiTietLoaiSanPham/@LoaiSanPham.MALOAI" class="minicart-product-image">
+                                    <img src=@Url.Content("~/Assets/upload/images/" + LoaiSanPham.HINHANH) height="50" width="50" alt="@LoaiSanPham.HINHANH">
+                                </a>
+                                <div class="minicart-product-details">
+                                    <h6><a href="/LoaiSanPham/ChiTietLoaiSanPham/@LoaiSanPham.MALOAI">@LoaiSanPham.TENLOAI</a></h6>
+                                    <span class="text-theme"><span class="money1">@LoaiSanPham.GIA</span> x @LoaiSanPham.SOLUONG</span>
+                                </div>
+                                <a data-ajax="true"
+                                   data-ajax-success="success"
+                                   data-ajax-failure="OnFailure"
+                                   data-ajax-method="POST"
+                                   data-ajax-mode="replace"
+                                   data-ajax-update="#GioHangID"
+                                   href="/GioHang/XoaGioHang?MaLoai=@LoaiSanPham.MALOAI"
+                                   class="close">
+                                    <i class="fa fa-close"></i>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                    <p class="minicart-total">Tổng tiền: <span class="money text-theme total"></span></p>
+                    <div class="minicart-button">
+                        <a href="/GioHang" class="li-button li-button-dark li-button-fullwidth li-button-sm">
+                            <span>Xem tất cả</span>
+                        </a>
+                        <a href="/PhieuMua/ThemPhieuMua" class="li-button li-button-dark li-button-fullwidth li-button-sm">
+                            <span>Đặt hàng</span>
+                        </a>
+                    </div>
+                </div>
+            }
+        </li>
+    </ul>
+    <script>
     (function ($) {
         $(' .hm-minicart-trigger').on('click', function (e) {
             e.preventDefault();
@@ -77,4 +80,5 @@
             window.location.reload();
         }
     }
-</script>
+    </script>
+}

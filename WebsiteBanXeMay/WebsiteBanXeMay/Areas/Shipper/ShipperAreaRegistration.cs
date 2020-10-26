@@ -17,7 +17,7 @@ namespace WebsiteBanXeMay.Areas.Shipper
             context.MapRoute(
                 "Shipper_default",
                 "Shipper/{controller}/{action}/{id}",
-                new { controller = "TrangChu", action = "Index", id = UrlParameter.Optional },
+                new { controller = "PhieuMua", action = "Index", id = UrlParameter.Optional },
                 new[] { "WebsiteBanXeMay.Areas.Shipper.Controllers" }
             );
         }

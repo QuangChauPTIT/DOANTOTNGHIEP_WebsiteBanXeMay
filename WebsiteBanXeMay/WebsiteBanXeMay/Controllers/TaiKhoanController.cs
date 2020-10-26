@@ -230,10 +230,12 @@ namespace WebsiteBanXeMay.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "customer")]
+        [AllowAnonymous]
         public ActionResult DangXuat()
         {
+           
             FormsAuthentication.SignOut();
+            Session[Constant.SESSION_TAIKHOAN] = null;
             return RedirectToAction("Index", "TrangChu");
         }
 

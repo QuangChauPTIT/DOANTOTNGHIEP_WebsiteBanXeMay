@@ -1,0 +1,138 @@
+﻿@using WebsiteBanXeMay.Utils;
+@model PageUtil
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .HandleText {
+        line-height: 1.5;
+        white-space: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+</style>
+<div class="">
+    @*content-wrapper*@
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Loại sản phẩm
+        </h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-dashboard"></i> Danh mục</li>
+            <li><a href="#">Quản lý danh mục</a></li>
+            <li class="active">Loại sản phẩm</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Danh sách loại sản phẩm</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Mã loại</th>
+                                <th>Tên loại</th>
+                                <th>Hình ảnh</th>
+                                <th style="width:7%">Loại</th>
+                                <th>Giá</th>
+                                <th style="width:7%">Trạng thái</th>
+                                <th style="width:30%">Mô tả</th>
+                                <th style="width:10%">Tác vụ</th>
+                            </tr>
+                            @if (Model.Data.Count() > 0)
+                            {
+                                foreach (var LoaiSanPham in Model.PaginatedResult())
+                                {
+                                    <tr>
+                                        <td>@LoaiSanPham.MALOAI</td>
+
+                                        <td>
+                                            @LoaiSanPham.TENLOAI
+                                        </td>
+                                        <td>
+                                            <img src="@Url.Content("~/Assets/upload/images/"+LoaiSanPham.HINHANH)" width="100" height="100" alt="@LoaiSanPham.HINHANH ">
+                                        </td>
+                                        <td>
+                                            @(LoaiSanPham.LOAI==0 ?"Xe số":LoaiSanPham.LOAI==1?"Xe tay ga":"Xe tay côn")
+                                        </td>
+                                        <td>
+                                            <span class="money" style="color:red">@LoaiSanPham.GIA</span>
+                                        </td>
+                                        <td>
+                                            @if (LoaiSanPham.TRANGTHAI == 0)
+                                            {
+                                                <span class="pull-left">
+                                                    <span class="label pull-right bg-green"  style="width:35px;">Mới</span>
+                                                </span>
+                                            }
+                                            else if (LoaiSanPham.TRANGTHAI == 1)
+                                            {
+                                                <span class="pull-left">
+                                                    <span class="label pull-right bg-primary"  style="width:35px;">Cũ</span>
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="pull-left">
+                                                    <span class="label pull-right bg-dark"  style="width:35px;">Ngưng bán</span>
+                                                </span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <span class="HandleText" title="@Html.Raw(LoaiSanPham.MOTA)">@Html.Raw(LoaiSanPham.MOTA)</span>
+                                        </td>
+                                        <td>
+                                            <a href="#" role="button" title="Hiệu chỉnh" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+                                            <a href="#" role="button" title="Xóa" class="btn btn-danger"><i class="fa fa-remove"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center"><span>Không có dữ liệu</span></td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer clearfix">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            <li>
+                                @Html.ActionLink("Trước", "Index", new { Trang = Model.CurrentPage > 1 ? Model.CurrentPage - 1 : 1 }, null)
+                            </li>
+                            @for (int page = 1; page <= Model.PageCount(); page++)
+                            {
+                                <li class="@(page == Model.CurrentPage ? "CurrentPage active" : null)">
+                                    @Html.ActionLink(page.ToString(), "Index", new { Trang = page }, null)
+                                </li>
+                            }
+                            <li>
+                                @Html.ActionLink("Sau", "Index", new { Trang = Model.CurrentPage < Model.PageCount() ? Model.CurrentPage + 1 : Model.PageCount() }, null)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+
+
+
