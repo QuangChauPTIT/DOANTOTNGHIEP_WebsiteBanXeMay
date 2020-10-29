@@ -139,13 +139,18 @@
     <Compile Include="Areas\Admin\Controllers\NhaCungCapController.cs" />
     <Compile Include="Areas\Admin\Controllers\NhanVienController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuMuaController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PhieuNhapController.cs" />
     <Compile Include="Areas\Admin\Controllers\SanPhamTangKemController.cs" />
     <Compile Include="Areas\Admin\Controllers\TaiKhoanController.cs" />
     <Compile Include="Areas\Admin\Controllers\ThuongHieuController.cs" />
+    <Compile Include="Areas\Admin\ViewModels\ChiTietPhieuNhapViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\ChiTietPhieuNhapvsSanPhamViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\NhanVienGiaoHangViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\NhanVienViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhieuMuaAdminViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhieuMuavsHoaDonViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\PhieuNhapViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\SanPhamViewModel.cs" />
     <Compile Include="Areas\Shipper\Controllers\PhieuMuaController.cs" />
     <Compile Include="Areas\Shipper\ShipperAreaRegistration.cs" />
     <Compile Include="Areas\Shipper\ViewModels\PhieuMuaShipperViewModel.cs" />
@@ -200,6 +205,7 @@
       <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Metadata\KHACHHANG.cs" />
+    <Compile Include="Models\Metadata\LOAISANPHAM.cs" />
     <Compile Include="Models\Metadata\NHACUNGCAP.cs" />
     <Compile Include="Models\Metadata\PHIEUMUA.cs" />
     <Compile Include="Models\Metadata\SANPHAMTANGKEM.cs" />
@@ -7022,6 +7028,12 @@
     <Content Include="Areas\Shipper\Views\PhieuMua\Index.cshtml" />
     <Content Include="Areas\Shipper\Views\PhieuMua\PhieuMuaDaGiao.cshtml" />
     <Content Include="Areas\Shipper\Views\PhieuMua\ChiTietPhieuMuaPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\LoaiSanPham\ThemLoaiSanPhamPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuNhap\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuNhap\ChiTietPhieuNhapPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuNhap\NhaCungCapPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuNhap\ThemChiTietPhieuNhapTamThoiPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuNhap\ThemSanPhamTamThoiPartial.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

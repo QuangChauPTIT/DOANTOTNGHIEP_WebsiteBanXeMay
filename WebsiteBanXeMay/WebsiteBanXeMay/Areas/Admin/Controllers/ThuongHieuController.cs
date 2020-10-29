@@ -14,13 +14,13 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         // GET: Admin/ThuongHieu
         public ActionResult Index(int Trang = 1)
         {
-            var SanPhamTangKemModel = new PageUtil
+            var ThuongHieuModel = new PageUtil
             {
                 PageSize = 10,
                 Data = lstThuongHieu(),
                 CurrentPage = Trang
             };
-            return View(SanPhamTangKemModel);
+            return View(ThuongHieuModel);
         }
 
         [HttpGet]

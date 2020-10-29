@@ -12,12 +12,14 @@ namespace WebsiteBanXeMay.Utils
         public string title { get; set; }
         public bool error { get; set; }
         public object obj { get; set; }
-        public JMessage(int id, string title, bool error, object obj)
+        public IEnumerable<dynamic> list { get; set; }
+        public JMessage(int id, string title, bool error, object obj, IEnumerable<dynamic> list)
         {
             this.id = id;
             this.title = title;
             this.error = error;
             this.obj = obj;
+            this.list = list;
         }
         public JMessage()
         {

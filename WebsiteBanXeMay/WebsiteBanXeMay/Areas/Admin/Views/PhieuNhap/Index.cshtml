@@ -1,0 +1,489 @@
+﻿@using WebsiteBanXeMay.Utils
+@model PageUtil
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div style="height:100%">
+    @*content-wrapper*@
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Nhập hàng
+        </h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-dashboard"></i> Danh mục</li>
+            <li class="active"> Nhập hàng</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Danh sách phiếu nhập</h3>
+                        <button title="Tạo phiếu nhập" class="btn btn-primary" style="float:right!important" onclick="getNhaCungCap()"><i class="fa fa-save"></i></button>
+                        <button title="Import excel" class="btn btn-success" style="float:right!important; margin-right:2%!important"><i class="fa fa-file-excel-o"></i></button>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="tableIDTH" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Mã phiếu nhập</th>
+                                    <th>Mã nhân viên</th>
+                                    <th>Ngày lập</th>
+                                    <th>Tác vụ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Data.Count() > 0)
+                                {
+                                    foreach (var PhieuNhap in Model.PaginatedResult())
+                                    {
+                                        <tr>
+                                            <td>@PhieuNhap.MAPN</td>
+
+                                            <td>
+                                                @PhieuNhap.MANV
+                                            </td>
+                                            <td>
+                                                @PhieuNhap.NGAYLAP.ToString("dd/MM/yyyy hh:mm:ss")
+                                            </td>
+                                            <td>
+                                                <button title="Xem chi tiết" class="btn btn-warning" onclick="getChiTietPhieuNhap('@PhieuNhap.MAPN')"><i class="fa fa-info"></i></button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4" class="text-center"><span>Không có dữ liệu</span></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer clearfix">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            <li>
+                                @Html.ActionLink("Trước", "Index", new { Trang = Model.CurrentPage > 1 ? Model.CurrentPage - 1 : 1 }, null)
+                            </li>
+                            @for (int page = 1; page <= Model.PageCount(); page++)
+                            {
+                                <li class="@(page == Model.CurrentPage ? "active" : null)">
+                                    @Html.ActionLink(page.ToString(), "Index", new { Trang = page }, null)
+                                </li>
+                            }
+                            <li>
+                                @Html.ActionLink("Sau", "Index", new { Trang = Model.CurrentPage < Model.PageCount() ? Model.CurrentPage + 1 : Model.PageCount() }, null)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+<div class="modal fade" id="PhieuNhapModal" role="dialog" aria-labelledby="PhieuNhapModalLable" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="PhieuNhapModalBody">
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="ThemChiTietPhieuNhap_Modal" role="dialog" aria-labelledby="ThemChiTietPhieuNhap_ModalLable" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="ThemChiTietPhieuNhap_ModalBody">
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="SanPham_Modal" role="dialog" aria-labelledby="SanPham_ModalLable" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="SanPham_ModalBody">
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- /.modal -->
+<script>
+    //Modal chọn nhà cung cấp để nhập hàng
+    function getNhaCungCap() {
+        $.ajax({
+            type: "GET",
+            url: "/Admin/PhieuNhap/NhaCungCapPartial",
+            success: function (res) {
+                $("#PhieuNhapModalBody").html(res);
+                $("#PhieuNhapModal").modal('show')
+            }
+        })
+    };
+
+    // modal Xem chi tiết phiếu nhập
+    function getChiTietPhieuNhap(id) {
+        $.ajax({
+            type: "GET",
+            url: "/Admin/PhieuNhap/ChiTietPhieuNhapPartial?MaPN=" + id,
+            success: function (res) {
+                $("#PhieuNhapModalBody").html(res);
+                $("#PhieuNhapModal").modal('show')
+            }
+        })
+    };
+
+    // modal thêm chi tiết sản phẩm trong phiếu nhập
+    function getThemChiTietPhieuNhapTamThoi(id) {
+        $.ajax({
+            type: "GET",
+            url: "/Admin/PhieuNhap/ThemChiTietPhieuNhapTamThoiPartial?MaNCC=" + id,
+            success: function (res) {
+                $("#ThemChiTietPhieuNhap_ModalBody").html(res);
+                $("#ThemChiTietPhieuNhap_Modal").modal('show')
+            }
+        })
+    };
+
+    // modal thêm sản phẩm trong chi tiết phiếu nhập
+    function getThemSanPhamTamThoi(id) {
+        $.ajax({
+            type: "GET",
+            url: "/Admin/PhieuNhap/ThemSanPhamTamThoiPartial?MaLoai=" + id,
+            success: function (res) {
+                $("#SanPham_ModalBody").html(res);
+                $("#SanPham_Modal").modal('show')
+            }
+        })
+    };
+
+
+    //Đóng modal thêm chi tiết
+    function closeModal() {
+        Swal.fire({
+            title: 'Xác nhận hủy chi tiết phiếu nhập?',
+            text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được hủy!",
+            icon: 'question',
+            customClass: 'swal-wide',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'hủy',
+            confirmButtonText: 'Xác nhận',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/PhieuNhap/XoaTatCaChiTietPhieuNhapTamThoi",
+                    success: function (res) {
+                        Swal.fire({
+                            title: 'Thành công!',
+                            text: res.title,
+                            icon: 'success',
+                            customClass: 'swal-wide',
+                        }).then((d) => {
+                            if (d.isConfirmed) {
+                                $("#ThemChiTietPhieuNhap_Modal").modal('hide');
+                            }
+                        });
+                    }
+                })
+            }
+        })
+    }
+
+    function closeModal_1() {
+        $("#SanPham_Modal").modal('hide');
+    }
+
+    // Xử lý mảng tạm
+    function Insert_ChiTietPhieuNhap() {
+        var form = $('form[name="ThemChiTietPhieuNhap_Form"]');
+
+        form.validate();
+        if (!form.valid()) {
+            return;
+        }
+        else {
+            var data = form.serialize();
+            $.ajax({
+                type: "POST",
+                url: "/Admin/PhieuNhap/ThemChiTietPhieuNhapTamThoi",
+                data: data,
+                dataType: "json",
+                success: function (res) {
+                    if (res.error == false) {
+                        var html = '';
+                        $.each(res.list, function (key, item) {
+                            html += '<tr>';
+                            html += '<td>' + item.MALOAI + '</td>';
+                            html += '<td>' + item.TENLOAI + '</td>';
+                            html += '<td><span class="money" style="color:red">' + item.GIA + '</span></td>';
+                            html += '<td><a href="#" onclick="getThemSanPhamTamThoi(\'' + item.MALOAI + '\')">Cập nhật sản phẩm</a> |<a href="#" onclick="Edit_ChiTietPhieuNhap(\'' + item.MALOAI + '\')">Sửa</a> | <a href="#" onclick="Delete_ChiTietPhieuNhap(\'' + item.MALOAI + '\')">Xóa</a></td>';
+                            html += '</tr>';
+                        });
+                        $('#ChiTietPhieuNhap_DetailTable').html(html)
+                        $('.money').simpleMoneyFormat();
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Lỗi!',
+                            text: res.title,
+                            icon: 'error',
+                            customClass: 'swal-wide',
+                        })
+                        return;
+                    }
+                }
+            })
+        }
+    }
+    function Edit_ChiTietPhieuNhap(id) {
+        Swal.fire({
+            title: 'Hiệu chỉnh giá loại sản phẩm có mã: ' + id + '?',
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            customClass: 'swal-wide',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'hủy',
+            confirmButtonText: 'Xác nhận',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var gia = result.value
+                if ($.isNumeric(gia) == 1) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/PhieuNhap/SuaChiTietPhieuNhapTamThoi?MaLoai=" + id + "&Gia=" + gia,
+                        success: function (res) {
+                            if (res.error == false) {
+                                var html = '';
+                                $.each(res.list, function (key, item) {
+                                    html += '<tr>';
+                                    html += '<td>' + item.MALOAI + '</td>';
+                                    html += '<td>' + item.TENLOAI + '</td>';
+                                    html += '<td><span class="money" style="color:red">' + item.GIA + '</span></td>';
+                                    html += '<td><a href="#" onclick="getThemSanPhamTamThoi(\'' + item.MALOAI + '\')">Cập nhật sản phẩm</a> |<a href="#" onclick="Edit_ChiTietPhieuNhap(\'' + item.MALOAI + '\')">Sửa</a> | <a href="#" onclick="Delete_ChiTietPhieuNhap(\'' + item.MALOAI + '\')">Xóa</a></td>';
+                                    html += '</tr>';
+                                });
+                                $('#ChiTietPhieuNhap_DetailTable').html(html)
+                                $('.money').simpleMoneyFormat();
+                            }
+                            else {
+                                Swal.fire({
+                                    title: 'Lỗi!',
+                                    text: res.title,
+                                    icon: 'error',
+                                    customClass: 'swal-wide',
+                                })
+                                return;
+                            }
+                        }
+                    })
+                }
+                else {
+                    Swal.fire({
+                        title: 'Lỗi!',
+                        text: "Giá nhập phải là giá trị số",
+                        icon: 'error',
+                        customClass: 'swal-wide',
+                    })
+                    return;
+                }
+            }
+        })
+    }
+    function Delete_ChiTietPhieuNhap(id) {
+        Swal.fire({
+            title: 'Xác nhận hủy nhập loại sản phẩm mã: ' + id + '?',
+            text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được hủy!",
+            icon: 'question',
+            customClass: 'swal-wide',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'hủy',
+            confirmButtonText: 'Xác nhận',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/PhieuNhap/XoaChiTietPhieuNhapTamThoi?MaLoai=" + id,
+                    success: function (res) {
+                        if (res.error == false) {
+                            var html = '';
+                            $.each(res.list, function (key, item) {
+                                html += '<tr>';
+                                html += '<td>' + item.MALOAI + '</td>';
+                                html += '<td>' + item.TENLOAI + '</td>';
+                                html += '<td><span class="money" style="color:red">' + item.GIA + '</span></td>';
+                                html += '<td><a href="#" onclick="getThemSanPhamTamThoi(\'' + item.MALOAI + '\')">Cập nhật sản phẩm</a> |<a href="#" onclick="Edit_ChiTietPhieuNhap(\'' + item.MALOAI + '\')">Sửa</a> | <a href="#" onclick="Delete_ChiTietPhieuNhap(\'' + item.MALOAI + '\')">Xóa</a></td>';
+                                html += '</tr>';
+                            });
+                            $('#ChiTietPhieuNhap_DetailTable').html(html)
+                            $('.money').simpleMoneyFormat();
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: res.title,
+                                icon: 'error',
+                                customClass: 'swal-wide',
+                            })
+                            return;
+                        }
+                    }
+                })
+            }
+        })
+    }
+
+    function Insert_SanPham(id) {
+        var form = $('form[name="ThemSanPham_Form"]');
+
+        form.validate();
+        if (!form.valid()) {
+            return;
+        }
+        else {
+            var data = form.serialize();
+            $.ajax({
+                type: "POST",
+                url: "/Admin/PhieuNhap/ThemSanPhamTamThoi?MaLoai=" + id,
+                data: data,
+                dataType: "json",
+                success: function (res) {
+                    if (res.error == false) {
+                        var html = '';
+                        $.each(res.list, function (key, item) {
+                            html += '<tr>';
+                            html += '<td>' + item.SOKHUNG + '</td>';
+                            html += '<td>' + item.SOMAY + '</td>';
+                            html += '<td><a href="#" onclick="Delete_SanPham(\'' + item.SOKHUNG + '\',\'' + item.SOMAY + '\')">Xóa</a></td>';
+                            html += '</tr>';
+                        });
+                        $('#SanPham_DetailTable').html(html)
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Lỗi!',
+                            text: res.title,
+                            icon: 'error',
+                            customClass: 'swal-wide',
+                        })
+                        return;
+                    }
+                }
+            })
+        }
+    }
+    function Delete_SanPham(soKhung, soMay) {
+        Swal.fire({
+            title: 'Xác nhận xóa sản phẩm có số khung: ' + soKhung + ' và số máy: ' + soMay + ' ?',
+            text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được xóa!",
+            icon: 'question',
+            customClass: 'swal-wide',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'hủy',
+            confirmButtonText: 'Xác nhận',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/PhieuNhap/XoaSanPhamTamThoi?SoKhung=" + soKhung + "&SoMay=" + soMay,
+                    success: function (res) {
+                        if (res.error == false) {
+                            var html = '';
+                            $.each(res.list, function (key, item) {
+                                html += '<tr>';
+                                html += '<td>' + item.SOKHUNG + '</td>';
+                                html += '<td>' + item.SOMAY + '</td>';
+                                html += '<td><a href="#" onclick="Delete_SanPham(\'' + item.SOKHUNG + '\',\'' + item.SOMAY + '\')">Xóa</a></td>';
+                                html += '</tr>';
+                            });
+                            $('#SanPham_DetailTable').html(html)
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: res.title,
+                                icon: 'error',
+                                customClass: 'swal-wide',
+                            })
+                            return;
+                        }
+                    }
+                })
+            }
+        })
+    }
+
+    function Insert_ChiTietPhieuNhap_SanPham() {
+        Swal.fire({
+            title: 'Xác nhận nhập hàng?',
+            text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được thêm!",
+            icon: 'question',
+            customClass: 'swal-wide',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'hủy',
+            confirmButtonText: 'Xác nhận',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/PhieuNhap/ThemChiTietPhieuNhapvsSanPham",
+                    success: function (res) {
+                        if (res.error == false) {
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: res.title,
+                                icon: 'success',
+                                customClass: 'swal-wide',
+                            }).then((d) => {
+                                if (d.isConfirmed) {
+                                    $("#PhieuNhapModal").modal('hide')
+                                    location.reload();
+                                }
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: res.title,
+                                icon: 'error',
+                                customClass: 'swal-wide',
+                            })
+                            return;
+                        }
+                    }
+                })
+            }
+        })
+    }
+</script>

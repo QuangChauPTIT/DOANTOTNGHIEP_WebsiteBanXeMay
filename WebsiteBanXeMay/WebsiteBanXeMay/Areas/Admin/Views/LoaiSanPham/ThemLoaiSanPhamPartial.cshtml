@@ -1,0 +1,81 @@
+﻿@using WebsiteBanXeMay.Models;
+@using WebsiteBanXeMay.ViewModels;
+
+@{ var lstThuongHieu = ViewBag.lstThuongHieu as IEnumerable<THUONGHIEU>;
+    var lstKieuSanPham = ViewBag.lstKieuSanPham as IEnumerable<KieuSanPhamViewModel>;
+    var lstNhaCungCap = ViewBag.lstNhaCungCap as IEnumerable<NHACUNGCAP>;}
+
+<style>
+    .mt {
+        margin-top: 1% !important
+    }
+</style>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Thêm loại sản phẩm</h4>
+</div>
+<div class="modal-body">
+    <form name="LoaiSanPhamForm" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col-md-6">
+                <label>Thương hiệu<span class="required">*</span></label>
+                <select class="form-control select2" id="MATH" style="width: 100%;">
+                    @foreach (var ThuongHieu in lstThuongHieu)
+                    {
+                        <option value="@ThuongHieu.MATH">@ThuongHieu.TENTH</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label>Nhà cung cấp<span class="required">*</span></label>
+                <select class="form-control select2" id="MANCC" style="width: 100%;">
+                    @foreach (var NhaCungCap in lstNhaCungCap)
+                    {
+                        <option value="@NhaCungCap.MANCC" title="@NhaCungCap.TENNCC">@NhaCungCap.TENNCC</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6 mt">
+                <label>Loại<span class="required">*</span></label>
+                <select class="form-control select2" id="LOAI" style="width: 100%;">
+                    @foreach (var Kieu in lstKieuSanPham)
+                    {
+                        <option value="@Kieu.MAKIEU">@Kieu.TENKIEU</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6 mt">
+                <label>Mã loại sản phẩm<span class="required">*</span></label>
+                <input placeholder="Mã loại sản phẩm" id="MALOAI" class="form-control" value="" type="text">
+            </div>
+            <div class="col-md-6 mt">
+                <label>Tên loại sản phẩm<span class="required">*</span></label>
+                <input placeholder="Tên loại sản phẩm" id="TENLOAI" class="form-control" value="" type="text">
+            </div>
+            <div class="col-md-6 mt">
+                <label>Giá<span class="required">*</span></label>
+                <input placeholder="Giá" id="GIA" class="form-control" value="" type="text">
+            </div>
+            <div class="col-md-12 mt">
+                <label>Mô tả</label>
+                <textarea class="form-control" id="MOTA" rows="7"></textarea>
+            </div>
+            <div class="col-md-6 mt">
+                <label>Hình ảnh<span class="required">*</span></label>
+                <input type="file" id="HINHANH" class="form-control" />
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-close" title="Đóng"></i></button>
+    <button type="button" class="btn btn-success" onclick="Insert()" style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
+</div>
+
+
+
+

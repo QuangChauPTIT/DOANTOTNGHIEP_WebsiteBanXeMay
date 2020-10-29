@@ -38,6 +38,7 @@
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title">Danh sách loại sản phẩm</h3>
+                        <button title="Thêm" class="btn btn-success" style="float:right!important" onclick="getThemLoaiSanPham()"><i class="fa fa-save"></i></button>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -75,19 +76,19 @@
                                             @if (LoaiSanPham.TRANGTHAI == 0)
                                             {
                                                 <span class="pull-left">
-                                                    <span class="label pull-right bg-green"  style="width:35px;">Mới</span>
+                                                    <span class="label pull-right bg-green" style="width:35px;">Mới</span>
                                                 </span>
                                             }
                                             else if (LoaiSanPham.TRANGTHAI == 1)
                                             {
                                                 <span class="pull-left">
-                                                    <span class="label pull-right bg-primary"  style="width:35px;">Cũ</span>
+                                                    <span class="label pull-right bg-primary" style="width:35px;">Cũ</span>
                                                 </span>
                                             }
                                             else
                                             {
                                                 <span class="pull-left">
-                                                    <span class="label pull-right bg-dark"  style="width:35px;">Ngưng bán</span>
+                                                    <span class="label pull-right bg-dark" style="width:35px;">Ngưng bán</span>
                                                 </span>
                                             }
                                         </td>
@@ -95,8 +96,8 @@
                                             <span class="HandleText" title="@Html.Raw(LoaiSanPham.MOTA)">@Html.Raw(LoaiSanPham.MOTA)</span>
                                         </td>
                                         <td>
-                                            <a href="#" role="button" title="Hiệu chỉnh" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-                                            <a href="#" role="button" title="Xóa" class="btn btn-danger"><i class="fa fa-remove"></i></a>
+                                            <button title="Hiệu chỉnh" class="btn btn-primary"><i class="fa fa-edit"></i></button>
+                                            <button title="Xóa" class="btn btn-danger"><i class="fa fa-remove"></i></button>
                                         </td>
                                     </tr>
                                 }
@@ -117,7 +118,7 @@
                             </li>
                             @for (int page = 1; page <= Model.PageCount(); page++)
                             {
-                                <li class="@(page == Model.CurrentPage ? "CurrentPage active" : null)">
+                                <li class="@(page == Model.CurrentPage ? "active" : null)">
                                     @Html.ActionLink(page.ToString(), "Index", new { Trang = page }, null)
                                 </li>
                             }
@@ -133,6 +134,218 @@
     </section>
     <!-- /.content -->
 </div>
+<div class="modal fade" id="LoaiSanPhamModal" role="dialog" aria-labelledby="LoaiSanPhamModalLable" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="LoaiSanPhamModalBody">
 
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<script>
+    function getThemLoaiSanPham() {
+        $.ajax({
+            type: "GET",
+            url: "/Admin/LoaiSanPham/ThemLoaiSanPhamPartial",
+            success: function (res) {
+                $("#LoaiSanPhamModalBody").html(res);
+                $("#LoaiSanPhamModal").modal('show')
+            }
+        })
+    };
 
+    //function getSuaNhaCungCap(id) {
+    //    $.ajax({
+    //        type: "GET",
+    //        url: "/Admin/NhaCungCap/SuaNhaCungCapPartial?MaNCC=" + id,
+    //        success: function (res) {
+    //            $("#NhaCungCapModalBody").html(res);
+    //            $("#NhaCungCapModal").modal('show')
+    //        }
+    //    })
+    //};
 
+    function Insert() {
+
+        Swal.fire({
+            title: 'Xác nhận thêm?',
+            text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được thêm!",
+            icon: 'question',
+            customClass: 'swal-wide',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'hủy',
+            confirmButtonText: 'Xác nhận',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var form = $('form[name="LoaiSanPhamForm"]');
+
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                }
+                else {
+
+                    var formData = new FormData();
+                    var HinhAnh = $("#HINHANH").get(0);
+                    var MaNCC = $("#MANCC").val();
+                    var MaTH = $("#MATH").val();
+                    var Loai = $("#LOAI").val();
+                    var MaLoai = $("#MALOAI").val();
+                    var TenLoai = $("#TENLOAI").val();
+                    var Gia = $("#GIA").val();
+                    var MoTa = $("#MOTA").val();
+
+                    formData.append("file", HinhAnh.files[0]);
+                    formData.append("MANCC", MaNCC);
+                    formData.append("MATH", MaTH);
+                    formData.append("LOAI", Loai);
+                    formData.append("MALOAI", MaLoai);
+                    formData.append("TENLOAI", TenLoai);
+                    formData.append("GIA", Gia);
+                    formData.append("MOTA", MoTa);
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/LoaiSanPham/ThemLoaiSanPham",
+                        contentType: false,
+                        processData: false,
+                        data: formData,
+                        success: function (res) {
+                            if (res.error == false) {
+                                Swal.fire({
+                                    title: 'Thành công!',
+                                    text: res.title,
+                                    icon: 'success',
+                                    customClass: 'swal-wide',
+                                }).then((d) => {
+                                    if (d.isConfirmed) {
+                                        $("#LoaiSanPhamModal").modal('hide')
+                                        location.reload();
+                                    }
+                                });
+                            }
+                            else {
+                                Swal.fire({
+                                    title: 'Lỗi!',
+                                    text: res.title,
+                                    icon: 'error',
+                                    customClass: 'swal-wide',
+                                })
+                                return;
+                            }
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+    function Edit() {
+
+        Swal.fire({
+            title: 'Xác nhận hiệu chỉnh?',
+            text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được hiệu chỉnh!",
+            icon: 'question',
+            customClass: 'swal-wide',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'hủy',
+            confirmButtonText: 'Xác nhận',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var form = $('form[name="LoaiSanPhamForm"]');
+
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                }
+                else {
+                    var data = form.serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/LoaiSanPham/SuaLoaiSanPham",
+                        data: data,
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.error == false) {
+                                Swal.fire({
+                                    title: 'Thành công!',
+                                    text: res.title,
+                                    icon: 'success',
+                                    customClass: 'swal-wide',
+                                }).then((d) => {
+                                    if (d.isConfirmed) {
+                                        $("#LoaiSanPhamModal").modal('hide')
+                                        location.reload();
+                                    }
+                                })
+                            }
+                            else {
+                                Swal.fire({
+                                    title: 'Lỗi!',
+                                    text: res.title,
+                                    icon: 'error',
+                                    customClass: 'swal-wide',
+                                })
+                                return;
+                            }
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+    function Delete(id) {
+        Swal.fire({
+            title: 'Xác nhận xóa ' + id + ' ?',
+            text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được xóa!",
+            icon: 'question',
+            customClass: 'swal-wide',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'hủy',
+            confirmButtonText: 'Xác nhận',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    url: "/Admin/LoaiSanPham/XoaLoaiSanPham/?MaLoai=" + id,
+                    success: function (res) {
+                        if (res.error == false) {
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: res.title,
+                                icon: 'success',
+                                customClass: 'swal-wide',
+                            }).then((d) => {
+                                if (d.isConfirmed) {
+                                    location.reload();
+                                }
+                            })
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: res.title,
+                                icon: 'error',
+                                customClass: 'swal-wide',
+                            })
+                            return;
+                        }
+                    }
+                })
+            }
+        })
+    }
+
+</script>

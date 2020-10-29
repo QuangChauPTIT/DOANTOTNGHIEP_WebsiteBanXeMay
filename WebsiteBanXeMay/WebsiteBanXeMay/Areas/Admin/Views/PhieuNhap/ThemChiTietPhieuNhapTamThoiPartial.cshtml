@@ -1,0 +1,63 @@
+﻿@using WebsiteBanXeMay.Models
+@model IEnumerable<LOAISANPHAM>
+
+<div class="modal-header">
+    <button type="button" class="close"  onclick="closeModal()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Phiếu nhập có mã nhà cung cấp: @ViewBag.MANCC</h4>
+</div>
+@if (Model.Count() > 0)
+{
+    <div class="modal-body">
+        <form name="ThemChiTietPhieuNhap_Form">
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-md-8">
+                    <label>Loại sản phẩm<span class="required">*</span></label>
+                    <select class="form-control select2" name="MALOAI" style="width: 100%;">
+                        @foreach (var LoaiSanPham in Model)
+                        {
+                            <option value="@LoaiSanPham.MALOAI">Mã loại: @LoaiSanPham.MALOAI - Tên loại: @LoaiSanPham.TENLOAI</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label>Giá<span class="required">*</span></label>
+                    <input placeholder="Giá" name="GIA" class="form-control" value="" type="number">
+                </div>
+            </div>
+        </form>
+        <div style="margin-top:2%">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Chi tiết phiếu nhập</h3>
+                    <button title="Thêm vào danh sách tạm" class="btn btn-warning" style="float:right!important" onclick="Insert_ChiTietPhieuNhap()"><i class="fa fa-pencil"></i></button>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body" style="overflow-y:auto!important;max-height:300px!important">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width:15%">Mã loại</th>
+                                <th>Tên loại</th>
+                                <th style="width:15%">Giá</th>
+                                <th style="width:25%">Tác vụ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ChiTietPhieuNhap_DetailTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger pull-right"  onclick="closeModal()" ><i class="fa fa-close" title="Hủy"></i></button>
+        <button type="button" class="btn btn-success" onclick="Insert_ChiTietPhieuNhap_SanPham()"  style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
+    </div>
+}
+else
+{
+    <span>Không có dữ liệu</span>
+}

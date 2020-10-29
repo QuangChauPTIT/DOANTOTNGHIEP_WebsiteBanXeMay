@@ -142,16 +142,16 @@
                 }
             })
 
-                        //$('li a').each(function (index, el) {
-            //    var hrefPath = $(el).attr('href');
-            //    var url = window.location.pathname;
-            //    if (url == hrefPath) {
-            //        //$(el).parent('li').addClass('active');
-            //        $(el).closest('li').addClass('active');
-            //        $(el).parents('li').addClass('active');
-            //        return false;
-            //    }
-            //})
+            $('li a').each(function (index, el) {
+                var hrefPath = $(el).attr('href');
+                var url = window.location.pathname;
+                if (url == hrefPath) {
+                    //$(el).parent('li').addClass('active');
+                    $(el).closest('li').addClass('active');
+                    $(el).parents('li').addClass('active');
+                    return false;
+                }
+            })
         })(jQuery);
     </script>
 </body>
