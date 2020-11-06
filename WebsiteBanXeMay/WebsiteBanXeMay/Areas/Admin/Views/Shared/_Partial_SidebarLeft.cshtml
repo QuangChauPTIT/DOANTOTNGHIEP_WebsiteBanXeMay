@@ -42,20 +42,22 @@
                 <li><a href="/Admin/PhieuMua/PhieuMuaDaGiao"><i class="fa fa-circle-o"></i> Đã hoàn thành</a></li>
             </ul>
         </li>
-        <li class="treeview">
-            <a href="#">
-                <i class="fa fa-users"></i>
-                <span>Quản lý nhân viên</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li><a href="/Admin/NhanVien"><i class="fa fa-circle-o"></i> Nhân viên</a></li>
-                <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> Phân quyền</a></li>
-                <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> Phân công phụ trách quận</a></li>
-            </ul>
-        </li>
+        @if (TaiKhoan != null && TaiKhoan.NHOMQUYEN == "admin")
+        {
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-users"></i>
+                    <span>Quản lý nhân viên</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/Admin/NhanVien"><i class="fa fa-circle-o"></i> Nhân viên</a></li>
+                    <li><a href="/Admin/PhuTrach"><i class="fa fa-circle-o"></i> Phân công giao hàng</a></li>
+                </ul>
+            </li>
+        }
         <li class="treeview">
             <a href="#">
                 <i class="fa fa-dashboard"></i>
@@ -74,18 +76,30 @@
                 <li><a href="/Admin/KhuyenMai"><i class="fa fa-circle-o"></i> Khuyến mãi</a></li>
             </ul>
         </li>
-        <li><a href=""><i class="fa fa-book"></i> <span>Đặt hàng</span></a></li>
-        <li><a href="/Admin/PhieuNhap"><i class="fa fa-book"></i> <span>Nhập hàng</span></a></li>
         <li class="treeview">
             <a href="#">
                 <i class="fa fa-pie-chart"></i>
-                <span>Báo cáo doanh thu</span>
+                <span>Đặt hàng</span>
                 <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                 </span>
             </a>
             <ul class="treeview-menu">
-                <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> 1 tháng</a></li>
+                <li><a href="/Admin/PhieuDat/PhieuDatChuaHoanThanh"><i class="fa fa-circle-o"></i> Chưa hoàn thành</a></li>
+                <li><a href="/Admin/PhieuDat/PhieuDatDaHoanThanh"><i class="fa fa-circle-o"></i> Đã hoàn thành</a></li>
+            </ul>
+        </li>
+        <li><a href="/Admin/PhieuNhap"><i class="fa fa-book"></i> <span>Nhập hàng</span></a></li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-pie-chart"></i>
+                <span>Báo cáo</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="/Admin/BaoCao/BaoCaoDoanhThuTheoLoaiSanPham"><i class="fa fa-circle-o"></i> Doanh thu</a></li>
             </ul>
         </li>
     </ul>

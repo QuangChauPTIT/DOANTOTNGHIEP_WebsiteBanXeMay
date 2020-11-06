@@ -1,0 +1,74 @@
+﻿@using WebsiteBanXeMay.Models
+@model IEnumerable<NHOMQUYEN>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Thêm nhân viên</h4>
+</div>
+<div class="modal-body">
+    <form name="ThemNhanVien_Form">
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col-md-6">
+                <label>Họ<span class="required">*</span></label>
+                <input placeholder="Họ" name="HO" class="form-control" value="" type="text">
+            </div>
+            <div class="col-md-6">
+                <label>Tên<span class="required">*</span></label>
+                <input placeholder="Tên" name="TEN" class="form-control" value="" type="text">
+            </div>
+            <div class="col-md-6" style="margin-top:3%">
+                <label>Giới tính<span class="required">*</span></label>
+                <br />
+                <div class="text-center">
+                    <input name="GIOITINH" value="false" type="radio" checked> Nam
+                    <input name="GIOITINH" value="true" type="radio"> Nữ
+                </div>
+
+            </div>
+            <div class="col-md-6" style="margin-top:3%">
+                <label>Ngày sinh<span class="required">*</span></label>
+                <input placeholder="Ngày sinh" name="NGAYSINH" class="form-control" value="" type="date">
+            </div>
+            <div class="col-md-6" style="margin-top:3%">
+                <label>Số điện thoại<span class="required">*</span></label>
+                <input placeholder="Số điện thoại" name="SDT" class="form-control" value="" type="text">
+            </div>
+            <div class="col-md-6" style="margin-top:3%">
+                <label>Email<span class="required">*</span></label>
+                <input placeholder="Email là tài khoản đăng nhập" name="EMAIL" class="form-control" value="" type="text">
+            </div>
+            <div class="col-md-12" style="margin-top:3%">
+                <label>Địa chỉ<span class="required">*</span></label>
+                <input placeholder="Địa chỉ" name="DIACHI" class="form-control" value="" type="text">
+            </div>
+            <div class="col-md-12" style="margin-top:3%">
+                <label>Chức vụ<span class="required">*</span></label>
+                <select class="form-control select2" name="MANQ">
+                    @foreach(var quyen in Model)
+                    {
+                        <option value="@quyen.MANQ">@quyen.TENQUYEN</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6" style="margin-top:3%">
+                <label>Mật khẩu<span class="required">*</span></label>
+                <input placeholder="Mật khẩu" name="PASSWORD" class="form-control" value="" type="password">
+            </div>
+            <div class="col-md-6" style="margin-top:3%">
+                <label>Nhập lại mật khẩu<span class="required">*</span></label>
+                <input placeholder="Nhập lại mật khẩu" name="CONFIRM_PASSWORD" class="form-control" value="" type="password">
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-close" title="Đóng"></i></button>
+    <button type="button" class="btn btn-success" onclick="ThemNhanVien()" style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
+</div>
+
+
+
+

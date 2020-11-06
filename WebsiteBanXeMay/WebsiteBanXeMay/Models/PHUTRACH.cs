@@ -12,12 +12,13 @@ namespace WebsiteBanXeMay.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagram
+    public partial class PHUTRACH
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int MAPHUTRACH { get; set; }
+        public int MANV { get; set; }
+        public int MAQUAN { get; set; }
+    
+        public virtual NHANVIEN NHANVIEN { get; set; }
+        public virtual QUAN QUAN { get; set; }
     }
 }

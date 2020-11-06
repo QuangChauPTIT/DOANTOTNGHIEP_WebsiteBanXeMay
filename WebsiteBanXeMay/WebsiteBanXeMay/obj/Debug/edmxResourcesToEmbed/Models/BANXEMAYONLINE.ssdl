@@ -9,6 +9,16 @@
     <Property Name="MALOAI" Type="varchar" MaxLength="15" Nullable="false" />
     <Property Name="MAKM" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="CT_PHIEUDAT">
+    <Key>
+      <PropertyRef Name="MAPD" />
+      <PropertyRef Name="MALOAI" />
+    </Key>
+    <Property Name="MAPD" Type="int" Nullable="false" />
+    <Property Name="MALOAI" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="SOLUONG" Type="int" Nullable="false" />
+    <Property Name="GIA" Type="float" Nullable="false" />
+  </EntityType>
   <EntityType Name="CT_PHIEUNHAP">
     <Key>
       <PropertyRef Name="MACTPN" />
@@ -110,7 +120,6 @@
     <Property Name="DIACHI" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="SDT" Type="varchar" MaxLength="11" Nullable="false" />
     <Property Name="EMAIL" Type="varchar" MaxLength="30" Nullable="false" />
-    <Property Name="MAQUANPHUTRACH" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="NHOMQUYEN">
     <Key>
@@ -118,6 +127,16 @@
     </Key>
     <Property Name="MANQ" Type="varchar" MaxLength="15" Nullable="false" />
     <Property Name="TENQUYEN" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PHIEUDAT">
+    <Key>
+      <PropertyRef Name="MAPD" />
+    </Key>
+    <Property Name="MAPD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TRANGTHAI" Type="int" Nullable="false" />
+    <Property Name="NGAYLAP" Type="datetime" Nullable="false" />
+    <Property Name="MANCC" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="MANV" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PHIEUMUA">
     <Key>
@@ -154,6 +173,14 @@
     <Property Name="MANV" Type="int" Nullable="false" />
     <Property Name="MAPM" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="PHUTRACH">
+    <Key>
+      <PropertyRef Name="MAPHUTRACH" />
+    </Key>
+    <Property Name="MAPHUTRACH" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MANV" Type="int" Nullable="false" />
+    <Property Name="MAQUAN" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="QUAN">
     <Key>
       <PropertyRef Name="MAQUAN" />
@@ -179,16 +206,6 @@
     </Key>
     <Property Name="MASPTK" Type="varchar" MaxLength="15" Nullable="false" />
     <Property Name="TENSPTK" Type="nvarchar" MaxLength="100" Nullable="false" />
-  </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="principal_id" Type="int" Nullable="false" />
-    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="version" Type="int" />
-    <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
   <EntityType Name="TAIKHOAN">
     <Key>
@@ -226,6 +243,30 @@
       </Principal>
       <Dependent Role="CT_KHUYENMAI">
         <PropertyRef Name="MALOAI" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CT_PHIEUDAT_LOAISANPHAM">
+    <End Role="LOAISANPHAM" Type="Self.LOAISANPHAM" Multiplicity="1" />
+    <End Role="CT_PHIEUDAT" Type="Self.CT_PHIEUDAT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LOAISANPHAM">
+        <PropertyRef Name="MALOAI" />
+      </Principal>
+      <Dependent Role="CT_PHIEUDAT">
+        <PropertyRef Name="MALOAI" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CT_PHIEUDAT_PHIEUDAT">
+    <End Role="PHIEUDAT" Type="Self.PHIEUDAT" Multiplicity="1" />
+    <End Role="CT_PHIEUDAT" Type="Self.CT_PHIEUDAT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PHIEUDAT">
+        <PropertyRef Name="MAPD" />
+      </Principal>
+      <Dependent Role="CT_PHIEUDAT">
+        <PropertyRef Name="MAPD" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -373,18 +414,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_NHANVIEN_QUAN">
-    <End Role="QUAN" Type="Self.QUAN" Multiplicity="1" />
-    <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="QUAN">
-        <PropertyRef Name="MAQUAN" />
-      </Principal>
-      <Dependent Role="NHANVIEN">
-        <PropertyRef Name="MAQUANPHUTRACH" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_NHANVIEN_TAIKHOAN">
     <End Role="TAIKHOAN" Type="Self.TAIKHOAN" Multiplicity="1" />
     <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="*" />
@@ -409,6 +438,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PHIEUDAT_NHACUNGCAP">
+    <End Role="NHACUNGCAP" Type="Self.NHACUNGCAP" Multiplicity="1" />
+    <End Role="PHIEUDAT" Type="Self.PHIEUDAT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NHACUNGCAP">
+        <PropertyRef Name="MANCC" />
+      </Principal>
+      <Dependent Role="PHIEUDAT">
+        <PropertyRef Name="MANCC" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PHIEUDAT_NHANVIEN">
     <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="0..1" />
     <End Role="PHIEUMUA" Type="Self.PHIEUMUA" Multiplicity="*" />
@@ -430,6 +471,18 @@
       </Principal>
       <Dependent Role="PHIEUMUA">
         <PropertyRef Name="MANVGH" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PHIEUDAT_NHANVIEN2">
+    <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="1" />
+    <End Role="PHIEUDAT" Type="Self.PHIEUDAT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NHANVIEN">
+        <PropertyRef Name="MANV" />
+      </Principal>
+      <Dependent Role="PHIEUDAT">
+        <PropertyRef Name="MANV" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -478,6 +531,30 @@
       </Principal>
       <Dependent Role="PHIEUTRA">
         <PropertyRef Name="MAPM" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PHUTRACH_NHANVIEN">
+    <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="1" />
+    <End Role="PHUTRACH" Type="Self.PHUTRACH" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NHANVIEN">
+        <PropertyRef Name="MANV" />
+      </Principal>
+      <Dependent Role="PHUTRACH">
+        <PropertyRef Name="MANV" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PHUTRACH_QUAN">
+    <End Role="QUAN" Type="Self.QUAN" Multiplicity="1" />
+    <End Role="PHUTRACH" Type="Self.PHUTRACH" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QUAN">
+        <PropertyRef Name="MAQUAN" />
+      </Principal>
+      <Dependent Role="PHUTRACH">
+        <PropertyRef Name="MAQUAN" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -531,6 +608,7 @@
   </Association>
   <EntityContainer Name="BANXEMAYONLINEModelStoreContainer">
     <EntitySet Name="CT_KHUYENMAI" EntityType="Self.CT_KHUYENMAI" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CT_PHIEUDAT" EntityType="Self.CT_PHIEUDAT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CT_PHIEUNHAP" EntityType="Self.CT_PHIEUNHAP" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CT_TANGKEM" EntityType="Self.CT_TANGKEM" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DANHGIA" EntityType="Self.DANHGIA" Schema="dbo" store:Type="Tables" />
@@ -541,13 +619,14 @@
     <EntitySet Name="NHACUNGCAP" EntityType="Self.NHACUNGCAP" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NHANVIEN" EntityType="Self.NHANVIEN" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NHOMQUYEN" EntityType="Self.NHOMQUYEN" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PHIEUDAT" EntityType="Self.PHIEUDAT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PHIEUMUA" EntityType="Self.PHIEUMUA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PHIEUNHAP" EntityType="Self.PHIEUNHAP" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PHIEUTRA" EntityType="Self.PHIEUTRA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PHUTRACH" EntityType="Self.PHUTRACH" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QUAN" EntityType="Self.QUAN" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SANPHAM" EntityType="Self.SANPHAM" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SANPHAMTANGKEM" EntityType="Self.SANPHAMTANGKEM" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TAIKHOAN" EntityType="Self.TAIKHOAN" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="THUONGHIEU" EntityType="Self.THUONGHIEU" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_CT_KHUYENMAI_KHUYENMAI" Association="Self.FK_CT_KHUYENMAI_KHUYENMAI">
@@ -557,6 +636,14 @@
     <AssociationSet Name="FK_CT_KHUYENMAI_LOAISANPHAM" Association="Self.FK_CT_KHUYENMAI_LOAISANPHAM">
       <End Role="LOAISANPHAM" EntitySet="LOAISANPHAM" />
       <End Role="CT_KHUYENMAI" EntitySet="CT_KHUYENMAI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CT_PHIEUDAT_LOAISANPHAM" Association="Self.FK_CT_PHIEUDAT_LOAISANPHAM">
+      <End Role="LOAISANPHAM" EntitySet="LOAISANPHAM" />
+      <End Role="CT_PHIEUDAT" EntitySet="CT_PHIEUDAT" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CT_PHIEUDAT_PHIEUDAT" Association="Self.FK_CT_PHIEUDAT_PHIEUDAT">
+      <End Role="PHIEUDAT" EntitySet="PHIEUDAT" />
+      <End Role="CT_PHIEUDAT" EntitySet="CT_PHIEUDAT" />
     </AssociationSet>
     <AssociationSet Name="FK_CT_PHIEUNHAP_LOAISANPHAM" Association="Self.FK_CT_PHIEUNHAP_LOAISANPHAM">
       <End Role="LOAISANPHAM" EntitySet="LOAISANPHAM" />
@@ -606,10 +693,6 @@
       <End Role="NHACUNGCAP" EntitySet="NHACUNGCAP" />
       <End Role="LOAISANPHAM" EntitySet="LOAISANPHAM" />
     </AssociationSet>
-    <AssociationSet Name="FK_NHANVIEN_QUAN" Association="Self.FK_NHANVIEN_QUAN">
-      <End Role="QUAN" EntitySet="QUAN" />
-      <End Role="NHANVIEN" EntitySet="NHANVIEN" />
-    </AssociationSet>
     <AssociationSet Name="FK_NHANVIEN_TAIKHOAN" Association="Self.FK_NHANVIEN_TAIKHOAN">
       <End Role="TAIKHOAN" EntitySet="TAIKHOAN" />
       <End Role="NHANVIEN" EntitySet="NHANVIEN" />
@@ -618,6 +701,10 @@
       <End Role="KHACHHANG" EntitySet="KHACHHANG" />
       <End Role="PHIEUMUA" EntitySet="PHIEUMUA" />
     </AssociationSet>
+    <AssociationSet Name="FK_PHIEUDAT_NHACUNGCAP" Association="Self.FK_PHIEUDAT_NHACUNGCAP">
+      <End Role="NHACUNGCAP" EntitySet="NHACUNGCAP" />
+      <End Role="PHIEUDAT" EntitySet="PHIEUDAT" />
+    </AssociationSet>
     <AssociationSet Name="FK_PHIEUDAT_NHANVIEN" Association="Self.FK_PHIEUDAT_NHANVIEN">
       <End Role="NHANVIEN" EntitySet="NHANVIEN" />
       <End Role="PHIEUMUA" EntitySet="PHIEUMUA" />
@@ -625,6 +712,10 @@
     <AssociationSet Name="FK_PHIEUDAT_NHANVIEN1" Association="Self.FK_PHIEUDAT_NHANVIEN1">
       <End Role="NHANVIEN" EntitySet="NHANVIEN" />
       <End Role="PHIEUMUA" EntitySet="PHIEUMUA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PHIEUDAT_NHANVIEN2" Association="Self.FK_PHIEUDAT_NHANVIEN2">
+      <End Role="NHANVIEN" EntitySet="NHANVIEN" />
+      <End Role="PHIEUDAT" EntitySet="PHIEUDAT" />
     </AssociationSet>
     <AssociationSet Name="FK_PHIEUDAT_QUAN" Association="Self.FK_PHIEUDAT_QUAN">
       <End Role="QUAN" EntitySet="QUAN" />
@@ -641,6 +732,14 @@
     <AssociationSet Name="FK_PHIEUTRA_PHIEUDAT" Association="Self.FK_PHIEUTRA_PHIEUDAT">
       <End Role="PHIEUMUA" EntitySet="PHIEUMUA" />
       <End Role="PHIEUTRA" EntitySet="PHIEUTRA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PHUTRACH_NHANVIEN" Association="Self.FK_PHUTRACH_NHANVIEN">
+      <End Role="NHANVIEN" EntitySet="NHANVIEN" />
+      <End Role="PHUTRACH" EntitySet="PHUTRACH" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PHUTRACH_QUAN" Association="Self.FK_PHUTRACH_QUAN">
+      <End Role="QUAN" EntitySet="QUAN" />
+      <End Role="PHUTRACH" EntitySet="PHUTRACH" />
     </AssociationSet>
     <AssociationSet Name="FK_SANPHAM_CT_PHIEUNHAP" Association="Self.FK_SANPHAM_CT_PHIEUNHAP">
       <End Role="CT_PHIEUNHAP" EntitySet="CT_PHIEUNHAP" />

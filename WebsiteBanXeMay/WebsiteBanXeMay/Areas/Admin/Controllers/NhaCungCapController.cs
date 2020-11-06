@@ -8,19 +8,20 @@ using WebsiteBanXeMay.Utils;
 
 namespace WebsiteBanXeMay.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "admin,staff")]
     public class NhaCungCapController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
         // GET: Admin/NhaCungCap
         public ActionResult Index(int Trang = 1)
         {
-            var NhaCungCapModel = new PageUtil
+            var Model = new PageUtil
             {
                 PageSize = 10,
                 Data = lstNhaCungCap(),
                 CurrentPage = Trang
             };
-            return View(NhaCungCapModel);
+            return View(Model);
         }
 
         [HttpGet]

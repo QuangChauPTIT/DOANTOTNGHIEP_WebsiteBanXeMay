@@ -9,19 +9,20 @@ using WebsiteBanXeMay.Utils;
 
 namespace WebsiteBanXeMay.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "admin,staff")]
     public class KhachHangController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
         // GET: Admin/KhachHang
         public ActionResult Index(int Trang = 1)
         {
-            var KhachHangModel = new PageUtil
+            var Model = new PageUtil
             {
                 PageSize = 10,
                 Data = lstKhacHang(),
                 CurrentPage = Trang
             };
-            return View(KhachHangModel);
+            return View(Model);
         }
 
         //========================  Lấy dữ liệu từ database ======================

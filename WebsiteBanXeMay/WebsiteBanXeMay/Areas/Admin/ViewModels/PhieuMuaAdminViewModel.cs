@@ -12,6 +12,7 @@ namespace WebsiteBanXeMay.Areas.Admin.ViewModels
         public string HO { get; set; }
         public string TEN { get; set; }
         public string DIACHI { get; set; }
+        public int MAQUAN { get; set; }
         public string TENQUAN { get; set; }
         public string SDT { get; set; }
         public System.DateTime NGAYGIAO { get; set; }

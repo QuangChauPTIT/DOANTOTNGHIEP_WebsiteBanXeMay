@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -26,7 +27,7 @@ namespace WebsiteBanXeMay.Controllers
         {
             // Xử lý tạm
             var TaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
-            var objKhachHang = ThongTinChiTietKhachHang(TaiKhoan.MA);
+            var objKhachHang = getKhachHang(TaiKhoan.MA);
             ViewBag.lstQuan = lstQuan();
             loadThongTinChiTietKhachHang(objKhachHang);
             return View();
@@ -174,56 +175,62 @@ namespace WebsiteBanXeMay.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                using (DbContextTransaction transaction = DB.Database.BeginTransaction())
                 {
-                    if (objKhachHangViewModel.PASSWORD == objKhachHangViewModel.CONFIRM_PASSWORD)
+                    try
                     {
-                        var objTaiKhoan = DB.TAIKHOANs.SingleOrDefault(x => x.EMAIL == objKhachHangViewModel.EMAIL);
-                        if (objTaiKhoan == null)
+                        if (objKhachHangViewModel.PASSWORD == objKhachHangViewModel.CONFIRM_PASSWORD)
                         {
-                            var modelTaiKhoan = new TAIKHOAN
+                            var objTaiKhoan = DB.TAIKHOANs.SingleOrDefault(x => x.EMAIL == objKhachHangViewModel.EMAIL);
+                            if (objTaiKhoan == null)
                             {
-                                EMAIL = objKhachHangViewModel.EMAIL,
-                                PASSWORD = objKhachHangViewModel.CONFIRM_PASSWORD,
-                                MANQ = "customer"
-                            };
-                            DB.TAIKHOANs.Add(modelTaiKhoan);
-                            var modelKhachHang = new KHACHHANG
+                                var modelTaiKhoan = new TAIKHOAN
+                                {
+                                    EMAIL = objKhachHangViewModel.EMAIL,
+                                    PASSWORD = objKhachHangViewModel.CONFIRM_PASSWORD,
+                                    MANQ = "customer"
+                                };
+                                DB.TAIKHOANs.Add(modelTaiKhoan);
+                                DB.SaveChanges();
+                                var modelKhachHang = new KHACHHANG
+                                {
+                                    HO = objKhachHangViewModel.HO,
+                                    TEN = objKhachHangViewModel.TEN,
+                                    GIOITINH = objKhachHangViewModel.GIOITINH,
+                                    NGAYSINH = objKhachHangViewModel.NGAYSINH,
+                                    DIACHI = objKhachHangViewModel.DIACHI,
+                                    MAQUAN = objKhachHangViewModel.MAQUAN,
+                                    SDT = objKhachHangViewModel.SDT,
+                                    EMAIL = objKhachHangViewModel.EMAIL
+                                };
+                                DB.KHACHHANGs.Add(modelKhachHang);
+                                DB.SaveChanges();
+                                transaction.Commit();
+                                return RedirectToAction("DangNhap", new { ReturnUrl = ReturnUrl });
+                            }
+                            else
                             {
-                                HO = objKhachHangViewModel.HO,
-                                TEN = objKhachHangViewModel.TEN,
-                                GIOITINH = objKhachHangViewModel.GIOITINH,
-                                NGAYSINH = objKhachHangViewModel.NGAYSINH,
-                                DIACHI = objKhachHangViewModel.DIACHI,
-                                MAQUAN = objKhachHangViewModel.MAQUAN,
-                                SDT = objKhachHangViewModel.SDT,
-                                EMAIL = objKhachHangViewModel.EMAIL
-                            };
-                            DB.KHACHHANGs.Add(modelKhachHang);
-                            DB.SaveChanges();
-                            return RedirectToAction("DangNhap", new { ReturnUrl = ReturnUrl });
+                                ViewBag.lstQuan = lstQuan();
+                                ModelState.AddModelError("error", "Email đã tồn tại");
+                                return View(objKhachHangViewModel);
+                            }
                         }
                         else
                         {
                             ViewBag.lstQuan = lstQuan();
-                            ModelState.AddModelError("error", "Email đã tồn tại");
+                            ModelState.AddModelError("error", "Nhập lại mật khẩu sai");
                             return View(objKhachHangViewModel);
                         }
+
                     }
-                    else
+                    catch
                     {
                         ViewBag.lstQuan = lstQuan();
-                        ModelState.AddModelError("error", "Nhập lại mật khẩu sai");
+                        transaction.Rollback();
+                        ModelState.AddModelError("error", "Đăng ký tài khoản thất bại");
                         return View(objKhachHangViewModel);
                     }
-
-                }
-                catch
-                {
-                    ViewBag.lstQuan = lstQuan();
-                    ModelState.AddModelError("error", "Đăng ký tài khoản thất bại");
-                    return View(objKhachHangViewModel);
-                }
+                }     
             }
             ViewBag.lstQuan = lstQuan();
             return View(objKhachHangViewModel);
@@ -286,7 +293,7 @@ namespace WebsiteBanXeMay.Controllers
             return DB.QUANs.ToList();
         }
 
-        private KHACHHANG ThongTinChiTietKhachHang(int MaKH)
+        private KHACHHANG getKhachHang(int MaKH)
         {
             return DB.KHACHHANGs.FirstOrDefault(x => x.MAKH == MaKH);
         }

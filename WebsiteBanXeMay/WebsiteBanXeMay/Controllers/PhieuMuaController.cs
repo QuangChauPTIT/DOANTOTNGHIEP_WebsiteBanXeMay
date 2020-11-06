@@ -28,7 +28,7 @@ namespace WebsiteBanXeMay.Controllers
             var objTaiKhoanViewModel = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
             ViewBag.lstQuan = lstQuan();
             ViewBag.lstLoaiSanPhamTrongGioHang = lstLoaiSanPhamTrongGioHang();
-            loadThongTinChiTietKhachHang(ThongTinChiTietKhachHang(objTaiKhoanViewModel.MA));
+            loadThongTinKhachHang(getKhachHang(objTaiKhoanViewModel.MA));
             return View();
         }
 
@@ -80,7 +80,7 @@ namespace WebsiteBanXeMay.Controllers
             return lstLoaiSanPham;
         }
         // Load thông tin khách hàng khi tải trang lần đầu
-        private void loadThongTinChiTietKhachHang(KHACHHANG objKhachHang)
+        private void loadThongTinKhachHang(KHACHHANG objKhachHang)
         {
             ViewBag.HO = objKhachHang.HO;
             ViewBag.TEN = objKhachHang.TEN;
@@ -105,7 +105,7 @@ namespace WebsiteBanXeMay.Controllers
             return DB.QUANs.ToList();
         }
         // Lấy thông tin mặc định của khách hàng theo tài khoản đăng nhập
-        private KHACHHANG ThongTinChiTietKhachHang(int MaKH)
+        private KHACHHANG getKhachHang(int MaKH)
         {
             return DB.KHACHHANGs.FirstOrDefault(x => x.MAKH == MaKH);
         }

@@ -1,0 +1,69 @@
+﻿@using WebsiteBanXeMay.Models;
+@model IEnumerable<NHACUNGCAP>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Chọn nhà cung cấp để đặt hàng</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Danh sách nhà cung cấp</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body" style="overflow-y:auto!important;max-height:400px!important">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="width:5%">Mã nhà cung cấp</th>
+                            <th>Tên nhà cung cấp</th>
+                            <th>Địa chỉ</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th style="width:10%">Tác vụ</th>
+                        </tr>
+                        @if (Model.Count() > 0)
+                        {
+                            foreach (var NhaCungCap in Model)
+                            {
+                                <tr>
+                                    <td>@NhaCungCap.MANCC</td>
+
+                                    <td>
+                                        @NhaCungCap.TENNCC
+                                    </td>
+                                    <td>
+                                        @NhaCungCap.DIACHI
+                                    </td>
+                                    <td>
+                                        @NhaCungCap.EMAIL
+                                    </td>
+                                    <td>
+                                        @NhaCungCap.SDT
+                                    </td>
+                                    <td>
+                                        <button title="Chọn" class="btn btn-primary" onclick="getThemChiTietPhieuDatTamThoi('@NhaCungCap.MANCC')"><i class="fa fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7" class="text-center"><span>Không có dữ liệu</span></td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-close" title="Đóng"></i></button>
+</div>
+
+
+

@@ -80,21 +80,21 @@ namespace WebsiteBanXeMay.Controllers
         //Ajax
         public ActionResult Index(string MaLoai, int Trang = 1)
         {
-            var DanhGiaModel = new PageUtil
+            var Model = new PageUtil
             {
                 PageSize = 5,
                 Data = lstDanhGia(MaLoai),
                 CurrentPage = Trang
             };
             ViewBag.MaLoai = MaLoai;
-            return PartialView(DanhGiaModel);
+            return PartialView(Model);
         }
 
         // Ajax
         public ActionResult DanhGiaPartial(string MaLoai)
         {
             var TaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
-            var obj = ThongTinChiTietDanhGia(MaLoai, TaiKhoan.MA);
+            var obj = getChiTietDanhGia(MaLoai, TaiKhoan.MA);
             if (obj != null)
             {
                 var danhGiaViewModel = new DanhGiaViewModel
@@ -135,7 +135,7 @@ namespace WebsiteBanXeMay.Controllers
             return queryDanhGia.ToList();
         }
 
-        private DanhGiaViewModel ThongTinChiTietDanhGia(string MaLoai, int MaKH)
+        private DanhGiaViewModel getChiTietDanhGia(string MaLoai, int MaKH)
         {
             var objDanhGia = (from loaisanpham in DB.LOAISANPHAMs
                               join danhgia in DB.DANHGIAs on loaisanpham.MALOAI equals danhgia.MALOAI

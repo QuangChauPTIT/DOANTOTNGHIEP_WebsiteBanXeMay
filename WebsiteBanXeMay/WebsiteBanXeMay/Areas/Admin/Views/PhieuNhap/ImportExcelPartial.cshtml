@@ -1,0 +1,61 @@
+﻿
+<div class="modal-header">
+    <button type="button" class="close" onclick="HuyNhapHang()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Phiếu nhập có mã nhà cung cấp: @ViewBag.MANCC</h4>
+    <div class="row">
+        <input type="hidden" id="MaPD" value="@ViewBag.MAPD" class="form-control" />
+        <div class="col-md-6">
+            <label>Ngày lập<span class="required">*</span></label>
+            <input type="datetime-local" id="NgayNhap_ImportExcelID" class="form-control" />
+        </div>
+        <div class="col-md-5">
+            <label>Excel</label>
+            <input type="file" id="FileExcel" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <button title="Tiến hành import excel" onclick="ImportExcel()" class="btn btn-success" style="margin-top:53%;float:right!important"><i class="fa fa-file-excel-o"></i></button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body">
+    <div style="margin-top:2%">
+        <div class="box">
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow-y:auto!important;max-height:300px!important">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th style="width:15%">Mã loại</th>
+                            <th>Tên loại</th>
+                            <th>Số khung</th>
+                            <th>Số máy</th>
+                            <th style="width:15%">Giá</th>
+                            <th style="width:10%">Tác vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ChiTietPhieuNhap_DetailTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger pull-right"  onclick="HuyNhapHang()"><i class="fa fa-close" title="Hủy"></i></button>
+    <button type="button" class="btn btn-success" onclick="ThemChiTietPhieuNhap_ImportExcel('@ViewBag.MANCC')" style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
+</div>
+
+<script>
+    (function ($) {
+        var now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        var date = now.toISOString().slice(0, 16);
+        $('#NgayNhap_ImportExcelID').val(date)
+        $('#NgayNhap_ImportExcelID').attr("max", date)
+    })(jQuery);
+</script>
+

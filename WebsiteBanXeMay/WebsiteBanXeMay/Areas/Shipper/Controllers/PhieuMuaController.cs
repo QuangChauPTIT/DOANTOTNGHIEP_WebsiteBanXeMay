@@ -19,25 +19,25 @@ namespace WebsiteBanXeMay.Areas.Shipper.Controllers
         public ActionResult Index(int Trang = 1)
         {
             var TaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
-            var PhieuMuaChuaGiao = new PageUtil
+            var Model = new PageUtil
             {
                 PageSize = 10,
                 Data = lstPhieuMuaTheoTrangThaiVaNhanVien(TaiKhoan.MA,1),
                 CurrentPage = Trang
             };
-            return View(PhieuMuaChuaGiao);
+            return View(Model);
         }
 
         public ActionResult PhieuMuaDaGiao(int Trang  = 1)
         {
             var TaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
-            var PhieuMuaDaGiao = new PageUtil
+            var Model = new PageUtil
             {
                 PageSize = 10,
                 Data = lstPhieuMuaTheoTrangThaiVaNhanVien(TaiKhoan.MA, 2),
                 CurrentPage = Trang
             };
-            return View(PhieuMuaDaGiao);
+            return View(Model);
         }
 
         public ActionResult ChiTietPhieuMuaPartial(int MaPM)

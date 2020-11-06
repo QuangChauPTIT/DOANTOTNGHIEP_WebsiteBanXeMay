@@ -25,34 +25,34 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
 
         public ActionResult PhieuMuaChuaDuyet(int Trang = 1)
         {
-            var PhieuMuaChuaDuyetModel = new PageUtil
+            var Model = new PageUtil
             {
                 PageSize = 10,
                 Data = lstPhieuMuaChuaDuyet(),
                 CurrentPage = Trang
             };
-            return View(PhieuMuaChuaDuyetModel);
+            return View(Model);
         }
         public ActionResult PhieuMuaDaDuyet(int Trang = 1)
         {
-            var  PhieuMuaDaDuyetModel = new PageUtil
+            var Model = new PageUtil
             {
                 PageSize = 10,
                 Data = lstPhieuMuaDaDuyet(),
                 CurrentPage = Trang
             };
-            return View(PhieuMuaDaDuyetModel);
+            return View(Model);
         }
 
         public ActionResult PhieuMuaDaGiao(int Trang = 1)
         {
-            var PhieuMuaDaGiaoModel = new PageUtil
+            var Model = new PageUtil
             {
                 PageSize = 10,
                 Data = lstPhieuMuaDaGiao(),
                 CurrentPage = Trang
             };
-            return View(PhieuMuaDaGiaoModel);
+            return View(Model);
         }
 
         public ActionResult ChiTietPhieuMuaPartial(int MaPM)
@@ -61,11 +61,11 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return PartialView(lstSanPhamDaDatTheoPhieuMua(MaPM));
         }
         [HttpGet]
-        public ActionResult SuaPhieuMuaPartial(int MaPM)
+        public ActionResult SuaPhieuMuaPartial(int MaPM, int MaQuan)
         {
             var objPhieuMua = DB.PHIEUMUAs.FirstOrDefault(x => x.MAPM == MaPM);
             var lstNhanVienGiaoHang = new List<NhanVienGiaoHangViewModel>();
-            lstNhanVienGiaoHang.AddRange(lstNhanVienGiaoHangTheoSoPhieu());
+            lstNhanVienGiaoHang.AddRange(lstNhanVienGiaoHangTheoSoPhieu(MaQuan));
             if (objPhieuMua != null)
             {
                 ViewBag.MAPM = objPhieuMua.MAPM;
@@ -81,7 +81,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             var msg = new JMessage() { error = false, title = "" };
             if (ModelState.IsValid)
             {
-                using(DbContextTransaction transaction = DB.Database.BeginTransaction())
+                using (DbContextTransaction transaction = DB.Database.BeginTransaction())
                 {
                     try
                     {
@@ -89,7 +89,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                         if (objPhieuMua != null)
                         {
                             var objHoaDon = DB.HOADONs.FirstOrDefault(x => x.MAHD == objPhieuMuavsHoaDonViewModel.MAHD);
-                            if(objHoaDon == null)
+                            if (objHoaDon == null)
                             {
                                 objPhieuMua.MANVGH = objPhieuMuavsHoaDonViewModel.MANVGH;
                                 objPhieuMua.MANVD = (Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel).MA;
@@ -108,20 +108,20 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                 DB.SaveChanges();
                                 transaction.Commit();
                                 msg.title = "Hóa đơn đã được duyệt thành công";
-                            }    
+                            }
                             else
                             {
                                 transaction.Rollback();
                                 msg.error = true;
                                 msg.title = "Mã hóa đơn đã tồn tại";
-                            }    
+                            }
                         }
                         else
                         {
                             transaction.Rollback();
                             msg.error = true;
                             msg.title = "Đơn hàng không tồn tại";
-                        }    
+                        }
                     }
                     catch
                     {
@@ -129,13 +129,13 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                         msg.error = true;
                         msg.title = "Hiệu chỉnh lỗi";
                     }
-                }    
+                }
             }
             else
             {
                 msg.error = true;
                 msg.title = ModelState.SelectMany(x => x.Value.Errors).Select(y => y.ErrorMessage).FirstOrDefault();
-            }    
+            }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
         //==========================================  Lấy dữ liệu từ database  =====================================
@@ -150,6 +150,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                      HO = phieumua.HO,
                                      TEN = phieumua.TEN,
                                      DIACHI = phieumua.DIACHI,
+                                     MAQUAN = quan.MAQUAN,
                                      TENQUAN = quan.TENQUAN,
                                      NGAYMUA = phieumua.NGAYMUA,
                                      NGAYGIAO = phieumua.NGAYGIAO,
@@ -171,6 +172,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                      HO = phieumua.HO,
                                      TEN = phieumua.TEN,
                                      DIACHI = phieumua.DIACHI,
+                                     MAQUAN = quan.MAQUAN,
                                      TENQUAN = quan.TENQUAN,
                                      NGAYMUA = phieumua.NGAYMUA,
                                      NGAYGIAO = phieumua.NGAYGIAO,
@@ -214,30 +216,29 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return queryPhieuMua.ToList(); ;
         }
 
-        private IEnumerable<NhanVienGiaoHangViewModel> lstNhanVienGiaoHangTheoSoPhieu()
+        private IEnumerable<NhanVienGiaoHangViewModel> lstNhanVienGiaoHangTheoSoPhieu(int MaQuan)
         {
             var queryNhanVienGiaohang = (from nhanvien in DB.NHANVIENs
-                                        join taikhoan in DB.TAIKHOANs on nhanvien.EMAIL equals taikhoan.EMAIL
-                                        join nhomquyen in DB.NHOMQUYENs on taikhoan.MANQ equals nhomquyen.MANQ
-                                        join quan in DB.QUANs on nhanvien.MAQUANPHUTRACH equals quan.MAQUAN
-                                        join phieumua in DB.PHIEUMUAs on nhanvien.MANV equals phieumua.MANVGH into phieumua_T
-                                        from g in phieumua_T.DefaultIfEmpty() 
-                                        where nhomquyen.MANQ == "shipper" 
-                                        select new 
-                                        {
-                                            MANV = nhanvien.MANV,
-                                            HO = nhanvien.HO,
-                                            TEN = nhanvien.TEN,
-                                            SOPHIEU = g !=null?g.TRANGTHAI == 1? 1:0:0,
-                                            TENQUANPHUTRACH = quan.TENQUAN
-                                        }).GroupBy(x=>x.MANV).Select(y=>new NhanVienGiaoHangViewModel
-                                        { 
-                                            MANV = y.Key,
-                                            HO = y.Select(z=>z.HO).FirstOrDefault(),
-                                            TEN = y.Select(z => z.TEN).FirstOrDefault(),
-                                            TENQUANPHUTRACH = y.Select(z => z.TENQUANPHUTRACH).FirstOrDefault(),
-                                            SOPHIEU = y.Sum(k=>k.SOPHIEU)
-                                        }).OrderBy(x=>x.SOPHIEU);
+                                         join taikhoan in DB.TAIKHOANs on nhanvien.EMAIL equals taikhoan.EMAIL
+                                         join nhomquyen in DB.NHOMQUYENs on taikhoan.MANQ equals nhomquyen.MANQ
+                                         join phutrach in DB.PHUTRACHes on nhanvien.MANV equals phutrach.MANV
+                                         join quan in DB.QUANs on phutrach.MAQUAN equals quan.MAQUAN
+                                         join phieumua in DB.PHIEUMUAs on nhanvien.MANV equals phieumua.MANVGH into phieumua_T
+                                         from g in phieumua_T.DefaultIfEmpty()
+                                         where nhomquyen.MANQ == "shipper" && quan.MAQUAN == MaQuan
+                                         select new 
+                                         {
+                                             MANV = nhanvien.MANV,
+                                             HO = nhanvien.HO,
+                                             TEN = nhanvien.TEN,
+                                             SOPHIEU = g != null ? g.TRANGTHAI == 1 ? 1 : 0 : 0,
+                                         }).GroupBy(x => x.MANV).Select(y => new NhanVienGiaoHangViewModel
+                                         {
+                                             MANV = y.Key,
+                                             HO = y.Select(z => z.HO).FirstOrDefault(),
+                                             TEN = y.Select(z => z.TEN).FirstOrDefault(),
+                                             SOPHIEU = y.Sum(k => k.SOPHIEU)
+                                         }).OrderBy(x => x.SOPHIEU);
             return queryNhanVienGiaohang.ToList();
         }
 

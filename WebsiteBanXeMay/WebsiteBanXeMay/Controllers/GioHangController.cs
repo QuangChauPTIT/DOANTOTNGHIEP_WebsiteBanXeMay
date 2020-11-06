@@ -77,7 +77,7 @@ namespace WebsiteBanXeMay.Controllers
                         // Kiểm tra số lượng nhập có lớn hơn tồn không
                         if (TinhSoLuongTonLoaiSanPham(MaLoai) >= SoLuong)
                         {
-                            var objLoaiSanPham = ThongTinChiTietLoaiSanPham(MaLoai);
+                            var objLoaiSanPham = getLoaiSanPham(MaLoai);
                             if (objLoaiSanPham != null)
                             {
                                 var LoaiSanPham = new GioHangViewModel
@@ -107,7 +107,7 @@ namespace WebsiteBanXeMay.Controllers
                     if (TinhSoLuongTonLoaiSanPham(MaLoai) >= SoLuong)
                     {
                         var lstLoaiSanPham = new List<GioHangViewModel>();
-                        var objLoaiSanPham = ThongTinChiTietLoaiSanPham(MaLoai);
+                        var objLoaiSanPham = getLoaiSanPham(MaLoai);
                         if (objLoaiSanPham != null)
                         {
                             var LoaiSanPham = new GioHangViewModel
@@ -193,7 +193,7 @@ namespace WebsiteBanXeMay.Controllers
         }
         //===========================================  Lấy dữ liệu Database =================================================
         // Lấy thông tin loại sản phẩm thâm vào giỏ hàng
-        private GioHangViewModel ThongTinChiTietLoaiSanPham(string MaLoai)
+        private GioHangViewModel getLoaiSanPham(string MaLoai)
         {
             // Số lượng tồn của sản phẩm
             var querySoLuongTonSanPham = (from sanpham in DB.SANPHAMs

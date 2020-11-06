@@ -8,19 +8,20 @@ using WebsiteBanXeMay.Utils;
 
 namespace WebsiteBanXeMay.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "admin,staff")]
     public class SanPhamTangKemController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
         // GET: Admin/SanPhamTangKem
         public ActionResult Index(int Trang = 1)
         {
-            var SanPhamTangKemModel = new PageUtil
+            var Model = new PageUtil
             {
                 PageSize = 10,
                 Data = lstSanPhamTangKem(),
                 CurrentPage = Trang
             };
-            return View(SanPhamTangKemModel);
+            return View(Model);
         }
 
 

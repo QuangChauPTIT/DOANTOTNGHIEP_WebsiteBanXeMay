@@ -18,8 +18,8 @@ namespace WebsiteBanXeMay.Models
         public QUAN()
         {
             this.KHACHHANGs = new HashSet<KHACHHANG>();
-            this.NHANVIENs = new HashSet<NHANVIEN>();
             this.PHIEUMUAs = new HashSet<PHIEUMUA>();
+            this.PHUTRACHes = new HashSet<PHUTRACH>();
         }
     
         public int MAQUAN { get; set; }
@@ -28,8 +28,8 @@ namespace WebsiteBanXeMay.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<KHACHHANG> KHACHHANGs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NHANVIEN> NHANVIENs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUMUA> PHIEUMUAs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PHUTRACH> PHUTRACHes { get; set; }
     }
 }

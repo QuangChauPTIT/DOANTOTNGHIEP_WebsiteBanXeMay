@@ -8,19 +8,20 @@ using WebsiteBanXeMay.Utils;
 
 namespace WebsiteBanXeMay.Areas.Admin.Controllers
 {
+    [Authorize(Roles ="admin,staff")]
     public class ThuongHieuController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
         // GET: Admin/ThuongHieu
         public ActionResult Index(int Trang = 1)
         {
-            var ThuongHieuModel = new PageUtil
+            var Model = new PageUtil
             {
                 PageSize = 10,
                 Data = lstThuongHieu(),
                 CurrentPage = Trang
             };
-            return View(ThuongHieuModel);
+            return View(Model);
         }
 
         [HttpGet]
@@ -48,8 +49,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                     var obj = DB.THUONGHIEUx.FirstOrDefault(x => x.MATH == objThuongHieu.MATH);
                     if(obj == null)
                     {
-                        var obj1 = DB.THUONGHIEUx.FirstOrDefault(x => x.TENTH == objThuongHieu.TENTH);
-                        if(obj1 == null)
+                        var modelThuongHieu = DB.THUONGHIEUx.FirstOrDefault(x => x.TENTH == objThuongHieu.TENTH);
+                        if(modelThuongHieu == null)
                         {
                             DB.THUONGHIEUx.Add(objThuongHieu);
                             DB.SaveChanges();
@@ -93,8 +94,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                     var obj = DB.THUONGHIEUx.FirstOrDefault(x => x.MATH == objThuongHieu.MATH);
                     if (obj != null)
                     {
-                        var obj1 = DB.THUONGHIEUx.FirstOrDefault(x => x.TENTH == objThuongHieu.TENTH);
-                        if (obj1 == null)
+                        var modelThuongHieu = DB.THUONGHIEUx.FirstOrDefault(x => x.TENTH == objThuongHieu.TENTH);
+                        if (modelThuongHieu == null)
                         {
                             obj.TENTH = objThuongHieu.TENTH;
                             DB.SaveChanges();
@@ -134,10 +135,10 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             {
                 try
                 {
-                    var obj = DB.THUONGHIEUx.FirstOrDefault(x => x.MATH == MaTH);
-                    if (obj != null)
+                    var modelThuongHieu = DB.THUONGHIEUx.FirstOrDefault(x => x.MATH == MaTH);
+                    if (modelThuongHieu != null)
                     {
-                        DB.THUONGHIEUx.Remove(obj);
+                        DB.THUONGHIEUx.Remove(modelThuongHieu);
                         DB.SaveChanges();
                         msg.title = "Xóa thương hiệu thành công";
                     }

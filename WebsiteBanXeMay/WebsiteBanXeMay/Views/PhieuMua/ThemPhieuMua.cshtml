@@ -157,8 +157,10 @@
 
         var now = new Date();
         now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        now.setDate((new Date()).getDate()+1)
         var date = now.toISOString().slice(0,16);
         $('#NgayGiaoID').val(date)
+        $('#NgayGiaoID').attr("min", date)
     })(jQuery);
     </script>
 }

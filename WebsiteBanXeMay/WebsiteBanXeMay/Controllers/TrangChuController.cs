@@ -30,39 +30,39 @@ namespace WebsiteBanXeMay.Controllers
         [HttpGet]
         public ActionResult LoaiSanPhamKhuyenMai(int Trang = 1)
         {
-            var LoaiSanPhamKhuyenMaiModel = new PageUtil
+            var Model = new PageUtil
             {
                 PageSize = 25,
                 Data = lstLoaiSanPham(null, null).Where(x => x.PHANTRAM > 0),
                 CurrentPage = Trang
             };
-            return View(LoaiSanPhamKhuyenMaiModel);
+            return View(Model);
         }
 
         //Tất cả loại sản phẩm mới
         [HttpGet]
         public ActionResult LoaiSanPhamMoi(int Trang = 1)
         {
-            var LoaiSanPhamMoiModel = new PageUtil
+            var Model = new PageUtil
             {
-                PageSize = 2,
+                PageSize = 25,
                 Data = lstLoaiSanPham(0, null),
                 CurrentPage = Trang
             };
-            return View(LoaiSanPhamMoiModel);
+            return View(Model);
         }
 
         //Tất cả loại sản phẩm bán chạy
         [HttpGet]
         public ActionResult LoaiSanPhamBanChay(int Trang = 1)
         {
-            var LoaiSanPhamBanChayModel = new PageUtil
+            var Model = new PageUtil
             {
                 PageSize = 25,
                 Data = lstLoaiSanPham(null, true),
                 CurrentPage = Trang
             };
-            return View(LoaiSanPhamBanChayModel);
+            return View(Model);
         }
 
         // Hiển thị danh sách 10 loại sản phẩm cho 3 phần: khuyến mãi, bán chạy, mới
@@ -83,7 +83,6 @@ namespace WebsiteBanXeMay.Controllers
         }
 
 
-
         //=======================================   Json  =========================================================
         //Autocomplete tên loại sản phẩm
         [HttpGet]
@@ -92,7 +91,6 @@ namespace WebsiteBanXeMay.Controllers
             var lstTenLoaiSanPham = DB.LOAISANPHAMs.Where(x => x.TENLOAI.Contains(term)).Select(x => x.TENLOAI).ToList().Take(10);
             return Json(lstTenLoaiSanPham, JsonRequestBehavior.AllowGet);
         }
-
 
         //=======================================   Lấy dữ liệu từ Database =========================================
 
@@ -146,19 +144,21 @@ namespace WebsiteBanXeMay.Controllers
 
             if (BanChay != null)
             {
-                // Sản phẩm đã bán > 2
-                var querySanPhamDaBan = (from sanpham in DB.SANPHAMs
-                                         join ct_sanpham in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_sanpham.MACTPN
-                                         where sanpham.MAPM != null
-                                         group sanpham by sanpham.MACTPN into g
-                                         select new
-                                         {
-                                             MALOAI = g.Select(x => x.CT_PHIEUNHAP.MALOAI).FirstOrDefault(),
-                                             SOLUONG = g.Count()
-                                         }).GroupBy(x => x.MALOAI).Select(y => new { MALOAI = y.Key, SOLUONG = y.Sum(z => z.SOLUONG) }).Where(k => k.SOLUONG > 2).Select(h => new { MALOAI = h.MALOAI });
+                // Số lượng đã bán của sản phẩm
+                var querySoLuongSanPhamDaBan = (from sanpham in DB.SANPHAMs
+                                                join ct_sanpham in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_sanpham.MACTPN
+                                                join phieumua in DB.PHIEUMUAs on sanpham.MAPM equals phieumua.MAPM
+                                                where sanpham.MAPM != null && phieumua.TRANGTHAI == 2
+                                                group sanpham by sanpham.MACTPN into g
+                                                select new
+                                                {
+                                                    MALOAI = g.Select(x => x.CT_PHIEUNHAP.MALOAI).FirstOrDefault(),
+                                                    SOLUONGDABAN = g.Count()
+                                                }).GroupBy(x => x.MALOAI).Select(y => new { MALOAI = y.Key, SOLUONGDABAN = y.Sum(z => z.SOLUONGDABAN) }).ToList();
                 // Loại sản phẩm bán chạy
-                var queryLoaiSanPhamBanChay = from query_daban in querySanPhamDaBan
+                var queryLoaiSanPhamBanChay = from query_daban in querySoLuongSanPhamDaBan
                                               join query in queryLoaiSanPham on query_daban.MALOAI equals query.MALOAI
+                                              where query_daban.SOLUONGDABAN > 2
                                               select new LoaiSanPhamViewModel
                                               {
                                                   MALOAI = query.MALOAI,

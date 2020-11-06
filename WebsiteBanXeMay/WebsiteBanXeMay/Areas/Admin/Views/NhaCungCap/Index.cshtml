@@ -60,7 +60,7 @@
                                         </td>
                                         <td>
                                             <button title="Hiệu chỉnh" class="btn btn-primary" onclick="getSuaNhaCungCap('@NhaCungCap.MANCC')"><i class="fa fa-edit"></i></button>
-                                            <button title="Xóa" class="btn btn-danger" onclick="Delete('@NhaCungCap.MANCC')"><i class="fa fa-remove"></i></button>
+                                            <button title="Xóa" class="btn btn-danger" onclick="SuaNhaCungCap('@NhaCungCap.MANCC')"><i class="fa fa-remove"></i></button>
                                         </td>
                                     </tr>
                                 }
@@ -131,7 +131,7 @@
         })
     };
 
-    function Insert() {
+    function ThemNhaCungCap() {
 
         Swal.fire({
             title: 'Xác nhận thêm?',
@@ -189,7 +189,7 @@
         })
     }
 
-    function Edit() {
+    function SuaNhaCungCap() {
 
         Swal.fire({
             title: 'Xác nhận hiệu chỉnh?',
@@ -247,7 +247,7 @@
         })
     }
 
-    function Delete(id) {
+    function XoaNhaCungCap(id) {
         Swal.fire({
             title: 'Xác nhận xóa ' + id + ' ?',
             text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được xóa!",

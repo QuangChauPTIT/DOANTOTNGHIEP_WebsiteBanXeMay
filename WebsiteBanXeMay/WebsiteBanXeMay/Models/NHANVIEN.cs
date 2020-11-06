@@ -20,8 +20,10 @@ namespace WebsiteBanXeMay.Models
             this.KHUYENMAIs = new HashSet<KHUYENMAI>();
             this.PHIEUMUAs = new HashSet<PHIEUMUA>();
             this.PHIEUMUAs1 = new HashSet<PHIEUMUA>();
+            this.PHIEUDATs = new HashSet<PHIEUDAT>();
             this.PHIEUNHAPs = new HashSet<PHIEUNHAP>();
             this.PHIEUTRAs = new HashSet<PHIEUTRA>();
+            this.PHUTRACHes = new HashSet<PHUTRACH>();
         }
     
         public int MANV { get; set; }
@@ -32,19 +34,21 @@ namespace WebsiteBanXeMay.Models
         public string DIACHI { get; set; }
         public string SDT { get; set; }
         public string EMAIL { get; set; }
-        public int MAQUANPHUTRACH { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<KHUYENMAI> KHUYENMAIs { get; set; }
-        public virtual QUAN QUAN { get; set; }
         public virtual TAIKHOAN TAIKHOAN { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUMUA> PHIEUMUAs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUMUA> PHIEUMUAs1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PHIEUDAT> PHIEUDATs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUNHAP> PHIEUNHAPs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUTRA> PHIEUTRAs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PHUTRACH> PHUTRACHes { get; set; }
     }
 }

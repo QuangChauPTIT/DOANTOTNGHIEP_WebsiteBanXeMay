@@ -11,5 +11,6 @@ namespace WebsiteBanXeMay.Common
         public const string SESSION_CART = "GIOHANG";
         public const string SESSION_PHIEUMUA = "PHIEUMUA";
         public const string SESSION_CHITIETPHIEUNHAP = "CT_PHIEUNHAP";
+        public const string SESSION_CHITIETPHIEUDAT = "CT_PHIEUDAT";
     }
 }

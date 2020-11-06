@@ -11,6 +11,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="CT_PHIEUDAT">
+      <EntityTypeMapping TypeName="BANXEMAYONLINEModel.CT_PHIEUDAT">
+        <MappingFragment StoreEntitySet="CT_PHIEUDAT">
+          <ScalarProperty Name="MAPD" ColumnName="MAPD" />
+          <ScalarProperty Name="MALOAI" ColumnName="MALOAI" />
+          <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
+          <ScalarProperty Name="GIA" ColumnName="GIA" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="CT_PHIEUNHAP">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.CT_PHIEUNHAP">
         <MappingFragment StoreEntitySet="CT_PHIEUNHAP">
@@ -117,7 +127,6 @@
           <ScalarProperty Name="DIACHI" ColumnName="DIACHI" />
           <ScalarProperty Name="SDT" ColumnName="SDT" />
           <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
-          <ScalarProperty Name="MAQUANPHUTRACH" ColumnName="MAQUANPHUTRACH" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -126,6 +135,17 @@
         <MappingFragment StoreEntitySet="NHOMQUYEN">
           <ScalarProperty Name="MANQ" ColumnName="MANQ" />
           <ScalarProperty Name="TENQUYEN" ColumnName="TENQUYEN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PHIEUDATs">
+      <EntityTypeMapping TypeName="BANXEMAYONLINEModel.PHIEUDAT">
+        <MappingFragment StoreEntitySet="PHIEUDAT">
+          <ScalarProperty Name="MAPD" ColumnName="MAPD" />
+          <ScalarProperty Name="TRANGTHAI" ColumnName="TRANGTHAI" />
+          <ScalarProperty Name="NGAYLAP" ColumnName="NGAYLAP" />
+          <ScalarProperty Name="MANCC" ColumnName="MANCC" />
+          <ScalarProperty Name="MANV" ColumnName="MANV" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -167,6 +187,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="PHUTRACHes">
+      <EntityTypeMapping TypeName="BANXEMAYONLINEModel.PHUTRACH">
+        <MappingFragment StoreEntitySet="PHUTRACH">
+          <ScalarProperty Name="MAPHUTRACH" ColumnName="MAPHUTRACH" />
+          <ScalarProperty Name="MANV" ColumnName="MANV" />
+          <ScalarProperty Name="MAQUAN" ColumnName="MAQUAN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="QUANs">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.QUAN">
         <MappingFragment StoreEntitySet="QUAN">
@@ -193,17 +222,6 @@
         <MappingFragment StoreEntitySet="SANPHAMTANGKEM">
           <ScalarProperty Name="MASPTK" ColumnName="MASPTK" />
           <ScalarProperty Name="TENSPTK" ColumnName="TENSPTK" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="sysdiagrams">
-      <EntityTypeMapping TypeName="BANXEMAYONLINEModel.sysdiagram">
-        <MappingFragment StoreEntitySet="sysdiagrams">
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-          <ScalarProperty Name="version" ColumnName="version" />
-          <ScalarProperty Name="definition" ColumnName="definition" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

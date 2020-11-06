@@ -1,0 +1,31 @@
+﻿@using WebsiteBanXeMay.Areas.Admin.ViewModels
+@model ChiTietPhieuDatViewModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Mã loại: @Model.MALOAI</h4>
+    <h4 class="modal-title">Tên loại: @Model.TENLOAI</h4>
+</div>
+
+    <div class="modal-body">
+        <form name="SuaChiTietPhieuDatTamThoi_Form">
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <input name="MALOAI" type="hidden" value="@Model.MALOAI"/>
+                <div class="col-md-6">
+                    <label>Số lượng<span class="required">*</span></label>
+                    <input placeholder="Số lượng" name="SOLUONG" class="form-control" value="@Model.SOLUONG" type="number">
+                </div>
+                <div class="col-md-6">
+                    <label>Giá<span class="required">*</span></label>
+                    <input placeholder="Giá" name="GIA" class="form-control" value="@Model.GIA" type="number">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" title="Hủy" class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-close" title="Hủy"></i></button>
+        <button type="button" title="Lưu" class="btn btn-success" onclick="SuaChiTietPhieuNhapTamThoi()" style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
+    </div>

@@ -18,6 +18,7 @@ namespace WebsiteBanXeMay.Models
         public NHACUNGCAP()
         {
             this.LOAISANPHAMs = new HashSet<LOAISANPHAM>();
+            this.PHIEUDATs = new HashSet<PHIEUDAT>();
         }
     
         public string MANCC { get; set; }
@@ -28,5 +29,7 @@ namespace WebsiteBanXeMay.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LOAISANPHAM> LOAISANPHAMs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PHIEUDAT> PHIEUDATs { get; set; }
     }
 }

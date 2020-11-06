@@ -54,6 +54,10 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
       <HintPath>..\packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
     </Reference>
@@ -134,23 +138,29 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BaoCaoController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhachHangController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiSanPhamController.cs" />
     <Compile Include="Areas\Admin\Controllers\NhaCungCapController.cs" />
     <Compile Include="Areas\Admin\Controllers\NhanVienController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PhieuDatController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuMuaController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuNhapController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PhuTrachController.cs" />
     <Compile Include="Areas\Admin\Controllers\SanPhamTangKemController.cs" />
     <Compile Include="Areas\Admin\Controllers\TaiKhoanController.cs" />
     <Compile Include="Areas\Admin\Controllers\ThuongHieuController.cs" />
+    <Compile Include="Areas\Admin\ViewModels\BaoCaoDoanhThuTheoLoaiSanPhamViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\ChiTietPhieuDatViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\ChiTietPhieuDatvsNhapViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ChiTietPhieuNhapViewModel.cs" />
-    <Compile Include="Areas\Admin\ViewModels\ChiTietPhieuNhapvsSanPhamViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\NhanVienGiaoHangViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\NhanVienViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\PhieuDatViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhieuMuaAdminViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhieuMuavsHoaDonViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhieuNhapViewModel.cs" />
-    <Compile Include="Areas\Admin\ViewModels\SanPhamViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\PhuTrachViewModel.cs" />
     <Compile Include="Areas\Shipper\Controllers\PhieuMuaController.cs" />
     <Compile Include="Areas\Shipper\ShipperAreaRegistration.cs" />
     <Compile Include="Areas\Shipper\ViewModels\PhieuMuaShipperViewModel.cs" />
@@ -183,6 +193,9 @@
     <Compile Include="Models\CT_KHUYENMAI.cs">
       <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CT_PHIEUDAT.cs">
+      <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CT_PHIEUNHAP.cs">
       <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
     </Compile>
@@ -207,6 +220,7 @@
     <Compile Include="Models\Metadata\KHACHHANG.cs" />
     <Compile Include="Models\Metadata\LOAISANPHAM.cs" />
     <Compile Include="Models\Metadata\NHACUNGCAP.cs" />
+    <Compile Include="Models\Metadata\NHANVIEN.cs" />
     <Compile Include="Models\Metadata\PHIEUMUA.cs" />
     <Compile Include="Models\Metadata\SANPHAMTANGKEM.cs" />
     <Compile Include="Models\Metadata\TAIKHOAN.cs" />
@@ -220,6 +234,9 @@
     <Compile Include="Models\NHOMQUYEN.cs">
       <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PHIEUDAT.cs">
+      <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PHIEUMUA.cs">
       <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
     </Compile>
@@ -229,6 +246,9 @@
     <Compile Include="Models\PHIEUTRA.cs">
       <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PHUTRACH.cs">
+      <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\QUAN.cs">
       <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
     </Compile>
@@ -236,9 +256,6 @@
       <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SANPHAMTANGKEM.cs">
-      <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TAIKHOAN.cs">
@@ -7012,13 +7029,6 @@
     <Content Include="Areas\Admin\Views\NhaCungCap\SuaNhaCungCapPartial.cshtml" />
     <Content Include="Areas\Admin\Views\KhachHang\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PhieuMua\SuaPhieuMuaPartial.cshtml" />
-    <EntityDeploy Include="Models\BANXEMAYONLINE.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BANXEMAYONLINE.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\BANXEMAYONLINE.edmx.diagram">
-      <DependentUpon>BANXEMAYONLINE.edmx</DependentUpon>
-    </Content>
     <Content Include="Areas\Admin\Views\PhieuMua\ChiTietPhieuMuaPartial.cshtml" />
     <Content Include="Areas\Shipper\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Shipper\Views\Shared\_Partial_Footer.cshtml" />
@@ -7029,11 +7039,28 @@
     <Content Include="Areas\Shipper\Views\PhieuMua\PhieuMuaDaGiao.cshtml" />
     <Content Include="Areas\Shipper\Views\PhieuMua\ChiTietPhieuMuaPartial.cshtml" />
     <Content Include="Areas\Admin\Views\LoaiSanPham\ThemLoaiSanPhamPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\BaoCao\BaoCaoDoanhThuTheoLoaiSanPham.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuDat\PhieuDatChuaHoanThanh.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuDat\NhaCungCapPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuDat\ThemChiTietPhieuDatTamThoiPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuDat\SuaChiTietPhieuDatTamThoiPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuDat\ChiTietPhieuDatPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuDat\PhieuDatDaHoanThanh.cshtml" />
     <Content Include="Areas\Admin\Views\PhieuNhap\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PhieuNhap\ChiTietPhieuNhapPartial.cshtml" />
     <Content Include="Areas\Admin\Views\PhieuNhap\NhaCungCapPartial.cshtml" />
     <Content Include="Areas\Admin\Views\PhieuNhap\ThemChiTietPhieuNhapTamThoiPartial.cshtml" />
-    <Content Include="Areas\Admin\Views\PhieuNhap\ThemSanPhamTamThoiPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuNhap\ImportExcelPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\NhanVien\ThemNhanvienPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\NhanVien\SuaNhanVienPartial.cshtml" />
+    <EntityDeploy Include="Models\BANXEMAYONLINE.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BANXEMAYONLINE.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BANXEMAYONLINE.edmx.diagram">
+      <DependentUpon>BANXEMAYONLINE.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Admin\Views\PhuTrach\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -7070,6 +7097,8 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Shipper\Data\" />
+    <Folder Include="Assets\upload\exportExcels\" />
+    <Folder Include="Assets\upload\importExcels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
