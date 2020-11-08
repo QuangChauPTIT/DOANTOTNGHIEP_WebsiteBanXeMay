@@ -56,6 +56,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         public ActionResult ChiTietPhieuDatPartial(int MaPD)
         {
             ViewBag.MaPD = MaPD;
+            ViewBag.TenNCC = getNhaCungCap(MaPD).TENNCC;
             return PartialView(lstLoaiSanPhamTheoPhieuDat(MaPD));
         }
 
@@ -85,6 +86,23 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             var objChiTiet = lstChiTiet.FirstOrDefault(x => x.MALOAI == MaLoai);
             return PartialView(objChiTiet);
         }
+
+
+
+        [HttpGet]
+        public ActionResult SuaChiTietPhieuDatPartial(int MaPD)
+        {
+            var objPhieuDat = DB.PHIEUDATs.FirstOrDefault(x => x.MAPD == MaPD);
+            var objNhaCungCap = getNhaCungCap(MaPD);
+            var lstChiTiet = lstChiTietPhieuDat(MaPD);
+            ViewBag.lstChiTiet = lstChiTiet;
+            ViewBag.MaPD = MaPD;
+            ViewBag.TenNCC = objNhaCungCap.TENNCC;
+            Session[Constant.SESSION_CHITIETPHIEUDAT] = lstChiTiet;
+            return PartialView(lstLoaiSanPham(objPhieuDat.MANCC));
+        }
+
+
         #region Chi tiết phiếu đặt tạm thời
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -244,15 +262,16 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             var msg = new JMessage() { error = false, title = "Hủy chi tiết phiếu đặt tạm thời thành công" };
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
         #endregion
 
 
         #region Cập nhật vào database
         [HttpPost]
-        public JsonResult ThemChiTietPhieuDat(string MaNCC)
+        public JsonResult ThemPhieuDat(string MaNCC)
         {
             var msg = new JMessage() { error = false, title = "", list = null };
-            if(!string.IsNullOrWhiteSpace(MaNCC))
+            if (!string.IsNullOrWhiteSpace(MaNCC))
             {
                 var SessionChiTiet = Session[Constant.SESSION_CHITIETPHIEUDAT];
                 var lstChiTiet = new List<ChiTietPhieuDatViewModel>();
@@ -273,7 +292,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                             DB.PHIEUDATs.Add(objPhieuDat);
                             DB.SaveChanges();
 
-                            foreach(var objChiTiet in lstChiTiet)
+                            foreach (var objChiTiet in lstChiTiet)
                             {
                                 var objChiTietPhieuDat = new CT_PHIEUDAT
                                 {
@@ -303,15 +322,119 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                     msg.title = "Danh sách chi tiết rỗng không thể thêm";
                     msg.error = true;
                 }
-            }    
+            }
             else
             {
                 msg.title = "Mã nhà cung cấp là bắt buộc";
                 msg.error = true;
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult XoaPhieuDat(int MaPD)
+        {
+            var msg = new JMessage() { error = false, title = "" };
+            using (DbContextTransaction transaction = DB.Database.BeginTransaction())
+            {
+                try
+                {
+                    var objPhieuDat = DB.PHIEUDATs.FirstOrDefault(x => x.MAPD == MaPD && x.TRANGTHAI == 0);
+                    if (objPhieuDat != null)
+                    {
+                        var lstChiTietPhieuDat = DB.CT_PHIEUDAT.Where(x => x.MAPD == objPhieuDat.MAPD).ToList();
+                        DB.CT_PHIEUDAT.RemoveRange(lstChiTietPhieuDat);
+                        DB.SaveChanges();
+                        DB.PHIEUDATs.Remove(objPhieuDat);
+                        DB.SaveChanges();
+
+                        transaction.Commit();
+                        msg.title = "Hủy phiếu đặt hàng thành công";
+                        msg.error = false;
+                    }
+                    else
+                    {
+                        msg.title = "Phiếu đặt hàng không tồn tại";
+                        msg.error = true;
+                    }
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    msg.title = "Hủy phiếu đặt hàng thất bại";
+                    msg.error = true;
+                }
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult SuaChiTietPhieuDat(int MaPD)
+        {
+            var msg = new JMessage() { error = false, title = "" };
+            var SessionChiTiet = Session[Constant.SESSION_CHITIETPHIEUDAT];
+            var lstChiTiet = new List<ChiTietPhieuDatViewModel>();
+            if(SessionChiTiet != null)
+            {
+                using (DbContextTransaction transaction = DB.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        lstChiTiet = SessionChiTiet as List<ChiTietPhieuDatViewModel>;
+                        var lstChiTiet_DB = DB.CT_PHIEUDAT.Where(x => x.MAPD == MaPD).Select(x => x.MALOAI).ToList();
+                        var lstChiTiet_CanXoa = lstChiTiet_DB.Except(lstChiTiet.Select(x=>x.MALOAI));
+                        foreach (var MaLoai in lstChiTiet_CanXoa)
+                        {
+                            var objChiTiet = DB.CT_PHIEUDAT.FirstOrDefault(x => x.MAPD==MaPD && x.MALOAI == MaLoai);
+                            DB.CT_PHIEUDAT.Remove(objChiTiet);
+                            DB.SaveChanges();
+                        }
+
+                        var lstChiTiet_DB_SauHieuChinh = DB.CT_PHIEUDAT.Where(x => x.MAPD == MaPD).Select(x=>x.MALOAI).ToList();
+                        foreach (var objChiTiet in lstChiTiet)
+                        {
+                            if(!lstChiTiet_DB_SauHieuChinh.Contains(objChiTiet.MALOAI))
+                            {
+                                var modelChiTietPhieuDat = new CT_PHIEUDAT
+                                {
+                                    MALOAI = objChiTiet.MALOAI,
+                                    MAPD = MaPD,
+                                    GIA = objChiTiet.GIA,
+                                    SOLUONG = objChiTiet.SOLUONG
+                                };
+                                DB.CT_PHIEUDAT.Add(modelChiTietPhieuDat);
+                                DB.SaveChanges();
+                            }    
+                            else
+                            {
+                                var modelChiTietPhieuDat = DB.CT_PHIEUDAT.FirstOrDefault(x => x.MAPD == MaPD && x.MALOAI == objChiTiet.MALOAI);
+                                modelChiTietPhieuDat.SOLUONG = objChiTiet.SOLUONG;
+                                modelChiTietPhieuDat.GIA = objChiTiet.GIA;
+                                DB.SaveChanges();
+                            }    
+                        }
+
+                        var objPhieuDat = DB.PHIEUDATs.FirstOrDefault(x => x.MAPD == MaPD);
+                        objPhieuDat.NGAYLAP = DateTime.Now;
+                        objPhieuDat.MANV = (Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel).MA;
+                        DB.SaveChanges();
+
+                        transaction.Commit();
+                        msg.title = "Hiệu chỉnh phiếu đặt hàng thành công";
+                        msg.error = false;
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        msg.title = "Hiệu chỉnh phiếu đặt hàng thất bại";
+                        msg.error = true;
+                    }
+                }
             }    
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
         #endregion  
+
 
         public void ExportExcel(int MaPD)
         {
@@ -323,7 +446,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
 
 
                 worksheet.Range["A3:H3"].Merge();
-                worksheet.Cells[3, 1] = "Phiếu nhập";
+                worksheet.Cells[3, 1] = "Phiếu đặt";
                 worksheet.Cells[3, 1].EntireRow.Font.Size = 22;
                 worksheet.Cells[3, 1].EntireRow.Font.Bold = true;
                 worksheet.Cells[3, 1].EntireRow.HorizontalAlignment = XlHAlign.xlHAlignCenter;
@@ -333,6 +456,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 worksheet.Cells[7, 1] = "Địa chỉ:";
                 worksheet.Cells[8, 1] = "Email:";
                 worksheet.Cells[9, 1] = "Ngày đặt:";
+                worksheet.Cells[10, 1] = "Nhân viên lập phiếu:";
 
                 worksheet.Cells[12, 1] = "STT";
                 worksheet.Cells[12, 1].EntireColumn.ColumnWidth = 8.43;
@@ -368,12 +492,14 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 var objPhieuDat = getPhieuDat(MaPD);
                 var lstLoaiSanPham = lstLoaiSanPhamTheoChiTietPhieuDat(MaPD);
 
+                var objNhanVien = getNhanVien(objPhieuDat.MANV);
 
                 worksheet.Cells[5, 2] = objNhaCungCap.TENNCC;
                 worksheet.Cells[6, 2] = objNhaCungCap.SDT;
                 worksheet.Cells[7, 2] = objNhaCungCap.DIACHI;
                 worksheet.Cells[8, 2] = objNhaCungCap.EMAIL;
-                worksheet.Cells[9, 2] = objPhieuDat.NGAYLAP.ToString("dd-MM-yyyy hh:mm");
+                worksheet.Cells[9, 2] = objPhieuDat.NGAYLAP.ToString("dd-MM-yyyy hh:mm tt");
+                worksheet.Cells[10, 2] = objNhanVien.HO + " " + objNhanVien.TEN;
 
                 int dem = 0;
                 foreach (var LoaiSanPham in lstLoaiSanPham)
@@ -400,8 +526,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 workbook.SaveAs(filePath);
                 workbook.Close();
 
-                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";    
-                Response.AddHeader("content-disposition", "attachment; filename="+ name);
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment; filename=" + name);
                 Response.TransmitFile(filePath);
                 Response.End();
 
@@ -411,6 +537,10 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
 
             }
         }
+
+
+
+
 
         //============================== Lấy danh sách từ database =====================================
         private IEnumerable<NHACUNGCAP> lstNhaCungCap()
@@ -452,16 +582,31 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         private IEnumerable<ChiTietPhieuDatvsNhapViewModel> lstLoaiSanPhamTheoPhieuDat(int MaPD)
         {
             var queryChiTietPhieuDat = from ct_phieudat in DB.CT_PHIEUDAT
-                                        join loaisanpham in DB.LOAISANPHAMs on ct_phieudat.MALOAI equals loaisanpham.MALOAI
-                                        where ct_phieudat.MAPD == MaPD
-                                        select new ChiTietPhieuDatvsNhapViewModel
-                                        {
-                                            MALOAI = ct_phieudat.MALOAI,
-                                            TENLOAI = loaisanpham.TENLOAI,
-                                            HINHANH = loaisanpham.HINHANH,
-                                            SOLUONG = ct_phieudat.SOLUONG,
-                                            GIA = ct_phieudat.GIA
-                                        };
+                                       join loaisanpham in DB.LOAISANPHAMs on ct_phieudat.MALOAI equals loaisanpham.MALOAI
+                                       where ct_phieudat.MAPD == MaPD
+                                       select new ChiTietPhieuDatvsNhapViewModel
+                                       {
+                                           MALOAI = ct_phieudat.MALOAI,
+                                           TENLOAI = loaisanpham.TENLOAI,
+                                           HINHANH = loaisanpham.HINHANH,
+                                           SOLUONG = ct_phieudat.SOLUONG,
+                                           GIA = ct_phieudat.GIA
+                                       };
+            return queryChiTietPhieuDat.ToList();
+        }
+
+        private IEnumerable<ChiTietPhieuDatViewModel> lstChiTietPhieuDat(int MaPD)
+        {
+            var queryChiTietPhieuDat = from ct_phieudat in DB.CT_PHIEUDAT
+                                       join loaisanpham in DB.LOAISANPHAMs on ct_phieudat.MALOAI equals loaisanpham.MALOAI
+                                       where ct_phieudat.MAPD == MaPD
+                                       select new ChiTietPhieuDatViewModel
+                                       {
+                                           MALOAI = ct_phieudat.MALOAI,
+                                           TENLOAI = loaisanpham.TENLOAI,
+                                           SOLUONG = ct_phieudat.SOLUONG,
+                                           GIA = ct_phieudat.GIA
+                                       };
             return queryChiTietPhieuDat.ToList();
         }
 
@@ -479,6 +624,11 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         {
             var MaNCC = DB.PHIEUDATs.FirstOrDefault(x => x.MAPD == MaPD).MANCC;
             return DB.NHACUNGCAPs.FirstOrDefault(x => x.MANCC == MaNCC);
+        }
+
+        private NHANVIEN getNhanVien(int MaNV)
+        {
+            return DB.NHANVIENs.FirstOrDefault(x => x.MANV == MaNV);
         }
     }
 }

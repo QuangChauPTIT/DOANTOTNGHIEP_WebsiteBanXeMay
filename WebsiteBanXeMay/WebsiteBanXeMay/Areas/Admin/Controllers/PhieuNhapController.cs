@@ -39,6 +39,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         public ActionResult ChiTietPhieuNhapPartial(int MaPN)
         {
             ViewBag.MaPN = MaPN;
+            ViewBag.TenNCC = getNhaCungCap(MaPN).TENNCC;
             return PartialView(lstLoaiSanPhamTheoPhieuNhap(MaPN));
         }
 
@@ -152,65 +153,65 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public JsonResult SuaChiTietPhieuNhapTamThoi(string SoKhung, string SoMay, double Gia)
-        {
-            var msg = new JMessage() { error = false, title = "", list = null };
-            var SessionChiTiet = Session[Constant.SESSION_CHITIETPHIEUNHAP];
-            var lstChiTiet = new List<ChiTietPhieuNhapViewModel>();
-            if (SessionChiTiet != null)
-            {
-                lstChiTiet = SessionChiTiet as List<ChiTietPhieuNhapViewModel>;
-            }
-            if (lstChiTiet.Count() > 0)
-            {
-                if (!string.IsNullOrWhiteSpace(SoKhung))
-                {
-                    if (!string.IsNullOrWhiteSpace(SoMay))
-                    {
-                        if (Gia >= 1000000 && Gia <= 100000000)
-                        {
-                            var obj = lstChiTiet.FirstOrDefault(x => x.SOKHUNG == SoKhung && x.SOMAY == SoMay);
-                            if (obj != null)
-                            {
-                                var lst = lstChiTiet.Where(x => x.MALOAI == obj.MALOAI).ToList();
-                                lst.ForEach(x => x.GIA = Gia);
-                                Session[Constant.SESSION_CHITIETPHIEUNHAP] = lstChiTiet;
-                                msg.error = false;
-                                msg.title = "Hiệu chỉnh thành công";
-                            }
-                            else
-                            {
-                                msg.error = true;
-                                msg.title = "Hiệu chỉnh thất bại";
-                            }
-                        }
-                        else
-                        {
-                            msg.error = true;
-                            msg.title = "Giá phải từ 1.000.000 đến 100.000.000";
-                        }
-                    }
-                    else
-                    {
-                        msg.error = true;
-                        msg.title = "Số máy là bắt buộc";
-                    }
-                }
-                else
-                {
-                    msg.error = true;
-                    msg.title = "Số khung là bắt buộc";
-                }
-            }
-            else
-            {
-                msg.error = true;
-                msg.title = "Danh sách rỗng";
-            }
-            msg.list = lstChiTiet;
-            return Json(msg, JsonRequestBehavior.AllowGet);
-        }
+        //[HttpPost]
+        //public JsonResult SuaChiTietPhieuNhapTamThoi(string SoKhung, string SoMay, double Gia)
+        //{
+        //    var msg = new JMessage() { error = false, title = "", list = null };
+        //    var SessionChiTiet = Session[Constant.SESSION_CHITIETPHIEUNHAP];
+        //    var lstChiTiet = new List<ChiTietPhieuNhapViewModel>();
+        //    if (SessionChiTiet != null)
+        //    {
+        //        lstChiTiet = SessionChiTiet as List<ChiTietPhieuNhapViewModel>;
+        //    }
+        //    if (lstChiTiet.Count() > 0)
+        //    {
+        //        if (!string.IsNullOrWhiteSpace(SoKhung))
+        //        {
+        //            if (!string.IsNullOrWhiteSpace(SoMay))
+        //            {
+        //                if (Gia >= 1000000 && Gia <= 100000000)
+        //                {
+        //                    var obj = lstChiTiet.FirstOrDefault(x => x.SOKHUNG == SoKhung && x.SOMAY == SoMay);
+        //                    if (obj != null)
+        //                    {
+        //                        var lst = lstChiTiet.Where(x => x.MALOAI == obj.MALOAI).ToList();
+        //                        lst.ForEach(x => x.GIA = Gia);
+        //                        Session[Constant.SESSION_CHITIETPHIEUNHAP] = lstChiTiet;
+        //                        msg.error = false;
+        //                        msg.title = "Hiệu chỉnh thành công";
+        //                    }
+        //                    else
+        //                    {
+        //                        msg.error = true;
+        //                        msg.title = "Hiệu chỉnh thất bại";
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    msg.error = true;
+        //                    msg.title = "Giá phải từ 1.000.000 đến 100.000.000";
+        //                }
+        //            }
+        //            else
+        //            {
+        //                msg.error = true;
+        //                msg.title = "Số máy là bắt buộc";
+        //            }
+        //        }
+        //        else
+        //        {
+        //            msg.error = true;
+        //            msg.title = "Số khung là bắt buộc";
+        //        }
+        //    }
+        //    else
+        //    {
+        //        msg.error = true;
+        //        msg.title = "Danh sách rỗng";
+        //    }
+        //    msg.list = lstChiTiet;
+        //    return Json(msg, JsonRequestBehavior.AllowGet);
+        //}
 
         [HttpGet]
         public JsonResult XoaChiTietPhieuNhapTamThoi(string SoKhung, string SoMay)
@@ -375,15 +376,24 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         public JsonResult KiemTraTrangThaiPhieuDat(int MaPD, string MaNCC)
         {
             var msg = new JMessage() { error = false, title = "" };
-            var objPhieuDat = DB.PHIEUDATs.FirstOrDefault(x => x.MAPD == MaPD && x.TRANGTHAI == 0 && x.MANCC == MaNCC);
+            var objPhieuDat = DB.PHIEUDATs.FirstOrDefault(x => x.MAPD == MaPD  && x.MANCC == MaNCC);
             if (objPhieuDat != null)
             {
-                msg.error = false;
+                var objPhieuNhap = DB.PHIEUNHAPs.FirstOrDefault(x => x.MAPD == MaPD);
+                if (objPhieuNhap == null)
+                {
+                    msg.error = false;
+                }    
+                else
+                {
+                    msg.error = true;
+                    msg.title = "Đơn hàng đã được nhập";
+                }    
             }
             else
             {
                 msg.error = true;
-                msg.title = "Đơn đặt hàng đến nhà cung cấp không tồn tại hoặc đã được nhập";
+                msg.title = "Đơn đặt hàng đến nhà cung cấp không tồn tại";
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
@@ -486,6 +496,20 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                 flag = true;
                                 break;
                             }
+                            else if(string.IsNullOrWhiteSpace(objChiTiet.SOKHUNG))
+                            {
+                                msg.error = true;
+                                msg.title = "Số khung " + objChiTiet.SOKHUNG + " của loại sản phẩm " + objChiTiet.MALOAI + " rỗng";
+                                flag = true;
+                                break;
+                            }
+                            else if (string.IsNullOrWhiteSpace(objChiTiet.SOMAY))
+                            {
+                                msg.error = true;
+                                msg.title = "Số máy " + objChiTiet.SOMAY + " của loại sản phẩm " + objChiTiet.MALOAI + " rỗng";
+                                flag = true;
+                                break;
+                            }
                             else if (DB.SANPHAMs.FirstOrDefault(x => x.SOKHUNG == objChiTiet.SOKHUNG) != null)
                             {
                                 msg.error = true;
@@ -506,6 +530,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                             var objPhieuNhap = new PHIEUNHAP
                             {
                                 NGAYLAP = NgayLap,
+                                MAPD = MaPD,
                                 MANV = (Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel).MA
                             };
                             DB.PHIEUNHAPs.Add(objPhieuNhap);
@@ -574,7 +599,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             var queryPhieuNhap = from phieunhap in DB.PHIEUNHAPs
                                  join nhanvien in DB.NHANVIENs on phieunhap.MANV equals nhanvien.MANV
                                  join taikhoan in DB.TAIKHOANs on nhanvien.EMAIL equals taikhoan.EMAIL
-                                 orderby phieunhap.NGAYLAP descending
+                                 orderby phieunhap.MAPN descending
                                  select new PhieuNhapViewModel
                                  {
                                      MAPN = phieunhap.MAPN,
@@ -616,5 +641,13 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         {
             return DB.LOAISANPHAMs.FirstOrDefault(x => x.MALOAI == MaLoai).TENLOAI;
         }
+
+        private NHACUNGCAP getNhaCungCap(int MaPN)
+        {
+            var objPhieuNhap = DB.PHIEUNHAPs.FirstOrDefault(x => x.MAPN == MaPN);
+            var objPhieuDat = DB.PHIEUDATs.FirstOrDefault(x => x.MAPD == objPhieuNhap.MAPD);
+            return DB.NHACUNGCAPs.FirstOrDefault(x => x.MANCC == objPhieuDat.MANCC);
+        }
+
     }
 }

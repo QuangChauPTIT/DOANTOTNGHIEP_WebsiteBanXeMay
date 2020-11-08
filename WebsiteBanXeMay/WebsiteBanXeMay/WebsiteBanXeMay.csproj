@@ -143,6 +143,7 @@
     <Compile Include="Areas\Admin\Controllers\LoaiSanPhamController.cs" />
     <Compile Include="Areas\Admin\Controllers\NhaCungCapController.cs" />
     <Compile Include="Areas\Admin\Controllers\NhanVienController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PhanQuyenNhanVienController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuDatController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuMuaController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuNhapController.cs" />
@@ -7053,6 +7054,10 @@
     <Content Include="Areas\Admin\Views\PhieuNhap\ImportExcelPartial.cshtml" />
     <Content Include="Areas\Admin\Views\NhanVien\ThemNhanvienPartial.cshtml" />
     <Content Include="Areas\Admin\Views\NhanVien\SuaNhanVienPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\PhuTrach\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PhuTrach\PhuTrachPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\PhanQuyenNhanVien\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PhanQuyenNhanVien\PhanQuyenNhanVienPartial.cshtml" />
     <EntityDeploy Include="Models\BANXEMAYONLINE.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>BANXEMAYONLINE.Designer.cs</LastGenOutput>
@@ -7060,7 +7065,7 @@
     <Content Include="Models\BANXEMAYONLINE.edmx.diagram">
       <DependentUpon>BANXEMAYONLINE.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\PhuTrach\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuDat\SuaChiTietPhieuDatPartial.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

@@ -2,8 +2,7 @@
 @using WebsiteBanXeMay.Areas.Admin.ViewModels
 @model NHANVIEN
 
-@{ var lstNhomQuyenNhanVien = ViewBag.lstNhomQuyenNhanVien as IEnumerable<NHOMQUYEN>;
-    var MANQ = ViewBag.MANQ as string;}
+
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -48,18 +47,6 @@
                 <label>Địa chỉ<span class="required">*</span></label>
                 <input placeholder="Địa chỉ" name="DIACHI" class="form-control" value="@Model.DIACHI" type="text">
             </div>
-            @if (MANQ.Equals("admin") == false)
-            {
-                <div class="col-md-12" style="margin-top:3%">
-                    <label>Chức vụ<span class="required">*</span></label>
-                    <select class="form-control select2" name="MANQ">
-                        @foreach (var quyen in lstNhomQuyenNhanVien)
-                        {
-                            <option @(quyen.MANQ == MANQ ? "selected" : null) value="@quyen.MANQ">@quyen.TENQUYEN</option>
-                        }
-                    </select>
-                </div>
-            }
         </div>
 
     </form>

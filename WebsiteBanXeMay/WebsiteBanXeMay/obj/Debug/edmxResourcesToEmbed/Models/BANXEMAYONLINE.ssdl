@@ -163,6 +163,7 @@
     <Property Name="MAPN" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="NGAYLAP" Type="datetime" Nullable="false" />
     <Property Name="MANV" Type="int" Nullable="false" />
+    <Property Name="MAPD" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PHIEUTRA">
     <Key>
@@ -510,6 +511,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PHIEUNHAP_PHIEUDAT">
+    <End Role="PHIEUDAT" Type="Self.PHIEUDAT" Multiplicity="1" />
+    <End Role="PHIEUNHAP" Type="Self.PHIEUNHAP" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PHIEUDAT">
+        <PropertyRef Name="MAPD" />
+      </Principal>
+      <Dependent Role="PHIEUNHAP">
+        <PropertyRef Name="MAPD" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PHIEUTRA_NHANVIEN">
     <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="1" />
     <End Role="PHIEUTRA" Type="Self.PHIEUTRA" Multiplicity="*" />
@@ -723,6 +736,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_PHIEUNHAP_NHANVIEN" Association="Self.FK_PHIEUNHAP_NHANVIEN">
       <End Role="NHANVIEN" EntitySet="NHANVIEN" />
+      <End Role="PHIEUNHAP" EntitySet="PHIEUNHAP" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PHIEUNHAP_PHIEUDAT" Association="Self.FK_PHIEUNHAP_PHIEUDAT">
+      <End Role="PHIEUDAT" EntitySet="PHIEUDAT" />
       <End Role="PHIEUNHAP" EntitySet="PHIEUNHAP" />
     </AssociationSet>
     <AssociationSet Name="FK_PHIEUTRA_NHANVIEN" Association="Self.FK_PHIEUTRA_NHANVIEN">

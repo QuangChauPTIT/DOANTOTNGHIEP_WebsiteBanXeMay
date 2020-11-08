@@ -54,11 +54,13 @@
                                                 @(PhieuDatViewModel.HO + " " + PhieuDatViewModel.TEN)
                                             </td>
                                             <td>
-                                                @PhieuDatViewModel.NGAYLAP.ToString("dd/MM/yyyy hh:mm:ss")
+                                                @PhieuDatViewModel.NGAYLAP.ToString("dd/MM/yyyy hh:mm tt")
                                             </td>
                                             <td>
-                                                <button title="Xem chi tiết" onclick="getChiTietPhieuDat('@PhieuDatViewModel.MAPD')" class="btn btn-warning"><i class="fa fa-info"></i></button>
-                                                <a role="button" title="Xuất file excel" href="@Url.Action("ExportExcel","PhieuDat",new { MaPD = PhieuDatViewModel.MAPD})" class="btn btn-success"><i class="fa fa-file-excel-o"></i></a>
+                                                <button title="Xem chi tiết" onclick="getChiTietPhieuDat('@PhieuDatViewModel.MAPD')"  class="btn btn-warning"><i class="fa fa-info"></i></button>
+                                                <a role="button" title="Xuất file excel" href="@Url.Action("ExportExcel","PhieuDat",new { MaPD = PhieuDatViewModel.MAPD})" style="margin-left:5%" class="btn btn-success"><i class="fa fa-file-excel-o"></i></a>
+                                                <button title="Hiệu chỉnh" class="btn btn-primary" onclick="getSuaChiTietPhieuDat('@PhieuDatViewModel.MAPD')" style="margin-left:5%"><i class="fa fa-edit"></i></button>
+                                                <button title="Xóa" class="btn btn-danger" onclick="XoaPhieuDat('@PhieuDatViewModel.MAPD')" style="margin-left:5%"><i class="fa fa-remove"></i></button>
                                             </td>
                                         </tr>
                                     }
@@ -95,6 +97,15 @@
     </section>
     <!-- /.content -->
 </div>
+<div class="modal fade" id="SuaChiTietPhieuDat_Modal" role="dialog" aria-labelledby="SuaChiTietPhieuDat_ModalLable" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="SuaChiTietPhieuDat_ModalBody">
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 <div class="modal fade" id="PhieuDatModal" role="dialog" aria-labelledby="PhieuDatModalLable" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content" id="PhieuDatModalBody">
@@ -105,9 +116,9 @@
     <!-- /.modal-dialog -->
 </div>
 
-<div class="modal fade" id="ThemChiTietPhieuDat_Modal" role="dialog" aria-labelledby="ThemChiTietPhieuDat_ModalLable" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="ThemChiTietPhieuDatTamThoi_Modal" role="dialog" aria-labelledby="ThemChiTietPhieuDatTamThoi_ModalLable" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content" id="ThemChiTietPhieuDat_ModalBody">
+        <div class="modal-content" id="ThemChiTietPhieuDatTamThoi_ModalBody">
 
         </div>
         <!-- /.modal-content -->
@@ -116,9 +127,10 @@
 </div>
 
 
-<div class="modal fade" id="SuaChiTietPhieuDat_Modal" role="dialog" aria-labelledby="SuaChiTietPhieuDat_ModalLable" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+
+<div class="modal fade" id="SuaChiTietPhieuDatTamThoi_Modal" role="dialog" aria-labelledby="SuaChiTietPhieuDatTamThoi_ModalLable" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content" id="SuaChiTietPhieuDat_ModalBody">
+        <div class="modal-content" id="SuaChiTietPhieuDatTamThoi_ModalBody">
 
         </div>
         <!-- /.modal-content -->
@@ -156,8 +168,8 @@
             type: "GET",
             url: "/Admin/PhieuDat/ThemChiTietPhieuDatTamThoiPartial?MaNCC=" + id,
             success: function (res) {
-                $("#ThemChiTietPhieuDat_ModalBody").html(res);
-                $("#ThemChiTietPhieuDat_Modal").modal('show')
+                $("#ThemChiTietPhieuDatTamThoi_ModalBody").html(res);
+                $("#ThemChiTietPhieuDatTamThoi_Modal").modal('show')
             }
         })
     };
@@ -168,11 +180,24 @@
             type: "GET",
             url: "/Admin/PhieuDat/SuaChiTietPhieuDatTamThoiPartial?MaLoai=" + id,
             success: function (res) {
+                $("#SuaChiTietPhieuDatTamThoi_ModalBody").html(res);
+                $("#SuaChiTietPhieuDatTamThoi_Modal").modal('show')
+            }
+        })
+    };
+
+    // modal thêm chi tiết phiếu đặt
+    function getSuaChiTietPhieuDat(id) {
+        $.ajax({
+            type: "GET",
+            url: "/Admin/PhieuDat/SuaChiTietPhieuDatPartial?MaPD=" + id,
+            success: function (res) {
                 $("#SuaChiTietPhieuDat_ModalBody").html(res);
                 $("#SuaChiTietPhieuDat_Modal").modal('show')
             }
         })
     };
+
     //Đóng modal thêm chi tiết
     function HuyDatHang() {
         Swal.fire({
@@ -199,7 +224,8 @@
                             customClass: 'swal-wide',
                         }).then((d) => {
                             if (d.isConfirmed) {
-                                $("#ThemChiTietPhieuDat_Modal").modal('hide');
+                                $("#ThemChiTietPhieuDatTamThoi_Modal").modal('hide');
+                                location.reload();
                             }
                         });
                     }
@@ -208,7 +234,7 @@
         })
     }
 
-
+    
     function ThemChiTietPhieuDatTamThoi() {
         var form = $('form[name="ThemChiTietPhieuDatTamThoi_Form"]');
         form.validate();
@@ -293,7 +319,7 @@
                                 });
                                 $('#ChiTietPhieuDat_DetailTable').html(html)
                                 $('.money').simpleMoneyFormat();
-                                $("#SuaChiTietPhieuDat_Modal").modal('hide')
+                                $("#SuaChiTietPhieuDatTamThoi_Modal").modal('hide')
                             }
                             else {
                                 Swal.fire({
@@ -312,7 +338,7 @@
     }
     function XoaChiTietPhieuDatTamThoi(MaLoai) {
         Swal.fire({
-            title: 'Xác nhận hủy nhập loại sản phẩm mã: ' + MaLoai + '?',
+            title: 'Xác nhận hủy đặt loại sản phẩm mã: ' + MaLoai + '?',
             text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được hủy!",
             icon: 'question',
             customClass: 'swal-wide',
@@ -337,7 +363,7 @@
                                 html += '<td>' + item.TENLOAI + '</td>';
                                 html += '<td>' + item.SOLUONG + '</td>';
                                 html += '<td><span class="money" style="color:red">' + item.GIA + '</span></td>';
-                                html += '<td><a href="#" onclick="getSuaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Sửa</a> | <a href="#" onclick="Delete_ChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Xóa</a></td>';
+                                html += '<td><a href="#" onclick="getSuaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Sửa</a> | <a href="#" onclick="XoaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Xóa</a></td>';
                                 html += '</tr>';
                             });
                             $('#ChiTietPhieuDat_DetailTable').html(html)
@@ -359,7 +385,41 @@
     }
 
 
-    function ThemChiTietPhieuDat() {
+    function HuySuaPhieuDat() {
+        Swal.fire({
+            title: 'Xác nhận hủy hiệu chỉnh?',
+            text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được hủy!",
+            icon: 'question',
+            customClass: 'swal-wide',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'hủy',
+            confirmButtonText: 'Xác nhận',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/PhieuDat/XoaTatCaChiTietPhieuDatTamThoi",
+                    success: function (res) {
+                        Swal.fire({
+                            title: 'Thành công!',
+                            text: res.title,
+                            icon: 'success',
+                            customClass: 'swal-wide',
+                        }).then((d) => {
+                            if (d.isConfirmed) {
+                                $("#SuaChiTietPhieuDat_Modal").modal('hide');
+                                location.reload();
+                            }
+                        });
+                    }
+                })
+            }
+        })
+    }
+    function ThemPhieuDat(MaNCC) {
         Swal.fire({
             title: 'Xác nhận đặt hàng hàng?',
             text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được thêm!",
@@ -372,11 +432,10 @@
             confirmButtonText: 'Xác nhận',
             allowOutsideClick: false
         }).then((result) => {
-            var MaNCC = $('#NhaCungCapID').val()
             if (result.isConfirmed) {
                 $.ajax({
                     type: "POST",
-                    url: "/Admin/PhieuDat/ThemChiTietPhieuDat?MaNCC=" + MaNCC,
+                    url: "/Admin/PhieuDat/ThemPhieuDat?MaNCC=" + MaNCC,
                     success: function (res) {
                         if (res.error == false) {
                             Swal.fire({
@@ -387,6 +446,95 @@
                             }).then((d) => {
                                 if (d.isConfirmed) {
                                     $("#PhieuDatModal").modal('hide')
+                                    location.reload();
+                                }
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: res.title,
+                                icon: 'error',
+                                customClass: 'swal-wide',
+                            })
+                            return;
+                        }
+                    }
+                })
+            }
+        })
+    }
+    function XoaPhieuDat(MaPD) {
+        Swal.fire({
+            title: 'Xác nhận hủy đơn đặt hàng mã: ' + MaPD + '?',
+            text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được hủy!",
+            icon: 'question',
+            customClass: 'swal-wide',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'hủy',
+            confirmButtonText: 'Xác nhận',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    url: "/Admin/PhieuDat/XoaPhieuDat?MaPD=" + MaPD,
+                    success: function (res) {
+                        if (res.error == false) {
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: res.title,
+                                icon: 'success',
+                                customClass: 'swal-wide',
+                            }).then((d) => {
+                                if (d.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: res.title,
+                                icon: 'error',
+                                customClass: 'swal-wide',
+                            })
+                            return;
+                        }
+                    }
+                })
+            }
+        })
+    }
+    function SuaChiTietPhieuDat(MaPD) {
+        Swal.fire({
+            title: 'Xác nhận hiệu chỉnh chi tiết phiếu đặt?',
+            text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được thêm!",
+            icon: 'question',
+            customClass: 'swal-wide',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'hủy',
+            confirmButtonText: 'Xác nhận',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/PhieuDat/SuaChiTietPhieuDat?MaPD=" + MaPD,
+                    success: function (res) {
+                        if (res.error == false) {
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: res.title,
+                                icon: 'success',
+                                customClass: 'swal-wide',
+                            }).then((d) => {
+                                if (d.isConfirmed) {
+                                    $("#SuaChiTietPhieuDat_Modal").modal('hide')
                                     location.reload();
                                 }
                             });

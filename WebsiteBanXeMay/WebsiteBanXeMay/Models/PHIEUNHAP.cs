@@ -23,9 +23,11 @@ namespace WebsiteBanXeMay.Models
         public int MAPN { get; set; }
         public System.DateTime NGAYLAP { get; set; }
         public int MANV { get; set; }
+        public int MAPD { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CT_PHIEUNHAP> CT_PHIEUNHAP { get; set; }
         public virtual NHANVIEN NHANVIEN { get; set; }
+        public virtual PHIEUDAT PHIEUDAT { get; set; }
     }
 }

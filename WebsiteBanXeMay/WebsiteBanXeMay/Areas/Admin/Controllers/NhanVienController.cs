@@ -27,17 +27,6 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return View(Model);
         }
 
-        [HttpGet]
-        public ActionResult PhanCongNhanVien(int Trang = 1)
-        {
-            var Model = new PageUtil
-            {
-                PageSize = 10,
-                Data = lstNhanVien(),
-                CurrentPage = Trang
-            };
-            return View(Model);
-        }
 
         [HttpGet]
         public ActionResult ThemNhanvienPartial()
@@ -49,11 +38,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         public ActionResult SuaNhanVienPartial(int MaNV)
         {
             var objNhanVien = DB.NHANVIENs.FirstOrDefault(x => x.MANV == MaNV);
-            ViewBag.lstNhomQuyenNhanVien = lstNhomQuyenNhanVien();
-            ViewBag.MANQ = getMaNQ(MaNV);
             return PartialView(objNhanVien);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -125,61 +111,35 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult SuaNhanVien(NHANVIEN objNhanVien, string MaNQ)
+        public JsonResult SuaNhanVien(NHANVIEN objNhanVien)
         {
             var msg = new JMessage() { error = false, title = "" };
             if (ModelState.IsValid)
             {
-                if (!string.IsNullOrWhiteSpace(MaNQ) && (MaNQ.Equals("shipper") || MaNQ.Equals("staff")))
+                try
                 {
-                    using (DbContextTransaction transaction = DB.Database.BeginTransaction())
+                    var modelNhanVien = DB.NHANVIENs.FirstOrDefault(x => x.MANV == objNhanVien.MANV);
+                    if (modelNhanVien != null)
                     {
-                        try
-                        {
-                            var modelNhanVien = DB.NHANVIENs.FirstOrDefault(x => x.MANV == objNhanVien.MANV);
-                            if (modelNhanVien != null)
-                            {
-                                if (demSoPhieuNhanVienGiaoHangDangGiao(objNhanVien.MANV) == 0)
-                                {
-                                    modelNhanVien.HO = objNhanVien.HO;
-                                    modelNhanVien.TEN = objNhanVien.TEN;
-                                    modelNhanVien.GIOITINH = objNhanVien.GIOITINH;
-                                    modelNhanVien.NGAYSINH = objNhanVien.NGAYSINH;
-                                    modelNhanVien.DIACHI = objNhanVien.DIACHI;
-                                    modelNhanVien.SDT = objNhanVien.SDT;
-
-
-                                    var modelTaiKhoan = DB.TAIKHOANs.FirstOrDefault(x => x.EMAIL == objNhanVien.EMAIL);
-                                    modelTaiKhoan.MANQ = MaNQ;
-                                    DB.SaveChanges();
-
-                                    transaction.Commit();
-                                    msg.error = false;
-                                    msg.title = "Hiệu chỉnh nhân viên thành công";
-                                }
-                                else
-                                {
-                                    msg.title = "Nhân viên cần hoàn thành " + demSoPhieuNhanVienGiaoHangDangGiao(objNhanVien.MANV) + " phiếu giao hàng để đổi thay đổi thông tin";
-                                    msg.error = true;
-                                }
-                            }
-                            else
-                            {
-                                msg.title = "Nhân viên không tồn tại";
-                                msg.error = true;
-                            }
-                        }
-                        catch
-                        {
-                            transaction.Rollback();
-                            msg.title = "Hiệu chỉnh thông tin nhân viên thất bại";
-                            msg.error = true;
-                        }
+                        modelNhanVien.HO = objNhanVien.HO;
+                        modelNhanVien.TEN = objNhanVien.TEN;
+                        modelNhanVien.GIOITINH = objNhanVien.GIOITINH;
+                        modelNhanVien.NGAYSINH = objNhanVien.NGAYSINH;
+                        modelNhanVien.DIACHI = objNhanVien.DIACHI;
+                        modelNhanVien.SDT = objNhanVien.SDT;
+                        DB.SaveChanges();
+                        msg.error = false;
+                        msg.title = "Hiệu chỉnh nhân viên thành công";
+                    }
+                    else
+                    {
+                        msg.title = "Nhân viên không tồn tại";
+                        msg.error = true;
                     }
                 }
-                else
+                catch
                 {
-                    msg.title = "Mã nhóm quyền trống hoặc không hợp lệ";
+                    msg.title = "Hiệu chỉnh thông tin nhân viên thất bại";
                     msg.error = true;
                 }
             }
@@ -219,45 +179,6 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         private IEnumerable<NHOMQUYEN> lstNhomQuyenNhanVien()
         {
             return DB.NHOMQUYENs.Where(x => x.MANQ == "staff" || x.MANQ == "shipper").ToList();
-        }
-
-        private string getMaNQ(int MaNV)
-        {
-            var queryNhanVien = from nhanvien in DB.NHANVIENs
-                                join taikhoan in DB.TAIKHOANs on nhanvien.EMAIL equals taikhoan.EMAIL
-                                where nhanvien.MANV == MaNV
-                                select new
-                                {
-                                    MANQ = taikhoan.MANQ
-                                };
-            return queryNhanVien.FirstOrDefault().MANQ;
-        }
-
-
-        //Kiểm tra số phiếu nhân viên giao hàng đang giao 
-        //Th1: Nếu = 0 thì cho đổi quyền
-        //Th2: nếu > 0 thì không cho đổi quyền
-        private int demSoPhieuNhanVienGiaoHangDangGiao(int MaNV)
-        {
-            var queryNhanVienGiaohang = (from nhanvien in DB.NHANVIENs
-                                         join taikhoan in DB.TAIKHOANs on nhanvien.EMAIL equals taikhoan.EMAIL
-                                         join nhomquyen in DB.NHOMQUYENs on taikhoan.MANQ equals nhomquyen.MANQ
-                                         join phieumua in DB.PHIEUMUAs on nhanvien.MANV equals phieumua.MANVGH into phieumua_T
-                                         from g in phieumua_T.DefaultIfEmpty()
-                                         where nhomquyen.MANQ == "shipper" && nhanvien.MANV == MaNV
-                                         select new
-                                         {
-                                             MANV = nhanvien.MANV,
-                                             SOPHIEU = g != null ? g.TRANGTHAI == 1 ? 1 : 0 : 0,
-                                         }).GroupBy(x => x.MANV).Select(y => new
-                                         {
-                                             SOPHIEU = y.Sum(k => k.SOPHIEU)
-                                         }).FirstOrDefault();
-            if (queryNhanVienGiaohang == null)
-            {
-                return 0;
-            }
-            return queryNhanVienGiaohang.SOPHIEU;
         }
     }
 }
