@@ -1,0 +1,43 @@
+﻿@using WebsiteBanXeMay.Areas.Admin.ViewModels
+@using WebsiteBanXeMay.Models
+
+@model PhuTrachViewModel
+
+@{ var lstQuan = ViewBag.lstQuan as IEnumerable<QUAN>;}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Hiệu chỉnh quận phụ trách của nhân viên giao hàng mã: @Model.MANV</h4>
+</div>
+
+<div class="modal-body">
+    <form name="PhuTrach_Form">
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <input type="hidden" name="MANV" value="@Model.MANV" />
+            <div class="col-md-12">
+                <label>Thông tin nhân viên giao hàng<span class="required">*</span></label>
+                <input placeholder="Họ"  readonly class="form-control" value="@(Model.MANV+" - "+ Model.HO+" "+Model.TEN)" type="text">
+            </div>
+            <div class="col-md-12" style="margin-top:3%">
+                <label>Quận phụ trách</label>
+                <div class="checkbox">
+                    @foreach (var Quan in lstQuan)
+                    {
+                        <label class="col-md-4">
+                            <input type="checkbox"
+                                   @foreach (var PhuTrachViewModel in Model.lstQuan) { if (PhuTrachViewModel.MAQUAN == Quan.MAQUAN) { <text> checked </text> } }
+                                   name="lstMaQuan" value="@Quan.MAQUAN">  @Quan.TENQUAN
+                            </label>
+                        }
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" title="Hủy" class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-close" title="Hủy"></i></button>
+    <button type="button" title="Lưu" class="btn btn-success" onclick="PhuTrach()" style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
+</div>
+

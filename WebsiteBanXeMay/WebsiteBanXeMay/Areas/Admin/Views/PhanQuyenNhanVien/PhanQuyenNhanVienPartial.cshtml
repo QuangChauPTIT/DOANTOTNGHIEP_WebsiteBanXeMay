@@ -1,0 +1,73 @@
+﻿@using WebsiteBanXeMay.Models
+@using WebsiteBanXeMay.Areas.Admin.ViewModels
+@model NHANVIEN
+
+@{ var lstNhomQuyenNhanVien = ViewBag.lstNhomQuyenNhanVien as IEnumerable<NHOMQUYEN>;
+    var MANQ = ViewBag.MANQ as string;}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Phân quyền nhân viên mã: @Model.MANV</h4>
+</div>
+<div class="modal-body">
+    <form name="PhanQuyenNhanVien_Form">
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <input name="MANV" value="@Model.MANV" type="hidden" />
+            <div class="col-md-6">
+                <label>Họ<span class="required">*</span></label>
+                <input placeholder="Họ" name="HO" class="form-control" readonly value="@Model.HO" type="text">
+            </div>
+            <div class="col-md-6">
+                <label>Tên<span class="required">*</span></label>
+                <input placeholder="Tên" name="TEN" class="form-control" readonly value="@Model.TEN" type="text">
+            </div>
+            <div class="col-md-6" style="margin-top:3%">
+                <label>Giới tính<span class="required">*</span></label>
+                <br />
+                <div class="text-center">
+                    <input name="GIOITINH" readonly value="false" @(Model.GIOITINH == false ? "checked" : null) type="radio"> Nam
+                    <input name="GIOITINH" readonly value="true" @(Model.GIOITINH == true ? "checked" : null) type="radio"> Nữ
+                </div>
+
+            </div>
+            <div class="col-md-6" style="margin-top:3%">
+                <label>Ngày sinh<span class="required">*</span></label>
+                <input placeholder="Ngày sinh" name="NGAYSINH" readonly class="form-control" value="@Model.NGAYSINH.ToString("yyyy-MM-dd")" type="date">
+            </div>
+            <div class="col-md-6" style="margin-top:3%">
+                <label>Số điện thoại<span class="required">*</span></label>
+                <input placeholder="Số điện thoại" name="SDT" readonly class="form-control" value="@Model.SDT" type="text">
+            </div>
+            <div class="col-md-6" style="margin-top:3%">
+                <label>Email<span class="required">*</span></label>
+                <input placeholder="Email là tài khoản đăng nhập" name="EMAIL" readonly class="form-control" value="@Model.EMAIL" type="text">
+            </div>
+            <div class="col-md-12" style="margin-top:3%">
+                <label>Địa chỉ<span class="required">*</span></label>
+                <input placeholder="Địa chỉ" name="DIACHI" readonly class="form-control" value="@Model.DIACHI" type="text">
+            </div>
+            <div class="col-md-12" style="margin-top:3%">
+                <label>Chức vụ<span class="required">*</span></label>
+                <select class="form-control select2" name="MANQ">
+                    @foreach (var quyen in lstNhomQuyenNhanVien)
+                    {
+                        <option @(quyen.MANQ == MANQ ? "selected" : null) value="@quyen.MANQ">@quyen.TENQUYEN</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-close" title="Đóng"></i></button>
+    <button type="button" class="btn btn-success" onclick="PhanQuyenNhaNVien()" style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
+</div>
+
+
+
+
+
+
