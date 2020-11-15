@@ -35,8 +35,18 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return PartialView();
         }
 
+        [HttpGet]
+        public ActionResult SuaLoaiSanPhamPartial(string MaLoai)
+        {
+            ViewBag.lstNhaCungCap = lstNhaCungCap();
+            ViewBag.lstKieuSanPham = lstKieuSanPham();
+            ViewBag.lstThuongHieu = lstThuongHieu();
+            return PartialView(getLoaiSanPham(MaLoai));
+        }
+
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public JsonResult ThemLoaiSanPham(LOAISANPHAM objLoaiSanPham, HttpPostedFileBase file)
         {
             var msg = new JMessage() { error = false, title = "" };
@@ -87,6 +97,109 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }    
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public JsonResult SuaLoaiSanPham(LOAISANPHAM objLoaiSanPham, HttpPostedFileBase file)
+        {
+            var msg = new JMessage() { error = false, title = "" };
+            if (ModelState.IsValid)
+            {
+                bool flag = false;
+                string fileName = string.Empty;
+                if (file != null && file.ContentLength > 0)
+                {
+                    if (file.FileName.EndsWith("jpg") || file.FileName.EndsWith("png"))
+                    {
+                        var pathUpload = Path.Combine(Server.MapPath("~/Assets/upload/images/"));
+                        if (!Directory.Exists(pathUpload)) Directory.CreateDirectory(pathUpload);
+                        fileName = Path.GetFileName(file.FileName);
+                        fileName = Path.GetFileNameWithoutExtension(fileName)
+                             + "_"
+                             + Guid.NewGuid().ToString().Substring(0, 8)
+                             + Path.GetExtension(fileName);
+                        var filePath = Path.Combine(pathUpload, fileName);
+                        file.SaveAs(filePath);
+                        flag = true;
+                    }
+                    else
+                    {
+                        msg.error = true;
+                        msg.title = "Hình ảnh phải có định dạng png hoặc jpg";
+                        return Json(msg, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                try
+                {
+                    var modelLoaiSanPham = DB.LOAISANPHAMs.FirstOrDefault(x => x.MALOAI == objLoaiSanPham.MALOAI);
+                    if (modelLoaiSanPham != null)
+                    {
+                        //modelLoaiSanPham.TENLOAI = objLoaiSanPham.TENLOAI;
+                        //modelLoaiSanPham.GIA = objLoaiSanPham.GIA;
+                        //modelLoaiSanPham.MANCC = objLoaiSanPham.MANCC;
+                        //modelLoaiSanPham.MATH = objLoaiSanPham.MATH;
+                        modelLoaiSanPham.MOTA = objLoaiSanPham.MOTA;
+                        //modelLoaiSanPham.LOAI = objLoaiSanPham.LOAI;
+                        //if(flag == true)
+                        //{
+                        //    modelLoaiSanPham.HINHANH = fileName;
+                        //}    
+                        DB.SaveChanges();
+                        msg.title = "Hiệu chỉnh loại sản phẩm thành công";
+                    }
+                    else
+                    {
+                        msg.error = true;
+                        msg.title = "Loại sản phẩm không tồn tại";
+                    }
+                }
+                catch
+                {
+                    msg.error = true;
+                    msg.title = "Hiệu chỉnh loại sản phẩm lỗi";
+                }
+            }
+            else
+            {
+                msg.error = true;
+                msg.title = ModelState.SelectMany(x => x.Value.Errors).Select(y => y.ErrorMessage).FirstOrDefault();
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public JsonResult XoaLoaiSanPham(string MaLoai)
+        {
+            var msg = new JMessage() { error = false, title = "" };
+            if (!string.IsNullOrWhiteSpace(MaLoai))
+            {
+                try
+                {
+                    var modelLoaiSanPham = DB.LOAISANPHAMs.FirstOrDefault(x => x.MALOAI == MaLoai);
+                    if (modelLoaiSanPham != null)
+                    {
+                        DB.LOAISANPHAMs.Remove(modelLoaiSanPham);
+                        DB.SaveChanges();
+                        msg.title = "Xóa loại sản phẩm thành công";
+                    }
+                    else
+                    {
+                        msg.error = true;
+                        msg.title = "Loại sản phẩm không tồn tại";
+                    }
+                }
+                catch
+                {
+                    msg.error = true;
+                    msg.title = "Xóa lỗi. Loại sản phẩm này đã được đặt hoặc nhập";
+                }
+            }
+            else
+            {
+                msg.error = true;
+                msg.title = "Mã loại trống";
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
         //========================  Lấy dữ liệu từ database ======================
 
         private IEnumerable<LOAISANPHAM> lstLoaiSanPham()
@@ -111,6 +224,11 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         private IEnumerable<NHACUNGCAP> lstNhaCungCap()
         {
             return DB.NHACUNGCAPs.ToList();
+        }
+
+        private LOAISANPHAM getLoaiSanPham(string MaLoai)
+        {
+            return DB.LOAISANPHAMs.FirstOrDefault(x => x.MALOAI == MaLoai);
         }
     }
 }

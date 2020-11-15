@@ -14,20 +14,11 @@ namespace WebsiteBanXeMay.Models
     
     public partial class CT_KHUYENMAI
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CT_KHUYENMAI()
-        {
-            this.CT_TANGKEM = new HashSet<CT_TANGKEM>();
-        }
-    
-        public int MACTKM { get; set; }
-        public double PHANTRAM { get; set; }
         public string MALOAI { get; set; }
         public int MAKM { get; set; }
+        public double PHANTRAM { get; set; }
     
         public virtual KHUYENMAI KHUYENMAI { get; set; }
         public virtual LOAISANPHAM LOAISANPHAM { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CT_TANGKEM> CT_TANGKEM { get; set; }
     }
 }

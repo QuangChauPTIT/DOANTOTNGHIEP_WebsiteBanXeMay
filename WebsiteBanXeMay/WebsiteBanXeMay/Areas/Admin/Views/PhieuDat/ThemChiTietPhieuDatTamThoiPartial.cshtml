@@ -7,63 +7,60 @@
     </button>
     <h4 class="modal-title">Phiếu đặt có mã nhà cung cấp: @ViewBag.MANCC</h4>
 </div>
-@if (Model.Count() > 0)
-{
-    <div class="modal-body">
-        <form name="ThemChiTietPhieuDatTamThoi_Form">
-            @Html.AntiForgeryToken()
-            <div class="row">
-                <div class="col-md-7">
-                    <label>Loại sản phẩm<span class="required">*</span></label>
-                    <select class="form-control select2" name="MALOAI" style="width: 100%;">
-                        @foreach (var LoaiSanPham in Model)
+
+<div class="modal-body">
+    <form name="ThemChiTietPhieuDatTamThoi_Form">
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col-md-7">
+                <label>Loại sản phẩm<span class="required">*</span></label>
+                <select class="form-control select2" name="MALOAI" style="width: 100%;">
+                    @if (Model.Count() > 0)
+                    {
+                        foreach (var LoaiSanPham in Model)
                         {
                             <option title="@LoaiSanPham.TENLOAI" value="@LoaiSanPham.MALOAI">Mã loại: @LoaiSanPham.MALOAI - Tên loại: @LoaiSanPham.TENLOAI</option>
                         }
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <label>Số lượng<span class="required">*</span></label>
-                    <input placeholder="Số lượng" name="SOLUONG" class="form-control" value="" type="number">
-                </div>
-                <div class="col-md-3">
-                    <label>Giá<span class="required">*</span></label>
-                    <input placeholder="Giá" name="GIA" class="form-control" value="" type="number">
-                </div>
+                    }
+                </select>
             </div>
-        </form>
-        <div style="margin-top:2%">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Chi tiết phiếu đặt</h3>
-                    <button title="Thêm vào danh sách tạm" class="btn btn-warning" style="float:right!important" onclick="ThemChiTietPhieuDatTamThoi()"><i class="fa fa-pencil"></i></button>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body" style="overflow-y:auto!important;max-height:300px!important">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th style="width:4%">STT</th>
-                                <th style="width:10%">Mã loại</th>
-                                <th>Tên loại</th>
-                                <th style="width:10%">Số lượng</th>
-                                <th style="width:15%">Giá</th>
-                                <th style="width:20%">Tác vụ</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ChiTietPhieuDat_DetailTable">
-                        </tbody>
-                    </table>
-                </div>
+            <div class="col-md-2">
+                <label>Số lượng<span class="required">*</span></label>
+                <input placeholder="Số lượng" name="SOLUONG" class="form-control" value="" type="number">
+            </div>
+            <div class="col-md-3">
+                <label>Giá<span class="required">*</span></label>
+                <input placeholder="Giá" name="GIA" class="form-control" value="" type="number">
+            </div>
+        </div>
+    </form>
+    <div style="margin-top:2%">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Danh sách loại sản phẩm</h3>
+                <button title="Thêm vào danh sách tạm" class="btn btn-warning" style="float:right!important" onclick="ThemChiTietPhieuDatTamThoi()"><i class="fa fa-pencil"></i></button>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow-y:auto!important;max-height:300px!important">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width:4%">STT</th>
+                            <th style="width:10%">Mã loại</th>
+                            <th>Tên loại</th>
+                            <th style="width:10%">Số lượng</th>
+                            <th style="width:15%">Giá</th>
+                            <th style="width:20%">Tác vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ChiTietPhieuDat_DetailTable">
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" title="Hủy" class="btn btn-danger pull-right" onclick="HuyDatHang()"><i class="fa fa-close" title="Hủy"></i></button>
-        <button type="button" title="Lưu" class="btn btn-success" onclick="ThemPhieuDat('@ViewBag.MANCC')" style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
-    </div>
-}
-else
-{
-    <span>Không có dữ liệu</span>
-}
+</div>
+<div class="modal-footer">
+    <button type="button" title="Hủy" class="btn btn-danger pull-right" onclick="HuyDatHang()"><i class="fa fa-close" title="Hủy"></i></button>
+    <button type="button" title="Lưu" class="btn btn-success" onclick="ThemPhieuDat('@ViewBag.MANCC')" style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
+</div>

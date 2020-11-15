@@ -4,11 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="922ad312c6e841fea8972933ec974a90" Name="Diagram1">
-        <EntityTypeShape EntityType="BANXEMAYONLINEModel.CT_KHUYENMAI" Width="1.5" PointX="9.75" PointY="15.625" IsExpanded="true" />
+      <Diagram DiagramId="e0839f507c6a47a3b08b1a7035c36223" Name="Diagram1">
+        <EntityTypeShape EntityType="BANXEMAYONLINEModel.CT_KHUYENMAI" Width="1.5" PointX="9.75" PointY="15.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.CT_PHIEUDAT" Width="1.5" PointX="12.75" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.CT_PHIEUNHAP" Width="1.5" PointX="15" PointY="16.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BANXEMAYONLINEModel.CT_TANGKEM" Width="1.5" PointX="12" PointY="18.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.DANHGIA" Width="1.5" PointX="7.5" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.HOADON" Width="1.5" PointX="12.75" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.KHACHHANG" Width="1.5" PointX="5.25" PointY="9.75" IsExpanded="true" />
@@ -24,18 +23,15 @@
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.PHUTRACH" Width="1.5" PointX="7.5" PointY="18.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.QUAN" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.SANPHAM" Width="1.5" PointX="18" PointY="13.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BANXEMAYONLINEModel.SANPHAMTANGKEM" Width="1.5" PointX="9.75" PointY="19" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.TAIKHOAN" Width="1.5" PointX="3" PointY="11.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.THUONGHIEU" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
         <AssociationConnector Association="BANXEMAYONLINEModel.FK_CT_KHUYENMAI_KHUYENMAI" ManuallyRouted="false" />
         <AssociationConnector Association="BANXEMAYONLINEModel.FK_CT_KHUYENMAI_LOAISANPHAM" ManuallyRouted="false" />
-        <AssociationConnector Association="BANXEMAYONLINEModel.FK_CT_TANGKEM_CT_KHUYENMAI" ManuallyRouted="false" />
         <AssociationConnector Association="BANXEMAYONLINEModel.FK_CT_PHIEUDAT_LOAISANPHAM" ManuallyRouted="false" />
         <AssociationConnector Association="BANXEMAYONLINEModel.FK_CT_PHIEUDAT_PHIEUDAT" ManuallyRouted="false" />
         <AssociationConnector Association="BANXEMAYONLINEModel.FK_CT_PHIEUNHAP_LOAISANPHAM" ManuallyRouted="false" />
         <AssociationConnector Association="BANXEMAYONLINEModel.FK_CT_PHIEUNHAP_PHIEUNHAP" ManuallyRouted="false" />
         <AssociationConnector Association="BANXEMAYONLINEModel.FK_SANPHAM_CT_PHIEUNHAP" ManuallyRouted="false" />
-        <AssociationConnector Association="BANXEMAYONLINEModel.FK_CT_TANGKEM_SANPHAMTANGKEM" ManuallyRouted="false" />
         <AssociationConnector Association="BANXEMAYONLINEModel.FK_DANHGIA_KHACHHANG" ManuallyRouted="false" />
         <AssociationConnector Association="BANXEMAYONLINEModel.FK_DANHGIA_LOAISANPHAM" ManuallyRouted="false" />
         <AssociationConnector Association="BANXEMAYONLINEModel.FK_HOADON_PHIEUDAT" ManuallyRouted="false" />

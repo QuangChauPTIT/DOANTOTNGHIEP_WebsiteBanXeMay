@@ -137,9 +137,9 @@
         function OnFailure(res) {
             var obj = $.parseJSON(res.responseText);
             Swal.fire({
-                title: 'Lỗi',
+                title: 'Thông báo',
                 text: obj.message,
-                icon: 'error',
+                icon: 'warning',
                 //allowOutsideClick: false
             })
         }

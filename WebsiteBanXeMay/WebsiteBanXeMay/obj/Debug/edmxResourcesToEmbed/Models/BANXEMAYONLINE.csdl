@@ -2,15 +2,14 @@
 <Schema Namespace="BANXEMAYONLINEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityType Name="CT_KHUYENMAI">
     <Key>
-      <PropertyRef Name="MACTKM" />
+      <PropertyRef Name="MALOAI" />
+      <PropertyRef Name="MAKM" />
     </Key>
-    <Property Name="MACTKM" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="PHANTRAM" Type="Double" Nullable="false" />
     <Property Name="MALOAI" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="MAKM" Type="Int32" Nullable="false" />
+    <Property Name="PHANTRAM" Type="Double" Nullable="false" />
     <NavigationProperty Name="KHUYENMAI" Relationship="Self.FK_CT_KHUYENMAI_KHUYENMAI" FromRole="CT_KHUYENMAI" ToRole="KHUYENMAI" />
     <NavigationProperty Name="LOAISANPHAM" Relationship="Self.FK_CT_KHUYENMAI_LOAISANPHAM" FromRole="CT_KHUYENMAI" ToRole="LOAISANPHAM" />
-    <NavigationProperty Name="CT_TANGKEM" Relationship="Self.FK_CT_TANGKEM_CT_KHUYENMAI" FromRole="CT_KHUYENMAI" ToRole="CT_TANGKEM" />
   </EntityType>
   <EntityType Name="CT_PHIEUDAT">
     <Key>
@@ -36,17 +35,6 @@
     <NavigationProperty Name="LOAISANPHAM" Relationship="Self.FK_CT_PHIEUNHAP_LOAISANPHAM" FromRole="CT_PHIEUNHAP" ToRole="LOAISANPHAM" />
     <NavigationProperty Name="PHIEUNHAP" Relationship="Self.FK_CT_PHIEUNHAP_PHIEUNHAP" FromRole="CT_PHIEUNHAP" ToRole="PHIEUNHAP" />
     <NavigationProperty Name="SANPHAMs" Relationship="Self.FK_SANPHAM_CT_PHIEUNHAP" FromRole="CT_PHIEUNHAP" ToRole="SANPHAM" />
-  </EntityType>
-  <EntityType Name="CT_TANGKEM">
-    <Key>
-      <PropertyRef Name="MACTKM" />
-      <PropertyRef Name="MASPTK" />
-    </Key>
-    <Property Name="MACTKM" Type="Int32" Nullable="false" />
-    <Property Name="MASPTK" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="SOLUONG" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="CT_KHUYENMAI" Relationship="Self.FK_CT_TANGKEM_CT_KHUYENMAI" FromRole="CT_TANGKEM" ToRole="CT_KHUYENMAI" />
-    <NavigationProperty Name="SANPHAMTANGKEM" Relationship="Self.FK_CT_TANGKEM_SANPHAMTANGKEM" FromRole="CT_TANGKEM" ToRole="SANPHAMTANGKEM" />
   </EntityType>
   <EntityType Name="DANHGIA">
     <Key>
@@ -262,14 +250,6 @@
     <NavigationProperty Name="PHIEUMUA" Relationship="Self.FK_SANPHAM_PHIEUDAT1" FromRole="SANPHAM" ToRole="PHIEUMUA" />
     <NavigationProperty Name="PHIEUTRA" Relationship="Self.FK_SANPHAM_PHIEUTRA" FromRole="SANPHAM" ToRole="PHIEUTRA" />
   </EntityType>
-  <EntityType Name="SANPHAMTANGKEM">
-    <Key>
-      <PropertyRef Name="MASPTK" />
-    </Key>
-    <Property Name="MASPTK" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="TENSPTK" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="CT_TANGKEM" Relationship="Self.FK_CT_TANGKEM_SANPHAMTANGKEM" FromRole="SANPHAMTANGKEM" ToRole="CT_TANGKEM" />
-  </EntityType>
   <EntityType Name="TAIKHOAN">
     <Key>
       <PropertyRef Name="EMAIL" />
@@ -310,18 +290,6 @@
       </Principal>
       <Dependent Role="CT_KHUYENMAI">
         <PropertyRef Name="MALOAI" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_CT_TANGKEM_CT_KHUYENMAI">
-    <End Role="CT_KHUYENMAI" Type="Self.CT_KHUYENMAI" Multiplicity="1" />
-    <End Role="CT_TANGKEM" Type="Self.CT_TANGKEM" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CT_KHUYENMAI">
-        <PropertyRef Name="MACTKM" />
-      </Principal>
-      <Dependent Role="CT_TANGKEM">
-        <PropertyRef Name="MACTKM" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -382,18 +350,6 @@
       </Principal>
       <Dependent Role="SANPHAM">
         <PropertyRef Name="MACTPN" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_CT_TANGKEM_SANPHAMTANGKEM">
-    <End Role="SANPHAMTANGKEM" Type="Self.SANPHAMTANGKEM" Multiplicity="1" />
-    <End Role="CT_TANGKEM" Type="Self.CT_TANGKEM" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SANPHAMTANGKEM">
-        <PropertyRef Name="MASPTK" />
-      </Principal>
-      <Dependent Role="CT_TANGKEM">
-        <PropertyRef Name="MASPTK" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -689,7 +645,6 @@
     <EntitySet Name="CT_KHUYENMAI" EntityType="Self.CT_KHUYENMAI" />
     <EntitySet Name="CT_PHIEUDAT" EntityType="Self.CT_PHIEUDAT" />
     <EntitySet Name="CT_PHIEUNHAP" EntityType="Self.CT_PHIEUNHAP" />
-    <EntitySet Name="CT_TANGKEM" EntityType="Self.CT_TANGKEM" />
     <EntitySet Name="DANHGIAs" EntityType="Self.DANHGIA" />
     <EntitySet Name="HOADONs" EntityType="Self.HOADON" />
     <EntitySet Name="KHACHHANGs" EntityType="Self.KHACHHANG" />
@@ -705,7 +660,6 @@
     <EntitySet Name="PHUTRACHes" EntityType="Self.PHUTRACH" />
     <EntitySet Name="QUANs" EntityType="Self.QUAN" />
     <EntitySet Name="SANPHAMs" EntityType="Self.SANPHAM" />
-    <EntitySet Name="SANPHAMTANGKEMs" EntityType="Self.SANPHAMTANGKEM" />
     <EntitySet Name="TAIKHOANs" EntityType="Self.TAIKHOAN" />
     <EntitySet Name="THUONGHIEUx" EntityType="Self.THUONGHIEU" />
     <AssociationSet Name="FK_CT_KHUYENMAI_KHUYENMAI" Association="Self.FK_CT_KHUYENMAI_KHUYENMAI">
@@ -715,10 +669,6 @@
     <AssociationSet Name="FK_CT_KHUYENMAI_LOAISANPHAM" Association="Self.FK_CT_KHUYENMAI_LOAISANPHAM">
       <End Role="LOAISANPHAM" EntitySet="LOAISANPHAMs" />
       <End Role="CT_KHUYENMAI" EntitySet="CT_KHUYENMAI" />
-    </AssociationSet>
-    <AssociationSet Name="FK_CT_TANGKEM_CT_KHUYENMAI" Association="Self.FK_CT_TANGKEM_CT_KHUYENMAI">
-      <End Role="CT_KHUYENMAI" EntitySet="CT_KHUYENMAI" />
-      <End Role="CT_TANGKEM" EntitySet="CT_TANGKEM" />
     </AssociationSet>
     <AssociationSet Name="FK_CT_PHIEUDAT_LOAISANPHAM" Association="Self.FK_CT_PHIEUDAT_LOAISANPHAM">
       <End Role="LOAISANPHAM" EntitySet="LOAISANPHAMs" />
@@ -739,10 +689,6 @@
     <AssociationSet Name="FK_SANPHAM_CT_PHIEUNHAP" Association="Self.FK_SANPHAM_CT_PHIEUNHAP">
       <End Role="CT_PHIEUNHAP" EntitySet="CT_PHIEUNHAP" />
       <End Role="SANPHAM" EntitySet="SANPHAMs" />
-    </AssociationSet>
-    <AssociationSet Name="FK_CT_TANGKEM_SANPHAMTANGKEM" Association="Self.FK_CT_TANGKEM_SANPHAMTANGKEM">
-      <End Role="SANPHAMTANGKEM" EntitySet="SANPHAMTANGKEMs" />
-      <End Role="CT_TANGKEM" EntitySet="CT_TANGKEM" />
     </AssociationSet>
     <AssociationSet Name="FK_DANHGIA_KHACHHANG" Association="Self.FK_DANHGIA_KHACHHANG">
       <End Role="KHACHHANG" EntitySet="KHACHHANGs" />

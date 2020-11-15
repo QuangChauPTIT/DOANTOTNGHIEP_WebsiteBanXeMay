@@ -250,19 +250,12 @@
                 dataType: "json",
                 success: function (res) {
                     if (res.error == false) {
-                        var html = '';
-                        $.each(res.list, function (key, item) {
-                            html += '<tr>';
-                            html += '<td>' + (key + 1) + '</td>';
-                            html += '<td>' + item.MALOAI + '</td>';
-                            html += '<td>' + item.TENLOAI + '</td>';
-                            html += '<td>' + item.SOLUONG + '</td>';
-                            html += '<td><span class="money" style="color:red">' + item.GIA + '</span></td>';
-                            html += '<td><a href="#" onclick="getSuaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Sửa</a> | <a href="#" onclick="XoaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Xóa</a></td>';
-                            html += '</tr>';
-                        });
-                        $('#ChiTietPhieuDat_DetailTable').html(html)
-                        $('.money').simpleMoneyFormat();
+                        Swal.fire({
+                            title: 'Thành công',
+                            text: res.title,
+                            icon: 'success',
+                            customClass: 'swal-wide',
+                        })
                     }
                     else {
                         Swal.fire({
@@ -271,8 +264,20 @@
                             icon: 'error',
                             customClass: 'swal-wide',
                         })
-                        return;
                     }
+                    var html = '';
+                    $.each(res.list, function (key, item) {
+                        html += '<tr>';
+                        html += '<td>' + (key + 1) + '</td>';
+                        html += '<td>' + item.MALOAI + '</td>';
+                        html += '<td>' + item.TENLOAI + '</td>';
+                        html += '<td>' + item.SOLUONG + '</td>';
+                        html += '<td><span class="money" style="color:red">' + item.GIA + '</span></td>';
+                        html += '<td><a href="#" onclick="getSuaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Sửa</a> | <a href="#" onclick="XoaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Xóa</a></td>';
+                        html += '</tr>';
+                    });
+                    $('#ChiTietPhieuDat_DetailTable').html(html)
+                    $('.money').simpleMoneyFormat();
                 }
             })
         }
@@ -306,20 +311,12 @@
                         dataType: "json",
                         success: function (res) {
                             if (res.error == false) {
-                                var html = '';
-                                $.each(res.list, function (key, item) {
-                                    html += '<tr>';
-                                    html += '<td>' + (key + 1) + '</td>';
-                                    html += '<td>' + item.MALOAI + '</td>';
-                                    html += '<td>' + item.TENLOAI + '</td>';
-                                    html += '<td>' + item.SOLUONG + '</td>';
-                                    html += '<td><span class="money" style="color:red">' + item.GIA + '</span></td>';
-                                    html += '<td><a href="#" onclick="getSuaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Sửa</a> | <a href="#" onclick="XoaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Xóa</a></td>';
-                                    html += '</tr>';
-                                });
-                                $('#ChiTietPhieuDat_DetailTable').html(html)
-                                $('.money').simpleMoneyFormat();
-                                $("#SuaChiTietPhieuDatTamThoi_Modal").modal('hide')
+                                Swal.fire({
+                                    title: 'Thành công',
+                                    text: res.title,
+                                    icon: 'success',
+                                    customClass: 'swal-wide',
+                                })
                             }
                             else {
                                 Swal.fire({
@@ -328,8 +325,21 @@
                                     icon: 'error',
                                     customClass: 'swal-wide',
                                 })
-                                return;
                             }
+                            var html = '';
+                            $.each(res.list, function (key, item) {
+                                html += '<tr>';
+                                html += '<td>' + (key + 1) + '</td>';
+                                html += '<td>' + item.MALOAI + '</td>';
+                                html += '<td>' + item.TENLOAI + '</td>';
+                                html += '<td>' + item.SOLUONG + '</td>';
+                                html += '<td><span class="money" style="color:red">' + item.GIA + '</span></td>';
+                                html += '<td><a href="#" onclick="getSuaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Sửa</a> | <a href="#" onclick="XoaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Xóa</a></td>';
+                                html += '</tr>';
+                            });
+                            $('#ChiTietPhieuDat_DetailTable').html(html)
+                            $('.money').simpleMoneyFormat();
+                            $("#SuaChiTietPhieuDatTamThoi_Modal").modal('hide')
                         }
                     })
                 }
@@ -355,19 +365,12 @@
                     url: "/Admin/PhieuDat/XoaChiTietPhieuDatTamThoi?MaLoai=" + MaLoai,
                     success: function (res) {
                         if (res.error == false) {
-                            var html = '';
-                            $.each(res.list, function (key, item) {
-                                html += '<tr>';
-                                html += '<td>' + (key + 1) + '</td>';
-                                html += '<td>' + item.MALOAI + '</td>';
-                                html += '<td>' + item.TENLOAI + '</td>';
-                                html += '<td>' + item.SOLUONG + '</td>';
-                                html += '<td><span class="money" style="color:red">' + item.GIA + '</span></td>';
-                                html += '<td><a href="#" onclick="getSuaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Sửa</a> | <a href="#" onclick="XoaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Xóa</a></td>';
-                                html += '</tr>';
-                            });
-                            $('#ChiTietPhieuDat_DetailTable').html(html)
-                            $('.money').simpleMoneyFormat();
+                            Swal.fire({
+                                title: 'Thành công',
+                                text: res.title,
+                                icon: 'success',
+                                customClass: 'swal-wide',
+                            })
                         }
                         else {
                             Swal.fire({
@@ -376,8 +379,20 @@
                                 icon: 'error',
                                 customClass: 'swal-wide',
                             })
-                            return;
                         }
+                        var html = '';
+                        $.each(res.list, function (key, item) {
+                            html += '<tr>';
+                            html += '<td>' + (key + 1) + '</td>';
+                            html += '<td>' + item.MALOAI + '</td>';
+                            html += '<td>' + item.TENLOAI + '</td>';
+                            html += '<td>' + item.SOLUONG + '</td>';
+                            html += '<td><span class="money" style="color:red">' + item.GIA + '</span></td>';
+                            html += '<td><a href="#" onclick="getSuaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Sửa</a> | <a href="#" onclick="XoaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Xóa</a></td>';
+                            html += '</tr>';
+                        });
+                        $('#ChiTietPhieuDat_DetailTable').html(html)
+                        $('.money').simpleMoneyFormat();
                     }
                 })
             }
@@ -511,7 +526,7 @@
     function SuaChiTietPhieuDat(MaPD) {
         Swal.fire({
             title: 'Xác nhận hiệu chỉnh chi tiết phiếu đặt?',
-            text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được thêm!",
+            text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được hiệu chỉnh!",
             icon: 'question',
             customClass: 'swal-wide',
             showCancelButton: true,
@@ -546,7 +561,19 @@
                                 icon: 'error',
                                 customClass: 'swal-wide',
                             })
-                            return;
+                            var html = '';
+                            $.each(res.list, function (key, item) {
+                                html += '<tr>';
+                                html += '<td>' + (key + 1) + '</td>';
+                                html += '<td>' + item.MALOAI + '</td>';
+                                html += '<td>' + item.TENLOAI + '</td>';
+                                html += '<td>' + item.SOLUONG + '</td>';
+                                html += '<td><span class="money" style="color:red">' + item.GIA + '</span></td>';
+                                html += '<td><a href="#" onclick="getSuaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Sửa</a> | <a href="#" onclick="XoaChiTietPhieuDatTamThoi(\'' + item.MALOAI + '\')">Xóa</a></td>';
+                                html += '</tr>';
+                            });
+                            $('#ChiTietPhieuDat_DetailTable').html(html)
+                            $('.money').simpleMoneyFormat();
                         }
                     }
                 })

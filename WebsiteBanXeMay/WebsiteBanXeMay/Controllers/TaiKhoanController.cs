@@ -120,7 +120,7 @@ namespace WebsiteBanXeMay.Controllers
             return View(objDoiMatKhauViewModel);
         }
 
-        [HttpGet]
+        //[HttpGet]
         [AllowAnonymous]
         public ActionResult DangNhap(string ReturnUrl)
         {

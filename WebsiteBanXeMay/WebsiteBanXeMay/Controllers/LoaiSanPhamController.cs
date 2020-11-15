@@ -236,37 +236,6 @@ namespace WebsiteBanXeMay.Controllers
                                         SOLUONGDABAN = g3 != null ? g3.SOLUONGDABAN : 0,
                                         NGAYKETTHUCKM = g2 != null ? (g2.NGAYKETTHUC >= DateTime.Now ? (DateTime?)g2.NGAYKETTHUC : null) : null,
                                     }).FirstOrDefault();
-
-            // Kiêm tra nếu có sản phẩm tặng kèm trong thời gian khuyến mãi
-            if (queryLoaiSanPham.NGAYKETTHUCKM != null)
-            {
-                var queryMACTKM = (from ct_khuyenmai in DB.CT_KHUYENMAI
-                                   join khuyenmai in DB.KHUYENMAIs on ct_khuyenmai.MAKM equals khuyenmai.MAKM
-                                   where ct_khuyenmai.MALOAI == queryLoaiSanPham.MALOAI && khuyenmai.NGAYKETTHUC == queryLoaiSanPham.NGAYKETTHUCKM
-                                   select new
-                                   {
-                                       MACTKM = ct_khuyenmai.MACTKM
-                                   });
-                if (queryMACTKM.FirstOrDefault() != null)
-                {
-                    var querySanPhamTangKem = (from sanphamtangkem in DB.SANPHAMTANGKEMs
-                                               join ct_tangkem in DB.CT_TANGKEM on sanphamtangkem.MASPTK equals ct_tangkem.MASPTK
-                                               where ct_tangkem.MACTKM == queryMACTKM.Select(x => x.MACTKM).FirstOrDefault()
-                                               select new SanPhamTangKemViewModel
-                                               {
-                                                   TENSPTK = sanphamtangkem.TENSPTK,
-                                                   SOLUONGSPTK = ct_tangkem.SOLUONG
-                                               }).ToList();
-                    if (querySanPhamTangKem.ToList() != null && querySanPhamTangKem.ToList().Count() > 0)
-                    {
-                        foreach (var sanphamtangkem in querySanPhamTangKem.ToList())
-                        {
-                            queryLoaiSanPham.lstSANPHAMTANGKEM.Add(new SanPhamTangKemViewModel { TENSPTK = sanphamtangkem.TENSPTK, SOLUONGSPTK = sanphamtangkem.SOLUONGSPTK });
-                        }
-                        return queryLoaiSanPham;
-                    }
-                }
-            }
             return queryLoaiSanPham;
         }
 

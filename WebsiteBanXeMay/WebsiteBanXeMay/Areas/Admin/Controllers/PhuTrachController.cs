@@ -43,29 +43,42 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             {
                 try
                 {
-                    var lstQuanNhanVienDangPhuTrach = DB.PHUTRACHes.Where(x => x.MANV == MaNV).Select(x => x.MAQUAN).ToList();
-                    var lstQuan_CanXoa = lstQuanNhanVienDangPhuTrach.Except(lstMaQuan).ToList();
-                    foreach (var MaQuan in lstQuan_CanXoa)
+                    if(lstMaQuan != null)
                     {
-                        var objPhuTrach = DB.PHUTRACHes.FirstOrDefault(x => x.MANV == MaNV && x.MAQUAN == MaQuan);
-                        DB.PHUTRACHes.Remove(objPhuTrach);
-                        DB.SaveChanges();
-                    }
-
-                    var lstQuanNhanVienDangPhuTrach_SauHieuChinh = DB.PHUTRACHes.Where(x => x.MANV == MaNV).Select(x => x.MAQUAN).ToList();
-                    foreach (var MaQuan in lstMaQuan)
-                    {
-                        if (!lstQuanNhanVienDangPhuTrach_SauHieuChinh.Contains(MaQuan))
+                        var lstQuanNhanVienDangPhuTrach = DB.PHUTRACHes.Where(x => x.MANV == MaNV).Select(x => x.MAQUAN).ToList();
+                        var lstQuan_CanXoa = lstQuanNhanVienDangPhuTrach.Except(lstMaQuan).ToList();
+                        foreach (var MaQuan in lstQuan_CanXoa)
                         {
-                            var objPhuTrach = new PHUTRACH
-                            {
-                                MANV = MaNV,
-                                MAQUAN = MaQuan
-                            };
-                            DB.PHUTRACHes.Add(objPhuTrach);
+                            var objPhuTrach = DB.PHUTRACHes.FirstOrDefault(x => x.MANV == MaNV && x.MAQUAN == MaQuan);
+                            DB.PHUTRACHes.Remove(objPhuTrach);
                             DB.SaveChanges();
                         }
-                    }
+
+                        var lstQuanNhanVienDangPhuTrach_SauHieuChinh = DB.PHUTRACHes.Where(x => x.MANV == MaNV).Select(x => x.MAQUAN).ToList();
+                        foreach (var MaQuan in lstMaQuan)
+                        {
+                            if (!lstQuanNhanVienDangPhuTrach_SauHieuChinh.Contains(MaQuan))
+                            {
+                                var objPhuTrach = new PHUTRACH
+                                {
+                                    MANV = MaNV,
+                                    MAQUAN = MaQuan
+                                };
+                                DB.PHUTRACHes.Add(objPhuTrach);
+                                DB.SaveChanges();
+                            }
+                        }
+                    }    
+                    else
+                    {
+                        var lstQuanNhanVienDangPhuTrach = DB.PHUTRACHes.Where(x => x.MANV == MaNV).Select(x => x.MAQUAN).ToList();
+                        foreach (var MaQuan in lstQuanNhanVienDangPhuTrach)
+                        {
+                            var objPhuTrach = DB.PHUTRACHes.FirstOrDefault(x => x.MANV == MaNV && x.MAQUAN == MaQuan);
+                            DB.PHUTRACHes.Remove(objPhuTrach);
+                            DB.SaveChanges();
+                        }
+                    }    
                     transaction.Commit();
                     msg.error = false;
                     msg.title = "Phân công nhân viên phụ trách quận thành công";

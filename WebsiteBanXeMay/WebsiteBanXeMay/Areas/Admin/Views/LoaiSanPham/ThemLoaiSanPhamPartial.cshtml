@@ -17,8 +17,8 @@
     <h4 class="modal-title">Thêm loại sản phẩm</h4>
 </div>
 <div class="modal-body">
-    <form name="LoaiSanPhamForm" enctype="multipart/form-data">
-        @Html.AntiForgeryToken()
+    <form name="ThemLoaiSanPham_Form" enctype="multipart/form-data">
+        @*@Html.AntiForgeryToken()*@
         <div class="row">
             <div class="col-md-6">
                 <label>Thương hiệu<span class="required">*</span></label>
@@ -61,7 +61,7 @@
             </div>
             <div class="col-md-12 mt">
                 <label>Mô tả</label>
-                <textarea class="form-control" id="MOTA" rows="7"></textarea>
+                <textarea class="form-control" id="MOTA" rows="15"></textarea>
             </div>
             <div class="col-md-6 mt">
                 <label>Hình ảnh<span class="required">*</span></label>

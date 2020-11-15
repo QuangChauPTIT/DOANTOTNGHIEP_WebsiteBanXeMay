@@ -47,6 +47,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -140,6 +144,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BaoCaoController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhachHangController.cs" />
+    <Compile Include="Areas\Admin\Controllers\KhuyenMaiController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiSanPhamController.cs" />
     <Compile Include="Areas\Admin\Controllers\NhaCungCapController.cs" />
     <Compile Include="Areas\Admin\Controllers\NhanVienController.cs" />
@@ -148,13 +153,48 @@
     <Compile Include="Areas\Admin\Controllers\PhieuMuaController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuNhapController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhuTrachController.cs" />
-    <Compile Include="Areas\Admin\Controllers\SanPhamTangKemController.cs" />
     <Compile Include="Areas\Admin\Controllers\TaiKhoanController.cs" />
     <Compile Include="Areas\Admin\Controllers\ThuongHieuController.cs" />
+    <Compile Include="Areas\Admin\Reports\DoanhThu\LoaiSanPham\CrystalReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Reports\DoanhThu\LoaiSanPham\DataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Admin\Reports\LoiNhuan\LoaiSanPham\CrystalReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Reports\LoiNhuan\LoaiSanPham\DataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Admin\Reports\TonKho\LoaiSanPham\CrystalReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport.rpt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Admin\Reports\TonKho\LoaiSanPham\DataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Admin\ViewModels\BaoCaoDoanhThuTheoLoaiSanPhamViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\BaoCaoLoiNhuanTheoLoaiSanPhamViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\BaoCaoTonKhoTheoLoaiSanPhamViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\ChiTietKhuyenMaiViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ChiTietPhieuDatViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ChiTietPhieuDatvsNhapViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ChiTietPhieuNhapViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\KhuyenMaiViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\NhanVienGiaoHangViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\NhanVienViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhieuDatViewModel.cs" />
@@ -200,9 +240,6 @@
     <Compile Include="Models\CT_PHIEUNHAP.cs">
       <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CT_TANGKEM.cs">
-      <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DANHGIA.cs">
       <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
     </Compile>
@@ -219,11 +256,11 @@
       <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Metadata\KHACHHANG.cs" />
+    <Compile Include="Models\Metadata\KHUYENMAI.cs" />
     <Compile Include="Models\Metadata\LOAISANPHAM.cs" />
     <Compile Include="Models\Metadata\NHACUNGCAP.cs" />
     <Compile Include="Models\Metadata\NHANVIEN.cs" />
     <Compile Include="Models\Metadata\PHIEUMUA.cs" />
-    <Compile Include="Models\Metadata\SANPHAMTANGKEM.cs" />
     <Compile Include="Models\Metadata\TAIKHOAN.cs" />
     <Compile Include="Models\Metadata\THUONGHIEU.cs" />
     <Compile Include="Models\NHACUNGCAP.cs">
@@ -256,9 +293,6 @@
     <Compile Include="Models\SANPHAM.cs">
       <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SANPHAMTANGKEM.cs">
-      <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TAIKHOAN.cs">
       <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
     </Compile>
@@ -277,7 +311,6 @@
     <Compile Include="ViewModels\KieuSanPhamViewModel.cs" />
     <Compile Include="ViewModels\LoaiSanPhamViewModel.cs" />
     <Compile Include="ViewModels\PhieuMuaViewModel.cs" />
-    <Compile Include="ViewModels\SanPhamTangKemViewModel.cs" />
     <Compile Include="ViewModels\TaiKhoanViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -7024,8 +7057,6 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\ThuongHieu\SuaThuongHieuPartial.cshtml" />
-    <Content Include="Areas\Admin\Views\SanPhamTangKem\ThemSanPhamTangKemPartial.cshtml" />
-    <Content Include="Areas\Admin\Views\SanPhamTangKem\SuaSanPhamTangKemPartial.cshtml" />
     <Content Include="Areas\Admin\Views\NhaCungCap\ThemNhaCungCapPartial.cshtml" />
     <Content Include="Areas\Admin\Views\NhaCungCap\SuaNhaCungCapPartial.cshtml" />
     <Content Include="Areas\Admin\Views\KhachHang\Index.cshtml" />
@@ -7058,6 +7089,10 @@
     <Content Include="Areas\Admin\Views\PhuTrach\PhuTrachPartial.cshtml" />
     <Content Include="Areas\Admin\Views\PhanQuyenNhanVien\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PhanQuyenNhanVien\PhanQuyenNhanVienPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuDat\SuaChiTietPhieuDatPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\BaoCao\BaoCaoTonKhoTheoLoaiSanPham.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMai\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMai\ThemKhuyenMaiPartial.cshtml" />
     <EntityDeploy Include="Models\BANXEMAYONLINE.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>BANXEMAYONLINE.Designer.cs</LastGenOutput>
@@ -7065,7 +7100,44 @@
     <Content Include="Models\BANXEMAYONLINE.edmx.diagram">
       <DependentUpon>BANXEMAYONLINE.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\PhieuDat\SuaChiTietPhieuDatPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMai\ChiTietKhuyenMaiPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMai\SuaKhuyenMaiPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMai\SuaChiTietKhuyenMaiTamThoiPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\LoaiSanPham\SuaLoaiSanPhamPartial.cshtml" />
+    <Content Include="Areas\Admin\Reports\DoanhThu\LoaiSanPham\DataSet.xsc">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="Areas\Admin\Reports\DoanhThu\LoaiSanPham\DataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Areas\Admin\Reports\DoanhThu\LoaiSanPham\DataSet.xss">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="Areas\Admin\Reports\TonKho\LoaiSanPham\DataSet.xsc">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="Areas\Admin\Reports\LoiNhuan\LoaiSanPham\DataSet.xsc">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="Areas\Admin\Reports\LoiNhuan\LoaiSanPham\DataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Areas\Admin\Reports\LoiNhuan\LoaiSanPham\DataSet.xss">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="Areas\Admin\Reports\TonKho\LoaiSanPham\DataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Areas\Admin\Reports\TonKho\LoaiSanPham\DataSet.xss">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="Areas\Admin\Views\BaoCao\BaoCaoLoiNhuanTheoLoaiSanPham.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -7734,7 +7806,6 @@
     <Content Include="Areas\Admin\Views\NhanVien\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ThuongHieu\Index.cshtml" />
     <Content Include="Areas\Admin\Views\NhaCungCap\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\SanPhamTangKem\Index.cshtml" />
     <Content Include="Areas\Admin\Views\LoaiSanPham\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ThuongHieu\ThemThuongHieuPartial.cshtml" />
     <None Include="packages.config" />
@@ -7762,10 +7833,27 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Assets\Admin\bower_components\fullcalendar\dist\fullcalendar.d.ts" />
     <TypeScriptCompile Include="Assets\Admin\bower_components\moment\moment.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="Areas\Admin\Reports\DoanhThu\LoaiSanPham\CrystalReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport.cs</LastGenOutput>
+    </AdditionalFiles>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Areas\Admin\Reports\LoiNhuan\LoaiSanPham\CrystalReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Areas\Admin\Reports\TonKho\LoaiSanPham\CrystalReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

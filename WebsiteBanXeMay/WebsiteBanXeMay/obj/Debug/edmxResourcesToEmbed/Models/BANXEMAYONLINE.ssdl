@@ -2,12 +2,12 @@
 <Schema Namespace="BANXEMAYONLINEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="CT_KHUYENMAI">
     <Key>
-      <PropertyRef Name="MACTKM" />
+      <PropertyRef Name="MALOAI" />
+      <PropertyRef Name="MAKM" />
     </Key>
-    <Property Name="MACTKM" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="PHANTRAM" Type="float" Nullable="false" />
     <Property Name="MALOAI" Type="varchar" MaxLength="15" Nullable="false" />
     <Property Name="MAKM" Type="int" Nullable="false" />
+    <Property Name="PHANTRAM" Type="float" Nullable="false" />
   </EntityType>
   <EntityType Name="CT_PHIEUDAT">
     <Key>
@@ -28,15 +28,6 @@
     <Property Name="MALOAI" Type="varchar" MaxLength="15" Nullable="false" />
     <Property Name="SOLUONG" Type="int" Nullable="false" />
     <Property Name="GIA" Type="float" Nullable="false" />
-  </EntityType>
-  <EntityType Name="CT_TANGKEM">
-    <Key>
-      <PropertyRef Name="MACTKM" />
-      <PropertyRef Name="MASPTK" />
-    </Key>
-    <Property Name="MACTKM" Type="int" Nullable="false" />
-    <Property Name="MASPTK" Type="varchar" MaxLength="15" Nullable="false" />
-    <Property Name="SOLUONG" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="DANHGIA">
     <Key>
@@ -201,13 +192,6 @@
     <Property Name="MACTPN" Type="int" Nullable="false" />
     <Property Name="GIA" Type="float" Nullable="false" />
   </EntityType>
-  <EntityType Name="SANPHAMTANGKEM">
-    <Key>
-      <PropertyRef Name="MASPTK" />
-    </Key>
-    <Property Name="MASPTK" Type="varchar" MaxLength="15" Nullable="false" />
-    <Property Name="TENSPTK" Type="nvarchar" MaxLength="100" Nullable="false" />
-  </EntityType>
   <EntityType Name="TAIKHOAN">
     <Key>
       <PropertyRef Name="EMAIL" />
@@ -292,30 +276,6 @@
       </Principal>
       <Dependent Role="CT_PHIEUNHAP">
         <PropertyRef Name="MAPN" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_CT_TANGKEM_CT_KHUYENMAI">
-    <End Role="CT_KHUYENMAI" Type="Self.CT_KHUYENMAI" Multiplicity="1" />
-    <End Role="CT_TANGKEM" Type="Self.CT_TANGKEM" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CT_KHUYENMAI">
-        <PropertyRef Name="MACTKM" />
-      </Principal>
-      <Dependent Role="CT_TANGKEM">
-        <PropertyRef Name="MACTKM" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_CT_TANGKEM_SANPHAMTANGKEM">
-    <End Role="SANPHAMTANGKEM" Type="Self.SANPHAMTANGKEM" Multiplicity="1" />
-    <End Role="CT_TANGKEM" Type="Self.CT_TANGKEM" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SANPHAMTANGKEM">
-        <PropertyRef Name="MASPTK" />
-      </Principal>
-      <Dependent Role="CT_TANGKEM">
-        <PropertyRef Name="MASPTK" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -623,7 +583,6 @@
     <EntitySet Name="CT_KHUYENMAI" EntityType="Self.CT_KHUYENMAI" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CT_PHIEUDAT" EntityType="Self.CT_PHIEUDAT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CT_PHIEUNHAP" EntityType="Self.CT_PHIEUNHAP" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="CT_TANGKEM" EntityType="Self.CT_TANGKEM" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DANHGIA" EntityType="Self.DANHGIA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="HOADON" EntityType="Self.HOADON" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="KHACHHANG" EntityType="Self.KHACHHANG" Schema="dbo" store:Type="Tables" />
@@ -639,7 +598,6 @@
     <EntitySet Name="PHUTRACH" EntityType="Self.PHUTRACH" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QUAN" EntityType="Self.QUAN" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SANPHAM" EntityType="Self.SANPHAM" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="SANPHAMTANGKEM" EntityType="Self.SANPHAMTANGKEM" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TAIKHOAN" EntityType="Self.TAIKHOAN" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="THUONGHIEU" EntityType="Self.THUONGHIEU" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_CT_KHUYENMAI_KHUYENMAI" Association="Self.FK_CT_KHUYENMAI_KHUYENMAI">
@@ -665,14 +623,6 @@
     <AssociationSet Name="FK_CT_PHIEUNHAP_PHIEUNHAP" Association="Self.FK_CT_PHIEUNHAP_PHIEUNHAP">
       <End Role="PHIEUNHAP" EntitySet="PHIEUNHAP" />
       <End Role="CT_PHIEUNHAP" EntitySet="CT_PHIEUNHAP" />
-    </AssociationSet>
-    <AssociationSet Name="FK_CT_TANGKEM_CT_KHUYENMAI" Association="Self.FK_CT_TANGKEM_CT_KHUYENMAI">
-      <End Role="CT_KHUYENMAI" EntitySet="CT_KHUYENMAI" />
-      <End Role="CT_TANGKEM" EntitySet="CT_TANGKEM" />
-    </AssociationSet>
-    <AssociationSet Name="FK_CT_TANGKEM_SANPHAMTANGKEM" Association="Self.FK_CT_TANGKEM_SANPHAMTANGKEM">
-      <End Role="SANPHAMTANGKEM" EntitySet="SANPHAMTANGKEM" />
-      <End Role="CT_TANGKEM" EntitySet="CT_TANGKEM" />
     </AssociationSet>
     <AssociationSet Name="FK_DANHGIA_KHACHHANG" Association="Self.FK_DANHGIA_KHACHHANG">
       <End Role="KHACHHANG" EntitySet="KHACHHANG" />

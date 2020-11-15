@@ -96,8 +96,8 @@
                                             <span class="HandleText" title="@Html.Raw(LoaiSanPham.MOTA)">@Html.Raw(LoaiSanPham.MOTA)</span>
                                         </td>
                                         <td>
-                                            <button title="Hiệu chỉnh" class="btn btn-primary"><i class="fa fa-edit"></i></button>
-                                            <button title="Xóa" class="btn btn-danger"><i class="fa fa-remove"></i></button>
+                                            <button title="Hiệu chỉnh" class="btn btn-primary" onclick="getSuaLoaiSanPham('@LoaiSanPham.MALOAI')"><i class="fa fa-edit"></i></button>
+                                            <button title="Xóa" class="btn btn-danger" onclick="XoaLoaiSanPham('@LoaiSanPham.MALOAI')"><i class="fa fa-remove"></i></button>
                                         </td>
                                     </tr>
                                 }
@@ -156,16 +156,16 @@
         })
     };
 
-    //function getSuaNhaCungCap(id) {
-    //    $.ajax({
-    //        type: "GET",
-    //        url: "/Admin/NhaCungCap/SuaNhaCungCapPartial?MaNCC=" + id,
-    //        success: function (res) {
-    //            $("#NhaCungCapModalBody").html(res);
-    //            $("#NhaCungCapModal").modal('show')
-    //        }
-    //    })
-    //};
+    function getSuaLoaiSanPham(MaLoai) {
+        $.ajax({
+            type: "GET",
+            url: "/Admin/LoaiSanPham/SuaLoaiSanPhamPartial?MaLoai=" + MaLoai,
+            success: function (res) {
+                $("#LoaiSanPhamModalBody").html(res);
+                $("#LoaiSanPhamModal").modal('show')
+            }
+        })
+    };
 
     function ThemLoaiSanPham() {
 
@@ -182,7 +182,7 @@
             allowOutsideClick: false
         }).then((result) => {
             if (result.isConfirmed) {
-                var form = $('form[name="LoaiSanPhamForm"]');
+                var form = $('form[name="ThemLoaiSanPham_Form"]');
 
                 form.validate();
                 if (!form.valid()) {
@@ -191,6 +191,7 @@
                 else {
 
                     var formData = new FormData();
+                    //var token = $('input[name="__RequestVerificationToken"]').val()
                     var HinhAnh = $("#HINHANH").get(0);
                     var MaNCC = $("#MANCC").val();
                     var MaTH = $("#MATH").val();
@@ -260,19 +261,38 @@
             allowOutsideClick: false
         }).then((result) => {
             if (result.isConfirmed) {
-                var form = $('form[name="LoaiSanPhamForm"]');
+                var form = $('form[name="SuaLoaiSanPham_Form"]');
 
                 form.validate();
                 if (!form.valid()) {
                     return;
                 }
                 else {
-                    var data = form.serialize();
+                    var formData = new FormData();
+                    //var token = $('input[name="__RequestVerificationToken"]').val()
+                    var HinhAnh = $("#HINHANH").get(0);
+                    var MaNCC = $("#MANCC").val();
+                    var MaTH = $("#MATH").val();
+                    var Loai = $("#LOAI").val();
+                    var MaLoai = $("#MALOAI").val();
+                    var TenLoai = $("#TENLOAI").val();
+                    var Gia = $("#GIA").val();
+                    var MoTa = $("#MOTA").val();
+
+                    formData.append("file", HinhAnh.files[0]);
+                    formData.append("MANCC", MaNCC);
+                    formData.append("MATH", MaTH);
+                    formData.append("LOAI", Loai);
+                    formData.append("MALOAI", MaLoai);
+                    formData.append("TENLOAI", TenLoai);
+                    formData.append("GIA", Gia);
+                    formData.append("MOTA", MoTa);
                     $.ajax({
                         type: "POST",
                         url: "/Admin/LoaiSanPham/SuaLoaiSanPham",
-                        data: data,
-                        dataType: "json",
+                        contentType: false,
+                        processData: false,
+                        data: formData,
                         success: function (res) {
                             if (res.error == false) {
                                 Swal.fire({

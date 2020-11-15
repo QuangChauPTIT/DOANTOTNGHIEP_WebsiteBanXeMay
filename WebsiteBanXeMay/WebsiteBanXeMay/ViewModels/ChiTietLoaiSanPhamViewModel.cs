@@ -21,7 +21,6 @@ namespace WebsiteBanXeMay.ViewModels
         public string MOTA { get; set; }
         public int SOLUONGTON { get; set; }
         public int SOLUONGDABAN { get; set; }
-        public List<SanPhamTangKemViewModel> lstSANPHAMTANGKEM { get; set; } = new List<SanPhamTangKemViewModel>();
         public DateTime? NGAYKETTHUCKM { get; set; } 
     }
 }

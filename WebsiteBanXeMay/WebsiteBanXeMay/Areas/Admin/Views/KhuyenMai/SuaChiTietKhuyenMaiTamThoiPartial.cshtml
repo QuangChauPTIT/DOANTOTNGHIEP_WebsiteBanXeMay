@@ -1,0 +1,88 @@
+﻿@using WebsiteBanXeMay.Models
+@using WebsiteBanXeMay.Areas.Admin.ViewModels
+
+@model IEnumerable<LOAISANPHAM>
+
+@{ var lstLoaiSanPhamTheoKhuyenMai = ViewBag.lstLoaiSanPhamTheoKhuyenMai as IEnumerable<ChiTietKhuyenMaiViewModel>;}
+<div class="modal-header">
+    <button type="button" class="close" onclick="XoaTatCaChiTietKhuyenMaiTamThoi()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Hiệu chỉnh chi tiết khuyến mãi có mã: @ViewBag.MAKM</h4>
+</div>
+<div class="modal-body">
+    <form name="ThemChiTietKhuyenMaiTamThoi_Form">
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col-md-9">
+                <label>Loại sản phẩm<span class="required">*</span></label>
+                <select class="form-control select2" name="MALOAI" style="width: 100%;">
+                    @if (Model.Count() > 0)
+                    {
+                        foreach (var LoaiSanPham in Model)
+                        {
+                            <option title="@LoaiSanPham.TENLOAI" value="@LoaiSanPham.MALOAI">Mã loại: @LoaiSanPham.MALOAI - Tên loại:@LoaiSanPham.TENLOAI</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Phần trăm<span class="required">*</span></label>
+                <input placeholder="Phần trăm" name="PHANTRAM" class="form-control" value="" type="number">
+            </div>
+        </div>
+    </form>
+    <div style="margin-top:2%">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Danh sách loại sản phẩm</h3>
+                <button title="Thêm vào danh sách tạm" class="btn btn-warning" style="float:right!important" onclick="ThemChiTietKhuyenMaiTamThoi()"><i class="fa fa-pencil"></i></button>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow-y:auto!important;max-height:300px!important">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width:4%">STT</th>
+                            <th>Mã loại</th>
+                            <th>Tên loại</th>
+                            <th>Phần trăm khuyến mãi</th>
+                            <th style="width:20%">Tác vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ChiTietKhuyenMai_DetailTable">
+                        @if (lstLoaiSanPhamTheoKhuyenMai.Count() > 0)
+                        {
+                            int i = 1;
+                            foreach (var LoaiSanPham in lstLoaiSanPhamTheoKhuyenMai)
+                            {
+                                <tr>
+                                    <td>@(i++)</td>
+                                    <td>@LoaiSanPham.MALOAI</td>
+                                    <td>@LoaiSanPham.TENLOAI</td>
+                                    <td><span style="color:red">@LoaiSanPham.PHANTRAM %</span></td>
+                                    <td>
+                                        <a href="#" onclick="SuaChiTietKhuyenMaiTamThoi('@LoaiSanPham.MALOAI')">Sửa</a> |
+                                        <a href="#" onclick="XoaChiTietKhuyenMaiTamThoi('@LoaiSanPham.MALOAI')">Xóa</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center"><span>Không có dữ liệu</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" title="Hủy" class="btn btn-danger pull-right" onclick="XoaTatCaChiTietKhuyenMaiTamThoi()"><i class="fa fa-close" title="Hủy"></i></button>
+    <button type="button" title="Lưu" class="btn btn-success" onclick="SuaChiTietKhuyenMai(@ViewBag.MAKM)" style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
+</div>
+
+

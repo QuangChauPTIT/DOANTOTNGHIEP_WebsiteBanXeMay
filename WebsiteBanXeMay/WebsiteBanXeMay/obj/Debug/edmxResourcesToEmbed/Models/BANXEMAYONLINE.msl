@@ -4,10 +4,9 @@
     <EntitySetMapping Name="CT_KHUYENMAI">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.CT_KHUYENMAI">
         <MappingFragment StoreEntitySet="CT_KHUYENMAI">
-          <ScalarProperty Name="MACTKM" ColumnName="MACTKM" />
-          <ScalarProperty Name="PHANTRAM" ColumnName="PHANTRAM" />
           <ScalarProperty Name="MALOAI" ColumnName="MALOAI" />
           <ScalarProperty Name="MAKM" ColumnName="MAKM" />
+          <ScalarProperty Name="PHANTRAM" ColumnName="PHANTRAM" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -29,15 +28,6 @@
           <ScalarProperty Name="MALOAI" ColumnName="MALOAI" />
           <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
           <ScalarProperty Name="GIA" ColumnName="GIA" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="CT_TANGKEM">
-      <EntityTypeMapping TypeName="BANXEMAYONLINEModel.CT_TANGKEM">
-        <MappingFragment StoreEntitySet="CT_TANGKEM">
-          <ScalarProperty Name="MACTKM" ColumnName="MACTKM" />
-          <ScalarProperty Name="MASPTK" ColumnName="MASPTK" />
-          <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -215,14 +205,6 @@
           <ScalarProperty Name="MAPT" ColumnName="MAPT" />
           <ScalarProperty Name="MACTPN" ColumnName="MACTPN" />
           <ScalarProperty Name="GIA" ColumnName="GIA" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SANPHAMTANGKEMs">
-      <EntityTypeMapping TypeName="BANXEMAYONLINEModel.SANPHAMTANGKEM">
-        <MappingFragment StoreEntitySet="SANPHAMTANGKEM">
-          <ScalarProperty Name="MASPTK" ColumnName="MASPTK" />
-          <ScalarProperty Name="TENSPTK" ColumnName="TENSPTK" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

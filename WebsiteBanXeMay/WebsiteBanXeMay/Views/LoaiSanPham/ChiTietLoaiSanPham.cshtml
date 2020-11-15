@@ -109,13 +109,13 @@
                         {
                             <div class="product-desc">
                                 <p><span> Giá và khuyến mãi dự kiến áp dụng đến @LoaiSanPham.NGAYKETTHUCKM.Value.ToString("dd/MM") </span> </p>
-                                @if (LoaiSanPham.lstSANPHAMTANGKEM != null && LoaiSanPham.lstSANPHAMTANGKEM.Count() > 0)
+                                @*@if (LoaiSanPham.lstSANPHAMTANGKEM != null && LoaiSanPham.lstSANPHAMTANGKEM.Count() > 0)
                                 {
                                     foreach (var SanPhamTangKem in LoaiSanPham.lstSANPHAMTANGKEM)
                                     {
                                         <p><i class="fa fa-check-square-o"></i><span> Tặng @SanPhamTangKem.SOLUONGSPTK @SanPhamTangKem.TENSPTK </span> </p>
                                     }
-                                }
+                                }*@
                             </div>
 
                         }
@@ -206,7 +206,7 @@
         <div class="tab-content">
             <div id="description" class="tab-pane active show" role="tabpanel">
                 <div class="product-description">
-                    <span>@Html.Raw(LoaiSanPham.MOTA)</span>
+                    <span>@Html.Raw(Server.HtmlEncode(LoaiSanPham.MOTA).Replace("\n", "<br/>"))</span>
                 </div>
             </div>
             <div id="reviews" class="tab-pane" role="tabpanel">

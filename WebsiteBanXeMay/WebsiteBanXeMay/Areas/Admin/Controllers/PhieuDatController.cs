@@ -109,22 +109,24 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         public JsonResult ThemChiTietPhieuDatTamThoi(ChiTietPhieuDatViewModel objChiTiet)
         {
             var msg = new JMessage() { error = false, title = "", list = null };
+            var SessionChiTiet = Session[Constant.SESSION_CHITIETPHIEUDAT];
+            var lstChiTiet = new List<ChiTietPhieuDatViewModel>();
+            if (SessionChiTiet != null)
+            {
+                lstChiTiet = SessionChiTiet as List<ChiTietPhieuDatViewModel>;
+            }
             if (ModelState.IsValid)
             {
                 try
                 {
                     objChiTiet.TENLOAI = getTenLoaiSanPham(objChiTiet.MALOAI);
-                    var SessionChiTiet = Session[Constant.SESSION_CHITIETPHIEUDAT];
-                    var lstChiTiet = new List<ChiTietPhieuDatViewModel>();
-                    if (SessionChiTiet != null)
+                    if (lstChiTiet.Count() > 0)
                     {
-                        lstChiTiet = SessionChiTiet as List<ChiTietPhieuDatViewModel>;
                         var obj = lstChiTiet.FirstOrDefault(x => x.MALOAI == objChiTiet.MALOAI);
                         if (obj == null)
                         {
                             lstChiTiet.Add(objChiTiet);
                             Session[Constant.SESSION_CHITIETPHIEUDAT] = lstChiTiet;
-                            msg.list = lstChiTiet;
                             msg.error = false;
                             msg.title = "Thêm thành công";
                         }
@@ -132,15 +134,14 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                         {
                             msg.error = true;
                             msg.title = "Loại sản phẩm này đã tồn tại trong chi tiết phiếu đặt";
-                            return Json(msg, JsonRequestBehavior.AllowGet);
                         }
                     }
                     else
                     {
                         lstChiTiet.Add(objChiTiet);
                         Session[Constant.SESSION_CHITIETPHIEUDAT] = lstChiTiet;
-                        msg.list = lstChiTiet;
                         msg.error = false;
+                        msg.title = "Thêm thành công";
                     }
                 }
                 catch
@@ -154,6 +155,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 msg.error = true;
                 msg.title = ModelState.SelectMany(x => x.Value.Errors).Select(y => y.ErrorMessage).FirstOrDefault();
             }
+            msg.list = lstChiTiet;
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
@@ -162,23 +164,26 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         public JsonResult SuaChiTietPhieuDatTamThoi(ChiTietPhieuDatViewModel objChiTiet)
         {
             var msg = new JMessage() { error = false, title = "", list = null };
+            var SessionChiTiet = Session[Constant.SESSION_CHITIETPHIEUDAT];
+            var lstChiTiet = new List<ChiTietPhieuDatViewModel>();
+            if (SessionChiTiet != null)
+            {
+                lstChiTiet = SessionChiTiet as List<ChiTietPhieuDatViewModel>;
+            }
             if (ModelState.IsValid)
             {
                 try
                 {
                     objChiTiet.TENLOAI = getTenLoaiSanPham(objChiTiet.MALOAI);
-                    var SessionChiTiet = Session[Constant.SESSION_CHITIETPHIEUDAT];
-                    var lstChiTiet = new List<ChiTietPhieuDatViewModel>();
-                    if (SessionChiTiet != null)
+
+                    if (lstChiTiet.Count() > 0)
                     {
-                        lstChiTiet = SessionChiTiet as List<ChiTietPhieuDatViewModel>;
                         var obj = lstChiTiet.FirstOrDefault(x => x.MALOAI == objChiTiet.MALOAI);
                         if (obj != null)
                         {
                             obj.GIA = objChiTiet.GIA;
                             obj.SOLUONG = objChiTiet.SOLUONG;
                             Session[Constant.SESSION_CHITIETPHIEUDAT] = lstChiTiet;
-                            msg.list = lstChiTiet;
                             msg.error = false;
                             msg.title = "Hiệu chỉnh thành công";
                         }
@@ -186,7 +191,6 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                         {
                             msg.error = true;
                             msg.title = "Loại sản phẩm này không tồn tại trong chi tiết phiếu đặt";
-                            return Json(msg, JsonRequestBehavior.AllowGet);
                         }
                     }
                     else
@@ -206,19 +210,24 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 msg.error = true;
                 msg.title = ModelState.SelectMany(x => x.Value.Errors).Select(y => y.ErrorMessage).FirstOrDefault();
             }
+            msg.list = lstChiTiet;
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public JsonResult XoaChiTietPhieuDatTamThoi(string MaLoai)
         {
             var msg = new JMessage() { error = false, title = "", list = null };
+            var SessionChiTiet = Session[Constant.SESSION_CHITIETPHIEUDAT];
+            var lstChiTiet = new List<ChiTietPhieuDatViewModel>();
+            if (SessionChiTiet != null)
+            {
+                lstChiTiet = SessionChiTiet as List<ChiTietPhieuDatViewModel>;
+            }
             if (!string.IsNullOrWhiteSpace(MaLoai))
             {
                 try
                 {
-                    var SessionChiTiet = Session[Constant.SESSION_CHITIETPHIEUDAT];
-                    var lstChiTiet = new List<ChiTietPhieuDatViewModel>();
-                    if (SessionChiTiet != null)
+                    if (lstChiTiet.Count() > 0)
                     {
                         lstChiTiet = SessionChiTiet as List<ChiTietPhieuDatViewModel>;
                         var obj = lstChiTiet.FirstOrDefault(x => x.MALOAI == MaLoai);
@@ -226,7 +235,6 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                         {
                             lstChiTiet.Remove(obj);
                             Session[Constant.SESSION_CHITIETPHIEUDAT] = lstChiTiet;
-                            msg.list = lstChiTiet;
                             msg.error = false;
                         }
                         else
@@ -252,6 +260,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 msg.title = "Mã loại trống không thể xóa";
                 msg.error = true;
             }
+            msg.list = lstChiTiet;
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
@@ -271,17 +280,20 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         public JsonResult ThemPhieuDat(string MaNCC)
         {
             var msg = new JMessage() { error = false, title = "", list = null };
+            var SessionChiTiet = Session[Constant.SESSION_CHITIETPHIEUDAT];
+            var lstChiTiet = new List<ChiTietPhieuDatViewModel>();
+            if (SessionChiTiet != null)
+            {
+                lstChiTiet = SessionChiTiet as List<ChiTietPhieuDatViewModel>;
+            }
             if (!string.IsNullOrWhiteSpace(MaNCC))
             {
-                var SessionChiTiet = Session[Constant.SESSION_CHITIETPHIEUDAT];
-                var lstChiTiet = new List<ChiTietPhieuDatViewModel>();
-                if (SessionChiTiet != null)
+                if (lstChiTiet.Count() > 0)
                 {
                     using (DbContextTransaction transaction = DB.Database.BeginTransaction())
                     {
                         try
                         {
-                            lstChiTiet = SessionChiTiet as List<ChiTietPhieuDatViewModel>;
                             var objPhieuDat = new PHIEUDAT
                             {
                                 NGAYLAP = DateTime.Now,
@@ -328,6 +340,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 msg.title = "Mã nhà cung cấp là bắt buộc";
                 msg.error = true;
             }
+            msg.list = lstChiTiet;
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
@@ -371,66 +384,67 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
 
         public JsonResult SuaChiTietPhieuDat(int MaPD)
         {
-            var msg = new JMessage() { error = false, title = "" };
+            var msg = new JMessage() { error = false, title = "", list = null };
             var SessionChiTiet = Session[Constant.SESSION_CHITIETPHIEUDAT];
             var lstChiTiet = new List<ChiTietPhieuDatViewModel>();
-            if(SessionChiTiet != null)
+            if (SessionChiTiet != null)
             {
-                using (DbContextTransaction transaction = DB.Database.BeginTransaction())
+                lstChiTiet = SessionChiTiet as List<ChiTietPhieuDatViewModel>;
+            }
+            using (DbContextTransaction transaction = DB.Database.BeginTransaction())
+            {
+                try
                 {
-                    try
+                    var lstChiTiet_DB = DB.CT_PHIEUDAT.Where(x => x.MAPD == MaPD).Select(x => x.MALOAI).ToList();
+                    var lstChiTiet_CanXoa = lstChiTiet_DB.Except(lstChiTiet.Select(x => x.MALOAI));
+                    foreach (var MaLoai in lstChiTiet_CanXoa)
                     {
-                        lstChiTiet = SessionChiTiet as List<ChiTietPhieuDatViewModel>;
-                        var lstChiTiet_DB = DB.CT_PHIEUDAT.Where(x => x.MAPD == MaPD).Select(x => x.MALOAI).ToList();
-                        var lstChiTiet_CanXoa = lstChiTiet_DB.Except(lstChiTiet.Select(x=>x.MALOAI));
-                        foreach (var MaLoai in lstChiTiet_CanXoa)
+                        var objChiTiet = DB.CT_PHIEUDAT.FirstOrDefault(x => x.MAPD == MaPD && x.MALOAI == MaLoai);
+                        DB.CT_PHIEUDAT.Remove(objChiTiet);
+                        DB.SaveChanges();
+                    }
+
+                    var lstChiTiet_DB_SauHieuChinh = DB.CT_PHIEUDAT.Where(x => x.MAPD == MaPD).Select(x => x.MALOAI).ToList();
+                    foreach (var objChiTiet in lstChiTiet)
+                    {
+                        if (!lstChiTiet_DB_SauHieuChinh.Contains(objChiTiet.MALOAI))
                         {
-                            var objChiTiet = DB.CT_PHIEUDAT.FirstOrDefault(x => x.MAPD==MaPD && x.MALOAI == MaLoai);
-                            DB.CT_PHIEUDAT.Remove(objChiTiet);
+                            var modelChiTietPhieuDat = new CT_PHIEUDAT
+                            {
+                                MALOAI = objChiTiet.MALOAI,
+                                MAPD = MaPD,
+                                GIA = objChiTiet.GIA,
+                                SOLUONG = objChiTiet.SOLUONG
+                            };
+                            DB.CT_PHIEUDAT.Add(modelChiTietPhieuDat);
                             DB.SaveChanges();
                         }
-
-                        var lstChiTiet_DB_SauHieuChinh = DB.CT_PHIEUDAT.Where(x => x.MAPD == MaPD).Select(x=>x.MALOAI).ToList();
-                        foreach (var objChiTiet in lstChiTiet)
+                        else
                         {
-                            if(!lstChiTiet_DB_SauHieuChinh.Contains(objChiTiet.MALOAI))
-                            {
-                                var modelChiTietPhieuDat = new CT_PHIEUDAT
-                                {
-                                    MALOAI = objChiTiet.MALOAI,
-                                    MAPD = MaPD,
-                                    GIA = objChiTiet.GIA,
-                                    SOLUONG = objChiTiet.SOLUONG
-                                };
-                                DB.CT_PHIEUDAT.Add(modelChiTietPhieuDat);
-                                DB.SaveChanges();
-                            }    
-                            else
-                            {
-                                var modelChiTietPhieuDat = DB.CT_PHIEUDAT.FirstOrDefault(x => x.MAPD == MaPD && x.MALOAI == objChiTiet.MALOAI);
-                                modelChiTietPhieuDat.SOLUONG = objChiTiet.SOLUONG;
-                                modelChiTietPhieuDat.GIA = objChiTiet.GIA;
-                                DB.SaveChanges();
-                            }    
+                            var modelChiTietPhieuDat = DB.CT_PHIEUDAT.FirstOrDefault(x => x.MAPD == MaPD && x.MALOAI == objChiTiet.MALOAI);
+                            modelChiTietPhieuDat.SOLUONG = objChiTiet.SOLUONG;
+                            modelChiTietPhieuDat.GIA = objChiTiet.GIA;
+                            DB.SaveChanges();
                         }
-
-                        var objPhieuDat = DB.PHIEUDATs.FirstOrDefault(x => x.MAPD == MaPD);
-                        objPhieuDat.NGAYLAP = DateTime.Now;
-                        objPhieuDat.MANV = (Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel).MA;
-                        DB.SaveChanges();
-
-                        transaction.Commit();
-                        msg.title = "Hiệu chỉnh phiếu đặt hàng thành công";
-                        msg.error = false;
                     }
-                    catch
-                    {
-                        transaction.Rollback();
-                        msg.title = "Hiệu chỉnh phiếu đặt hàng thất bại";
-                        msg.error = true;
-                    }
+
+                    var objPhieuDat = DB.PHIEUDATs.FirstOrDefault(x => x.MAPD == MaPD);
+                    objPhieuDat.NGAYLAP = DateTime.Now;
+                    objPhieuDat.MANV = (Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel).MA;
+                    DB.SaveChanges();
+
+                    transaction.Commit();
+                    msg.title = "Hiệu chỉnh phiếu đặt hàng thành công";
+                    msg.error = false;
                 }
-            }    
+                catch
+                {
+                    transaction.Rollback();
+                    msg.title = "Hiệu chỉnh phiếu đặt hàng thất bại";
+                    msg.error = true;
+                }
+            }
+            msg.list = lstChiTiet;
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
         #endregion  

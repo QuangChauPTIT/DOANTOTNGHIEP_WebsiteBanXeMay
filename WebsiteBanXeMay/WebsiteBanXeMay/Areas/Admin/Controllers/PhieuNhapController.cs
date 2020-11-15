@@ -269,7 +269,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         public JsonResult XoaTatCaChiTietPhieuNhapTamThoi()
         {
             Session[Constant.SESSION_CHITIETPHIEUNHAP] = null;
-            var msg = new JMessage() { error = false, title = "Hủy chi tiết phiếu nhập tạm thời thành công" };
+            var msg = new JMessage() { error = false, title = "Hủy hiệu chỉnh chi tiết phiếu nhập thành công" };
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
@@ -376,19 +376,19 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         public JsonResult KiemTraTrangThaiPhieuDat(int MaPD, string MaNCC)
         {
             var msg = new JMessage() { error = false, title = "" };
-            var objPhieuDat = DB.PHIEUDATs.FirstOrDefault(x => x.MAPD == MaPD  && x.MANCC == MaNCC);
+            var objPhieuDat = DB.PHIEUDATs.FirstOrDefault(x => x.MAPD == MaPD && x.MANCC == MaNCC);
             if (objPhieuDat != null)
             {
                 var objPhieuNhap = DB.PHIEUNHAPs.FirstOrDefault(x => x.MAPD == MaPD);
                 if (objPhieuNhap == null)
                 {
                     msg.error = false;
-                }    
+                }
                 else
                 {
                     msg.error = true;
                     msg.title = "Đơn hàng đã được nhập";
-                }    
+                }
             }
             else
             {
@@ -470,7 +470,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult ThemChiTietPhieuNhap_ImportExcel(string MaNCC,int MaPD, DateTime NgayLap)
+        public JsonResult ThemChiTietPhieuNhap_ImportExcel(string MaNCC, int MaPD, DateTime NgayLap)
         {
             var msg = new JMessage() { error = false, title = "" };
             var SessionChiTiet = Session[Constant.SESSION_CHITIETPHIEUNHAP];
@@ -485,95 +485,103 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 {
                     try
                     {
-                        bool flag = false;
-                        foreach (var objChiTiet in lstChiTiet)
+                        var objPhieuDat = DB.PHIEUDATs.FirstOrDefault(x => x.MAPD == MaPD);
+                        if (objPhieuDat.NGAYLAP <= NgayLap)
                         {
-                            // Kiểm tra tồn tại số khung số máy nhà cung cấp trong database
-                            if (DB.NHACUNGCAPs.FirstOrDefault(x => x.MANCC == MaNCC) == null)
+                            bool flag = false;
+                            foreach (var objChiTiet in lstChiTiet)
                             {
-                                msg.error = true;
-                                msg.title = "Loại sản phẩm không thuộc nhà cung cấp mã: " + MaNCC;
-                                flag = true;
-                                break;
-                            }
-                            else if(string.IsNullOrWhiteSpace(objChiTiet.SOKHUNG))
-                            {
-                                msg.error = true;
-                                msg.title = "Số khung " + objChiTiet.SOKHUNG + " của loại sản phẩm " + objChiTiet.MALOAI + " rỗng";
-                                flag = true;
-                                break;
-                            }
-                            else if (string.IsNullOrWhiteSpace(objChiTiet.SOMAY))
-                            {
-                                msg.error = true;
-                                msg.title = "Số máy " + objChiTiet.SOMAY + " của loại sản phẩm " + objChiTiet.MALOAI + " rỗng";
-                                flag = true;
-                                break;
-                            }
-                            else if (DB.SANPHAMs.FirstOrDefault(x => x.SOKHUNG == objChiTiet.SOKHUNG) != null)
-                            {
-                                msg.error = true;
-                                msg.title = "Số khung " + objChiTiet.SOKHUNG + " của loại sản phẩm " + objChiTiet.MALOAI + " đã tồn tại";
-                                flag = true;
-                                break;
-                            }
-                            else if (DB.SANPHAMs.FirstOrDefault(x => x.SOMAY == objChiTiet.SOMAY) != null)
-                            {
-                                msg.error = true;
-                                msg.title = "Số máy " + objChiTiet.SOMAY + " của loại sản phẩm " + objChiTiet.MALOAI + " đã tồn tại";
-                                flag = true;
-                                break;
-                            }
-                        }
-                        if (flag == false)
-                        {
-                            var objPhieuNhap = new PHIEUNHAP
-                            {
-                                NGAYLAP = NgayLap,
-                                MAPD = MaPD,
-                                MANV = (Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel).MA
-                            };
-                            DB.PHIEUNHAPs.Add(objPhieuNhap);
-                            DB.SaveChanges();
-
-                            var lstMaLoai = lstChiTiet.Select(x => x.MALOAI).Distinct().ToList();
-                            foreach (string maLoai in lstMaLoai)
-                            {
-                                var objChiTietPhieuNhap = new CT_PHIEUNHAP
+                                if (DB.NHACUNGCAPs.FirstOrDefault(x => x.MANCC == MaNCC) == null)
                                 {
-                                    MALOAI = maLoai,
-                                    MAPN = objPhieuNhap.MAPN,
-                                    SOLUONG = lstChiTiet.Where(x => x.MALOAI == maLoai).ToList().Count(),
-                                    GIA = lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA
+                                    msg.error = true;
+                                    msg.title = "Loại sản phẩm không thuộc nhà cung cấp mã: " + MaNCC;
+                                    flag = true;
+                                    break;
+                                }
+                                // Kiểm tra tồn tại số khung số máy nhà cung cấp trong database
+                                else if (string.IsNullOrWhiteSpace(objChiTiet.SOKHUNG))
+                                {
+                                    msg.error = true;
+                                    msg.title = "Số khung " + objChiTiet.SOKHUNG + " của loại sản phẩm " + objChiTiet.MALOAI + " rỗng";
+                                    flag = true;
+                                    break;
+                                }
+                                else if (string.IsNullOrWhiteSpace(objChiTiet.SOMAY))
+                                {
+                                    msg.error = true;
+                                    msg.title = "Số máy " + objChiTiet.SOMAY + " của loại sản phẩm " + objChiTiet.MALOAI + " rỗng";
+                                    flag = true;
+                                    break;
+                                }
+                                else if (DB.SANPHAMs.FirstOrDefault(x => x.SOKHUNG == objChiTiet.SOKHUNG) != null)
+                                {
+                                    msg.error = true;
+                                    msg.title = "Số khung " + objChiTiet.SOKHUNG + " của loại sản phẩm " + objChiTiet.MALOAI + " đã tồn tại";
+                                    flag = true;
+                                    break;
+                                }
+                                else if (DB.SANPHAMs.FirstOrDefault(x => x.SOMAY == objChiTiet.SOMAY) != null)
+                                {
+                                    msg.error = true;
+                                    msg.title = "Số máy " + objChiTiet.SOMAY + " của loại sản phẩm " + objChiTiet.MALOAI + " đã tồn tại";
+                                    flag = true;
+                                    break;
+                                }
+                            }
+                            if (flag == false)
+                            {
+                                var objPhieuNhap = new PHIEUNHAP
+                                {
+                                    NGAYLAP = NgayLap,
+                                    MAPD = MaPD,
+                                    MANV = (Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel).MA
                                 };
-                                DB.CT_PHIEUNHAP.Add(objChiTietPhieuNhap);
+                                DB.PHIEUNHAPs.Add(objPhieuNhap);
                                 DB.SaveChanges();
-                                var lstChiTietTheoMaLoai = lstChiTiet.Where(x => x.MALOAI == maLoai);
-                                foreach (var objChiTiet in lstChiTietTheoMaLoai)
+
+                                var lstMaLoai = lstChiTiet.Select(x => x.MALOAI).Distinct().ToList();
+                                foreach (string maLoai in lstMaLoai)
                                 {
-                                    var objSanPham = new SANPHAM
+                                    var objChiTietPhieuNhap = new CT_PHIEUNHAP
                                     {
-                                        MACTPN = objChiTietPhieuNhap.MACTPN,
-                                        SOKHUNG = objChiTiet.SOKHUNG,
-                                        SOMAY = objChiTiet.SOMAY,
-                                        GIA = objChiTiet.GIA
+                                        MALOAI = maLoai,
+                                        MAPN = objPhieuNhap.MAPN,
+                                        SOLUONG = lstChiTiet.Where(x => x.MALOAI == maLoai).ToList().Count(),
+                                        GIA = lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA
                                     };
-                                    DB.SANPHAMs.Add(objSanPham);
+                                    DB.CT_PHIEUNHAP.Add(objChiTietPhieuNhap);
+                                    DB.SaveChanges();
+                                    var lstChiTietTheoMaLoai = lstChiTiet.Where(x => x.MALOAI == maLoai);
+                                    foreach (var objChiTiet in lstChiTietTheoMaLoai)
+                                    {
+                                        var objSanPham = new SANPHAM
+                                        {
+                                            MACTPN = objChiTietPhieuNhap.MACTPN,
+                                            SOKHUNG = objChiTiet.SOKHUNG,
+                                            SOMAY = objChiTiet.SOMAY,
+                                            GIA = objChiTiet.GIA
+                                        };
+                                        DB.SANPHAMs.Add(objSanPham);
+                                        DB.SaveChanges();
+                                    }
+                                    var objLoaiSanPham = DB.LOAISANPHAMs.FirstOrDefault(x => x.MALOAI == maLoai);
+                                    objLoaiSanPham.GIA = objChiTietPhieuNhap.GIA;
+                                    objLoaiSanPham.TRANGTHAI = 0;
                                     DB.SaveChanges();
                                 }
-                                var objLoaiSanPham = DB.LOAISANPHAMs.FirstOrDefault(x => x.MALOAI == maLoai);
-                                objLoaiSanPham.GIA = objChiTietPhieuNhap.GIA;
-                                objLoaiSanPham.TRANGTHAI = 0;
+                                objPhieuDat.TRANGTHAI = 1;
                                 DB.SaveChanges();
-                            }
-                            var objPhieuDat = DB.PHIEUDATs.FirstOrDefault(x => x.MAPD == MaPD);
-                            objPhieuDat.TRANGTHAI = 1;
-                            DB.SaveChanges();
 
-                            transaction.Commit();
-                            Session[Constant.SESSION_CHITIETPHIEUNHAP] = null;
-                            msg.error = false;
-                            msg.title = "Nhập hàng thành công";
+                                transaction.Commit();
+                                Session[Constant.SESSION_CHITIETPHIEUNHAP] = null;
+                                msg.error = false;
+                                msg.title = "Nhập hàng thành công";
+                            }
+                        }
+                        else
+                        {
+                            msg.error = true;
+                            msg.title = "Ngày nhập phải sau ngày đặt hàng.";
                         }
                     }
                     catch
