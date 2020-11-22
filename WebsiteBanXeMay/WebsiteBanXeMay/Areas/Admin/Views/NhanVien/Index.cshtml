@@ -1,10 +1,14 @@
 ﻿@using WebsiteBanXeMay.Utils;
+@using WebsiteBanXeMay.Models;
+
 @model PageUtil
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
+@{ var lstNhomQuyenNhanVien = ViewBag.lstNhomQuyenNhanVien as IEnumerable<NHOMQUYEN>;}
 <div class="">
     @*content-wrapper*@
     <!-- Content Header (Page header) -->
@@ -25,13 +29,32 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Danh sách nhân viên</h3>
+                        <form action="/Admin/NhanVien" method="get">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Chức vụ</label>
+                                    <select class="form-control select2" name="MANQ">
+                                        <option @(ViewBag.MaNQ == "all" ? "selected" : null) value="all">Tất cả</option>
+                                        @foreach (var quyen in lstNhomQuyenNhanVien)
+                                        {
+                                            <option @(quyen.MANQ == ViewBag.MaNQ ? "selected" : null) value="@quyen.MANQ">@quyen.TENQUYEN</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-1" style="margin-top:2.3%">
+                                    <button title="Tìm kiếm" class="btn btn-info"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+
+                        </form>
+                        <h3 style="margin-top:3%" class="box-title">Danh sách có: <span style="color:red">@(Model.Data.Count() > 0 ? Model.Data.Count() : 0 )</span> nhân viên</h3>
                         <button title="Thêm" class="btn btn-success" style="float:right!important" onclick="getThemNhanVien()"><i class="fa fa-save"></i></button>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
                         <table class="table table-bordered">
                             <tr>
+                                <th>STT</th>
                                 <th>Mã nhân viên</th>
                                 <th style="width:30%">Thông tin nhân viên</th>
                                 <th>Email</th>
@@ -40,9 +63,11 @@
                             </tr>
                             @if (Model.Data.Count() > 0)
                             {
+                                int i = 1;
                                 foreach (var NhanVienViewModel in Model.PaginatedResult())
                                 {
                                     <tr>
+                                        <td>@(i++)</td>
                                         <td>@NhanVienViewModel.MANV</td>
                                         <td>
                                             <div class="row">
@@ -61,8 +86,8 @@
                                             @NhanVienViewModel.TENQUYEN
                                         </td>
                                         <td>
-                                            <a href="#" role="button"  onclick="getSuaNhanVien('@NhanVienViewModel.MANV')" title="Hiệu chỉnh" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-                                            <a href="#" role="button" title="Xóa" class="btn btn-danger"><i class="fa fa-remove"></i></a>
+                                            <a href="#" role="button" onclick="getSuaNhanVien(@NhanVienViewModel.MANV)" title="Hiệu chỉnh" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+                                            <a href="#" role="button" onclick="XoaNhanVien(@NhanVienViewModel.MANV)" title="Xóa" class="btn btn-danger"><i class="fa fa-remove"></i></a>
                                         </td>
                                     </tr>
                                 }
@@ -70,7 +95,7 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="7" class="text-center"><span>Không có dữ liệu</span></td>
+                                    <td colspan="6" class="text-center"><span>Không có dữ liệu</span></td>
                                 </tr>
                             }
                         </table>
@@ -79,16 +104,16 @@
                     <div class="box-footer clearfix">
                         <ul class="pagination pagination-sm no-margin pull-right">
                             <li>
-                                @Html.ActionLink("Trước", "Index", new { Trang = Model.CurrentPage > 1 ? Model.CurrentPage - 1 : 1 }, null)
+                                @Html.ActionLink("Trước", "Index", new { MaNQ = ViewBag.MaNQ, Trang = Model.CurrentPage > 1 ? Model.CurrentPage - 1 : 1 }, null)
                             </li>
                             @for (int page = 1; page <= Model.PageCount(); page++)
                             {
                                 <li class="@(page == Model.CurrentPage ? " active" : null)">
-                                    @Html.ActionLink(page.ToString(), "Index", new { Trang = page }, null)
+                                    @Html.ActionLink(page.ToString(), "Index", new { MaNQ = ViewBag.MaNQ, Trang = page }, null)
                                 </li>
                             }
                             <li>
-                                @Html.ActionLink("Sau", "Index", new { Trang = Model.CurrentPage < Model.PageCount() ? Model.CurrentPage + 1 : Model.PageCount() }, null)
+                                @Html.ActionLink("Sau", "Index", new { MaNQ = ViewBag.MaNQ, Trang = Model.CurrentPage < Model.PageCount() ? Model.CurrentPage + 1 : Model.PageCount() }, null)
                             </li>
                         </ul>
                     </div>
@@ -251,4 +276,48 @@
         })
     }
 
+    function XoaNhanVien(MaNV) {
+        Swal.fire({
+            title: 'Xác nhận xóa nhân viên mã: ' + MaNV + ' ?',
+            text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được xóa!",
+            icon: 'question',
+            customClass: 'swal-wide',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'hủy',
+            confirmButtonText: 'Xác nhận',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    url: "/Admin/NhanVien/XoaNhanVien/?MaNV=" + MaNV,
+                    success: function (res) {
+                        if (res.error == false) {
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: res.title,
+                                icon: 'success',
+                                customClass: 'swal-wide',
+                            }).then((d) => {
+                                if (d.isConfirmed) {
+                                    location.reload();
+                                }
+                            })
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: res.title,
+                                icon: 'error',
+                                customClass: 'swal-wide',
+                            })
+                            return;
+                        }
+                    }
+                })
+            }
+        })
+    }
 </script>

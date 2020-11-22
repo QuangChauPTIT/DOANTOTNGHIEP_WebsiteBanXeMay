@@ -12,7 +12,7 @@ namespace WebsiteBanXeMay.Areas.Admin.ViewModels
         public string MALOAI { get; set; }
         public string TENLOAI { get; set; }
         [Required(ErrorMessage = "Giá là bắt buộc")]
-        [Range(1000000, 100000000, ErrorMessage = "Giá phải từ 1.000.000 đến 100.000.000")]
+        [Range(1000000, 500000000, ErrorMessage = "Giá phải lớn hơn 1.000.000")]
         public double GIA { get; set; }
         [Required(ErrorMessage = "Số khung là bắt buộc")]
         public string SOKHUNG { get; set; }

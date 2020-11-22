@@ -55,7 +55,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult ThemChiTietPhieuNhapTamThoiPartial(string MaNCC)
         {
-            ViewBag.MANCC = MaNCC;
+            ViewBag.objNhaCungCap = DB.NHACUNGCAPs.FirstOrDefault(x=>x.MANCC == MaNCC);
             return PartialView(lstLoaiSanPham(MaNCC));
         }
 
@@ -63,7 +63,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult ImportExcelPartial(string MaNCC, string MaPD)
         {
-            ViewBag.MANCC = MaNCC;
+            ViewBag.objNhaCungCap = DB.NHACUNGCAPs.FirstOrDefault(x => x.MANCC == MaNCC);
             ViewBag.MAPD = MaPD;
             return PartialView();
         }

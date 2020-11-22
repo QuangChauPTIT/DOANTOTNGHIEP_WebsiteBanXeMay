@@ -21,7 +21,6 @@ namespace WebsiteBanXeMay.Controllers
             return View(lstSanPham);
         }
 
-        [Authorize(Roles = "customer")]
         [HttpGet]
         public ActionResult ThemPhieuMua()
         {
@@ -33,7 +32,6 @@ namespace WebsiteBanXeMay.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "customer")]
         [ValidateAntiForgeryToken]
         public ActionResult ThemPhieuMua(PHIEUMUA objPhieuMua)
         {

@@ -29,11 +29,11 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <label>Từ ngày</label>
-                                    <input type="date" name="NgayBatDau" max="@DateTime.Now.ToString("yyyy-MM-dd")" value="@(ViewBag.NgayBatDau != null?ViewBag.NgayBatDau.ToString("yyyy-MM-dd"):null)" class="form-control" />
+                                    <input type="date" name="NgayBatDau" max="@DateTime.Now.ToString("yyyy-MM-dd")" value="@(ViewBag.NgayBatDau != null?ViewBag.NgayBatDau.ToString("yyyy-MM-dd"):"2020-11-01")" class="form-control" />
                                 </div>
                                 <div class="col-md-4">
                                     <label>Đến ngày</label>
-                                    <input type="date" name="NgayKetThuc" max="@DateTime.Now.ToString("yyyy-MM-dd")" value="@(ViewBag.NgayKetThuc != null?ViewBag.NgayKetThuc.ToString("yyyy-MM-dd"):null)" class="form-control" />
+                                    <input type="date" name="NgayKetThuc" max="@DateTime.Now.ToString("yyyy-MM-dd")" value="@(ViewBag.NgayKetThuc != null?ViewBag.NgayKetThuc.ToString("yyyy-MM-dd"):DateTime.Now.ToString("yyyy-MM-dd"))" class="form-control" />
                                 </div>
                                 <div class="col-md-1" style="margin-top:2.3%">
                                     <button title="Tìm kiếm" class="btn btn-info"><i class="fa fa-search"></i></button>
@@ -50,6 +50,7 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Mã loại</th>
+                                <th>Tên thương hiệu</th>
                                 <th>Tên loại</th>
                                 <th>Hình ảnh</th>
                                 <th>Số lượng đã bán</th>
@@ -61,9 +62,16 @@
                                 foreach (var LoaiSanPham in Model.PaginatedResult())
                                 {
                                     <tr>
-                                        <td>@(i++)</td>
-                                        <td>@LoaiSanPham.MALOAI</td>
+                                        <td>
+                                            @(i++)
+                                        </td>
 
+                                        <td>
+                                            @LoaiSanPham.MALOAI
+                                        </td>
+                                        <td>
+                                            @LoaiSanPham.TENTH
+                                        </td>
                                         <td>
                                             @LoaiSanPham.TENLOAI
                                         </td>
@@ -71,10 +79,10 @@
                                             <img src="@Url.Content("~/Assets/upload/images/"+LoaiSanPham.HINHANH)" width="100" height="100" alt="@LoaiSanPham.HINHANH ">
                                         </td>
                                         <td>
-                                            @LoaiSanPham.SOLUONG
+                                            <span style="float:right">@LoaiSanPham.SOLUONG</span>
                                         </td>
                                         <td>
-                                            <span class="money" style="color:red">@LoaiSanPham.GIA</span>
+                                            <span class="money" style="color:red;float:right">@LoaiSanPham.GIA</span>
                                         </td>
                                     </tr>
                                 }

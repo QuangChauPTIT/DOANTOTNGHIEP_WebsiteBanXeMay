@@ -41,11 +41,13 @@ namespace WebsiteBanXeMay.Controllers
         public ActionResult ChiTietLoaiSanPham(string Id)
         {
             ViewBag.ThongTinChiTietLoaiSanPham = getChiTietLoaiSanPham(Id);
-            var TaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
-            if (TaiKhoan != null)
+            var objTaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
+            bool flag = false;
+            if (objTaiKhoan != null && objTaiKhoan.NHOMQUYEN.Equals("customer"))
             {
-                ViewBag.KiemTraChoPhepDanhGia = KiemTraChoPhepDanhGia(Id, TaiKhoan.MA);
+                flag = KiemTraChoPhepDanhGia(Id, objTaiKhoan.MA);
             }
+            ViewBag.KiemTraChoPhepDanhGia = flag;
             return View();
         }
 
@@ -126,6 +128,7 @@ namespace WebsiteBanXeMay.Controllers
                     // Loại sản phẩm bán chạy
                     var queryLoaiSanPhamBanChay = from query_daban in querySoLuongSanPhamDaBan
                                                   join query in queryLoaiSanPham on query_daban.MALOAI equals query.MALOAI
+                                                  where query_daban.SOLUONGDABAN > 1
                                                   select new LoaiSanPhamViewModel
                                                   {
                                                       MALOAI = query.MALOAI,

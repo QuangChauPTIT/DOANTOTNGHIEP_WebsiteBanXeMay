@@ -1,9 +1,10 @@
-﻿
+﻿@using WebsiteBanXeMay.Models
+@{ var NhaCungCap = ViewBag.objNhaCungCap as NHACUNGCAP;}
 <div class="modal-header">
     <button type="button" class="close" onclick="HuyNhapHang()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
-    <h4 class="modal-title">Phiếu nhập có mã nhà cung cấp: @ViewBag.MANCC</h4>
+    <h4 class="modal-title">Lập phiếu nhập đến nhà cung cấp: @NhaCungCap.TENNCC</h4>
     <div class="row">
         <input type="hidden" id="MaPD" value="@ViewBag.MAPD" class="form-control" />
         <div class="col-md-6">
@@ -45,8 +46,8 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-danger pull-right"  onclick="HuyNhapHang()"><i class="fa fa-close" title="Hủy"></i></button>
-    <button type="button" class="btn btn-success" onclick="ThemChiTietPhieuNhap_ImportExcel('@ViewBag.MANCC')" style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
+    <button type="button" class="btn btn-danger pull-right" onclick="HuyNhapHang()"><i class="fa fa-close" title="Hủy"></i></button>
+    <button type="button" class="btn btn-success" onclick="ThemChiTietPhieuNhap_ImportExcel('@NhaCungCap.MANCC')" style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
 </div>
 
 <script>

@@ -19,13 +19,6 @@ namespace WebsiteBanXeMay.Controllers
         [Authorize(Roles = "customer")]
         public ActionResult Index()
         {
-            return View("ThongTin");
-        }
-        [HttpGet]
-        [Authorize(Roles = "customer")]
-        public ActionResult ThongTin()
-        {
-            // Xử lý tạm
             var TaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
             var objKhachHang = getKhachHang(TaiKhoan.MA);
             ViewBag.lstQuan = lstQuan();
@@ -33,10 +26,11 @@ namespace WebsiteBanXeMay.Controllers
             return View();
         }
 
+
         [HttpPost]
         [Authorize(Roles = "customer")]
         [ValidateAntiForgeryToken]
-        public ActionResult ThongTin(KHACHHANG objKhachHang)
+        public ActionResult Index(KHACHHANG objKhachHang)
         {
             if (ModelState.IsValid)
             {
@@ -121,6 +115,7 @@ namespace WebsiteBanXeMay.Controllers
         }
 
         //[HttpGet]
+        [Authorize(Roles = "admin,staff,customer,shipper")]
         [AllowAnonymous]
         public ActionResult DangNhap(string ReturnUrl)
         {
@@ -128,6 +123,7 @@ namespace WebsiteBanXeMay.Controllers
             return View();
         }
 
+        [Authorize(Roles = "admin,staff,customer,shipper")]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -159,6 +155,7 @@ namespace WebsiteBanXeMay.Controllers
             return View(objTaiKhoan);
         }
 
+        [Authorize(Roles = "customer")]
         [HttpGet]
         [AllowAnonymous]
         public ActionResult DangKy(string ReturnUrl)
@@ -168,6 +165,7 @@ namespace WebsiteBanXeMay.Controllers
             return View();
         }
 
+        [Authorize(Roles = "customer")]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -236,6 +234,7 @@ namespace WebsiteBanXeMay.Controllers
             return View(objKhachHangViewModel);
         }
 
+        [Authorize(Roles = "admin,staff,customer,shipper")]
         [HttpGet]
         [AllowAnonymous]
         public ActionResult DangXuat()

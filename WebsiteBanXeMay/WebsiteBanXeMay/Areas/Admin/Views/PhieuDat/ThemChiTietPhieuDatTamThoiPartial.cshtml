@@ -1,11 +1,12 @@
 ﻿@using WebsiteBanXeMay.Models
 @model IEnumerable<LOAISANPHAM>
 
+@{ var objNhaCungCap = ViewBag.objNhaCungCap as NHACUNGCAP;}
 <div class="modal-header">
     <button type="button" class="close" onclick="HuyDatHang()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
-    <h4 class="modal-title">Phiếu đặt có mã nhà cung cấp: @ViewBag.MANCC</h4>
+    <h4 class="modal-title">Lập phiếu đặt đến nhà cung cấp: @objNhaCungCap.TENNCC</h4>
 </div>
 
 <div class="modal-body">
@@ -19,7 +20,7 @@
                     {
                         foreach (var LoaiSanPham in Model)
                         {
-                            <option title="@LoaiSanPham.TENLOAI" value="@LoaiSanPham.MALOAI">Mã loại: @LoaiSanPham.MALOAI - Tên loại: @LoaiSanPham.TENLOAI</option>
+                            <option title="@LoaiSanPham.TENLOAI" value="@LoaiSanPham.MALOAI">@LoaiSanPham.MALOAI - @LoaiSanPham.TENLOAI</option>
                         }
                     }
                 </select>
@@ -62,5 +63,5 @@
 </div>
 <div class="modal-footer">
     <button type="button" title="Hủy" class="btn btn-danger pull-right" onclick="HuyDatHang()"><i class="fa fa-close" title="Hủy"></i></button>
-    <button type="button" title="Lưu" class="btn btn-success" onclick="ThemPhieuDat('@ViewBag.MANCC')" style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
+    <button type="button" title="Lưu" class="btn btn-success" onclick="ThemPhieuDat('@objNhaCungCap.MANCC')" style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
 </div>

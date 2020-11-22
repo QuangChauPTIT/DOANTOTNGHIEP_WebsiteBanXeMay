@@ -16,12 +16,14 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
         // GET: Admin/NhanVien
         [HttpGet]
-        public ActionResult Index(int Trang = 1)
+        public ActionResult Index(string MaNQ, int Trang = 1)
         {
+            ViewBag.lstNhomQuyenNhanVien = lstNhomQuyenNhanVien();
+            ViewBag.MaNQ = MaNQ;
             var Model = new PageUtil
             {
                 PageSize = 10,
-                Data = lstNhanVien(),
+                Data = lstNhanVien(MaNQ),
                 CurrentPage = Trang
             };
             return View(Model);
@@ -151,16 +153,42 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult XoaNhanVien(int MaNV)
+        {
+            var msg = new JMessage() { error = false, title = "" };
 
-
+            try
+            {
+                var modelNhanVien = DB.NHANVIENs.FirstOrDefault(x => x.MANV == MaNV);
+                if (modelNhanVien != null)
+                {
+                    DB.NHANVIENs.Remove(modelNhanVien);
+                    DB.SaveChanges();
+                    msg.title = "Xóa nhân viên thành công";
+                }
+                else
+                {
+                    msg.error = true;
+                    msg.title = "Nhân viên không tồn tại";
+                }
+            }
+            catch
+            {
+                msg.error = true;
+                msg.title = "Không thể xóa nhân viên";
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
 
 
         //========================  Lấy dữ liệu từ database ======================
-        private IEnumerable<NhanVienViewModel> lstNhanVien()
+        private IEnumerable<NhanVienViewModel> lstNhanVien(string MaNQ)
         {
             var queryNhanVien = (from nhanvien in DB.NHANVIENs
                                  join taikhoan in DB.TAIKHOANs on nhanvien.EMAIL equals taikhoan.EMAIL
                                  join nhomquyen in DB.NHOMQUYENs on taikhoan.MANQ equals nhomquyen.MANQ
+                                 where ((MaNQ == "all" || string.IsNullOrEmpty(MaNQ)) || nhomquyen.MANQ == MaNQ)
                                  select new NhanVienViewModel
                                  {
                                      MANV = nhanvien.MANV,
@@ -178,7 +206,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
 
         private IEnumerable<NHOMQUYEN> lstNhomQuyenNhanVien()
         {
-            return DB.NHOMQUYENs.Where(x => x.MANQ == "staff" || x.MANQ == "shipper").ToList();
+            return DB.NHOMQUYENs.Where(x => x.MANQ == "staff" || x.MANQ == "shipper" || x.MANQ == "admin").ToList();
         }
     }
 }

@@ -26,7 +26,7 @@
                 <select class="form-control select2" name="MANVGH" style="width: 100%;">
                     @foreach (var NhanVien in lstNhanVienGiaoHang)
                     {
-                        <option value="@NhanVien.MANV">Mã nhân viên: @NhanVien.MANV - Họ tên: @(NhanVien.HO+" "+NhanVien.TEN) - Số phiếu đang giao: @NhanVien.SOPHIEU</option>
+                        <option value="@NhanVien.MANV">Mã nhân viên: @NhanVien.MANV - Họ tên: @(NhanVien.HO+" "+NhanVien.TEN) - Số phiếu đang giao: @NhanVien.SOPHIEUDANGGIAO</option>
                     }
                 </select>
             </div>

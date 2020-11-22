@@ -1,5 +1,8 @@
 ﻿@using WebsiteBanXeMay.Utils;
+@using WebsiteBanXeMay.ViewModels;
 @model PageUtil
+
+@{ var TaiKhoanViewModel = ViewBag.TaiKhoanViewModel as TaiKhoanViewModel;}
 @if (Model.Data.Count() > 0)
 {
     <div id="DanhGiaID" class="mb-30">
@@ -25,6 +28,36 @@
                     <p class="mb-0" style="color:black !important">@Html.Raw(Html.Encode(DanhGia.NOIDUNG).Replace(Environment.NewLine, "<br />"))</p>
                     <em style="font-size:12px;color:#898989 !important">@DanhGia.NGAY.ToString("dd-MM-yyyy hh:mm tt")</em>
                 </div>
+                <div>
+                    @if (TaiKhoanViewModel != null)
+                    {
+                        if (TaiKhoanViewModel.NHOMQUYEN.Equals("admin") || TaiKhoanViewModel.NHOMQUYEN.Equals("staff"))
+                        {
+                            <a data-ajax="true"
+                               data-ajax-failure="OnFailure"
+                               data-ajax-method="GET"
+                               data-ajax-mode="replace"
+                               data-ajax-success="OnSuccess"
+                                data-ajax-confirm="Xác nhận xóa?"
+                               data-ajax-update="#DanhGiaID"
+                               href="/DanhGia/XoaDanhGia?MaLoai=@(DanhGia.MALOAI)&MaKH=@DanhGia.MAKH"><span style="font-size:25px">...</span></a>
+                        }
+                        else if (TaiKhoanViewModel.NHOMQUYEN.Equals("customer"))
+                        {
+                            if (TaiKhoanViewModel.MA == DanhGia.MAKH)
+                            {
+                                <a data-ajax="true"
+                                   data-ajax-failure="OnFailure"
+                                   data-ajax-method="GET"
+                                   data-ajax-mode="replace"
+                                   data-ajax-success="OnSuccess"
+                                   data-ajax-update="#DanhGiaID"
+                                   data-ajax-confirm="Xác nhận xóa?"
+                                   href="/DanhGia/XoaDanhGia?MaLoai=@(DanhGia.MALOAI)&MaKH=@DanhGia.MAKH"><span style="font-size:25px">...</span></a>
+                            }
+                        }
+                    }
+                </div>
             </div>
         }
         <div class="paginatoin-area">
@@ -40,7 +73,7 @@
                                            {
                                                HttpMethod = "GET",
                                                UpdateTargetId = "DanhGiaID",
-                                               InsertionMode = InsertionMode.Replace
+                                               InsertionMode = InsertionMode.Replace,                                             
                                            })
                         </li>
                         @for (int page = 1; page <= Model.PageCount(); page++)

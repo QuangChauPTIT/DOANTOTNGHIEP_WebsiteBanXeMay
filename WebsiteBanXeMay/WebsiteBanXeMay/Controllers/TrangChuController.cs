@@ -158,7 +158,7 @@ namespace WebsiteBanXeMay.Controllers
                 // Loại sản phẩm bán chạy
                 var queryLoaiSanPhamBanChay = from query_daban in querySoLuongSanPhamDaBan
                                               join query in queryLoaiSanPham on query_daban.MALOAI equals query.MALOAI
-                                              where query_daban.SOLUONGDABAN > 2
+                                              where query_daban.SOLUONGDABAN > 1
                                               select new LoaiSanPhamViewModel
                                               {
                                                   MALOAI = query.MALOAI,

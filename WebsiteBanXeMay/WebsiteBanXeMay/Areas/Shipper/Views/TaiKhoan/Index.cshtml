@@ -1,0 +1,166 @@
+﻿@using WebsiteBanXeMay.Areas.Shipper.ViewModels;
+@model NhanVienViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Shipper/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    @*content-wrapper*@
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Thông tin tài khoản
+        </h1>
+        @*<ol class="breadcrumb">
+                <li><i class="fa fa-dashboard"></i> Danh mục</li>
+                <li><a href="#">Quản lý nhân viên</a></li>
+                <li class="active">Nhân viên</li>
+            </ol>*@
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <button title="Đổi mật khẩu" class="btn btn-success" style="float:right!important" onclick="getDoiMatKhau()"><i class="fa fa-unlock"></i></button>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Mã nhân viên</label>
+                                <input placeholder="Mã nhân viên" type="text" disabled class="form-control" value="@Model.MANV" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Họ nhân viên</label>
+                                <input placeholder="Họ" disabled class="form-control" value="@Model.HO" type="text">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Tên nhân viên</label>
+                                <input placeholder="Tên" disabled class="form-control" value="@Model.TEN" type="text">
+                            </div>
+                            <div class="col-md-4" style="margin-top:3%">
+                                <label>Giới tính</label>
+                                <br />
+                                <div class="text-center">
+                                    <input name="GIOITINH" @(Model.GIOITINH == false ? "checked" : null) disabled value="false" type="radio" checked> Nam
+                                    <input name="GIOITINH" @(Model.GIOITINH == true ? "checked" : null) disabled value="true" type="radio"> Nữ
+                                </div>
+
+                            </div>
+                            <div class="col-md-4" style="margin-top:3%">
+                                <label>Ngày sinh</label>
+                                <input placeholder="Ngày sinh" disabled class="form-control" value="@Model.NGAYSINH.ToString("yyyy-MM-dd")" type="date">
+                            </div>
+                            <div class="col-md-4" style="margin-top:3%">
+                                <label>Số điện thoại</label>
+                                <input placeholder="Số điện thoại" disabled class="form-control" value="@Model.SDT" type="text">
+                            </div>
+                            <div class="col-md-4" style="margin-top:3%">
+                                <label>Email</label>
+                                <input placeholder="Email là tài khoản đăng nhập" disabled class="form-control" value="@Model.EMAIL" type="text">
+                            </div>
+                            <div class="col-md-4" style="margin-top:3%">
+                                <label>Địa chỉ</label>
+                                <input placeholder="Địa chỉ" disabled class="form-control" title="@Model.DIACHI" value="@Model.DIACHI" type="text">
+                            </div>
+                            <div class="col-md-4" style="margin-top:3%">
+                                <label>Chức vụ</label>
+                                <input placeholder="Chức vụ" disabled class="form-control" value="@Model.TENQUYEN" type="text">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+
+<div class="modal fade" id="TaiKhoan_Modal" role="dialog" aria-labelledby="TaiKhoan_ModalLable" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="TaiKhoan_ModalBody">
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+    function getDoiMatKhau() {
+        $.ajax({
+            type: "GET",
+            url: "/Shipper/TaiKhoan/DoiMatKhauPartial",
+            success: function (res) {
+                $("#TaiKhoan_ModalBody").html(res);
+                $("#TaiKhoan_Modal").modal('show')
+            }
+        })
+    };
+
+    function DoiMatKhau() {
+
+        Swal.fire({
+            title: 'Xác nhận đổi mật khẩu?',
+            text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được hiệu chỉnh!",
+            icon: 'question',
+            customClass: 'swal-wide',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'hủy',
+            confirmButtonText: 'Xác nhận',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var form = $('form[name="TaiKhoan_Form"]');
+
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                }
+                else {
+                    var data = form.serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/Shipper/TaiKhoan/DoiMatKhau",
+                        data: data,
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.error == false) {
+                                Swal.fire({
+                                    title: 'Thành công!',
+                                    text: res.title,
+                                    icon: 'success',
+                                    customClass: 'swal-wide',
+                                }).then((d) => {
+                                    if (d.isConfirmed) {
+                                        $("#TaiKhoan_Modal").modal('hide')
+                                     //   location.reload();
+                                    }
+                                })
+                            }
+                            else {
+                                Swal.fire({
+                                    title: 'Lỗi!',
+                                    text: res.title,
+                                    icon: 'error',
+                                    customClass: 'swal-wide',
+                                })
+                                return;
+                            }
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+</script>

@@ -70,7 +70,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult ThemChiTietPhieuDatTamThoiPartial(string MaNCC)
         {
-            ViewBag.MaNCC = MaNCC;
+            var objNhaCungCap = DB.NHACUNGCAPs.FirstOrDefault(x => x.MANCC == MaNCC);
+            ViewBag.objNhaCungCap = objNhaCungCap;
             return PartialView(lstLoaiSanPham(MaNCC));
         }
 
@@ -459,17 +460,18 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 Worksheet worksheet = workbook.ActiveSheet;
 
 
-                worksheet.Range["A3:H3"].Merge();
-                worksheet.Cells[3, 1] = "Phiếu đặt";
-                worksheet.Cells[3, 1].EntireRow.Font.Size = 22;
-                worksheet.Cells[3, 1].EntireRow.Font.Bold = true;
-                worksheet.Cells[3, 1].EntireRow.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                worksheet.Range["A2:H2"].Merge();
+                worksheet.Cells[2, 1] = "Phiếu đặt";
+                worksheet.Cells[2, 1].EntireRow.Font.Size = 22;
+                worksheet.Cells[2, 1].EntireRow.Font.Bold = true;
+                worksheet.Cells[2, 1].EntireRow.HorizontalAlignment = XlHAlign.xlHAlignCenter;
 
-                worksheet.Cells[5, 1] = "Tên nhà cung cấp:";
-                worksheet.Cells[6, 1] = "SDT:";
-                worksheet.Cells[7, 1] = "Địa chỉ:";
-                worksheet.Cells[8, 1] = "Email:";
-                worksheet.Cells[9, 1] = "Ngày đặt:";
+                worksheet.Cells[4, 1] = "Tên nhà cung cấp:";
+                worksheet.Cells[5, 1] = "SDT:";
+                worksheet.Cells[6, 1] = "Địa chỉ:";
+                worksheet.Cells[7, 1] = "Email:";
+                worksheet.Cells[8, 1] = "Ngày đặt:";
+                worksheet.Cells[9, 1] = "Mã phiếu đặt:";
                 worksheet.Cells[10, 1] = "Nhân viên lập phiếu:";
 
                 worksheet.Cells[12, 1] = "STT";
@@ -508,11 +510,12 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
 
                 var objNhanVien = getNhanVien(objPhieuDat.MANV);
 
-                worksheet.Cells[5, 2] = objNhaCungCap.TENNCC;
-                worksheet.Cells[6, 2] = objNhaCungCap.SDT;
-                worksheet.Cells[7, 2] = objNhaCungCap.DIACHI;
-                worksheet.Cells[8, 2] = objNhaCungCap.EMAIL;
-                worksheet.Cells[9, 2] = objPhieuDat.NGAYLAP.ToString("dd-MM-yyyy hh:mm tt");
+                worksheet.Cells[4, 2] = objNhaCungCap.TENNCC;
+                worksheet.Cells[5, 2] = objNhaCungCap.SDT;
+                worksheet.Cells[6, 2] = objNhaCungCap.DIACHI;
+                worksheet.Cells[7, 2] = objNhaCungCap.EMAIL;
+                worksheet.Cells[8, 2] = objPhieuDat.NGAYLAP.ToString("dd-MM-yyyy hh:mm tt");
+                worksheet.Cells[9, 2] = objPhieuDat.MAPD;
                 worksheet.Cells[10, 2] = objNhanVien.HO + " " + objNhanVien.TEN;
 
                 int dem = 0;

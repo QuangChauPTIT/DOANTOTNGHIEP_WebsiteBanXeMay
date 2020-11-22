@@ -57,7 +57,7 @@
                                         <td>
                                             @KhuyenMaiViewModel.NGAYKETTHUC.ToString("dd/MM/yyyy hh:mm tt")
                                         </td>
-                                        <td>
+                                        <td title="@KhuyenMaiViewModel.MOTA">
                                             @KhuyenMaiViewModel.MOTA
                                         </td>
                                         <td>
@@ -84,7 +84,7 @@
                                         </td>
                                         <td>
                                             <button title="Chi tiết" class="btn btn-warning" onclick="getChiTietKhuyenMai(@KhuyenMaiViewModel.MAKM)"><i class="fa fa-info"></i></button>
-                                            @if (KhuyenMaiViewModel.NGAYBATDAU > DateTime.Now)
+                                            @if (DateTime.Now <= KhuyenMaiViewModel.NGAYKETTHUC)
                                             {
                                                 <button title="Hiệu chỉnh" class="btn btn-primary" onclick="getSuaKhuyenMai(@KhuyenMaiViewModel.MAKM)"><i class="fa fa-edit"></i></button>
                                                 <button title="Hiệu chỉnh chi tiết khuyến mãi" class="btn btn-success" onclick="getThemChiTietKhuyenMaiTamThoi(@KhuyenMaiViewModel.MAKM)"><i class="fa fa-edit"></i></button>

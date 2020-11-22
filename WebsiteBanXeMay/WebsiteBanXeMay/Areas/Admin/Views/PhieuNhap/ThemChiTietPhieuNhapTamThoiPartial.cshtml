@@ -1,11 +1,12 @@
 ﻿@using WebsiteBanXeMay.Models
 @model IEnumerable<LOAISANPHAM>
 
+@{ var NhaCungCap = ViewBag.objNhaCungCap as NHACUNGCAP;}
 <div class="modal-header">
     <button type="button" class="close" onclick="HuyNhapHang()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
-    <h4 class="modal-title">Phiếu nhập có mã nhà cung cấp: @ViewBag.MANCC</h4>
+    <h4 class="modal-title">Phiếu nhập có mã nhà cung cấp: @NhaCungCap.TENNCC</h4>
     <div class="row">
         <div class="col-md-4">
             <label>Ngày lập<span class="required">*</span></label>
@@ -24,7 +25,7 @@
                     <select class="form-control select2" name="MALOAI" style="width: 100%;">
                         @foreach (var LoaiSanPham in Model)
                         {
-                            <option value="@LoaiSanPham.MALOAI">Mã loại: @LoaiSanPham.MALOAI - Tên loại: @LoaiSanPham.TENLOAI</option>
+                            <option value="@LoaiSanPham.MALOAI">@LoaiSanPham.MALOAI - @LoaiSanPham.TENLOAI</option>
                         }
                     </select>
                 </div>

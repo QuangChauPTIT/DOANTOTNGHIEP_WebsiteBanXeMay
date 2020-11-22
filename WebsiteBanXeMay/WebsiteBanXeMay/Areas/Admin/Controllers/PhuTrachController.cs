@@ -10,7 +10,7 @@ using WebsiteBanXeMay.Utils;
 
 namespace WebsiteBanXeMay.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin,staff")]
     public class PhuTrachController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
@@ -31,7 +31,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         public ActionResult PhuTrachPartial(int MaNV)
         {
             ViewBag.lstQuan = lstQuan();
-            return PartialView(getNhaNVienPhuTrachQuan(MaNV));
+            return PartialView(getNhanNVienPhuTrachQuan(MaNV));
         }
 
         [HttpPost]
@@ -118,7 +118,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return queryQuan.ToList();
         }
 
-        private PhuTrachViewModel getNhaNVienPhuTrachQuan(int MaNV)
+        private PhuTrachViewModel getNhanNVienPhuTrachQuan(int MaNV)
         {
             var queryQuan = from nhanvien in DB.NHANVIENs
                             join taikhoan in DB.TAIKHOANs on nhanvien.EMAIL equals taikhoan.EMAIL

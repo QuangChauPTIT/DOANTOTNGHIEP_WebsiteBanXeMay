@@ -15,6 +15,46 @@ namespace WebsiteBanXeMay.Controllers
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
 
+        
+        //Ajax
+        public ActionResult Index(string MaLoai, int Trang = 1)
+        {
+            var Model = new PageUtil
+            {
+                PageSize = 5,
+                Data = lstDanhGia(MaLoai),
+                CurrentPage = Trang
+            };
+            ViewBag.TaiKhoanViewModel = (Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel);
+            ViewBag.MaLoai = MaLoai;
+            return PartialView(Model);
+        }
+
+        // Ajax
+        public ActionResult DanhGiaPartial(string MaLoai)
+        {
+            var objTaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
+            var obj = getChiTietDanhGia(MaLoai, objTaiKhoan.MA);
+            if (obj != null)
+            {
+                var danhGiaViewModel = new DanhGiaViewModel
+                {
+                    MALOAI = obj.MALOAI,
+                    MAKH = obj.MAKH,
+                    TENLOAI = obj.TENLOAI,
+                    HINHANH = obj.HINHANH,
+                    MUCDANHGIA = obj.MUCDANHGIA,
+                    NOIDUNG = obj.NOIDUNG
+                };
+                return PartialView(danhGiaViewModel);
+            }
+            else
+            {
+                var objLoaiSanPham = DB.LOAISANPHAMs.Select(x => new DanhGiaViewModel { MALOAI = x.MALOAI, MAKH = objTaiKhoan.MA, TENLOAI = x.TENLOAI, HINHANH = x.HINHANH }).FirstOrDefault(y => y.MALOAI == MaLoai);
+                return PartialView(objLoaiSanPham);
+            }
+        }
+
         // Ajax
         [Authorize(Roles = "customer")]
         [HttpPost]
@@ -25,7 +65,7 @@ namespace WebsiteBanXeMay.Controllers
             {
                 try
                 {
-                    var obj = DB.DANHGIAs.SingleOrDefault(x => x.MAKH == objDanhGiaViewModel.MAKH && x.MALOAI == objDanhGiaViewModel.MALOAI);
+                    var obj = DB.DANHGIAs.FirstOrDefault(x => x.MAKH == objDanhGiaViewModel.MAKH && x.MALOAI == objDanhGiaViewModel.MALOAI);
                     // Kiểm tra nếu chưa đánh giá thì thêm
 
                     if (obj == null)
@@ -47,6 +87,7 @@ namespace WebsiteBanXeMay.Controllers
                             CurrentPage = 1
                         };
                         ViewBag.MaLoai = objDanhGia.MALOAI;
+                        ViewBag.TaiKhoanViewModel = (Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel);
                         return PartialView("Index", DanhGiaModel);
                     }
                     else
@@ -64,6 +105,7 @@ namespace WebsiteBanXeMay.Controllers
                             CurrentPage = 1
                         };
                         ViewBag.MaLoai = obj.MALOAI;
+                        ViewBag.TaiKhoanViewModel = (Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel);
                         return PartialView("Index", DanhGiaModel);
                     }
 
@@ -77,44 +119,39 @@ namespace WebsiteBanXeMay.Controllers
             Response.StatusCode = 400;
             return Json(new { message = "Lỗi 400 - Lỗi cú pháp trong yêu cầu và yêu cầu bị từ chối" });
         }
-        //Ajax
-        public ActionResult Index(string MaLoai, int Trang = 1)
-        {
-            var Model = new PageUtil
-            {
-                PageSize = 5,
-                Data = lstDanhGia(MaLoai),
-                CurrentPage = Trang
-            };
-            ViewBag.MaLoai = MaLoai;
-            return PartialView(Model);
-        }
 
-        // Ajax
-        public ActionResult DanhGiaPartial(string MaLoai)
+        [Authorize(Roles = "admin,staff,customer")]
+        [HttpGet]
+        public ActionResult XoaDanhGia(string MaLoai, int MaKH)
         {
-            var TaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
-            var obj = getChiTietDanhGia(MaLoai, TaiKhoan.MA);
-            if (obj != null)
+            try
             {
-                var danhGiaViewModel = new DanhGiaViewModel
+                var objDanhGia = DB.DANHGIAs.FirstOrDefault(x => x.MAKH == MaKH && x.MALOAI == MaLoai);
+                if(objDanhGia != null)
                 {
-                    MALOAI = obj.MALOAI,
-                    MAKH = obj.MAKH,
-                    TENLOAI = obj.TENLOAI,
-                    HINHANH = obj.HINHANH,
-                    MUCDANHGIA = obj.MUCDANHGIA,
-                    NOIDUNG = obj.NOIDUNG
-                };
-                return PartialView(danhGiaViewModel);
+                    DB.DANHGIAs.Remove(objDanhGia);
+                    DB.SaveChanges();
+                    var DanhGiaModel = new PageUtil
+                    {
+                        PageSize = 5,
+                        Data = lstDanhGia(objDanhGia.MALOAI),
+                        CurrentPage = 1
+                    };
+                    ViewBag.MaLoai = objDanhGia.MALOAI;
+                    return PartialView("Index", DanhGiaModel);
+                }    
+                else
+                {
+                    Response.StatusCode = 500;
+                    return Json(new { message = "Không tìm thấy đánh giá" });
+                }    
             }
-            else
+            catch
             {
-                var objLoaiSanPham = DB.LOAISANPHAMs.Select(x => new DanhGiaViewModel { MALOAI = x.MALOAI, MAKH = TaiKhoan.MA, TENLOAI = x.TENLOAI, HINHANH = x.HINHANH }).SingleOrDefault(y => y.MALOAI == MaLoai);
-                return PartialView(objLoaiSanPham);
+                Response.StatusCode = 500;
+                return Json(new { message = "Không thể xóa đánh giá" });
             }
         }
-
         //=======================================   Lấy dữ liệu từ Database =========================================
         private IEnumerable<DanhGiaViewModel> lstDanhGia(string MaLoai)
         {
@@ -153,6 +190,31 @@ namespace WebsiteBanXeMay.Controllers
                                   NOIDUNG = danhgia.NOIDUNG
                               }).FirstOrDefault();
             return objDanhGia;
+        }
+
+        //Kiểm tra đã mua loại sản phẩm này chưa để cho phép đánh giá
+        private bool KiemTraChoPhepDanhGia(string MaLoai, int MaKH)
+        {
+            var queryLoaiSanPhamDaMua = (from khachhang in DB.KHACHHANGs
+                                         join phieudat in DB.PHIEUMUAs on khachhang.MAKH equals phieudat.MAKH
+                                         join sanpham in DB.SANPHAMs on phieudat.MAPM equals sanpham.MAPM
+                                         join ct_phieunhap in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_phieunhap.MACTPN
+                                         join loaisanpham in DB.LOAISANPHAMs on ct_phieunhap.MALOAI equals loaisanpham.MALOAI
+                                         where
+                                         (khachhang.MAKH == MaKH)
+                                         && (phieudat.TRANGTHAI == 2)
+                                         && (sanpham.MAPM != null)
+                                         && (loaisanpham.MALOAI == MaLoai)
+                                         select new
+                                         {
+                                             MALOAI = loaisanpham.MALOAI,
+                                             MAKH = khachhang.MAKH
+                                         }).FirstOrDefault();
+            if (queryLoaiSanPhamDaMua != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

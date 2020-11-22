@@ -17,7 +17,10 @@
             <xs:sequence>
               <xs:element name="MALOAI" msprop:Generator_ColumnVarNameInTable="columnMALOAI" msprop:Generator_ColumnPropNameInRow="MALOAI" msprop:Generator_ColumnPropNameInTable="MALOAIColumn" msprop:Generator_UserColumnName="MALOAI" type="xs:string" />
               <xs:element name="TENLOAI" msprop:Generator_ColumnVarNameInTable="columnTENLOAI" msprop:Generator_ColumnPropNameInRow="TENLOAI" msprop:Generator_ColumnPropNameInTable="TENLOAIColumn" msprop:Generator_UserColumnName="TENLOAI" type="xs:string" minOccurs="0" />
-              <xs:element name="SOLUONG" msprop:Generator_ColumnVarNameInTable="columnSOLUONG" msprop:Generator_ColumnPropNameInRow="SOLUONG" msprop:Generator_ColumnPropNameInTable="SOLUONGColumn" msprop:Generator_UserColumnName="SOLUONG" type="xs:int" minOccurs="0" />
+              <xs:element name="TENTH" msprop:Generator_ColumnVarNameInTable="columnTENTH" msprop:Generator_ColumnPropNameInRow="TENTH" msprop:Generator_ColumnPropNameInTable="TENTHColumn" msprop:Generator_UserColumnName="TENTH" type="xs:string" minOccurs="0" />
+              <xs:element name="SOLUONGNHAP" msprop:Generator_ColumnVarNameInTable="columnSOLUONGNHAP" msprop:Generator_ColumnPropNameInRow="SOLUONGNHAP" msprop:Generator_ColumnPropNameInTable="SOLUONGNHAPColumn" msprop:Generator_UserColumnName="SOLUONGNHAP" type="xs:int" minOccurs="0" />
+              <xs:element name="SOLUONGXUAT" msprop:Generator_ColumnVarNameInTable="columnSOLUONGXUAT" msprop:Generator_ColumnPropNameInRow="SOLUONGXUAT" msprop:Generator_ColumnPropNameInTable="SOLUONGXUATColumn" msprop:Generator_UserColumnName="SOLUONGXUAT" type="xs:int" minOccurs="0" />
+              <xs:element name="SOLUONGTON" msprop:Generator_ColumnVarNameInTable="columnSOLUONGTON" msprop:Generator_ColumnPropNameInRow="SOLUONGTON" msprop:Generator_ColumnPropNameInTable="SOLUONGTONColumn" msprop:Generator_UserColumnName="SOLUONGTON" type="xs:int" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

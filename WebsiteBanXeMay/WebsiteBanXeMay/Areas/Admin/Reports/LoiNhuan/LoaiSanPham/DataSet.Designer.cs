@@ -291,6 +291,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Reports.LoiNhuan.LoaiSanPham {
             
             private global::System.Data.DataColumn columnLOINHUAN;
             
+            private global::System.Data.DataColumn columnTENTH;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public BaoCaoLoiNhuanTheoLoaiSanPhamDataTable() {
@@ -374,6 +376,14 @@ namespace WebsiteBanXeMay.Areas.Admin.Reports.LoiNhuan.LoaiSanPham {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TENTHColumn {
+                get {
+                    return this.columnTENTH;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -409,7 +419,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Reports.LoiNhuan.LoaiSanPham {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public BaoCaoLoiNhuanTheoLoaiSanPhamRow AddBaoCaoLoiNhuanTheoLoaiSanPhamRow(string MALOAI, string TENLOAI, int SOLUONG, double GIANHAPTB, double GIAXUATTB, double LOINHUAN) {
+            public BaoCaoLoiNhuanTheoLoaiSanPhamRow AddBaoCaoLoiNhuanTheoLoaiSanPhamRow(string MALOAI, string TENLOAI, int SOLUONG, double GIANHAPTB, double GIAXUATTB, double LOINHUAN, string TENTH) {
                 BaoCaoLoiNhuanTheoLoaiSanPhamRow rowBaoCaoLoiNhuanTheoLoaiSanPhamRow = ((BaoCaoLoiNhuanTheoLoaiSanPhamRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         MALOAI,
@@ -417,7 +427,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Reports.LoiNhuan.LoaiSanPham {
                         SOLUONG,
                         GIANHAPTB,
                         GIAXUATTB,
-                        LOINHUAN};
+                        LOINHUAN,
+                        TENTH};
                 rowBaoCaoLoiNhuanTheoLoaiSanPhamRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowBaoCaoLoiNhuanTheoLoaiSanPhamRow);
                 return rowBaoCaoLoiNhuanTheoLoaiSanPhamRow;
@@ -453,6 +464,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Reports.LoiNhuan.LoaiSanPham {
                 this.columnGIANHAPTB = base.Columns["GIANHAPTB"];
                 this.columnGIAXUATTB = base.Columns["GIAXUATTB"];
                 this.columnLOINHUAN = base.Columns["LOINHUAN"];
+                this.columnTENTH = base.Columns["TENTH"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -470,6 +482,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Reports.LoiNhuan.LoaiSanPham {
                 base.Columns.Add(this.columnGIAXUATTB);
                 this.columnLOINHUAN = new global::System.Data.DataColumn("LOINHUAN", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnLOINHUAN);
+                this.columnTENTH = new global::System.Data.DataColumn("TENTH", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTENTH);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnMALOAI}, true));
                 this.columnMALOAI.AllowDBNull = false;
@@ -712,6 +726,22 @@ namespace WebsiteBanXeMay.Areas.Admin.Reports.LoiNhuan.LoaiSanPham {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string TENTH {
+                get {
+                    try {
+                        return ((string)(this[this.tableBaoCaoLoiNhuanTheoLoaiSanPham.TENTHColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TENTH\' in table \'BaoCaoLoiNhuanTheoLoaiSanPham\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableBaoCaoLoiNhuanTheoLoaiSanPham.TENTHColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsTENLOAINull() {
                 return this.IsNull(this.tableBaoCaoLoiNhuanTheoLoaiSanPham.TENLOAIColumn);
             }
@@ -768,6 +798,18 @@ namespace WebsiteBanXeMay.Areas.Admin.Reports.LoiNhuan.LoaiSanPham {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetLOINHUANNull() {
                 this[this.tableBaoCaoLoiNhuanTheoLoaiSanPham.LOINHUANColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTENTHNull() {
+                return this.IsNull(this.tableBaoCaoLoiNhuanTheoLoaiSanPham.TENTHColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTENTHNull() {
+                this[this.tableBaoCaoLoiNhuanTheoLoaiSanPham.TENTHColumn] = global::System.Convert.DBNull;
             }
         }
         

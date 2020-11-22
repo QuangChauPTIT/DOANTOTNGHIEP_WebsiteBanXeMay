@@ -5,8 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{ChiTietLoaiSanPhamViewModel LoaiSanPham = ViewBag.ThongTinChiTietLoaiSanPham as ChiTietLoaiSanPhamViewModel;
-    var TaiKhoan = Context.Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;}
+@{ChiTietLoaiSanPhamViewModel LoaiSanPham = ViewBag.ThongTinChiTietLoaiSanPham as ChiTietLoaiSanPhamViewModel;}
 <style>
     .convertImage {
         height: 300px;
@@ -215,7 +214,7 @@
                         <div class="comment-details">
                             @Html.Action("Index", "DanhGia", new { MaLoai = LoaiSanPham.MALOAI })
                         </div>
-                        @if (TaiKhoan != null && ViewBag.KiemTraChoPhepDanhGia == true)
+                        @if (ViewBag.KiemTraChoPhepDanhGia == true)
                         {
                             @Html.Action("DanhGiaPartial", "DanhGia", new { MaLoai = LoaiSanPham.MALOAI })
                         }

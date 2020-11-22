@@ -37,7 +37,7 @@
                                     <th>Mã nhân viên</th>
                                     <th>Họ tên nhân viên</th>
                                     <th>Ngày lập</th>
-                                    <th>Tác vụ</th>
+                                    <th>Chi tiết</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -363,9 +363,9 @@
     }
 
 
-    function KiemTraTrangThaiPhieuDat(MaNCC) {
+    function KiemTraTrangThaiPhieuDat(MaNCC, TenNCC) {
         Swal.fire({
-            title: 'Nhập mã phiếu đặt đến nhà cung cấp có mã: ' + MaNCC,
+            title: 'Nhập mã phiếu đặt đến nhà cung cấp: ' + TenNCC,
             text: 'Vui lòng nhập chính xác để tiến hành nhập hàng',
             input: 'text',
             inputAttributes: {

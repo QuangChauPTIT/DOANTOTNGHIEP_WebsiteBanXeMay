@@ -3,25 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebsiteBanXeMay.Areas.Admin.ViewModels;
+using WebsiteBanXeMay.Areas.Shipper.ViewModels;
 using WebsiteBanXeMay.Common;
 using WebsiteBanXeMay.Models;
 using WebsiteBanXeMay.Utils;
 using WebsiteBanXeMay.ViewModels;
 
-namespace WebsiteBanXeMay.Areas.Admin.Controllers
+namespace WebsiteBanXeMay.Areas.Shipper.Controllers
 {
-    [Authorize(Roles = "admin,staff")]
+    [Authorize(Roles = "shipper")]
     public class TaiKhoanController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
-        // GET: Admin/TaiKhoan
+        // GET: Shipper/TaiKhoan
         public ActionResult Index()
         {
             var objTaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
             return View(getNhanVien(objTaiKhoan.MA));
         }
-
         public ActionResult DoiMatKhauPartial()
         {
             var objTaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;

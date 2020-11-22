@@ -226,20 +226,26 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                          join phieumua in DB.PHIEUMUAs on nhanvien.MANV equals phieumua.MANVGH into phieumua_T
                                          from g in phieumua_T.DefaultIfEmpty()
                                          where nhomquyen.MANQ == "shipper" && quan.MAQUAN == MaQuan
-                                         select new 
+                                         select new
                                          {
                                              MANV = nhanvien.MANV,
                                              HO = nhanvien.HO,
                                              TEN = nhanvien.TEN,
-                                             SOPHIEU = g != null ? g.TRANGTHAI == 1 ? 1 : 0 : 0,
-                                         }).GroupBy(x => x.MANV).Select(y => new NhanVienGiaoHangViewModel
-                                         {
-                                             MANV = y.Key,
-                                             HO = y.Select(z => z.HO).FirstOrDefault(),
-                                             TEN = y.Select(z => z.TEN).FirstOrDefault(),
-                                             SOPHIEU = y.Sum(k => k.SOPHIEU)
-                                         }).OrderBy(x => x.SOPHIEU);
-            return queryNhanVienGiaohang.ToList();
+                                             SOPHIEUDANGIAO = g != null ? g.TRANGTHAI == 1 ? 1 : 0 : 0,
+                                             TONGSOPHIEU = g != null ? 1 : 0
+                                         });
+            var dataNhanVienGiaoHang = from query in queryNhanVienGiaohang
+                                       group query by query.MANV into g
+                                       select new NhanVienGiaoHangViewModel
+                                       {
+                                           MANV = g.Key,
+                                           HO = g.Select(x => x.HO).FirstOrDefault(),
+                                           TEN = g.Select(x => x.TEN).FirstOrDefault(),
+                                           SOPHIEUDANGGIAO = g.Sum(x => x.SOPHIEUDANGIAO),
+                                           TONGSOPHIEU = g.Sum(x => x.TONGSOPHIEU)
+                                       };
+            //Sắp xếp nhân viên theo số phiếu đang giao tăng dần nếu cùng số phiếu đang giao thì sắp xếp tổng số phiếu tăng dần
+            return dataNhanVienGiaoHang.OrderBy(x => x.SOPHIEUDANGGIAO).ThenBy(x => x.TONGSOPHIEU).ToList();
         }
 
         private double TinhTongTienHoaDonTheoPhieuMua(int MaPM)

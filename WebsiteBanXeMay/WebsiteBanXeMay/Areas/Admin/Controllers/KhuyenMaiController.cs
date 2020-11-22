@@ -250,7 +250,6 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
-
         [HttpPost]
         public JsonResult SuaChiTietKhuyenMaiTamThoi(string MaLoai, double PhanTram)
         {
