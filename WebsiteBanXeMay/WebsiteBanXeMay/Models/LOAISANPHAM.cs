@@ -20,7 +20,7 @@ namespace WebsiteBanXeMay.Models
             this.CT_KHUYENMAI = new HashSet<CT_KHUYENMAI>();
             this.CT_PHIEUDAT = new HashSet<CT_PHIEUDAT>();
             this.CT_PHIEUNHAP = new HashSet<CT_PHIEUNHAP>();
-            this.DANHGIAs = new HashSet<DANHGIA>();
+            this.DANHGIA = new HashSet<DANHGIA>();
         }
     
         public string MALOAI { get; set; }
@@ -40,7 +40,7 @@ namespace WebsiteBanXeMay.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CT_PHIEUNHAP> CT_PHIEUNHAP { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DANHGIA> DANHGIAs { get; set; }
+        public virtual ICollection<DANHGIA> DANHGIA { get; set; }
         public virtual THUONGHIEU THUONGHIEU { get; set; }
         public virtual NHACUNGCAP NHACUNGCAP { get; set; }
     }

@@ -81,6 +81,7 @@ namespace WebsiteBanXeMay.Controllers
                                         NGAYGIAO = objPhieuMua.NGAYGIAO,
                                         TRANGTHAI = 0,
                                         NOIDUNGCHUY = objPhieuMua.NOIDUNGCHUY ?? null,
+                                        MASOTHUE = objPhieuMua.MASOTHUE ??null,
                                         MANVD = null,
                                         MANVGH = null,
                                         MAKH = objPhieuMua.MAKH
@@ -206,7 +207,7 @@ namespace WebsiteBanXeMay.Controllers
 
         private double ChuyenUSD_VN(double gia)
         {
-            return Math.Round((gia / 23255.814), 2);
+            return Math.Round((gia / 23161.50), 0);
         }
 
         private double TongSoTien(List<GioHangViewModel> lstLoaiSanPham)

@@ -38,7 +38,7 @@
                                 <th>Ngày giao</th>
                                 <th>Nhân viên duyệt hàng</th>
                                 <th>Nhân viên giao hàng</th>
-                                <th>Tác vụ</th>
+                                <th style="width:10%!important">Tác vụ</th>
                             </tr>
                             @if (Model.Data.Count() > 0)
                             {
@@ -73,6 +73,7 @@
                                         </td>
                                         <td>
                                             <button title="Xem chi tiết" class="btn btn-warning" onclick="getChiTietPhieuMua(@PhieuMuaViewModel.MAPM)"><i class="fa fa-info"></i></button>
+                                            <a title="In hóa đơn" class="btn btn-success" href="@Url.Action("Export_HoaDon","HoaDon",new { MaPM = PhieuMuaViewModel.MAPM})"><i class="fa fa-file-pdf-o"></i></a>
                                         </td>
                                     </tr>
                                 }

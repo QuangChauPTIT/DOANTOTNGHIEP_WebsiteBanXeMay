@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e0839f507c6a47a3b08b1a7035c36223" Name="Diagram1">
+      <Diagram DiagramId="32a2c9e1fa3149b596c9724d6af9c691" Name="Diagram1">
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.CT_KHUYENMAI" Width="1.5" PointX="9.75" PointY="15.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.CT_PHIEUDAT" Width="1.5" PointX="12.75" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.CT_PHIEUNHAP" Width="1.5" PointX="15" PointY="16.875" IsExpanded="true" />
@@ -17,7 +17,7 @@
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.NHANVIEN" Width="1.5" PointX="5.25" PointY="14.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.NHOMQUYEN" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.PHIEUDAT" Width="1.5" PointX="7.5" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="BANXEMAYONLINEModel.PHIEUMUA" Width="1.5" PointX="10.5" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BANXEMAYONLINEModel.PHIEUMUA" Width="1.5" PointX="10.5" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.PHIEUNHAP" Width="1.5" PointX="12.75" PointY="14.875" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.PHIEUTRA" Width="1.5" PointX="15.75" PointY="13.125" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.PHUTRACH" Width="1.5" PointX="7.5" PointY="18.75" IsExpanded="true" />

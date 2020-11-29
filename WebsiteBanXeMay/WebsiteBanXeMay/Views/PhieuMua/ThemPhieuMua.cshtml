@@ -52,14 +52,14 @@
                                         @Html.ValidationMessageFor(model => model.TEN, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="checkout-form-list">
                                         <label>Địa chỉ  <span class="required">*</span></label>
                                         <input placeholder="Địa chỉ" name="DIACHI" value="@ViewBag.DIACHI" type="text">
                                         @Html.ValidationMessageFor(model => model.DIACHI, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="country-select clearfix">
                                         <label>Quận huyện (Khu vực Hồ Chí Minh)<span class="required">*</span></label>
                                         <select class="nice-select wide" name="MAQUAN">
@@ -83,6 +83,13 @@
                                         <label>Ngày giao <span class="required">*</span></label>
                                         <input type="datetime-local" id="NgayGiaoID" name="NGAYGIAO">
                                         @Html.ValidationMessageFor(model => model.NGAYGIAO, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="checkout-form-list">
+                                        <label>Mã số thuế  (Nếu bạn muốn nhận hóa đơn đỏ, hãy điền nó!)</label>
+                                        <input placeholder="Mã số thuế" name="MASOTHUE" value="" type="number">
+                                        @Html.ValidationMessageFor(model => model.MASOTHUE, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>

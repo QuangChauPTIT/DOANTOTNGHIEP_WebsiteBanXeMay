@@ -143,6 +143,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BaoCaoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HoaDonController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhachHangController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhuyenMaiController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiSanPhamController.cs" />
@@ -163,6 +164,17 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Areas\Admin\Reports\DoanhThu\LoaiSanPham\DataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Admin\Reports\HoaDon\CrystalReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Reports\HoaDon\DataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet.xsd</DependentUpon>
@@ -188,6 +200,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Admin\Utils\LocationTitleExcel.cs" />
     <Compile Include="Areas\Admin\ViewModels\BaoCaoDoanhThuTheoLoaiSanPhamViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\BaoCaoLoiNhuanTheoLoaiSanPhamViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\BaoCaoTonKhoTheoLoaiSanPhamViewModel.cs" />
@@ -195,6 +208,7 @@
     <Compile Include="Areas\Admin\ViewModels\ChiTietPhieuDatViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ChiTietPhieuDatvsNhapViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ChiTietPhieuNhapViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\HoaDonViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\KhuyenMaiViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\NhanVienGiaoHangViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\NhanVienViewModel.cs" />
@@ -7017,20 +7031,20 @@
     <Content Include="Assets\Client\js\wow.min.js" />
     <Content Include="Assets\upload\banner\1.jpg" />
     <Content Include="Assets\upload\banner\2.png" />
-    <Content Include="Assets\upload\images\520_368_1499656844-86024cad1e83101d97359d7351051156-40-1.png" />
-    <Content Include="Assets\upload\images\bang-gia-xe-sh-mode-moi-nhat-ngay-1912-voi-ban-phanh-thuong-50-9200_e29ae6aa.png" />
-    <Content Include="Assets\upload\images\exciter-white-004-1_6cc7dd81.png" />
+    <Content Include="Assets\upload\images\revo.png" />
+    <Content Include="Assets\upload\images\bang_gia_xe_sh_mode_moi_nhat_ngay_1912_voi_ban_phanh_thuong_50_9200_e29ae6aa.png" />
+    <Content Include="Assets\upload\images\exciter_white_004_1_6cc7dd81.png" />
     <Content Include="Assets\upload\images\exciter_150_rc_2019_đen_xanh.png" />
-    <Content Include="Assets\upload\images\impulse-trang-nau-bac-adb8_8322564c.png" />
+    <Content Include="Assets\upload\images\impulse_trang_nau_bac_adb8_8322564c.png" />
     <Content Include="Assets\upload\images\new_galaxy_125.png" />
     <Content Include="Assets\upload\images\passing_50.png" />
-    <Content Include="Assets\upload\images\suzuki-address-110-fi.png" />
+    <Content Include="Assets\upload\images\suzuki_address_110_fi.png" />
     <Content Include="Assets\upload\images\xanhxamden_bb8f8cd4.png" />
     <Content Include="Assets\upload\images\xe_may_honda_wave_rsx_fi_2020.png" />
     <Content Include="Assets\upload\images\xe_may_honda_winner_x_phiên_ban_camo_phanh_abs.png" />
     <Content Include="Assets\upload\images\xe_may_vision_honda_2019.png" />
     <Content Include="Assets\upload\images\xe_may_yamaha_grande_2019_Đo_đen.png" />
-    <Content Include="Assets\upload\images\yamaha-grande-tinxev-a277_7b59e420.png" />
+    <Content Include="Assets\upload\images\yamaha_grande_tinxev_a277_7b59e420.png" />
     <Content Include="Assets\upload\slider\1.jpg" />
     <Content Include="Assets\upload\slider\2.jpg" />
     <Content Include="Assets\upload\slider\3.jpg" />
@@ -7097,13 +7111,6 @@
     <Content Include="Areas\Admin\Views\BaoCao\BaoCaoTonKhoTheoLoaiSanPham.cshtml" />
     <Content Include="Areas\Admin\Views\KhuyenMai\Index.cshtml" />
     <Content Include="Areas\Admin\Views\KhuyenMai\ThemKhuyenMaiPartial.cshtml" />
-    <EntityDeploy Include="Models\BANXEMAYONLINE.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BANXEMAYONLINE.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\BANXEMAYONLINE.edmx.diagram">
-      <DependentUpon>BANXEMAYONLINE.edmx</DependentUpon>
-    </Content>
     <Content Include="Areas\Admin\Views\KhuyenMai\ChiTietKhuyenMaiPartial.cshtml" />
     <Content Include="Areas\Admin\Views\KhuyenMai\SuaKhuyenMaiPartial.cshtml" />
     <Content Include="Areas\Admin\Views\KhuyenMai\SuaChiTietKhuyenMaiTamThoiPartial.cshtml" />
@@ -7123,6 +7130,17 @@
       <DependentUpon>DataSet.xsd</DependentUpon>
     </Content>
     <Content Include="Areas\Admin\Reports\LoiNhuan\LoaiSanPham\DataSet.xsc">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="Areas\Admin\Reports\HoaDon\DataSet.xsc">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="Areas\Admin\Reports\HoaDon\DataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Areas\Admin\Reports\HoaDon\DataSet.xss">
       <DependentUpon>DataSet.xsd</DependentUpon>
     </Content>
     <None Include="Areas\Admin\Reports\LoiNhuan\LoaiSanPham\DataSet.xsd">
@@ -7147,6 +7165,13 @@
     <Content Include="Areas\Shipper\Views\TaiKhoan\Index.cshtml" />
     <Content Include="Areas\Shipper\Views\TaiKhoan\DoiMatKhauPartial.cshtml" />
     <Content Include="Areas\Admin\Views\SaoLuuPhucHoi\Index.cshtml" />
+    <EntityDeploy Include="Models\BANXEMAYONLINE.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BANXEMAYONLINE.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BANXEMAYONLINE.edmx.diagram">
+      <DependentUpon>BANXEMAYONLINE.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -7183,6 +7208,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Views\HoaDon\" />
     <Folder Include="Areas\Shipper\Data\" />
     <Folder Include="Assets\upload\backupRestore\" />
     <Folder Include="Assets\upload\exportExcels\" />
@@ -7855,6 +7881,10 @@
     </AdditionalFiles>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Areas\Admin\Reports\HoaDon\CrystalReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Areas\Admin\Reports\LoiNhuan\LoaiSanPham\CrystalReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CrystalReport.cs</LastGenOutput>

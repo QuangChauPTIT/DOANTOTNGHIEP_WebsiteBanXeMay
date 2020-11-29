@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebsiteBanXeMay.Areas.Admin.Utils;
 using WebsiteBanXeMay.Areas.Admin.ViewModels;
 using WebsiteBanXeMay.Common;
 using WebsiteBanXeMay.Models;
@@ -429,16 +430,53 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                         Worksheet worksheet = workbook.ActiveSheet;
                         Range range = worksheet.UsedRange;
 
+                        int i, jMaLoai = 1,jTenLoai = 1, jSoKhung = 1, jSoMay = 1, jGia = 1;
+                        bool flag = false;
+                        for (i = 0; i < 20; i++)
+                        {
+                            for (jMaLoai = 1; jMaLoai < 20; jMaLoai++)
+                            {
+                                string MaLoai = ((Excel.Range)range.Cells[i, jMaLoai]).Text;
+                                if (MaLoai.Equals("Mã loại"))
+                                {
+                                    flag = true;
+                                    break;
+                                }
+                            }
+                            if (flag == true) break;
+                        }
+                        for (jTenLoai = 1; jTenLoai < 20; jTenLoai++)
+                        {
+                            string TenLoai = (range.Cells[i, jTenLoai]).Text;
+                            if (TenLoai.Equals("Tên loại")) break;
+                        }
+                        for (jSoKhung = 1; jSoKhung < 20; jSoKhung++)
+                        {
+                            string SoKhung = (range.Cells[i, jSoKhung]).Text;
+                            if (SoKhung.Equals("Số khung")) break;
+                        }
+                        for (jSoMay = 1; jSoMay < 20; jSoMay++)
+                        {
+                            string SoMay = (range.Cells[i, jSoMay]).Text;
+                            if (SoMay.Equals("Số máy")) break;
+                        }
+
+                        for (jGia = 1; jGia < 20; jGia++)
+                        {
+                            string Gia = (range.Cells[i, jGia]).Text;
+                            if (Gia.Equals("Giá")) break;
+                        }
+
                         var lstChiTiet_Tam = new List<ChiTietPhieuNhapViewModel>();
-                        for (int row = 11; row <= range.Rows.Count; row++)
+                        for (int row = i+1; row <= range.Rows.Count; row++)
                         {
                             var objChiTiet = new ChiTietPhieuNhapViewModel
                             {
-                                MALOAI = ((Excel.Range)range.Cells[row, 2]).Text,
-                                TENLOAI = ((Excel.Range)range.Cells[row, 3]).Text,
-                                SOKHUNG = ((Excel.Range)range.Cells[row, 4]).Text,
-                                SOMAY = ((Excel.Range)range.Cells[row, 5]).Text,
-                                GIA = Convert.ToDouble(((Excel.Range)range.Cells[row, 6]).Text)
+                                MALOAI = (range.Cells[row, jMaLoai]).Text,
+                                TENLOAI = (range.Cells[row, jTenLoai]).Text,
+                                SOKHUNG = (range.Cells[row, jSoKhung]).Text,
+                                SOMAY = (range.Cells[row, jSoMay]).Text,
+                                GIA = Convert.ToDouble((range.Cells[row, jGia]).Text)
                             };
                             lstChiTiet_Tam.Add(objChiTiet);
                         }

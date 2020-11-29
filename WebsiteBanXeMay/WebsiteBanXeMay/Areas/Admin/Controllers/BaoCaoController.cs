@@ -27,86 +27,63 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult BaoCaoDoanhThuTheoLoaiSanPham(DateTime? NgayBatDau, DateTime? NgayKetThuc, int Trang = 1)
         {
+            DateTime begin = NgayBatDau ?? Convert.ToDateTime("2020-11-01");
+            DateTime end = NgayKetThuc ?? DateTime.Now;
             var Model = new PageUtil
             {
                 PageSize = 10,
-                Data = lstDoanhThuTheoLoaiSanPham(NgayBatDau, NgayKetThuc),
+                Data = lstDoanhThuTheoLoaiSanPham(begin, end),
                 CurrentPage = Trang
             };
-            ViewBag.NgayBatDau = NgayBatDau;
-            ViewBag.NgayKetThuc = NgayKetThuc;
+            ViewBag.NgayBatDau = begin;
+            ViewBag.NgayKetThuc = end;
             return View(Model);
         }
 
         [HttpGet]
         public ActionResult BaoCaoTonKhoTheoLoaiSanPham(DateTime? Ngay, int Trang = 1)
         {
+            DateTime end = Ngay ?? DateTime.Now;
             var Model = new PageUtil
             {
                 PageSize = 10,
-                Data = lsTonKhoTheoLoaiSanPham(Ngay),
+                Data = lsTonKhoTheoLoaiSanPham(end),
                 CurrentPage = Trang
             };
-            ViewBag.Ngay = Ngay;
+            ViewBag.Ngay = end;
             return View(Model);
         }
 
         [HttpGet]
         public ActionResult BaoCaoLoiNhuanTheoLoaiSanPham(DateTime? NgayBatDau, DateTime? NgayKetThuc, int Trang = 1)
         {
+            DateTime begin = NgayBatDau ?? Convert.ToDateTime("2020-11-01");
+            DateTime end = NgayKetThuc ?? DateTime.Now;
             var Model = new PageUtil
             {
                 PageSize = 10,
-                Data = lstLoiNhuanTheoLoaiSanPham(NgayBatDau, NgayKetThuc),
+                Data = lstLoiNhuanTheoLoaiSanPham(begin, end),
                 CurrentPage = Trang
             };
-            ViewBag.NgayBatDau = NgayBatDau;
-            ViewBag.NgayKetThuc = NgayKetThuc;
+            ViewBag.NgayBatDau = begin;
+            ViewBag.NgayKetThuc = end;
             return View(Model);
         }
         public ActionResult Export_BaoCaoDoanhThuTheoLoaiSanPham(DateTime? NgayBatDau, DateTime? NgayKetThuc)
         {
+            DateTime begin = NgayBatDau ?? Convert.ToDateTime("2020-11-01");
+            DateTime end = NgayKetThuc ?? DateTime.Now;
             try
             {
                 var objTaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
-                string strTuNgay = NgayBatDau.ToString();
-                string strDenNgay = NgayKetThuc.ToString();
                 ReportDocument reportDocument = new ReportDocument();
                 reportDocument.Load(Path.Combine(Server.MapPath("~/Areas/Admin/Reports/DoanhThu/LoaiSanPham/CrystalReport.rpt")));
-                reportDocument.SetDataSource(lstDoanhThuTheoLoaiSanPham(NgayBatDau, NgayKetThuc));
+                reportDocument.SetDataSource(lstDoanhThuTheoLoaiSanPham(begin, end));
 
-                string begin = "";
-                string end = "";
-                if (!string.IsNullOrEmpty(strTuNgay) && !string.IsNullOrEmpty(strDenNgay))
-                {
-                    DateTime TuNgay = Convert.ToDateTime(strTuNgay);
-                    DateTime DenNgay = Convert.ToDateTime(strDenNgay);
-                    begin = TuNgay.Day.ToString() + TuNgay.Month.ToString() + TuNgay.Year.ToString();
-                    end = DenNgay.Day.ToString() + DenNgay.Month.ToString() + DenNgay.Year.ToString();
-                    ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtNgay"]).Text = "Thời gian: " + TuNgay.ToString("dd/MM/yyyy") + " - " + DenNgay.ToString("dd/MM/yyyy");
-                }
-                else if (!string.IsNullOrEmpty(strTuNgay) && string.IsNullOrEmpty(strDenNgay))
-                {
-                    DateTime TuNgay = Convert.ToDateTime(strTuNgay);
-                    begin = TuNgay.Day.ToString() + TuNgay.Month.ToString() + TuNgay.Year.ToString();
-                    end = DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString();
-                    ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtNgay"]).Text = "Thời gian: " + TuNgay.ToString("dd/MM/yyyy") + " - " + DateTime.Now.ToString("dd/MM/yyyy");
-                }
-                else if (string.IsNullOrEmpty(strTuNgay) && !string.IsNullOrEmpty(strDenNgay))
-                {
-                    DateTime DenNgay = Convert.ToDateTime(strDenNgay);
-                    begin = "01112020";
-                    end = DenNgay.Day.ToString() + DenNgay.Month.ToString() + DenNgay.Year.ToString();
-                    ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtNgay"]).Text = "Thời gian: 01/11/2020 - " + DenNgay.ToString("dd/MM/yyyy");
-                }
-                else
-                {
-                    begin = "01112020";
-                    end = DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString();
-                    ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtNgay"]).Text = "Thời gian: 01/11/2020 - " + DateTime.Now.ToString("dd/MM/yyyy");
-                }
+                ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtNgay"]).Text = "Thời gian: " + begin.ToString("dd/MM/yyyy") + " - " + end.ToString("dd/MM/yyyy");
+
                 ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtHoTen"]).Text = objTaiKhoan.HO + " " + objTaiKhoan.TEN;
-                string strFileName = string.Format("DoanhThu_{0}_{1}.pdf", begin, end);
+                string strFileName = string.Format("DoanhThu_{0}_{1}.pdf", begin.ToString("dd/MM/yyyy"), end.ToString("dd/MM/yyyy"));
                 Response.Buffer = false;
                 Response.ClearContent();
                 Response.ClearHeaders();
@@ -123,29 +100,18 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
 
         public ActionResult Export_BaoCaoTonKhoTheoLoaiSanPham(DateTime? Ngay)
         {
+            DateTime end = Ngay ?? DateTime.Now;
             try
             {
                 var objTaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
-                string strNgay = Ngay.ToString();
                 ReportDocument reportDocument = new ReportDocument();
                 reportDocument.Load(Path.Combine(Server.MapPath("~/Areas/Admin/Reports/TonKho/LoaiSanPham/CrystalReport.rpt")));
-                reportDocument.SetDataSource(lsTonKhoTheoLoaiSanPham(Ngay));
+                reportDocument.SetDataSource(lsTonKhoTheoLoaiSanPham(end));
 
-                string end = "";
-                if (!string.IsNullOrEmpty(strNgay))
-                {
-                    DateTime date = Convert.ToDateTime(strNgay);
-                    end = date.Day.ToString() + date.Month.ToString() + date.Year.ToString();
-                    ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtNgay"]).Text = "Thời gian tính đến ngày: " + date.ToString("dd/MM/yyyy");
-                }
-                else
-                {
-                    end = DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString();
-                    ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtNgay"]).Text = "Thời gian tính đến ngày: " + DateTime.Now.ToString("dd/MM/yyyy");
-                }
+                ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtNgay"]).Text = "Thời gian tính đến ngày: " + end.ToString("dd/MM/yyyy");
 
-                 ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtHoTen"]).Text = objTaiKhoan.HO + " " + objTaiKhoan.TEN;
-                string strFileName = string.Format("TonKho_{0}.pdf", end);
+                ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtHoTen"]).Text = objTaiKhoan.HO + " " + objTaiKhoan.TEN;
+                string strFileName = string.Format("TonKho_{0}.pdf", end.ToString("dd/MM/yyyy"));
                 Response.Buffer = false;
                 Response.ClearContent();
                 Response.ClearHeaders();
@@ -162,47 +128,18 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
 
         public ActionResult Export_BaoCaoLoiNhuanTheoLoaiSanPham(DateTime? NgayBatDau, DateTime? NgayKetThuc)
         {
+            DateTime begin = NgayBatDau ?? Convert.ToDateTime("2020-11-01");
+            DateTime end = NgayKetThuc ?? DateTime.Now;
             try
             {
                 var objTaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
-                string strTuNgay = NgayBatDau.ToString();
-                string strDenNgay = NgayKetThuc.ToString();
                 ReportDocument reportDocument = new ReportDocument();
                 reportDocument.Load(Path.Combine(Server.MapPath("~/Areas/Admin/Reports/LoiNhuan/LoaiSanPham/CrystalReport.rpt")));
-                reportDocument.SetDataSource(lstLoiNhuanTheoLoaiSanPham(NgayBatDau, NgayKetThuc));
+                reportDocument.SetDataSource(lstLoiNhuanTheoLoaiSanPham(begin, end));
 
-                string begin = "";
-                string end = "";
-                if (!string.IsNullOrEmpty(strTuNgay) && !string.IsNullOrEmpty(strDenNgay))
-                {
-                    DateTime TuNgay = Convert.ToDateTime(strTuNgay);
-                    DateTime DenNgay = Convert.ToDateTime(strDenNgay);
-                    begin = TuNgay.Day.ToString() + TuNgay.Month.ToString() + TuNgay.Year.ToString();
-                    end = DenNgay.Day.ToString() + DenNgay.Month.ToString() + DenNgay.Year.ToString();
-                    ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtNgay"]).Text = "Thời gian: " + TuNgay.ToString("dd/MM/yyyy") + " - " + DenNgay.ToString("dd/MM/yyyy");
-                }
-                else if (!string.IsNullOrEmpty(strTuNgay) && string.IsNullOrEmpty(strDenNgay))
-                {
-                    DateTime TuNgay = Convert.ToDateTime(strTuNgay);
-                    begin = TuNgay.Day.ToString() + TuNgay.Month.ToString() + TuNgay.Year.ToString();
-                    end = DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString();
-                    ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtNgay"]).Text = "Thời gian: " + TuNgay.ToString("dd/MM/yyyy") + " - " + DateTime.Now.ToString("dd/MM/yyyy");
-                }
-                else if (string.IsNullOrEmpty(strTuNgay) && !string.IsNullOrEmpty(strDenNgay))
-                {
-                    DateTime DenNgay = Convert.ToDateTime(strDenNgay);
-                    begin = "01112020";
-                    end = DenNgay.Day.ToString() + DenNgay.Month.ToString() + DenNgay.Year.ToString();
-                    ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtNgay"]).Text = "Thời gian: 01/11/2020 - " + DenNgay.ToString("dd/MM/yyyy");
-                }
-                else
-                {
-                    begin = "01112020";
-                    end = DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString();
-                    ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtNgay"]).Text = "Thời gian: 01/11/2020 - " + DateTime.Now.ToString("dd/MM/yyyy");
-                }
-                 ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtHoTen"]).Text = objTaiKhoan.HO + " " + objTaiKhoan.TEN;
-                string strFileName = string.Format("LoiNhuan_{0}_{1}.pdf", begin, end);
+                ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtNgay"]).Text = "Thời gian: " + begin.ToString("dd/MM/yyyy") + " - " + end.ToString("dd/MM/yyyy");
+                ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtHoTen"]).Text = objTaiKhoan.HO + " " + objTaiKhoan.TEN;
+                string strFileName = string.Format("LoiNhuan_{0}_{1}.pdf", begin.ToString("dd/MM/yyyy"), end.ToString("dd/MM/yyyy"));
                 Response.Buffer = false;
                 Response.ClearContent();
                 Response.ClearHeaders();
@@ -218,17 +155,19 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         }
         // ==============================  Lấy dữ liệu từ database  ================================
         //Số lượng sản phẩm bán được theo loại sản phẩm - thời gian
-        private IEnumerable<BaoCaoDoanhThuTheoLoaiSanPhamViewModel> lstDoanhThuTheoLoaiSanPham(DateTime? NgayBatDau, DateTime? NgayKetThuc)
+        private IEnumerable<BaoCaoDoanhThuTheoLoaiSanPhamViewModel> lstDoanhThuTheoLoaiSanPham(DateTime begin, DateTime end)
         {
             var queryLoaiSanPham = from sanpham in DB.SANPHAMs
                                    join phieumua in DB.PHIEUMUAs on sanpham.MAPM equals phieumua.MAPM
                                    join ct_phieunhap in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_phieunhap.MACTPN
                                    join loaisanpham in DB.LOAISANPHAMs on ct_phieunhap.MALOAI equals loaisanpham.MALOAI
                                    join thuonghieu in DB.THUONGHIEUx on loaisanpham.MATH equals thuonghieu.MATH
-                                   where (NgayBatDau == null || NgayBatDau <= phieumua.NGAYMUA)
-                                    && (NgayKetThuc == null || NgayKetThuc >= phieumua.NGAYMUA)
-                                    && phieumua.TRANGTHAI == 2
-                                    && sanpham.MAPT == null
+                                   join phieutra in DB.PHIEUTRAs on sanpham.MAPT equals phieutra.MAPT into tmp
+                                   from g in tmp.DefaultIfEmpty()
+                                   where
+                                   (begin <= phieumua.NGAYMUA && end >= phieumua.NGAYMUA)
+                                   && (g == null || !(begin <= g.NGAYTRA && end >= g.NGAYTRA))
+                                   && phieumua.TRANGTHAI == 2
                                    select new
                                    {
                                        MALOAI = loaisanpham.MALOAI,
@@ -251,16 +190,19 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return queryDoanhThu.OrderBy(x => x.TENTH).ToList();
         }
 
-        private IEnumerable<BaoCaoTonKhoTheoLoaiSanPhamViewModel> lsTonKhoTheoLoaiSanPham(DateTime? Ngay)
+        private IEnumerable<BaoCaoTonKhoTheoLoaiSanPhamViewModel> lsTonKhoTheoLoaiSanPham(DateTime end)
         {
             var queryLoaiSanPham_PhieuMua = (from sanpham in DB.SANPHAMs
                                              join ct_phieunhap in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_phieunhap.MACTPN
                                              join loaisanpham in DB.LOAISANPHAMs on ct_phieunhap.MALOAI equals loaisanpham.MALOAI
                                              join thuonghieu in DB.THUONGHIEUx on loaisanpham.MATH equals thuonghieu.MATH
                                              join phieumua in DB.PHIEUMUAs on sanpham.MAPM equals phieumua.MAPM
-                                             where (Ngay == null || phieumua.NGAYMUA <= Ngay) 
+                                             join phieutra in DB.PHIEUTRAs on sanpham.MAPT equals phieutra.MAPT into tmp
+                                             from t in tmp.DefaultIfEmpty()
+                                             where
+                                             phieumua.NGAYMUA <= end
+                                             && (t == null || !(t.NGAYTRA >= end))
                                              && phieumua.TRANGTHAI == 2
-                                             && sanpham.MAPT == null
                                              group loaisanpham by loaisanpham.MALOAI into g
                                              select new
                                              {
@@ -275,7 +217,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                               join loaisanpham in DB.LOAISANPHAMs on ct_phieunhap.MALOAI equals loaisanpham.MALOAI
                                               join thuonghieu in DB.THUONGHIEUx on loaisanpham.MATH equals thuonghieu.MATH
                                               join phieunhap in DB.PHIEUNHAPs on ct_phieunhap.MAPN equals phieunhap.MAPN
-                                              where (Ngay == null || phieunhap.NGAYLAP <= Ngay)
+                                              where
+                                              phieunhap.NGAYLAP <= end
                                               group loaisanpham by loaisanpham.MALOAI into g
                                               select new
                                               {
@@ -293,7 +236,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                               {
                                   MALOAI = query_phieunhap.MALOAI,
                                   TENTH = query_phieunhap.TENTH,
-                                  TENLOAI = query_phieunhap.TENLOAI,                         
+                                  TENLOAI = query_phieunhap.TENLOAI,
                                   HINHANH = query_phieunhap.HINHANH,
                                   SOLUONGNHAP = query_phieunhap.SOLUONG,
                                   SOLUONGXUAT = g != null ? g.SOLUONG : 0,
@@ -302,17 +245,19 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return queryTonKho.OrderBy(x => x.TENTH).ToList();
         }
 
-        private IEnumerable<BaoCaoLoiNhuanTheoLoaiSanPhamViewModel> lstLoiNhuanTheoLoaiSanPham(DateTime? NgayBatDau, DateTime? NgayKetThuc)
+        private IEnumerable<BaoCaoLoiNhuanTheoLoaiSanPhamViewModel> lstLoiNhuanTheoLoaiSanPham(DateTime begin, DateTime end)
         {
             var queryLoaiSanPham_PhieuMua = (from sanpham in DB.SANPHAMs
                                              join ct_phieunhap in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_phieunhap.MACTPN
                                              join loaisanpham in DB.LOAISANPHAMs on ct_phieunhap.MALOAI equals loaisanpham.MALOAI
                                              join thuonghieu in DB.THUONGHIEUx on loaisanpham.MATH equals thuonghieu.MATH
                                              join phieumua in DB.PHIEUMUAs on sanpham.MAPM equals phieumua.MAPM
-                                             where (NgayBatDau == null || NgayBatDau <= phieumua.NGAYMUA)
-                                             && (NgayKetThuc == null || NgayKetThuc >= phieumua.NGAYMUA)
+                                             join phieutra in DB.PHIEUTRAs on sanpham.MAPT equals phieutra.MAPT into tmp
+                                             from g in tmp.DefaultIfEmpty()
+                                             where
+                                             (begin <= phieumua.NGAYMUA && end >= phieumua.NGAYMUA)
+                                             && (g == null || !(begin <= g.NGAYTRA && end >= g.NGAYTRA))
                                              && phieumua.TRANGTHAI == 2
-                                             && sanpham.MAPT == null
                                              select new
                                              {
                                                  MALOAI = loaisanpham.MALOAI,
@@ -338,8 +283,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                               join loaisanpham in DB.LOAISANPHAMs on ct_phieunhap.MALOAI equals loaisanpham.MALOAI
                                               join thuonghieu in DB.THUONGHIEUx on loaisanpham.MATH equals thuonghieu.MATH
                                               join phieunhap in DB.PHIEUNHAPs on ct_phieunhap.MAPN equals phieunhap.MAPN
-                                              where (NgayBatDau == null || NgayBatDau <= phieunhap.NGAYLAP)
-                                             && (NgayKetThuc == null || NgayKetThuc >= phieunhap.NGAYLAP)
+                                              where
+                                              (begin <= phieunhap.NGAYLAP && end >= phieunhap.NGAYLAP)
                                               select new
                                               {
                                                   MALOAI = loaisanpham.MALOAI,

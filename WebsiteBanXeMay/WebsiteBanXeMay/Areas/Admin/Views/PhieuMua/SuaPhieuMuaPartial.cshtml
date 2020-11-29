@@ -13,25 +13,20 @@
         @Html.AntiForgeryToken()
         <div class="row">
             <input value="@ViewBag.MAPM" type="hidden" name="MAPM"/>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <label>Mã hóa đơn<span class="required">*</span></label>
                 <input placeholder="Mã hóa đơn" name="MAHD" class="form-control" value="" type="text">
-            </div>
-            <div class="col-md-6">
-                <label>Mã số thuế<span class="required">*</span></label>
-                <input placeholder="Mã số thuế" name="MASOTHUE" class="form-control" value="" type="text">
             </div>
             <div class="col-md-12" style="margin-top:3%">
                 <label>Nhân viên giao hàng<span class="required">*</span></label>
                 <select class="form-control select2" name="MANVGH" style="width: 100%;">
                     @foreach (var NhanVien in lstNhanVienGiaoHang)
                     {
-                        <option value="@NhanVien.MANV">Mã nhân viên: @NhanVien.MANV - Họ tên: @(NhanVien.HO+" "+NhanVien.TEN) - Số phiếu đang giao: @NhanVien.SOPHIEUDANGGIAO</option>
+                        <option value="@NhanVien.MANV">Mã nhân viên: @NhanVien.MANV - Họ tên: @(NhanVien.HO+" "+NhanVien.TEN) - Số phiếu đang giao: @NhanVien.SOPHIEUDANGGIAO - Tổng phiếu: @NhanVien.TONGSOPHIEU</option>
                     }
                 </select>
             </div>
         </div>
-
     </form>
 </div>
 <div class="modal-footer">

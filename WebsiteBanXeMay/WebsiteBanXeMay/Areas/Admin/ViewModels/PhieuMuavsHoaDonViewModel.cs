@@ -13,7 +13,5 @@ namespace WebsiteBanXeMay.Areas.Admin.ViewModels
         public string MAHD { get; set; }
         [Required(ErrorMessage = "Nhân viên giao hàng là bắt buộc")]
         public int MANVGH { get; set; }
-        [Required(ErrorMessage = "Mã số thuế là bắt buộc")]
-        public string MASOTHUE { get; set; }
     }
 }

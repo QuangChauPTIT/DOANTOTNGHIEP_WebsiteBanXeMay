@@ -17,9 +17,9 @@ namespace WebsiteBanXeMay.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PHIEUMUA()
         {
-            this.HOADONs = new HashSet<HOADON>();
-            this.PHIEUTRAs = new HashSet<PHIEUTRA>();
-            this.SANPHAMs = new HashSet<SANPHAM>();
+            this.HOADON = new HashSet<HOADON>();
+            this.PHIEUTRA = new HashSet<PHIEUTRA>();
+            this.SANPHAM = new HashSet<SANPHAM>();
         }
     
         public int MAPM { get; set; }
@@ -31,20 +31,21 @@ namespace WebsiteBanXeMay.Models
         public string SDT { get; set; }
         public System.DateTime NGAYGIAO { get; set; }
         public int TRANGTHAI { get; set; }
+        public string MASOTHUE { get; set; }
         public string NOIDUNGCHUY { get; set; }
         public Nullable<int> MANVD { get; set; }
         public Nullable<int> MANVGH { get; set; }
         public int MAKH { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HOADON> HOADONs { get; set; }
+        public virtual ICollection<HOADON> HOADON { get; set; }
         public virtual KHACHHANG KHACHHANG { get; set; }
         public virtual NHANVIEN NHANVIEN { get; set; }
         public virtual NHANVIEN NHANVIEN1 { get; set; }
         public virtual QUAN QUAN { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUTRA> PHIEUTRAs { get; set; }
+        public virtual ICollection<PHIEUTRA> PHIEUTRA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SANPHAM> SANPHAMs { get; set; }
+        public virtual ICollection<SANPHAM> SANPHAM { get; set; }
     }
 }

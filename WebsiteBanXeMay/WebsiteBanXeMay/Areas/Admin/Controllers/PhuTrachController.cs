@@ -113,7 +113,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                 MANV = g.Key,
                                 HO = g.Select(x => x.HO).FirstOrDefault(),
                                 TEN = g.Select(x => x.TEN).FirstOrDefault(),
-                                lstQuan = g.Select(x => x.PHUTRACHes.Select(y => y.QUAN).ToList()).FirstOrDefault()
+                                lstQuan = g.Select(x => x.PHUTRACH.Select(y => y.QUAN).ToList()).FirstOrDefault()
                             };
             return queryQuan.ToList();
         }
@@ -133,7 +133,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                 MANV = g.Key,
                                 HO = g.Select(x => x.HO).FirstOrDefault(),
                                 TEN = g.Select(x => x.TEN).FirstOrDefault(),
-                                lstQuan = g.Select(x => x.PHUTRACHes.Select(y => y.QUAN).ToList()).FirstOrDefault()
+                                lstQuan = g.Select(x => x.PHUTRACH.Select(y => y.QUAN).ToList()).FirstOrDefault()
                             };
             return queryQuan.FirstOrDefault();
         }

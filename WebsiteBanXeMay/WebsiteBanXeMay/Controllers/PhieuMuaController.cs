@@ -9,7 +9,7 @@ using WebsiteBanXeMay.ViewModels;
 
 namespace WebsiteBanXeMay.Controllers
 {
-    [Authorize(Roles ="customer")]
+    [Authorize(Roles = "customer")]
     public class PhieuMuaController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
@@ -46,6 +46,7 @@ namespace WebsiteBanXeMay.Controllers
                     MAQUAN = objPhieuMua.MAQUAN,
                     SDT = objPhieuMua.SDT,
                     NGAYGIAO = objPhieuMua.NGAYGIAO,
+                    MASOTHUE = objPhieuMua.MASOTHUE ?? null,
                     NOIDUNGCHUY = objPhieuMua.NOIDUNGCHUY ?? null,
                     MAKH = objTaiKhoanViewModel.MA
                 };
@@ -135,11 +136,11 @@ namespace WebsiteBanXeMay.Controllers
                                                     GIA = sanpham.GIA
                                                 });
             var querySoLuongLoaiSanPhamDatTheoPhieuMua = (from query_SoLuongLoaiSanPhamDaDat in querySoLuongLoaiSanPhamDaDat
-                                                          group query_SoLuongLoaiSanPhamDaDat by new { query_SoLuongLoaiSanPhamDaDat.MAPM, query_SoLuongLoaiSanPhamDaDat.MALOAI } into g
+                                                          group query_SoLuongLoaiSanPhamDaDat by query_SoLuongLoaiSanPhamDaDat.MALOAI into g
                                                           select new
                                                           {
-                                                              MAPM = g.Key.MALOAI,
-                                                              MALOAI = g.Select(x => x.MALOAI).FirstOrDefault(),
+                                                              MAPM = g.Select(x=>x.MAPM).FirstOrDefault(),
+                                                              MALOAI = g.Key,
                                                               HO = g.Select(x => x.HO).FirstOrDefault(),
                                                               TEN = g.Select(x => x.TEN).FirstOrDefault(),
                                                               DIACHI = g.Select(x => x.DIACHI).FirstOrDefault(),
@@ -147,10 +148,10 @@ namespace WebsiteBanXeMay.Controllers
                                                               SDT = g.Select(x => x.SDT).FirstOrDefault(),
                                                               NGAYMUA = g.Select(x => x.NGAYMUA).FirstOrDefault(),
                                                               NGAYGIAO = g.Select(x => x.NGAYGIAO).FirstOrDefault(),
-                                                              SOLUONG = g.Sum(x=>x.SOLUONG),
+                                                              SOLUONG = g.Sum(x => x.SOLUONG),
                                                               GIA = g.Select(x => x.GIA).FirstOrDefault(),
                                                           }).ToList();
-                                                         
+
             var queryLoaiSanPhamDaDatTheoPhieuMua = (from query in querySoLuongLoaiSanPhamDatTheoPhieuMua
                                                      join loaisanpham in DB.LOAISANPHAMs on query.MALOAI equals loaisanpham.MALOAI
                                                      select new PhieuMuaViewModel

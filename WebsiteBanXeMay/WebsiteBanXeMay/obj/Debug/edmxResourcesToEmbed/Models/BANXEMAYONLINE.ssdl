@@ -48,7 +48,7 @@
     <Property Name="MAPM" Type="int" Nullable="false" />
     <Property Name="NGAY" Type="datetime" Nullable="false" />
     <Property Name="THANHTIEN" Type="float" Nullable="false" />
-    <Property Name="MASOTHUE" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="MASOTHUE" Type="varchar" MaxLength="10" />
   </EntityType>
   <EntityType Name="KHACHHANG">
     <Key>
@@ -142,6 +142,7 @@
     <Property Name="SDT" Type="varchar" MaxLength="11" Nullable="false" />
     <Property Name="NGAYGIAO" Type="datetime" Nullable="false" />
     <Property Name="TRANGTHAI" Type="int" Nullable="false" />
+    <Property Name="MASOTHUE" Type="varchar" MaxLength="10" />
     <Property Name="NOIDUNGCHUY" Type="nvarchar(max)" />
     <Property Name="MANVD" Type="int" />
     <Property Name="MANVGH" Type="int" />

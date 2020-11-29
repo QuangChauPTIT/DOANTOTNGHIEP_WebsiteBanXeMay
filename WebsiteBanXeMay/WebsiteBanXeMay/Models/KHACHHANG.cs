@@ -17,8 +17,8 @@ namespace WebsiteBanXeMay.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public KHACHHANG()
         {
-            this.DANHGIAs = new HashSet<DANHGIA>();
-            this.PHIEUMUAs = new HashSet<PHIEUMUA>();
+            this.DANHGIA = new HashSet<DANHGIA>();
+            this.PHIEUMUA = new HashSet<PHIEUMUA>();
         }
     
         public int MAKH { get; set; }
@@ -32,10 +32,10 @@ namespace WebsiteBanXeMay.Models
         public string EMAIL { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DANHGIA> DANHGIAs { get; set; }
+        public virtual ICollection<DANHGIA> DANHGIA { get; set; }
         public virtual QUAN QUAN { get; set; }
         public virtual TAIKHOAN TAIKHOAN { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUMUA> PHIEUMUAs { get; set; }
+        public virtual ICollection<PHIEUMUA> PHIEUMUA { get; set; }
     }
 }

@@ -17,13 +17,13 @@ namespace WebsiteBanXeMay.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NHANVIEN()
         {
-            this.KHUYENMAIs = new HashSet<KHUYENMAI>();
-            this.PHIEUMUAs = new HashSet<PHIEUMUA>();
-            this.PHIEUMUAs1 = new HashSet<PHIEUMUA>();
-            this.PHIEUDATs = new HashSet<PHIEUDAT>();
-            this.PHIEUNHAPs = new HashSet<PHIEUNHAP>();
-            this.PHIEUTRAs = new HashSet<PHIEUTRA>();
-            this.PHUTRACHes = new HashSet<PHUTRACH>();
+            this.KHUYENMAI = new HashSet<KHUYENMAI>();
+            this.PHIEUMUA = new HashSet<PHIEUMUA>();
+            this.PHIEUMUA1 = new HashSet<PHIEUMUA>();
+            this.PHIEUDAT = new HashSet<PHIEUDAT>();
+            this.PHIEUNHAP = new HashSet<PHIEUNHAP>();
+            this.PHIEUTRA = new HashSet<PHIEUTRA>();
+            this.PHUTRACH = new HashSet<PHUTRACH>();
         }
     
         public int MANV { get; set; }
@@ -36,19 +36,19 @@ namespace WebsiteBanXeMay.Models
         public string EMAIL { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KHUYENMAI> KHUYENMAIs { get; set; }
+        public virtual ICollection<KHUYENMAI> KHUYENMAI { get; set; }
         public virtual TAIKHOAN TAIKHOAN { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUMUA> PHIEUMUAs { get; set; }
+        public virtual ICollection<PHIEUMUA> PHIEUMUA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUMUA> PHIEUMUAs1 { get; set; }
+        public virtual ICollection<PHIEUMUA> PHIEUMUA1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUDAT> PHIEUDATs { get; set; }
+        public virtual ICollection<PHIEUDAT> PHIEUDAT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUNHAP> PHIEUNHAPs { get; set; }
+        public virtual ICollection<PHIEUNHAP> PHIEUNHAP { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUTRA> PHIEUTRAs { get; set; }
+        public virtual ICollection<PHIEUTRA> PHIEUTRA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHUTRACH> PHUTRACHes { get; set; }
+        public virtual ICollection<PHUTRACH> PHUTRACH { get; set; }
     }
 }

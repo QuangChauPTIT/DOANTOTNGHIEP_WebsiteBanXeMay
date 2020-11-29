@@ -24,7 +24,7 @@ namespace WebsiteBanXeMay.Models
         {
             throw new UnintentionalCodeFirstException();
         }
-    
+
         public virtual DbSet<CT_KHUYENMAI> CT_KHUYENMAI { get; set; }
         public virtual DbSet<CT_PHIEUDAT> CT_PHIEUDAT { get; set; }
         public virtual DbSet<CT_PHIEUNHAP> CT_PHIEUNHAP { get; set; }
