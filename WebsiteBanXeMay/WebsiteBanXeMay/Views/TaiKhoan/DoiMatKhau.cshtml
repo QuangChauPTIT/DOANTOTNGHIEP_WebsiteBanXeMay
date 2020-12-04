@@ -20,17 +20,17 @@
                         <h1 class="login-title text-center">Đổi mật khẩu</h1>
                         <div class="row">
                             <div class="col-12 mb-20">
-                                <label>Mật khẩu cũ</label>
+                                <label>Mật khẩu cũ<span class="required">*</span></label>
                                 <input class="mb-0" type="password" name="OLD_PASSWORD" placeholder="Mật khẩu cũ">
                                 @Html.ValidationMessageFor(model => model.OLD_PASSWORD, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-12 mb-20">
-                                <label>Mật khẩu mới</label>
+                                <label>Mật khẩu mới<span class="required">*</span></label>
                                 <input class="mb-0" type="password" name="NEW_PASSWORD" placeholder="Mật khẩu mới">
                                 @Html.ValidationMessageFor(model => model.NEW_PASSWORD, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-12 mb-20">
-                                <label>Nhập lại mật khẩu</label>
+                                <label>Nhập lại mật khẩu<span class="required">*</span></label>
                                 <input class="mb-0" type="password" name="CONFIRM_PASSWORD" placeholder="Nhập lại mật khẩu">
                                 @Html.ValidationMessageFor(model => model.CONFIRM_PASSWORD, "", new { @class = "text-danger" })
                                 @Html.ValidationMessage("error", new { @class = "text-danger" })

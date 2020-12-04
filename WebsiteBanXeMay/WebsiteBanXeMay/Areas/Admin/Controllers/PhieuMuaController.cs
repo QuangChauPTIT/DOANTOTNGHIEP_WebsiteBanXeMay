@@ -144,6 +144,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             var queryPhieuMua = (from phieumua in DB.PHIEUMUAs
                                  join quan in DB.QUANs on phieumua.MAQUAN equals quan.MAQUAN
                                  where phieumua.TRANGTHAI == 0
+                                 orderby phieumua.NGAYGIAO ascending
                                  select new PhieuMuaAdminViewModel
                                  {
                                      MAPM = phieumua.MAPM,
@@ -166,6 +167,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                  join nhanviengiao in DB.NHANVIENs on phieumua.MANVGH equals nhanviengiao.MANV
                                  join quan in DB.QUANs on phieumua.MAQUAN equals quan.MAQUAN
                                  where phieumua.TRANGTHAI == 1
+                                 orderby phieumua.NGAYGIAO ascending
                                  select new PhieuMuaAdminViewModel
                                  {
                                      MAPM = phieumua.MAPM,
@@ -195,6 +197,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                  join nhanviengiao in DB.NHANVIENs on phieumua.MANVGH equals nhanviengiao.MANV
                                  join quan in DB.QUANs on phieumua.MAQUAN equals quan.MAQUAN
                                  where phieumua.TRANGTHAI == 2
+                                 orderby phieumua.NGAYGIAO ascending
                                  select new PhieuMuaAdminViewModel
                                  {
                                      MAPM = phieumua.MAPM,

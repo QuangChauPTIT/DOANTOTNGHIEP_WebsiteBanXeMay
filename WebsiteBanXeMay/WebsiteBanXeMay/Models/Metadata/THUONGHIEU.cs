@@ -14,8 +14,10 @@ namespace WebsiteBanXeMay.Models
     public class THUONGHIEUMetadata
     {
         [Required(ErrorMessage = "Mã thương hiệu là bắt buộc")]
+        [StringLength(15, ErrorMessage = "Mã thương hiệu không được quá 15 ký tự")]
         public string MATH { get; set; }
         [Required(ErrorMessage = "Tên thương hiệu là bắt buộc")]
+        [StringLength(100, ErrorMessage = "Tên thương hiệu không được quá 100 ký tự")]
         public string TENTH { get; set; }
     }
 }

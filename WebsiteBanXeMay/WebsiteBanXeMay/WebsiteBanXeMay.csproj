@@ -154,6 +154,7 @@
     <Compile Include="Areas\Admin\Controllers\PhieuMuaController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuNhapController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhuTrachController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SanPhamController.cs" />
     <Compile Include="Areas\Admin\Controllers\SaoLuuPhucHoiController.cs" />
     <Compile Include="Areas\Admin\Controllers\TaiKhoanController.cs" />
     <Compile Include="Areas\Admin\Controllers\ThuongHieuController.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="Areas\Admin\ViewModels\PhieuMuavsHoaDonViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhieuNhapViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhuTrachViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\SanPhamViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\SaoLuuPhucHoiViewModel.cs" />
     <Compile Include="Areas\Shipper\Controllers\PhieuMuaController.cs" />
     <Compile Include="Areas\Shipper\Controllers\TaiKhoanController.cs" />
@@ -279,6 +281,7 @@
     <Compile Include="Models\Metadata\NHACUNGCAP.cs" />
     <Compile Include="Models\Metadata\NHANVIEN.cs" />
     <Compile Include="Models\Metadata\PHIEUMUA.cs" />
+    <Compile Include="Models\Metadata\SANPHAM.cs" />
     <Compile Include="Models\Metadata\TAIKHOAN.cs" />
     <Compile Include="Models\Metadata\THUONGHIEU.cs" />
     <Compile Include="Models\NHACUNGCAP.cs">
@@ -7172,6 +7175,8 @@
     <Content Include="Models\BANXEMAYONLINE.edmx.diagram">
       <DependentUpon>BANXEMAYONLINE.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admin\Views\SanPham\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SanPham\SuaSanPhamPartial.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

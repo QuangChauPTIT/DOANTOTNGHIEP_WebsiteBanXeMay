@@ -14,6 +14,7 @@ namespace WebsiteBanXeMay.Models
     {
         public int MAKM { get; set; }
         [Required(ErrorMessage = "Tên khuyến mãi là bắt buộc")]
+        [StringLength(100, ErrorMessage = "Tên khuyến mãi không được quá 100 ký tự")]
         public string TENKM { get; set; }
         [Required(ErrorMessage = "Ngày bắt đầu khuyến mãi là bắt buộc")]
         public System.DateTime NGAYBATDAU { get; set; }

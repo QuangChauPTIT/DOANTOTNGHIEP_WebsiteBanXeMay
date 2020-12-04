@@ -152,10 +152,10 @@
     };
 
     // modal thêm chi tiết phiếu nhập  - thủ công
-    function getThemChiTietPhieuNhapTamThoi(MaNCC) {
+    function getThemChiTietPhieuNhapTamThoi(MaNCC, MaPD) {
         $.ajax({
             type: "GET",
-            url: "/Admin/PhieuNhap/ThemChiTietPhieuNhapTamThoiPartial?MaNCC=" + MaNCC,
+            url: "/Admin/PhieuNhap/ThemChiTietPhieuNhapTamThoiPartial?MaNCC=" + MaNCC + "&MaPD=" + MaPD,
             success: function (res) {
                 $("#ThemChiTietPhieuNhap_ModalBody").html(res);
                 $("#ThemChiTietPhieuNhap_Modal").modal('show')
@@ -174,6 +174,56 @@
             }
         })
     };
+
+    function KiemTraTrangThaiPhieuDat_ThuCong(MaNCC, TenNCC) {
+        Swal.fire({
+            title: 'Nhập mã phiếu đặt đến nhà cung cấp: ' + TenNCC,
+            text: 'Vui lòng nhập chính xác để tiến hành nhập hàng',
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            customClass: 'swal-wide',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'hủy',
+            confirmButtonText: 'Xác nhận',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var MaPD = result.value
+                if ($.isNumeric(MaPD) == 1) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/Admin/PhieuNhap/KiemTraTrangThaiPhieuDat?MaPD=" + MaPD + "&MaNCC=" + MaNCC,
+                        success: function (res) {
+                            if (res.error == false) {
+                                getThemChiTietPhieuNhapTamThoi(MaNCC, MaPD)
+                            }
+                            else {
+                                Swal.fire({
+                                    title: 'Lỗi!',
+                                    text: res.title,
+                                    icon: 'error',
+                                    customClass: 'swal-wide',
+                                })
+                            }
+                        }
+                    })
+                }
+                else {
+                    Swal.fire({
+                        title: 'Lỗi!',
+                        text: "Mã phiếu đặt phải là giá trị số",
+                        icon: 'error',
+                        customClass: 'swal-wide',
+                    })
+                    return;
+                }
+            }
+        })
+    }
 
     //Đóng modal thêm chi tiết
     function HuyNhapHang() {
@@ -318,7 +368,8 @@
         })
     }
 
-    function ThemChiTietPhieuNhap_ThuCong() {
+
+    function ThemChiTietPhieuNhap_ThuCong(MaPD) {
         Swal.fire({
             title: 'Xác nhận lưu danh sách?',
             text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được thêm!",
@@ -335,7 +386,7 @@
                 var dateTime = $('#NgayNhapID').val()
                 $.ajax({
                     type: "POST",
-                    url: "/Admin/PhieuNhap/ThemChiTietPhieuNhap_ThuCong?NgayLap=" + dateTime,
+                    url: "/Admin/PhieuNhap/ThemChiTietPhieuNhap_ThuCong?MaPD=" + MaPD + "&NgayLap=" + dateTime,
                     success: function (res) {
                         if (res.error == false) {
                             Swal.fire({
@@ -363,7 +414,7 @@
     }
 
 
-    function KiemTraTrangThaiPhieuDat(MaNCC, TenNCC) {
+    function KiemTraTrangThaiPhieuDat_ImportExcel(MaNCC, TenNCC) {
         Swal.fire({
             title: 'Nhập mã phiếu đặt đến nhà cung cấp: ' + TenNCC,
             text: 'Vui lòng nhập chính xác để tiến hành nhập hàng',

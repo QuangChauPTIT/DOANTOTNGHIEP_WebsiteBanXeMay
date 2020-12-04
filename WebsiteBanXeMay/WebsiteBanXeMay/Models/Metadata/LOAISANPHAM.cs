@@ -14,8 +14,10 @@ namespace WebsiteBanXeMay.Models
     public class LOAISANPHAMMetadata
     {
         [Required(ErrorMessage ="Mã loại là bắt buộc")]
+        [StringLength(15, ErrorMessage = "Mã loại không được quá 15 ký tự")]
         public string MALOAI { get; set; }
         [Required(ErrorMessage = "Tên loại là bắt buộc")]
+        [StringLength(100, ErrorMessage = "Tên loại không được quá 100 ký tự")]
         public string TENLOAI { get; set; }
         [Required(ErrorMessage = "Giá là bắt buộc")]
         [Range(1000000,100000000,ErrorMessage ="Giá phải từ 1.000.000 đến 100.000.000")]

@@ -9,6 +9,7 @@ namespace WebsiteBanXeMay.Areas.Admin.ViewModels
     public class ChiTietPhieuDatViewModel
     {
         [Required(ErrorMessage ="Mã loại là bắt buộc")]
+        [StringLength(15, ErrorMessage = "Mã loại không được quá 15 ký tự")]
         public string MALOAI { get; set; }
         public string TENLOAI { get; set; }
         [Required(ErrorMessage = "Số lượng là bắt buộc")]
