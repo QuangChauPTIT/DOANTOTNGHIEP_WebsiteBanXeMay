@@ -118,7 +118,7 @@ namespace WebsiteBanXeMay.Controllers
                     var querySoLuongSanPhamDaBan = (from sanpham in DB.SANPHAMs
                                                     join ct_sanpham in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_sanpham.MACTPN
                                                     join phieumua in DB.PHIEUMUAs on sanpham.MAPM equals phieumua.MAPM
-                                                    where sanpham.MAPM != null && sanpham.MAPT == null &&  phieumua.TRANGTHAI == 2
+                                                    where sanpham.MAPM != null && (phieumua.TRANGTHAI == 1|| phieumua.TRANGTHAI == 2)
                                                     group sanpham by sanpham.MACTPN into g
                                                     select new
                                                     {
@@ -191,7 +191,7 @@ namespace WebsiteBanXeMay.Controllers
             // Số lượng tồn của sản phẩm
             var querySoLuongSanPhamTon = (from sanpham in DB.SANPHAMs
                                           join ct_sanpham in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_sanpham.MACTPN
-                                          where string.IsNullOrEmpty(sanpham.MAPM.ToString())
+                                          where sanpham.MAPM == null
                                           group sanpham by sanpham.MACTPN into g
                                           select new
                                           {
@@ -202,7 +202,7 @@ namespace WebsiteBanXeMay.Controllers
             var querySoLuongSanPhamDaBan = (from sanpham in DB.SANPHAMs
                                             join ct_sanpham in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_sanpham.MACTPN
                                             join phieumua in DB.PHIEUMUAs on sanpham.MAPM equals phieumua.MAPM
-                                            where sanpham.MAPM != null && phieumua.TRANGTHAI == 2
+                                            where sanpham.MAPM != null && (phieumua.TRANGTHAI == 1 || phieumua.TRANGTHAI == 2)
                                             group sanpham by sanpham.MACTPN into g
                                             select new
                                             {

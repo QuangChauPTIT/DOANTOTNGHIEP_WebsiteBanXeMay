@@ -17,13 +17,13 @@ namespace WebsiteBanXeMay.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NHOMQUYEN()
         {
-            this.TAIKHOAN = new HashSet<TAIKHOAN>();
+            this.TAIKHOANs = new HashSet<TAIKHOAN>();
         }
     
         public string MANQ { get; set; }
         public string TENQUYEN { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TAIKHOAN> TAIKHOAN { get; set; }
+        public virtual ICollection<TAIKHOAN> TAIKHOANs { get; set; }
     }
 }

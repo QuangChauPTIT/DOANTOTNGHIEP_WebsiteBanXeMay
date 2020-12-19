@@ -154,13 +154,16 @@ namespace WebsiteBanXeMay.Controllers
                 {
                     items = new List<Item>()
                 };
+                double subtotalUSD = 0;
                 foreach (var LoaiSanPham in lstLoaiSanPham)
                 {
+                    double priceItem = ChuyenUSD_VN(LoaiSanPham.GIA);
+                    subtotalUSD += priceItem * LoaiSanPham.SOLUONG;
                     itemList.items.Add(new Item()
                     {
                         name = LoaiSanPham.TENLOAI,//Tên sản phẩm
                         currency = "USD",//tiền tệ
-                        price = ChuyenUSD_VN(LoaiSanPham.GIA).ToString(),//Giá
+                        price = priceItem.ToString(),//Giá
                         quantity = LoaiSanPham.SOLUONG.ToString(),//Số lượng
                         sku = LoaiSanPham.MALOAI//Mã sản phẩm
                     });
@@ -178,12 +181,12 @@ namespace WebsiteBanXeMay.Controllers
                 {
                     tax = "0",
                     shipping = "0",
-                    subtotal = ChuyenUSD_VN(TongSoTien(lstLoaiSanPham)).ToString()// Tổng tiền tất cả các sản phẩm
+                    subtotal = subtotalUSD.ToString()// Tổng tiền tất cả các sản phẩm
                 };
                 var amount = new Amount()
                 {
                     currency = "USD",
-                    total = ChuyenUSD_VN(TongSoTien(lstLoaiSanPham)).ToString(),
+                    total = subtotalUSD.ToString(),
                     details = details
                 };
                 var transactionList = new List<Transaction>();
@@ -207,17 +210,7 @@ namespace WebsiteBanXeMay.Controllers
 
         private double ChuyenUSD_VN(double gia)
         {
-            return Math.Round((gia / 23161.50), 0);
-        }
-
-        private double TongSoTien(List<GioHangViewModel> lstLoaiSanPham)
-        {
-            double tong = 0;
-            foreach (var LoaiSanPham in lstLoaiSanPham)
-            {
-                tong += LoaiSanPham.GIA * LoaiSanPham.SOLUONG;
-            }
-            return tong;
+            return Math.Round((gia / 23161.50), 2);
         }
     }
 }

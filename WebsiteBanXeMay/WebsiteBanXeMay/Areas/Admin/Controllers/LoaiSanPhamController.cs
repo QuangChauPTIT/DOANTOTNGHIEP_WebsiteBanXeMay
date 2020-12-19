@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebsiteBanXeMay.Areas.Admin.ViewModels;
 using WebsiteBanXeMay.Models;
 using WebsiteBanXeMay.Utils;
 using WebsiteBanXeMay.ViewModels;
@@ -15,12 +16,12 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
         // GET: Admin/LoaiSanPham
-        public ActionResult Index(int Trang = 1)
+        public ActionResult Index(string TenLoai, int Trang = 1)
         {
             var Model = new PageUtil
             {
                 PageSize = 10,
-                Data = lstLoaiSanPham(),
+                Data = lstLoaiSanPham(TenLoai),
                 CurrentPage = Trang
             };
             return View(Model);
@@ -30,7 +31,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         public ActionResult ThemLoaiSanPhamPartial()
         {
             ViewBag.lstNhaCungCap = lstNhaCungCap();
-            ViewBag.lstKieuSanPham = lstKieuSanPham();
+            ViewBag.lstKieuLoaiSanPham = lstKieuLoaiSanPham();
             ViewBag.lstThuongHieu = lstThuongHieu();
             return PartialView();
         }
@@ -39,8 +40,9 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         public ActionResult SuaLoaiSanPhamPartial(string MaLoai)
         {
             ViewBag.lstNhaCungCap = lstNhaCungCap();
-            ViewBag.lstKieuSanPham = lstKieuSanPham();
+            ViewBag.lstKieuLoaiSanPham = lstKieuLoaiSanPham();
             ViewBag.lstThuongHieu = lstThuongHieu();
+            ViewBag.lstTrangThaiLoaiSanPham = lstTrangThaiLoaiSanPham();
             return PartialView(getLoaiSanPham(MaLoai));
         }
 
@@ -99,7 +101,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+       // [ValidateAntiForgeryToken]
         public JsonResult SuaLoaiSanPham(LOAISANPHAM objLoaiSanPham, HttpPostedFileBase file)
         {
             var msg = new JMessage() { error = false, title = "" };
@@ -134,16 +136,17 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                     var modelLoaiSanPham = DB.LOAISANPHAMs.FirstOrDefault(x => x.MALOAI == objLoaiSanPham.MALOAI);
                     if (modelLoaiSanPham != null)
                     {
-                        //modelLoaiSanPham.TENLOAI = objLoaiSanPham.TENLOAI;
-                        //modelLoaiSanPham.GIA = objLoaiSanPham.GIA;
-                        //modelLoaiSanPham.MANCC = objLoaiSanPham.MANCC;
-                        //modelLoaiSanPham.MATH = objLoaiSanPham.MATH;
+                        modelLoaiSanPham.TENLOAI = objLoaiSanPham.TENLOAI;
+                        modelLoaiSanPham.GIA = objLoaiSanPham.GIA;
+                        modelLoaiSanPham.MANCC = objLoaiSanPham.MANCC;
+                        modelLoaiSanPham.MATH = objLoaiSanPham.MATH;
                         modelLoaiSanPham.MOTA = objLoaiSanPham.MOTA;
-                        //modelLoaiSanPham.LOAI = objLoaiSanPham.LOAI;
-                        //if(flag == true)
-                        //{
-                        //    modelLoaiSanPham.HINHANH = fileName;
-                        //}    
+                        modelLoaiSanPham.LOAI = objLoaiSanPham.LOAI;
+                        modelLoaiSanPham.TRANGTHAI = objLoaiSanPham.TRANGTHAI;
+                        if (flag == true)
+                        {
+                            modelLoaiSanPham.HINHANH = fileName;
+                        }
                         DB.SaveChanges();
                         msg.title = "Hiệu chỉnh loại sản phẩm thành công";
                     }
@@ -202,9 +205,12 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         }
         //========================  Lấy dữ liệu từ database ======================
 
-        private IEnumerable<LOAISANPHAM> lstLoaiSanPham()
+        private IEnumerable<LOAISANPHAM> lstLoaiSanPham(string TenLoai)
         {
-            return DB.LOAISANPHAMs.ToList();
+            var queryLoaiSanPham = from loaisanpham in DB.LOAISANPHAMs
+                                   where (string.IsNullOrEmpty(TenLoai) || loaisanpham.TENLOAI.ToLower().Contains(TenLoai.ToLower()))
+                                   select loaisanpham;
+            return queryLoaiSanPham.ToList();
         }
 
         private IEnumerable<THUONGHIEU> lstThuongHieu()
@@ -212,7 +218,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return DB.THUONGHIEUx.ToList();
         }
 
-        private IEnumerable<KieuSanPhamViewModel> lstKieuSanPham()
+        private IEnumerable<KieuSanPhamViewModel> lstKieuLoaiSanPham()
         {
             List<KieuSanPhamViewModel> lstLoai = new List<KieuSanPhamViewModel>();
             lstLoai.Add(new KieuSanPhamViewModel { MAKIEU = 0, TENKIEU = "Xe số" });
@@ -229,6 +235,15 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         private LOAISANPHAM getLoaiSanPham(string MaLoai)
         {
             return DB.LOAISANPHAMs.FirstOrDefault(x => x.MALOAI == MaLoai);
+        }
+
+        private IEnumerable<TrangThaiLoaiSanPhamViewModel> lstTrangThaiLoaiSanPham()
+        {
+            List<TrangThaiLoaiSanPhamViewModel> lstLoai = new List<TrangThaiLoaiSanPhamViewModel>();
+            lstLoai.Add(new TrangThaiLoaiSanPhamViewModel { MATT = 0, TENTT = "Mới" });
+            lstLoai.Add(new TrangThaiLoaiSanPhamViewModel { MATT = 1, TENTT = "Cũ" });
+            lstLoai.Add(new TrangThaiLoaiSanPhamViewModel { MATT = 2, TENTT = "Ngừng kinh doanh" });
+            return lstLoai;
         }
     }
 }

@@ -162,12 +162,9 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                    join ct_phieunhap in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_phieunhap.MACTPN
                                    join loaisanpham in DB.LOAISANPHAMs on ct_phieunhap.MALOAI equals loaisanpham.MALOAI
                                    join thuonghieu in DB.THUONGHIEUx on loaisanpham.MATH equals thuonghieu.MATH
-                                   join phieutra in DB.PHIEUTRAs on sanpham.MAPT equals phieutra.MAPT into tmp
-                                   from g in tmp.DefaultIfEmpty()
                                    where
                                    (begin <= phieumua.NGAYMUA && end >= phieumua.NGAYMUA)
-                                   && (g == null || !(begin <= g.NGAYTRA && end >= g.NGAYTRA))
-                                   && phieumua.TRANGTHAI == 2
+                                   && (phieumua.TRANGTHAI == 1 || phieumua.TRANGTHAI == 2)
                                    select new
                                    {
                                        MALOAI = loaisanpham.MALOAI,
@@ -197,12 +194,9 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                              join loaisanpham in DB.LOAISANPHAMs on ct_phieunhap.MALOAI equals loaisanpham.MALOAI
                                              join thuonghieu in DB.THUONGHIEUx on loaisanpham.MATH equals thuonghieu.MATH
                                              join phieumua in DB.PHIEUMUAs on sanpham.MAPM equals phieumua.MAPM
-                                             join phieutra in DB.PHIEUTRAs on sanpham.MAPT equals phieutra.MAPT into tmp
-                                             from t in tmp.DefaultIfEmpty()
                                              where
                                              phieumua.NGAYMUA <= end
-                                             && (t == null || !(t.NGAYTRA >= end))
-                                             && phieumua.TRANGTHAI == 2
+                                             && (phieumua.TRANGTHAI == 1 || phieumua.TRANGTHAI == 2)
                                              group loaisanpham by loaisanpham.MALOAI into g
                                              select new
                                              {
@@ -230,8 +224,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                               });
 
             var queryTonKho = from query_phieunhap in queryLoaiSanPham_PhieuNhap
-                              join query_phieumua in queryLoaiSanPham_PhieuMua on query_phieunhap.MALOAI equals query_phieumua.MALOAI into T
-                              from g in T.DefaultIfEmpty()
+                              join query_phieumua in queryLoaiSanPham_PhieuMua on query_phieunhap.MALOAI equals query_phieumua.MALOAI into tmp
+                              from g in tmp.DefaultIfEmpty()
                               select new BaoCaoTonKhoTheoLoaiSanPhamViewModel
                               {
                                   MALOAI = query_phieunhap.MALOAI,
@@ -252,12 +246,9 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                              join loaisanpham in DB.LOAISANPHAMs on ct_phieunhap.MALOAI equals loaisanpham.MALOAI
                                              join thuonghieu in DB.THUONGHIEUx on loaisanpham.MATH equals thuonghieu.MATH
                                              join phieumua in DB.PHIEUMUAs on sanpham.MAPM equals phieumua.MAPM
-                                             join phieutra in DB.PHIEUTRAs on sanpham.MAPT equals phieutra.MAPT into tmp
-                                             from g in tmp.DefaultIfEmpty()
                                              where
                                              (begin <= phieumua.NGAYMUA && end >= phieumua.NGAYMUA)
-                                             && (g == null || !(begin <= g.NGAYTRA && end >= g.NGAYTRA))
-                                             && phieumua.TRANGTHAI == 2
+                                             && (phieumua.TRANGTHAI == 1 || phieumua.TRANGTHAI == 2)
                                              select new
                                              {
                                                  MALOAI = loaisanpham.MALOAI,
@@ -306,8 +297,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                             };
 
             var queryDoanhThu = from query_phieunhap in dataLoaiSanPham_PhieuNhap
-                                join query_phieumua in dataLoaiSanPham_PhieuMua on query_phieunhap.MALOAI equals query_phieumua.MALOAI into t
-                                from g in t.DefaultIfEmpty()
+                                join query_phieumua in dataLoaiSanPham_PhieuMua on query_phieunhap.MALOAI equals query_phieumua.MALOAI into tmp
+                                from g in tmp.DefaultIfEmpty()
                                 select new BaoCaoLoiNhuanTheoLoaiSanPhamViewModel
                                 {
                                     MALOAI = query_phieunhap.MALOAI,

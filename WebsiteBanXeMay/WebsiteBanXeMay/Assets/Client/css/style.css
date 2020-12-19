@@ -454,7 +454,7 @@ textarea:focus {
 	background-image: url(../../upload/slider/1.jpg);
 	background-repeat: no-repeat;
 	background-position: center center;
-	background-size: cover;
+	background-size: 780px 350px;
 	min-height: 350px;
 	width: 100%;
 }

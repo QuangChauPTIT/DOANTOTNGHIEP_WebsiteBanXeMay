@@ -157,15 +157,6 @@
     <Property Name="MANV" Type="int" Nullable="false" />
     <Property Name="MAPD" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="PHIEUTRA">
-    <Key>
-      <PropertyRef Name="MAPT" />
-    </Key>
-    <Property Name="MAPT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="NGAYTRA" Type="datetime" Nullable="false" />
-    <Property Name="MANV" Type="int" Nullable="false" />
-    <Property Name="MAPM" Type="int" Nullable="false" />
-  </EntityType>
   <EntityType Name="PHUTRACH">
     <Key>
       <PropertyRef Name="MAPHUTRACH" />
@@ -189,7 +180,6 @@
     <Property Name="SOKHUNG" Type="varchar" MaxLength="15" Nullable="false" />
     <Property Name="SOMAY" Type="varchar" MaxLength="15" Nullable="false" />
     <Property Name="MAPM" Type="int" />
-    <Property Name="MAPT" Type="int" />
     <Property Name="MACTPN" Type="int" Nullable="false" />
     <Property Name="GIA" Type="float" Nullable="false" />
   </EntityType>
@@ -198,7 +188,7 @@
       <PropertyRef Name="EMAIL" />
     </Key>
     <Property Name="EMAIL" Type="varchar" MaxLength="30" Nullable="false" />
-    <Property Name="PASSWORD" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="PASSWORD" Type="varchar" MaxLength="15" />
     <Property Name="MANQ" Type="varchar" MaxLength="15" Nullable="false" />
   </EntityType>
   <EntityType Name="THUONGHIEU">
@@ -484,30 +474,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PHIEUTRA_NHANVIEN">
-    <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="1" />
-    <End Role="PHIEUTRA" Type="Self.PHIEUTRA" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="NHANVIEN">
-        <PropertyRef Name="MANV" />
-      </Principal>
-      <Dependent Role="PHIEUTRA">
-        <PropertyRef Name="MANV" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PHIEUTRA_PHIEUDAT">
-    <End Role="PHIEUMUA" Type="Self.PHIEUMUA" Multiplicity="1" />
-    <End Role="PHIEUTRA" Type="Self.PHIEUTRA" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PHIEUMUA">
-        <PropertyRef Name="MAPM" />
-      </Principal>
-      <Dependent Role="PHIEUTRA">
-        <PropertyRef Name="MAPM" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_PHUTRACH_NHANVIEN">
     <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="1" />
     <End Role="PHUTRACH" Type="Self.PHUTRACH" Multiplicity="*" />
@@ -556,18 +522,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_SANPHAM_PHIEUTRA">
-    <End Role="PHIEUTRA" Type="Self.PHIEUTRA" Multiplicity="0..1" />
-    <End Role="SANPHAM" Type="Self.SANPHAM" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PHIEUTRA">
-        <PropertyRef Name="MAPT" />
-      </Principal>
-      <Dependent Role="SANPHAM">
-        <PropertyRef Name="MAPT" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_TAIKHOAN_NHOMQUYEN">
     <End Role="NHOMQUYEN" Type="Self.NHOMQUYEN" Multiplicity="1" />
     <End Role="TAIKHOAN" Type="Self.TAIKHOAN" Multiplicity="*" />
@@ -595,7 +549,6 @@
     <EntitySet Name="PHIEUDAT" EntityType="Self.PHIEUDAT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PHIEUMUA" EntityType="Self.PHIEUMUA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PHIEUNHAP" EntityType="Self.PHIEUNHAP" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="PHIEUTRA" EntityType="Self.PHIEUTRA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PHUTRACH" EntityType="Self.PHUTRACH" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QUAN" EntityType="Self.QUAN" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SANPHAM" EntityType="Self.SANPHAM" Schema="dbo" store:Type="Tables" />
@@ -693,14 +646,6 @@
       <End Role="PHIEUDAT" EntitySet="PHIEUDAT" />
       <End Role="PHIEUNHAP" EntitySet="PHIEUNHAP" />
     </AssociationSet>
-    <AssociationSet Name="FK_PHIEUTRA_NHANVIEN" Association="Self.FK_PHIEUTRA_NHANVIEN">
-      <End Role="NHANVIEN" EntitySet="NHANVIEN" />
-      <End Role="PHIEUTRA" EntitySet="PHIEUTRA" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PHIEUTRA_PHIEUDAT" Association="Self.FK_PHIEUTRA_PHIEUDAT">
-      <End Role="PHIEUMUA" EntitySet="PHIEUMUA" />
-      <End Role="PHIEUTRA" EntitySet="PHIEUTRA" />
-    </AssociationSet>
     <AssociationSet Name="FK_PHUTRACH_NHANVIEN" Association="Self.FK_PHUTRACH_NHANVIEN">
       <End Role="NHANVIEN" EntitySet="NHANVIEN" />
       <End Role="PHUTRACH" EntitySet="PHUTRACH" />
@@ -715,10 +660,6 @@
     </AssociationSet>
     <AssociationSet Name="FK_SANPHAM_PHIEUDAT1" Association="Self.FK_SANPHAM_PHIEUDAT1">
       <End Role="PHIEUMUA" EntitySet="PHIEUMUA" />
-      <End Role="SANPHAM" EntitySet="SANPHAM" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SANPHAM_PHIEUTRA" Association="Self.FK_SANPHAM_PHIEUTRA">
-      <End Role="PHIEUTRA" EntitySet="PHIEUTRA" />
       <End Role="SANPHAM" EntitySet="SANPHAM" />
     </AssociationSet>
     <AssociationSet Name="FK_TAIKHOAN_NHOMQUYEN" Association="Self.FK_TAIKHOAN_NHOMQUYEN">

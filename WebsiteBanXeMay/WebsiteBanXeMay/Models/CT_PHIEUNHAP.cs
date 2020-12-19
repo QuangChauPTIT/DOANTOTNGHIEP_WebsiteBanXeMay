@@ -17,7 +17,7 @@ namespace WebsiteBanXeMay.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CT_PHIEUNHAP()
         {
-            this.SANPHAM = new HashSet<SANPHAM>();
+            this.SANPHAMs = new HashSet<SANPHAM>();
         }
     
         public int MACTPN { get; set; }
@@ -29,6 +29,6 @@ namespace WebsiteBanXeMay.Models
         public virtual LOAISANPHAM LOAISANPHAM { get; set; }
         public virtual PHIEUNHAP PHIEUNHAP { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SANPHAM> SANPHAM { get; set; }
+        public virtual ICollection<SANPHAM> SANPHAMs { get; set; }
     }
 }

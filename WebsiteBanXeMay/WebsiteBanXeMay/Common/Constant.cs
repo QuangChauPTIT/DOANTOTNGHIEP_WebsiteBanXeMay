@@ -8,6 +8,7 @@ namespace WebsiteBanXeMay.Common
     public static class Constant
     {
         public const string DATABASE = "BANXEMAYONLINE";
+        public const double PHANTRAM = 10;
         public const string SESSION_TAIKHOAN = "TAIKHOAN";
         public const string SESSION_CART = "GIOHANG";
         public const string SESSION_PHIEUMUA = "PHIEUMUA";

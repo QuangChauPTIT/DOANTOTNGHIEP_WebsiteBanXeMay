@@ -35,10 +35,10 @@
                                         <img src="@Url.Content("~/Assets/upload/images/"+LoaiSanPham.HINHANH)" width="100" height="100" alt="@LoaiSanPham.HINHANH ">
                                     </td>
                                     <td>
-                                        @LoaiSanPham.SOLUONG
+                                        <span style="float:right">@LoaiSanPham.SOLUONG</span>
                                     </td>
                                     <td>
-                                        <span class="money" style="color:red">@LoaiSanPham.GIA</span>
+                                        <span class="money" style="float: right; color: red">@LoaiSanPham.GIA</span>
                                     </td>
                                 </tr>
                             }
@@ -50,6 +50,17 @@
                             </tr>
                         }
                     </table>
+                    @if (Model.Count() > 0)
+                    {
+                        double Tong = 0;
+                        foreach (var obj in Model)
+                        {
+                            Tong += obj.GIA * obj.SOLUONG;
+                        }
+                        <div>
+                            <span style="float:right;font-size:16px;">Tổng:  <span class="money" style="color:red">@Tong</span></span>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

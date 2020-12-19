@@ -230,7 +230,7 @@ namespace WebsiteBanXeMay.Controllers
             var querySoLuongTonSanPham = (from sanpham in DB.SANPHAMs
                                           join ct_sanpham in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_sanpham.MACTPN
                                           join loaisanpham in DB.LOAISANPHAMs on ct_sanpham.MALOAI equals loaisanpham.MALOAI
-                                          where (string.IsNullOrEmpty(sanpham.MAPM.ToString()) && loaisanpham.MALOAI == MaLoai)
+                                          where (sanpham.MAPM == null && loaisanpham.MALOAI == MaLoai)
                                           group sanpham by sanpham.MACTPN into g
                                           select new
                                           {

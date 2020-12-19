@@ -31,7 +31,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="DANHGIA">
+    <EntitySetMapping Name="DANHGIAs">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.DANHGIA">
         <MappingFragment StoreEntitySet="DANHGIA">
           <ScalarProperty Name="MAKH" ColumnName="MAKH" />
@@ -42,7 +42,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="HOADON">
+    <EntitySetMapping Name="HOADONs">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.HOADON">
         <MappingFragment StoreEntitySet="HOADON">
           <ScalarProperty Name="MAHD" ColumnName="MAHD" />
@@ -53,7 +53,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="KHACHHANG">
+    <EntitySetMapping Name="KHACHHANGs">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.KHACHHANG">
         <MappingFragment StoreEntitySet="KHACHHANG">
           <ScalarProperty Name="MAKH" ColumnName="MAKH" />
@@ -68,7 +68,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="KHUYENMAI">
+    <EntitySetMapping Name="KHUYENMAIs">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.KHUYENMAI">
         <MappingFragment StoreEntitySet="KHUYENMAI">
           <ScalarProperty Name="MAKM" ColumnName="MAKM" />
@@ -80,7 +80,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="LOAISANPHAM">
+    <EntitySetMapping Name="LOAISANPHAMs">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.LOAISANPHAM">
         <MappingFragment StoreEntitySet="LOAISANPHAM">
           <ScalarProperty Name="MALOAI" ColumnName="MALOAI" />
@@ -95,7 +95,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="NHACUNGCAP">
+    <EntitySetMapping Name="NHACUNGCAPs">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.NHACUNGCAP">
         <MappingFragment StoreEntitySet="NHACUNGCAP">
           <ScalarProperty Name="MANCC" ColumnName="MANCC" />
@@ -106,7 +106,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="NHANVIEN">
+    <EntitySetMapping Name="NHANVIENs">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.NHANVIEN">
         <MappingFragment StoreEntitySet="NHANVIEN">
           <ScalarProperty Name="MANV" ColumnName="MANV" />
@@ -120,7 +120,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="NHOMQUYEN">
+    <EntitySetMapping Name="NHOMQUYENs">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.NHOMQUYEN">
         <MappingFragment StoreEntitySet="NHOMQUYEN">
           <ScalarProperty Name="MANQ" ColumnName="MANQ" />
@@ -128,7 +128,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="PHIEUDAT">
+    <EntitySetMapping Name="PHIEUDATs">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.PHIEUDAT">
         <MappingFragment StoreEntitySet="PHIEUDAT">
           <ScalarProperty Name="MAPD" ColumnName="MAPD" />
@@ -139,7 +139,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="PHIEUMUA">
+    <EntitySetMapping Name="PHIEUMUAs">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.PHIEUMUA">
         <MappingFragment StoreEntitySet="PHIEUMUA">
           <ScalarProperty Name="MAPM" ColumnName="MAPM" />
@@ -159,7 +159,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="PHIEUNHAP">
+    <EntitySetMapping Name="PHIEUNHAPs">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.PHIEUNHAP">
         <MappingFragment StoreEntitySet="PHIEUNHAP">
           <ScalarProperty Name="MAPN" ColumnName="MAPN" />
@@ -169,17 +169,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="PHIEUTRA">
-      <EntityTypeMapping TypeName="BANXEMAYONLINEModel.PHIEUTRA">
-        <MappingFragment StoreEntitySet="PHIEUTRA">
-          <ScalarProperty Name="MAPT" ColumnName="MAPT" />
-          <ScalarProperty Name="NGAYTRA" ColumnName="NGAYTRA" />
-          <ScalarProperty Name="MANV" ColumnName="MANV" />
-          <ScalarProperty Name="MAPM" ColumnName="MAPM" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="PHUTRACH">
+    <EntitySetMapping Name="PHUTRACHes">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.PHUTRACH">
         <MappingFragment StoreEntitySet="PHUTRACH">
           <ScalarProperty Name="MAPHUTRACH" ColumnName="MAPHUTRACH" />
@@ -188,7 +178,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="QUAN">
+    <EntitySetMapping Name="QUANs">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.QUAN">
         <MappingFragment StoreEntitySet="QUAN">
           <ScalarProperty Name="MAQUAN" ColumnName="MAQUAN" />
@@ -196,20 +186,19 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="SANPHAM">
+    <EntitySetMapping Name="SANPHAMs">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.SANPHAM">
         <MappingFragment StoreEntitySet="SANPHAM">
           <ScalarProperty Name="MASP" ColumnName="MASP" />
           <ScalarProperty Name="SOKHUNG" ColumnName="SOKHUNG" />
           <ScalarProperty Name="SOMAY" ColumnName="SOMAY" />
           <ScalarProperty Name="MAPM" ColumnName="MAPM" />
-          <ScalarProperty Name="MAPT" ColumnName="MAPT" />
           <ScalarProperty Name="MACTPN" ColumnName="MACTPN" />
           <ScalarProperty Name="GIA" ColumnName="GIA" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TAIKHOAN">
+    <EntitySetMapping Name="TAIKHOANs">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.TAIKHOAN">
         <MappingFragment StoreEntitySet="TAIKHOAN">
           <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
@@ -218,7 +207,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="THUONGHIEU">
+    <EntitySetMapping Name="THUONGHIEUx">
       <EntityTypeMapping TypeName="BANXEMAYONLINEModel.THUONGHIEU">
         <MappingFragment StoreEntitySet="THUONGHIEU">
           <ScalarProperty Name="MATH" ColumnName="MATH" />

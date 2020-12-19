@@ -37,7 +37,19 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Danh sách loại sản phẩm</h3>
+                        <form action="/Admin/LoaiSanPham" method="get">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>Tên loại</label>
+                                    <input type="text" name="TENLOAI" value="@ViewBag.TENLOAI" class="form-control" />
+                                </div>
+                                <div class="col-md-1" style="margin-top:2.3%">
+                                    <button title="Tìm kiếm" class="btn btn-info"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                        <br />
+                        <h3 class="box-title">Danh sách có: <span style="color:red">@(Model.Data.Count() > 0 ? Model.Data.Count() : 0 )</span>  loại sản phẩm</h3>
                         <button title="Thêm" class="btn btn-success" style="float:right!important" onclick="getThemLoaiSanPham()"><i class="fa fa-save"></i></button>
                     </div>
                     <!-- /.box-header -->
@@ -278,6 +290,7 @@
                     var TenLoai = $("#TENLOAI").val();
                     var Gia = $("#GIA").val();
                     var MoTa = $("#MOTA").val();
+                    var TrangThai = $("#TRANGTHAI").val();
 
                     formData.append("file", HinhAnh.files[0]);
                     formData.append("MANCC", MaNCC);
@@ -287,6 +300,7 @@
                     formData.append("TENLOAI", TenLoai);
                     formData.append("GIA", Gia);
                     formData.append("MOTA", MoTa);
+                    formData.append("TRANGTHAI", TrangThai);
                     $.ajax({
                         type: "POST",
                         url: "/Admin/LoaiSanPham/SuaLoaiSanPham",

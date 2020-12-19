@@ -159,7 +159,6 @@ D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\b
 D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\bin\Newtonsoft.Json.xml
 D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\bin\Antlr3.Runtime.pdb
 D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\obj\Debug\WebsiteBanXeMay.csprojAssemblyReference.cache
 D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\obj\Debug\WebsiteBanXeMay.csproj.CoreCompileInputs.cache
 D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\obj\Debug\WebsiteBanXeMay.csproj.CopyComplete
 D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\obj\Debug\WebsiteBanXeMay.dll
@@ -188,3 +187,4 @@ D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\b
 D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\bin\es\DevExpress.Xpo.v20.1.resources.dll
 D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\bin\ja\DevExpress.Xpo.v20.1.resources.dll
 D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\bin\ru\DevExpress.Xpo.v20.1.resources.dll
+D:\DOANTOTNGHIEP\DOANTOTNGHIEP_WebsiteBanXeMay\WebsiteBanXeMay\WebsiteBanXeMay\obj\Debug\WebsiteBanXeMay.csprojAssemblyReference.cache

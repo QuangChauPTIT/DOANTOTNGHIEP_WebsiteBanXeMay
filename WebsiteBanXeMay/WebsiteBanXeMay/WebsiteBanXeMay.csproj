@@ -195,6 +195,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CrystalReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Areas\Admin\Reports\TonKho\LoaiSanPham\DataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -220,6 +221,7 @@
     <Compile Include="Areas\Admin\ViewModels\PhuTrachViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\SanPhamViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\SaoLuuPhucHoiViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\TrangThaiLoaiSanPhamViewModel.cs" />
     <Compile Include="Areas\Shipper\Controllers\PhieuMuaController.cs" />
     <Compile Include="Areas\Shipper\Controllers\TaiKhoanController.cs" />
     <Compile Include="Areas\Shipper\ShipperAreaRegistration.cs" />
@@ -302,9 +304,6 @@
     <Compile Include="Models\PHIEUNHAP.cs">
       <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PHIEUTRA.cs">
-      <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\PHUTRACH.cs">
       <DependentUpon>BANXEMAYONLINE.tt</DependentUpon>
     </Compile>
@@ -332,6 +331,7 @@
     <Compile Include="ViewModels\KieuSanPhamViewModel.cs" />
     <Compile Include="ViewModels\LoaiSanPhamViewModel.cs" />
     <Compile Include="ViewModels\PhieuMuaViewModel.cs" />
+    <Compile Include="ViewModels\QuenMatKhauViewModel.cs" />
     <Compile Include="ViewModels\TaiKhoanViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -7168,6 +7168,8 @@
     <Content Include="Areas\Shipper\Views\TaiKhoan\Index.cshtml" />
     <Content Include="Areas\Shipper\Views\TaiKhoan\DoiMatKhauPartial.cshtml" />
     <Content Include="Areas\Admin\Views\SaoLuuPhucHoi\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SanPham\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SanPham\SuaSanPhamPartial.cshtml" />
     <EntityDeploy Include="Models\BANXEMAYONLINE.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>BANXEMAYONLINE.Designer.cs</LastGenOutput>
@@ -7175,8 +7177,7 @@
     <Content Include="Models\BANXEMAYONLINE.edmx.diagram">
       <DependentUpon>BANXEMAYONLINE.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\SanPham\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\SanPham\SuaSanPhamPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\KhachHang\SuaKhachHangPartial.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -7209,6 +7210,7 @@
     <Content Include="Views\LoaiSanPham\ChiTietLoaiSanPham.cshtml" />
     <Content Include="Views\TrangChu\LoaiSanPhamKhuyenMai.cshtml" />
     <Content Include="Views\TaiKhoan\Index.cshtml" />
+    <Content Include="Views\TaiKhoan\QuenMatKhau.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

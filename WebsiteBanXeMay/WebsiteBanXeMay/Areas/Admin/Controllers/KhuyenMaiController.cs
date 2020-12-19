@@ -467,7 +467,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
 
         private IEnumerable<LOAISANPHAM> lstLoaiSanPham()
         {
-            return DB.LOAISANPHAMs.ToList();
+            return DB.LOAISANPHAMs.Where(x=>x.TRANGTHAI == 0 || x.TRANGTHAI == 1).ToList();
         }
 
         private string getTenLoaiSanPham(string MaLoai)

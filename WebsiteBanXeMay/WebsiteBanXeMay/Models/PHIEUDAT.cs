@@ -18,7 +18,7 @@ namespace WebsiteBanXeMay.Models
         public PHIEUDAT()
         {
             this.CT_PHIEUDAT = new HashSet<CT_PHIEUDAT>();
-            this.PHIEUNHAP = new HashSet<PHIEUNHAP>();
+            this.PHIEUNHAPs = new HashSet<PHIEUNHAP>();
         }
     
         public int MAPD { get; set; }
@@ -32,6 +32,6 @@ namespace WebsiteBanXeMay.Models
         public virtual NHACUNGCAP NHACUNGCAP { get; set; }
         public virtual NHANVIEN NHANVIEN { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUNHAP> PHIEUNHAP { get; set; }
+        public virtual ICollection<PHIEUNHAP> PHIEUNHAPs { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 @using WebsiteBanXeMay.ViewModels;
 
 @{ var lstThuongHieu = ViewBag.lstThuongHieu as IEnumerable<THUONGHIEU>;
-    var lstKieuSanPham = ViewBag.lstKieuSanPham as IEnumerable<KieuSanPhamViewModel>;
+    var lstKieuLoaiSanPham = ViewBag.lstKieuLoaiSanPham as IEnumerable<KieuSanPhamViewModel>;
     var lstNhaCungCap = ViewBag.lstNhaCungCap as IEnumerable<NHACUNGCAP>;}
 
 <style>
@@ -41,7 +41,7 @@
             <div class="col-md-6 mt">
                 <label>Loại<span class="required">*</span></label>
                 <select class="form-control select2" id="LOAI" style="width: 100%;">
-                    @foreach (var Kieu in lstKieuSanPham)
+                    @foreach (var Kieu in lstKieuLoaiSanPham)
                     {
                         <option value="@Kieu.MAKIEU">@Kieu.TENKIEU</option>
                     }
@@ -57,7 +57,7 @@
             </div>
             <div class="col-md-6 mt">
                 <label>Giá<span class="required">*</span></label>
-                <input placeholder="Giá" id="GIA" class="form-control" value="" type="text">
+                <input placeholder="Giá" id="GIA" class="form-control" value="" type="number">
             </div>
             <div class="col-md-12 mt">
                 <label>Mô tả</label>

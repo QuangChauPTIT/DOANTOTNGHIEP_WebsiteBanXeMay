@@ -17,8 +17,8 @@ namespace WebsiteBanXeMay.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TAIKHOAN()
         {
-            this.KHACHHANG = new HashSet<KHACHHANG>();
-            this.NHANVIEN = new HashSet<NHANVIEN>();
+            this.KHACHHANGs = new HashSet<KHACHHANG>();
+            this.NHANVIENs = new HashSet<NHANVIEN>();
         }
     
         public string EMAIL { get; set; }
@@ -26,9 +26,9 @@ namespace WebsiteBanXeMay.Models
         public string MANQ { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KHACHHANG> KHACHHANG { get; set; }
+        public virtual ICollection<KHACHHANG> KHACHHANGs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NHANVIEN> NHANVIEN { get; set; }
+        public virtual ICollection<NHANVIEN> NHANVIENs { get; set; }
         public virtual NHOMQUYEN NHOMQUYEN { get; set; }
     }
 }

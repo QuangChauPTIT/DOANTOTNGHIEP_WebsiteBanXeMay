@@ -1,11 +1,13 @@
 ﻿@using WebsiteBanXeMay.Models;
 @using WebsiteBanXeMay.ViewModels;
+@using WebsiteBanXeMay.Areas.Admin.ViewModels;
 
 @model LOAISANPHAM
 
 @{ var lstThuongHieu = ViewBag.lstThuongHieu as IEnumerable<THUONGHIEU>;
-    var lstKieuSanPham = ViewBag.lstKieuSanPham as IEnumerable<KieuSanPhamViewModel>;
-    var lstNhaCungCap = ViewBag.lstNhaCungCap as IEnumerable<NHACUNGCAP>;}
+    var lstKieuLoaiSanPham = ViewBag.lstKieuLoaiSanPham as IEnumerable<KieuSanPhamViewModel>;
+    var lstNhaCungCap = ViewBag.lstNhaCungCap as IEnumerable<NHACUNGCAP>;
+    var lstTrangThaiLoaiSanPham = ViewBag.lstTrangThaiLoaiSanPham as IEnumerable<TrangThaiLoaiSanPhamViewModel>;}
 
 <style>
     .mt {
@@ -22,6 +24,7 @@
     <form name="SuaLoaiSanPham_Form" enctype="multipart/form-data">
         @*@Html.AntiForgeryToken()*@
         <div class="row">
+            <input id="MALOAI" value="@Model.MALOAI" type="hidden">
             <div class="col-md-6">
                 <label>Thương hiệu<span class="required">*</span></label>
                 <select class="form-control select2" id="MATH" style="width: 100%;">
@@ -43,15 +46,20 @@
             <div class="col-md-6 mt">
                 <label>Loại<span class="required">*</span></label>
                 <select class="form-control select2" id="LOAI" style="width: 100%;">
-                    @foreach (var Kieu in lstKieuSanPham)
+                    @foreach (var Kieu in lstKieuLoaiSanPham)
                     {
                         <option @(Kieu.MAKIEU == Model.LOAI ? "selected" : null) value="@Kieu.MAKIEU">@Kieu.TENKIEU</option>
                     }
                 </select>
             </div>
             <div class="col-md-6 mt">
-                <label>Mã loại sản phẩm<span class="required">*</span></label>
-                <input placeholder="Mã loại sản phẩm" id="MALOAI" class="form-control" value="@Model.MALOAI" readonly type="text">
+                <label>Trạng thái<span class="required">*</span></label>
+                <select class="form-control select2" id="TRANGTHAI" style="width: 100%;">
+                    @foreach (var TrangThai in lstTrangThaiLoaiSanPham)
+                    {
+                        <option @(TrangThai.MATT == Model.TRANGTHAI ? "selected" : null) value="@TrangThai.MATT">@TrangThai.TENTT</option>
+                    }
+                </select>
             </div>
             <div class="col-md-6 mt">
                 <label>Tên loại sản phẩm<span class="required">*</span></label>
@@ -59,7 +67,7 @@
             </div>
             <div class="col-md-6 mt">
                 <label>Giá<span class="required">*</span></label>
-                <input placeholder="Giá" id="GIA" class="form-control" value="@Model.GIA" readonly type="text">
+                <input placeholder="Giá" id="GIA" class="form-control" value="@Model.GIA"  type="number">
             </div>
             <div class="col-md-12 mt">
                 <label>Mô tả</label>

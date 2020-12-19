@@ -24,7 +24,7 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Danh sách bản sao lưu</h3>
+                        <h3 class="box-title">Danh sách có: <span style="color:red">@(Model.Data.Count() > 0 ? Model.Data.Count() : 0 )</span>  bản sao lưu</h3>
                         <button title="Thêm" class="btn btn-success" style="float:right!important" onclick="Backup()"><i class="fa fa-database"></i></button>
                     </div>
                     <!-- /.box-header -->

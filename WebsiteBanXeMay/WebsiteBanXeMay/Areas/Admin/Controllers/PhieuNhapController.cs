@@ -56,7 +56,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult ThemChiTietPhieuNhapTamThoiPartial(string MaNCC, int MaPD)
         {
-            ViewBag.objNhaCungCap = DB.NHACUNGCAPs.FirstOrDefault(x=>x.MANCC == MaNCC);
+            ViewBag.objNhaCungCap = DB.NHACUNGCAPs.FirstOrDefault(x => x.MANCC == MaNCC);
             ViewBag.MAPD = MaPD;
             return PartialView(lstLoaiSanPham(MaNCC));
         }
@@ -297,18 +297,25 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                             bool flag = false;
                             foreach (var objChiTiet in lstChiTiet)
                             {
-                                // Kiểm tra tồn tại số khung số máy trong database
-                                if (DB.SANPHAMs.FirstOrDefault(x => x.SOKHUNG == objChiTiet.SOKHUNG) != null)
+                                // Kiểm tra trong database
+                                if (DB.CT_PHIEUDAT.FirstOrDefault(x => x.MALOAI == objChiTiet.MALOAI && x.MAPD == MaPD) == null)
                                 {
                                     msg.error = true;
-                                    msg.title = "Số khung " + objChiTiet.SOKHUNG + " của loại sản phẩm " + objChiTiet.MALOAI + " đã tồn tại";
+                                    msg.title = string.Format("Loại sản phẩm mã {0} không thuộc phiếu đặt", objChiTiet.MALOAI);
+                                    flag = true;
+                                    break;
+                                }
+                                else if (DB.SANPHAMs.FirstOrDefault(x => x.SOKHUNG == objChiTiet.SOKHUNG) != null)
+                                {
+                                    msg.error = true;
+                                    msg.title = string.Format("Số khung {0} của loại sản phẩm mã: {0} đã tồn tại", objChiTiet.SOKHUNG, objChiTiet.MALOAI);
                                     flag = true;
                                     break;
                                 }
                                 else if (DB.SANPHAMs.FirstOrDefault(x => x.SOMAY == objChiTiet.SOMAY) != null)
                                 {
                                     msg.error = true;
-                                    msg.title = "Số máy " + objChiTiet.SOMAY + " của loại sản phẩm " + objChiTiet.MALOAI + " đã tồn tại";
+                                    msg.title = string.Format("Số máy {0} của loại sản phẩm mã: {0} đã tồn tại", objChiTiet.SOMAY, objChiTiet.MALOAI);
                                     flag = true;
                                     break;
                                 }
@@ -332,7 +339,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                         MALOAI = maLoai,
                                         MAPN = objPhieuNhap.MAPN,
                                         SOLUONG = lstChiTiet.Where(x => x.MALOAI == maLoai).ToList().Count(),
-                                        GIA = lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA
+                                        GIA = lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA + (lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA * Constant.PHANTRAM)
                                     };
                                     DB.CT_PHIEUNHAP.Add(objChiTietPhieuNhap);
                                     DB.SaveChanges();
@@ -344,13 +351,13 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                             MACTPN = objChiTietPhieuNhap.MACTPN,
                                             SOKHUNG = objChiTiet.SOKHUNG,
                                             SOMAY = objChiTiet.SOMAY,
-                                            GIA = objChiTiet.GIA
+                                            GIA = objChiTiet.GIA * (objChiTiet.GIA * Constant.PHANTRAM)
                                         };
                                         DB.SANPHAMs.Add(objSanPham);
                                         DB.SaveChanges();
                                     }
                                     var objLoaiSanPham = DB.LOAISANPHAMs.FirstOrDefault(x => x.MALOAI == maLoai);
-                                    objLoaiSanPham.GIA = objChiTietPhieuNhap.GIA;
+                                    objLoaiSanPham.GIA = objChiTietPhieuNhap.GIA ;
                                     objLoaiSanPham.TRANGTHAI = 0;
                                     DB.SaveChanges();
                                 }
@@ -367,7 +374,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                         {
                             msg.error = true;
                             msg.title = "Ngày nhập phải sau ngày đặt hàng.";
-                        }    
+                        }
                     }
                     catch
                     {
@@ -444,11 +451,11 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                         Worksheet worksheet = workbook.ActiveSheet;
                         Range range = worksheet.UsedRange;
 
-                        int i, jMaLoai = 1,jTenLoai = 1, jSoKhung = 1, jSoMay = 1, jGia = 1;
+                        int i, jMaLoai = 1, jTenLoai = 1, jSoKhung = 1, jSoMay = 1, jGia = 1;
                         bool flag = false;
-                        for (i = 0; i < 20; i++)
+                        for (i = 0; i < 50; i++)
                         {
-                            for (jMaLoai = 1; jMaLoai < 20; jMaLoai++)
+                            for (jMaLoai = 1; jMaLoai < 50; jMaLoai++)
                             {
                                 string MaLoai = ((Excel.Range)range.Cells[i, jMaLoai]).Text;
                                 if (MaLoai.Equals("Mã loại"))
@@ -459,30 +466,30 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                             }
                             if (flag == true) break;
                         }
-                        for (jTenLoai = 1; jTenLoai < 20; jTenLoai++)
+                        for (jTenLoai = 1; jTenLoai < 50; jTenLoai++)
                         {
                             string TenLoai = (range.Cells[i, jTenLoai]).Text;
                             if (TenLoai.Equals("Tên loại")) break;
                         }
-                        for (jSoKhung = 1; jSoKhung < 20; jSoKhung++)
+                        for (jSoKhung = 1; jSoKhung < 50; jSoKhung++)
                         {
                             string SoKhung = (range.Cells[i, jSoKhung]).Text;
                             if (SoKhung.Equals("Số khung")) break;
                         }
-                        for (jSoMay = 1; jSoMay < 20; jSoMay++)
+                        for (jSoMay = 1; jSoMay < 50; jSoMay++)
                         {
                             string SoMay = (range.Cells[i, jSoMay]).Text;
                             if (SoMay.Equals("Số máy")) break;
                         }
 
-                        for (jGia = 1; jGia < 20; jGia++)
+                        for (jGia = 1; jGia < 50; jGia++)
                         {
                             string Gia = (range.Cells[i, jGia]).Text;
                             if (Gia.Equals("Giá")) break;
                         }
 
                         var lstChiTiet_Tam = new List<ChiTietPhieuNhapViewModel>();
-                        for (int row = i+1; row <= range.Rows.Count; row++)
+                        for (int row = i + 1; row <= range.Rows.Count; row++)
                         {
                             var objChiTiet = new ChiTietPhieuNhapViewModel
                             {
@@ -503,7 +510,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                     catch
                     {
                         msg.error = true;
-                        msg.title = "Lỗi import excel";
+                        msg.title = "Lỗi import excel. Vui lòng kiểm tra lại file excel";
                     }
                 }
                 else
@@ -522,7 +529,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult ThemChiTietPhieuNhap_ImportExcel(string MaNCC, int MaPD, DateTime NgayLap)
+        public JsonResult ThemChiTietPhieuNhap_ImportExcel(int MaPD, DateTime NgayLap)
         {
             var msg = new JMessage() { error = false, title = "" };
             var SessionChiTiet = Session[Constant.SESSION_CHITIETPHIEUNHAP];
@@ -538,44 +545,51 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                     try
                     {
                         var objPhieuDat = DB.PHIEUDATs.FirstOrDefault(x => x.MAPD == MaPD);
-                        if (objPhieuDat!=null && objPhieuDat.NGAYLAP <= NgayLap)
+                        if (objPhieuDat != null && objPhieuDat.NGAYLAP <= NgayLap)
                         {
                             bool flag = false;
                             foreach (var objChiTiet in lstChiTiet)
                             {
-                                if (DB.NHACUNGCAPs.FirstOrDefault(x => x.MANCC == MaNCC) == null)
+                                if (string.IsNullOrWhiteSpace(objChiTiet.MALOAI))
                                 {
                                     msg.error = true;
-                                    msg.title = "Loại sản phẩm không thuộc nhà cung cấp mã: " + MaNCC;
+                                    msg.title = string.Format("Danh sách có mã loại trống");
                                     flag = true;
                                     break;
                                 }
-                                // Kiểm tra tồn tại số khung số máy nhà cung cấp trong database
                                 else if (string.IsNullOrWhiteSpace(objChiTiet.SOKHUNG))
                                 {
                                     msg.error = true;
-                                    msg.title = "Số khung " + objChiTiet.SOKHUNG + " của loại sản phẩm " + objChiTiet.MALOAI + " rỗng";
+                                    msg.title = string.Format("Có số khung của loại sản phẩm mã: {0} rỗng", objChiTiet.MALOAI);
                                     flag = true;
                                     break;
                                 }
                                 else if (string.IsNullOrWhiteSpace(objChiTiet.SOMAY))
                                 {
                                     msg.error = true;
-                                    msg.title = "Số máy " + objChiTiet.SOMAY + " của loại sản phẩm " + objChiTiet.MALOAI + " rỗng";
+                                    msg.title = string.Format("Có số máy của loại sản phẩm mã: {0} rỗng", objChiTiet.MALOAI);
+                                    flag = true;
+                                    break;
+                                }
+                                // Kiểm tra trong database
+                                else if (DB.CT_PHIEUDAT.FirstOrDefault(x => x.MALOAI == objChiTiet.MALOAI && x.MAPD == MaPD) == null)
+                                {
+                                    msg.error = true;
+                                    msg.title = string.Format("Loại sản phẩm mã {0} không thuộc phiếu đặt", objChiTiet.MALOAI);
                                     flag = true;
                                     break;
                                 }
                                 else if (DB.SANPHAMs.FirstOrDefault(x => x.SOKHUNG == objChiTiet.SOKHUNG) != null)
                                 {
                                     msg.error = true;
-                                    msg.title = "Số khung " + objChiTiet.SOKHUNG + " của loại sản phẩm " + objChiTiet.MALOAI + " đã tồn tại";
+                                    msg.title = string.Format("Số khung {0} của loại sản phẩm mã: {0} đã tồn tại", objChiTiet.SOKHUNG, objChiTiet.MALOAI);
                                     flag = true;
                                     break;
                                 }
                                 else if (DB.SANPHAMs.FirstOrDefault(x => x.SOMAY == objChiTiet.SOMAY) != null)
                                 {
                                     msg.error = true;
-                                    msg.title = "Số máy " + objChiTiet.SOMAY + " của loại sản phẩm " + objChiTiet.MALOAI + " đã tồn tại";
+                                    msg.title = string.Format("Số máy {0} của loại sản phẩm mã: {0} đã tồn tại", objChiTiet.SOMAY, objChiTiet.MALOAI);
                                     flag = true;
                                     break;
                                 }
@@ -599,7 +613,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                         MALOAI = maLoai,
                                         MAPN = objPhieuNhap.MAPN,
                                         SOLUONG = lstChiTiet.Where(x => x.MALOAI == maLoai).ToList().Count(),
-                                        GIA = lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA
+                                        GIA = lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA + (lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA * Constant.PHANTRAM)
                                     };
                                     DB.CT_PHIEUNHAP.Add(objChiTietPhieuNhap);
                                     DB.SaveChanges();
@@ -611,7 +625,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                             MACTPN = objChiTietPhieuNhap.MACTPN,
                                             SOKHUNG = objChiTiet.SOKHUNG,
                                             SOMAY = objChiTiet.SOMAY,
-                                            GIA = objChiTiet.GIA
+                                            GIA = objChiTiet.GIA + (objChiTiet.GIA * Constant.PHANTRAM)
                                         };
                                         DB.SANPHAMs.Add(objSanPham);
                                         DB.SaveChanges();
@@ -695,7 +709,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         // Lấy tất cả loại sản phẩm theo nhà cung cấp dể nhập
         private IEnumerable<LOAISANPHAM> lstLoaiSanPham(string MaNCC)
         {
-            return DB.LOAISANPHAMs.Where(x => x.MANCC == MaNCC).ToList();
+            return DB.LOAISANPHAMs.Where(x => x.MANCC == MaNCC && (x.TRANGTHAI == 0 || x.TRANGTHAI == 1)).ToList();
         }
         private string getTenLoaiSanPham(string MaLoai)
         {

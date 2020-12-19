@@ -90,7 +90,7 @@
                                     <li>Tiền vận chuyển<span class="money text-theme">0</span></li>
                                     <li>Tổng tiền<span class="total money text-theme"></span></li>
                                 </ul>
-                                @Html.ActionLink("Đặt hàng", "ThemPhieuMua", "PhieuMua");
+                                @Html.ActionLink("Đặt hàng", "ThemPhieuMua", "PhieuMua")
                             </div>
                         </div>
                     </div>
@@ -141,7 +141,11 @@
 }
 else
 {
-    <span>Chưa đặt hàng</span>
+    <div style="text-align:center">
+        <span style="font-size:30px; color:red;font-weight:bold">Giỏ hàng trống</span>
+        <br />
+        <a href="/TrangChu">Tiếp tục mua hàng</a>
+    </div>
 }
 
 

@@ -6,7 +6,6 @@
     </button>
     <h4 class="modal-title">Lập phiếu nhập đến nhà cung cấp: @NhaCungCap.TENNCC</h4>
     <div class="row">
-        <input type="hidden" id="MaPD" value="@ViewBag.MAPD" class="form-control" />
         <div class="col-md-6">
             <label>Ngày lập<span class="required">*</span></label>
             <input type="datetime-local" id="NgayNhap_ImportExcelID" class="form-control" />
@@ -47,7 +46,7 @@
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-danger pull-right" onclick="HuyNhapHang()"><i class="fa fa-close" title="Hủy"></i></button>
-    <button type="button" class="btn btn-success" onclick="ThemChiTietPhieuNhap_ImportExcel('@NhaCungCap.MANCC')" style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
+    <button type="button" class="btn btn-success" onclick="ThemChiTietPhieuNhap_ImportExcel(@ViewBag.MAPD)" style="margin-right:3%!important"><i class="fa fa-save" title="Lưu"></i></button>
 </div>
 
 <script>

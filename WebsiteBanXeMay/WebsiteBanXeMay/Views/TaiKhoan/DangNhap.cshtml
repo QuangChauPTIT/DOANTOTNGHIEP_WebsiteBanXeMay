@@ -26,7 +26,7 @@
                             </div>
                             <div class="col-12 mb-20">
                                 <label>Mật khẩu</label>
-                                <input class="mb-0" type="password" name="PASSWORD" value="@ViewBag.Password" placeholder="Mật khẩu">
+                                <input class="mb-0" type="password" name="PASSWORD" placeholder="Mật khẩu">
                                 @Html.ValidationMessageFor(model => model.PASSWORD, "", new { @class = "text-danger" })
                                 @Html.ValidationMessage("error", new { @class = "text-danger" })
 
@@ -38,7 +38,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
-                                <a href="#"> Quên mật khẩu?</a>
+                                <a href="/TaiKhoan/QuenMatKhau"> Quên mật khẩu?</a>
                             </div>
                             <div class="col-8 m-auto">
                                 <button class="register-button mt-0">Đăng nhập</button>

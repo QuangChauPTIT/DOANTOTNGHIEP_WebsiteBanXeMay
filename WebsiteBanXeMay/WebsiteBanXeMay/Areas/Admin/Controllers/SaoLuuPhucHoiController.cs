@@ -14,7 +14,7 @@ using WebsiteBanXeMay.ViewModels;
 
 namespace WebsiteBanXeMay.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "admin,staff")]
+    [Authorize(Roles = "admin")]
     public class SaoLuuPhucHoiController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();

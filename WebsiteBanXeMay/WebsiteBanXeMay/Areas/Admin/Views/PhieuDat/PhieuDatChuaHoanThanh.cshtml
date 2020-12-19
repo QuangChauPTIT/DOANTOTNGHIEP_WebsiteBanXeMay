@@ -24,7 +24,7 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Danh sách phiếu đặt chưa hoàn thành</h3>
+                        <h3 class="box-title">Danh sách có: <span style="color:red">@(Model.Data.Count() > 0 ? Model.Data.Count() : 0 )</span>  phiếu đặt chưa hoàn thành</h3>
                         <button title="Đặt hàng" class="btn btn-primary" style="float:right!important" onclick="getNhaCungCap()"><i class="fa fa-save"></i></button>
                     </div>
                     <!-- /.box-header -->

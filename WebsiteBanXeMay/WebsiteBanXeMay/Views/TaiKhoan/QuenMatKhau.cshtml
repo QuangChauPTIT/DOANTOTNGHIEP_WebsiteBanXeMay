@@ -1,0 +1,36 @@
+﻿@using WebsiteBanXeMay.ViewModels
+@model QuenMatKhauViewModel
+@{
+    ViewBag.Title = "QuenMatKhau";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-section mb-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 mb-30">
+                <!-- Login Form s-->
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <div class="login-form col-sm-5" style="margin:auto">
+                        <h1 class="login-title text-center">Quên mật khẩu</h1>
+                        <div class="row">
+                            <div class="col-12 mb-20">
+                                <label>Email</label>
+                                <input class="mb-0" type="email" name="EMAIL" value="@ViewBag.Email" placeholder="Mật khẩu sẽ được gửi qua email">
+                                @Html.ValidationMessageFor(model => model.EMAIL, "", new { @class = "text-danger" })
+                                @Html.ValidationMessage("error", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-8 m-auto">
+                                <button class="register-button mt-0">Xác nhận</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -17,11 +17,11 @@
             </div>
             <div class="col-md-6" style="margin-top:2%">
                 <label>Ngày bắt đầu<span class="required">*</span></label>
-                <input placeholder="Ngày bắt đầu" name="NGAYBATDAU" class="form-control" value="@Model.NGAYBATDAU.ToString("yyyy-MM-ddThh:mm")" type="datetime-local">
+                <input placeholder="Ngày bắt đầu" name="NGAYBATDAU" class="form-control"  min="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" value="@Model.NGAYBATDAU.ToString("yyyy-MM-ddThh:mm")" type="datetime-local">
             </div>
             <div class="col-md-6" style="margin-top:2%">
                 <label>Ngày kết thúc<span class="required">*</span></label>
-                <input placeholder="Ngày kết thúc" name="NGAYKETTHUC"  class="form-control"value="@Model.NGAYKETTHUC.ToString("yyyy-MM-ddThh:mm")" type="datetime-local">
+                <input placeholder="Ngày kết thúc" name="NGAYKETTHUC"  class="form-control"  min="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" value="@Model.NGAYKETTHUC.ToString("yyyy-MM-ddThh:mm")" type="datetime-local">
             </div>
             <div class="col-md-12" style="margin-top:2%">
                 <label>Mô tả</label>

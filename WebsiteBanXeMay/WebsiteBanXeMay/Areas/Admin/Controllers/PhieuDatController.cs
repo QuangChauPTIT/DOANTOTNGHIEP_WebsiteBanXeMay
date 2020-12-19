@@ -459,48 +459,55 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 Workbook workbook = application.Workbooks.Add(System.Reflection.Missing.Value);
                 Worksheet worksheet = workbook.ActiveSheet;
 
-
-                worksheet.Range["A2:H2"].Merge();
-                worksheet.Cells[2, 1] = "Phiếu đặt";
-                worksheet.Cells[2, 1].EntireRow.Font.Size = 22;
+                worksheet.Cells[2, 1] = "CÔNG TY TNHH MTV LIMUPA";
                 worksheet.Cells[2, 1].EntireRow.Font.Bold = true;
-                worksheet.Cells[2, 1].EntireRow.HorizontalAlignment = XlHAlign.xlHAlignCenter;
 
-                worksheet.Cells[4, 1] = "Tên nhà cung cấp:";
-                worksheet.Cells[5, 1] = "SDT:";
-                worksheet.Cells[6, 1] = "Địa chỉ:";
-                worksheet.Cells[7, 1] = "Email:";
-                worksheet.Cells[8, 1] = "Ngày đặt:";
-                worksheet.Cells[9, 1] = "Mã phiếu đặt:";
-                worksheet.Cells[10, 1] = "Nhân viên lập phiếu:";
+                worksheet.Cells[3, 1] = "Địa chỉ: 97 Man Thiện, phường Hiệp Phú, quận 9, TP.Hồ Chí Minh";
+                worksheet.Cells[4, 1] = "SDT: 0334342948";
+                worksheet.Cells[5, 1] = "Email: Chauptit98@gmail.com";
 
-                worksheet.Cells[12, 1] = "STT";
-                worksheet.Cells[12, 1].EntireColumn.ColumnWidth = 8.43;
+                worksheet.Range["A7:H7"].Merge();
+                worksheet.Cells[7, 1] = "ĐƠN ĐẶT HÀNG";
+                worksheet.Cells[7, 1].EntireRow.Font.Size = 22;
+                worksheet.Cells[7, 1].EntireRow.Font.Bold = true;
+                worksheet.Cells[7, 1].EntireRow.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                worksheet.Cells[7, 1].EntireRow.Font.Color = System.Drawing.Color.Blue;
 
+                worksheet.Cells[9, 1] = "Tên nhà cung cấp:";
+                worksheet.Cells[10, 1] = "SDT:";
+                worksheet.Cells[11, 1] = "Địa chỉ:";
+                worksheet.Cells[12, 1] = "Email:";
+                worksheet.Cells[13, 1] = "Ngày đặt:";
+                worksheet.Cells[14, 1] = "Mã phiếu đặt:";
+                worksheet.Cells[15, 1] = "Nhân viên lập phiếu:";
 
-                worksheet.Cells[12, 2] = "Mã loại";
-                worksheet.Cells[12, 2].EntireColumn.ColumnWidth = 17.29;
-
-
-                worksheet.Cells[12, 3] = "Tên loại";
-                worksheet.Cells[12, 3].EntireColumn.ColumnWidth = 56.29;
-
-
-                worksheet.Cells[12, 4] = "Số khung";
-                worksheet.Cells[12, 4].EntireColumn.ColumnWidth = 22.43;
-
-                worksheet.Cells[12, 5] = "Số máy";
-                worksheet.Cells[12, 5].EntireColumn.ColumnWidth = 22.43;
+                worksheet.Cells[17, 1] = "STT";
+                worksheet.Cells[17, 1].EntireColumn.ColumnWidth = 8.43;
 
 
-                worksheet.Cells[12, 6] = "Giá";
-                worksheet.Cells[12, 6].EntireColumn.ColumnWidth = 23.43;
+                worksheet.Cells[17, 2] = "Mã loại";
+                worksheet.Cells[17, 2].EntireColumn.ColumnWidth = 17.29;
+
+
+                worksheet.Cells[17, 3] = "Tên loại";
+                worksheet.Cells[17, 3].EntireColumn.ColumnWidth = 56.29;
+
+
+                worksheet.Cells[17, 4] = "Số khung";
+                worksheet.Cells[17, 4].EntireColumn.ColumnWidth = 22.43;
+
+                worksheet.Cells[17, 5] = "Số máy";
+                worksheet.Cells[17, 5].EntireColumn.ColumnWidth = 22.43;
+
+
+                worksheet.Cells[17, 6] = "Giá";
+                worksheet.Cells[17, 6].EntireColumn.ColumnWidth = 23.43;
 
 
                 for (int col = 1; col < 7; col++)
                 {
-                    worksheet.Cells[12, col].EntireRow.Font.Bold = true;
-                    worksheet.Cells[12, col].EntireRow.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                    worksheet.Cells[17, col].EntireRow.Font.Bold = true;
+                    worksheet.Cells[17, col].EntireRow.HorizontalAlignment = XlHAlign.xlHAlignCenter;
                 }
 
 
@@ -510,23 +517,24 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
 
                 var objNhanVien = getNhanVien(objPhieuDat.MANV);
 
-                worksheet.Cells[4, 2] = objNhaCungCap.TENNCC;
-                worksheet.Cells[5, 2] = objNhaCungCap.SDT;
-                worksheet.Cells[6, 2] = objNhaCungCap.DIACHI;
-                worksheet.Cells[7, 2] = objNhaCungCap.EMAIL;
-                worksheet.Cells[8, 2] = objPhieuDat.NGAYLAP.ToString("dd-MM-yyyy hh:mm tt");
-                worksheet.Cells[9, 2] = objPhieuDat.MAPD;
-                worksheet.Cells[10, 2] = objNhanVien.HO + " " + objNhanVien.TEN;
+                worksheet.Cells[9, 2] = objNhaCungCap.TENNCC;
+                worksheet.Cells[10, 2] = objNhaCungCap.SDT;
+                worksheet.Cells[11, 2] = objNhaCungCap.DIACHI;
+                worksheet.Cells[12, 2] = objNhaCungCap.EMAIL;
+                worksheet.Cells[13, 2] = objPhieuDat.NGAYLAP.ToString("dd-MM-yyyy hh:mm tt");
+                worksheet.Cells[14, 2] = objPhieuDat.MAPD;
+                worksheet.Cells[15, 2] = objNhanVien.HO + " " + objNhanVien.TEN;
 
                 int dem = 0;
                 foreach (var LoaiSanPham in lstLoaiSanPham)
                 {
                     for (int i = 0; i < LoaiSanPham.SOLUONG; i++)
                     {
-                        worksheet.Cells[13 + dem, 1] = dem + 1;
-                        worksheet.Cells[13 + dem, 2] = LoaiSanPham.MALOAI;
-                        worksheet.Cells[13 + dem, 3] = getTenLoaiSanPham(LoaiSanPham.MALOAI);
-                        worksheet.Cells[13 + dem, 6] = LoaiSanPham.GIA;
+                        worksheet.Cells[18 + dem, 1] = dem + 1;
+                        worksheet.Cells[18 + dem, 2] = LoaiSanPham.MALOAI;
+                        worksheet.Cells[18 + dem, 3] = getTenLoaiSanPham(LoaiSanPham.MALOAI);
+                        worksheet.Cells[18 + dem, 6] = LoaiSanPham.GIA;
+                        worksheet.Cells[18 + dem, 6].NumberFormat = "#,##0";
                         dem++;
                     }
                 }
@@ -568,7 +576,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         // Lấy tất cả loại sản phẩm theo nhà cung cấp dể nhập
         private IEnumerable<LOAISANPHAM> lstLoaiSanPham(string MaNCC)
         {
-            return DB.LOAISANPHAMs.Where(x => x.MANCC == MaNCC).ToList();
+            return DB.LOAISANPHAMs.Where(x => x.MANCC == MaNCC && (x.TRANGTHAI == 0 || x.TRANGTHAI == 1)).ToList();
         }
         private string getTenLoaiSanPham(string MaLoai)
         {

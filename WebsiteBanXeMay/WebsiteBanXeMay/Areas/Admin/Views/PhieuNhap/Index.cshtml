@@ -24,7 +24,7 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Danh sách phiếu nhập</h3>
+                        <h3 class="box-title">Danh sách có: <span style="color:red">@(Model.Data.Count() > 0 ? Model.Data.Count() : 0 )</span>  phiếu nhập</h3>
 
                         <button title="Nhập hàng" class="btn btn-primary" style="float:right!important" onclick="getNhaCungCap()"><i class="fa fa-save"></i></button>
                     </div>
@@ -528,7 +528,7 @@
     }
 
 
-    function ThemChiTietPhieuNhap_ImportExcel(MaNCC) {
+    function ThemChiTietPhieuNhap_ImportExcel(MaPD) {
         Swal.fire({
             title: 'Xác nhận lưu danh sách?',
             text: "Khi bấm xác nhận dữ liệu không vi phạm điều kiện sẽ được thêm!",
@@ -543,10 +543,9 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 var dateTime = $('#NgayNhap_ImportExcelID').val()
-                var maPD = $('#MaPD').val()
                 $.ajax({
                     type: "POST",
-                    url: "/Admin/PhieuNhap/ThemChiTietPhieuNhap_ImportExcel?MaNCC=" + MaNCC + "&MaPD=" + maPD + "&NgayLap=" + dateTime,
+                    url: "/Admin/PhieuNhap/ThemChiTietPhieuNhap_ImportExcel?MaPD=" + MaPD + "&NgayLap=" + dateTime,
                     success: function (res) {
                         if (res.error == false) {
                             Swal.fire({

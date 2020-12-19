@@ -21,7 +21,7 @@
                     {
                         foreach (var LoaiSanPham in Model)
                         {
-                            <option title="@LoaiSanPham.TENLOAI" value="@LoaiSanPham.MALOAI">Mã loại: @LoaiSanPham.MALOAI - Tên loại:@LoaiSanPham.TENLOAI</option>
+                            <option title="@LoaiSanPham.TENLOAI" value="@LoaiSanPham.MALOAI">@LoaiSanPham.MALOAI - @LoaiSanPham.TENLOAI</option>
                         }
                     }
                 </select>

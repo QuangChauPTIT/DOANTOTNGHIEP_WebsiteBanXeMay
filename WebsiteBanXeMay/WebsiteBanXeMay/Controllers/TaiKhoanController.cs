@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -81,13 +83,13 @@ namespace WebsiteBanXeMay.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (objDoiMatKhauViewModel.NEW_PASSWORD.Equals(objDoiMatKhauViewModel.CONFIRM_PASSWORD))
+                try
                 {
-                    try
+                    var objTaiKhoanViewModel = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
+                    var objTaiKhoan = DB.TAIKHOANs.FirstOrDefault(x => x.EMAIL == objTaiKhoanViewModel.EMAIL && x.PASSWORD == objDoiMatKhauViewModel.OLD_PASSWORD);
+                    if (objTaiKhoan != null)
                     {
-                        var objTaiKhoanViewModel = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
-                        var objTaiKhoan = DB.TAIKHOANs.FirstOrDefault(x => x.EMAIL == objTaiKhoanViewModel.EMAIL && x.PASSWORD == objDoiMatKhauViewModel.OLD_PASSWORD);
-                        if (objTaiKhoan != null)
+                        if (objDoiMatKhauViewModel.NEW_PASSWORD.Equals(objDoiMatKhauViewModel.CONFIRM_PASSWORD))
                         {
                             objTaiKhoan.PASSWORD = objDoiMatKhauViewModel.CONFIRM_PASSWORD;
                             DB.SaveChanges();
@@ -95,19 +97,19 @@ namespace WebsiteBanXeMay.Controllers
                         }
                         else
                         {
-                            ModelState.AddModelError("error", "Mật khẩu cũ không chính xác");
+                            ModelState.AddModelError("error", "Nhập lại mật khẩu không đúng");
                             return View(objDoiMatKhauViewModel);
                         }
                     }
-                    catch
+                    else
                     {
-                        ModelState.AddModelError("error", "Đổi mật khẩu thất bại");
+                        ModelState.AddModelError("error", "Mật khẩu cũ không chính xác");
                         return View(objDoiMatKhauViewModel);
                     }
                 }
-                else
+                catch
                 {
-                    ModelState.AddModelError("error", "Nhập lại mật khẩu không đúng");
+                    ModelState.AddModelError("error", "Đổi mật khẩu thất bại");
                     return View(objDoiMatKhauViewModel);
                 }
             }
@@ -115,7 +117,6 @@ namespace WebsiteBanXeMay.Controllers
         }
 
         //[HttpGet]
-        [Authorize(Roles = "admin,staff,customer,shipper")]
         [AllowAnonymous]
         public ActionResult DangNhap(string ReturnUrl)
         {
@@ -123,7 +124,6 @@ namespace WebsiteBanXeMay.Controllers
             return View();
         }
 
-        [Authorize(Roles = "admin,staff,customer,shipper")]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -149,13 +149,12 @@ namespace WebsiteBanXeMay.Controllers
                     ModelState.AddModelError("error", "Đăng nhập thất bại");
                 }
                 ViewBag.Email = objTaiKhoan.EMAIL;
-                ViewBag.Password = objTaiKhoan.PASSWORD;
             }
             ViewBag.ReturnUrl = ReturnUrl;
             return View(objTaiKhoan);
         }
 
-        [Authorize(Roles = "customer")]
+
         [HttpGet]
         [AllowAnonymous]
         public ActionResult DangKy(string ReturnUrl)
@@ -165,7 +164,6 @@ namespace WebsiteBanXeMay.Controllers
             return View();
         }
 
-        [Authorize(Roles = "customer")]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -179,7 +177,7 @@ namespace WebsiteBanXeMay.Controllers
                     {
                         if (objKhachHangViewModel.PASSWORD == objKhachHangViewModel.CONFIRM_PASSWORD)
                         {
-                            var objTaiKhoan = DB.TAIKHOANs.SingleOrDefault(x => x.EMAIL == objKhachHangViewModel.EMAIL);
+                            var objTaiKhoan = DB.TAIKHOANs.FirstOrDefault(x => x.EMAIL == objKhachHangViewModel.EMAIL);
                             if (objTaiKhoan == null)
                             {
                                 var modelTaiKhoan = new TAIKHOAN
@@ -228,7 +226,7 @@ namespace WebsiteBanXeMay.Controllers
                         ModelState.AddModelError("error", "Đăng ký tài khoản thất bại");
                         return View(objKhachHangViewModel);
                     }
-                }     
+                }
             }
             ViewBag.lstQuan = lstQuan();
             return View(objKhachHangViewModel);
@@ -239,12 +237,70 @@ namespace WebsiteBanXeMay.Controllers
         [AllowAnonymous]
         public ActionResult DangXuat()
         {
-           
+
             FormsAuthentication.SignOut();
             Session[Constant.SESSION_TAIKHOAN] = null;
             return RedirectToAction("Index", "TrangChu");
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult QuenMatKhau()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult QuenMatKhau(QuenMatKhauViewModel objQuenMatKhauViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var objTaiKhoan = DB.TAIKHOANs.FirstOrDefault(x => x.EMAIL == objQuenMatKhauViewModel.EMAIL);
+                    if (objTaiKhoan != null)
+                    {
+                        //  var objNhanVien = DB.NHANVIENs.FirstOrDefault(XmlSiteMapProvider=>x)
+                        var senderEmail = new MailAddress("no1aipro@gmail.com", "Limupa");
+                        var receiverEmail = new MailAddress(objTaiKhoan.EMAIL);
+                        var password = "tranquangchau30081998";
+                        var sub = "Quên mật khẩu";
+                        var body = string.Format("Mật khẩu của bạn là: {0}", objTaiKhoan.PASSWORD);
+                        var smtp = new SmtpClient
+                        {
+                            Host = "smtp.gmail.com",
+                            Port = 587,
+                            EnableSsl = true,
+                            DeliveryMethod = SmtpDeliveryMethod.Network,
+                            UseDefaultCredentials = false,
+                            Credentials = new NetworkCredential(senderEmail.Address, password)
+                        };
+                        using (var mess = new MailMessage(senderEmail, receiverEmail)
+                        {
+                            Subject = sub,
+                            Body = body
+                        })
+                        {
+                            smtp.Send(mess);
+                        }
+                        return RedirectToAction("DangNhap", "TaiKhoan");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("error", "Email không tồn tại hoặc chưa được đăng ký trong hệ thống");
+                        return View(objQuenMatKhauViewModel);
+                    }
+                }
+                catch
+                {
+                    ModelState.AddModelError("error", "Thực hiện chức năng quên mật khẩu thất bại");
+                    return View(objQuenMatKhauViewModel);
+                }
+            }
+            return View(objQuenMatKhauViewModel);
+        }
         private ActionResult RedirectToLocal(string ReturnUrl)
         {
             if (Url.IsLocalUrl(ReturnUrl))

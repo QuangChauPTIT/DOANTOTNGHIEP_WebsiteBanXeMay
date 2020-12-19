@@ -17,8 +17,8 @@ namespace WebsiteBanXeMay.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NHACUNGCAP()
         {
-            this.LOAISANPHAM = new HashSet<LOAISANPHAM>();
-            this.PHIEUDAT = new HashSet<PHIEUDAT>();
+            this.LOAISANPHAMs = new HashSet<LOAISANPHAM>();
+            this.PHIEUDATs = new HashSet<PHIEUDAT>();
         }
     
         public string MANCC { get; set; }
@@ -28,8 +28,8 @@ namespace WebsiteBanXeMay.Models
         public string SDT { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LOAISANPHAM> LOAISANPHAM { get; set; }
+        public virtual ICollection<LOAISANPHAM> LOAISANPHAMs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUDAT> PHIEUDAT { get; set; }
+        public virtual ICollection<PHIEUDAT> PHIEUDATs { get; set; }
     }
 }

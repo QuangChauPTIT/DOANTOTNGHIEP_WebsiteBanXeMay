@@ -36,13 +36,14 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             var msg = new JMessage() { error = false, title = "" };
             if (ModelState.IsValid)
             {
-                if (objDoiMatKhauViewModel.NEW_PASSWORD.Equals(objDoiMatKhauViewModel.CONFIRM_PASSWORD))
+
+                try
                 {
-                    try
+                    var objTaiKhoanViewModel = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
+                    var objTaiKhoan = DB.TAIKHOANs.FirstOrDefault(x => x.EMAIL == objTaiKhoanViewModel.EMAIL && x.PASSWORD == objDoiMatKhauViewModel.OLD_PASSWORD);
+                    if (objTaiKhoan != null)
                     {
-                        var objTaiKhoanViewModel = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
-                        var objTaiKhoan = DB.TAIKHOANs.FirstOrDefault(x => x.EMAIL == objTaiKhoanViewModel.EMAIL && x.PASSWORD == objDoiMatKhauViewModel.OLD_PASSWORD);
-                        if (objTaiKhoan != null)
+                        if (objDoiMatKhauViewModel.NEW_PASSWORD.Equals(objDoiMatKhauViewModel.CONFIRM_PASSWORD))
                         {
                             objTaiKhoan.PASSWORD = objDoiMatKhauViewModel.CONFIRM_PASSWORD;
                             DB.SaveChanges();
@@ -52,20 +53,21 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                         else
                         {
                             msg.error = true;
-                            msg.title = "Mật khẩu không chính xác";
+                            msg.title = "Nhập lại mật khẩu không đúng";
                         }
                     }
-                    catch
+                    else
                     {
                         msg.error = true;
-                        msg.title = "Đổi mật khẩu thất bại";
+                        msg.title = "Mật khẩu cũ không chính xác";
                     }
                 }
-                else
+                catch
                 {
                     msg.error = true;
-                    msg.title = "Nhập lại mật khẩu không đúng";
+                    msg.title = "Đổi mật khẩu thất bại";
                 }
+
             }
             else
             {

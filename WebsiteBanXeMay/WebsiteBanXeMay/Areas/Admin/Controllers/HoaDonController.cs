@@ -10,6 +10,7 @@ using WebsiteBanXeMay.Models;
 
 namespace WebsiteBanXeMay.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "admin,staff")]
     public class HoaDonController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();

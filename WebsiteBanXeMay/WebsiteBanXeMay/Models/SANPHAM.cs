@@ -18,12 +18,10 @@ namespace WebsiteBanXeMay.Models
         public string SOKHUNG { get; set; }
         public string SOMAY { get; set; }
         public Nullable<int> MAPM { get; set; }
-        public Nullable<int> MAPT { get; set; }
         public int MACTPN { get; set; }
         public double GIA { get; set; }
     
         public virtual CT_PHIEUNHAP CT_PHIEUNHAP { get; set; }
         public virtual PHIEUMUA PHIEUMUA { get; set; }
-        public virtual PHIEUTRA PHIEUTRA { get; set; }
     }
 }

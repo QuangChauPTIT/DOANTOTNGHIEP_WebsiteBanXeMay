@@ -20,7 +20,7 @@ namespace WebsiteBanXeMay.Models
         [StringLength(100, ErrorMessage = "Tên loại không được quá 100 ký tự")]
         public string TENLOAI { get; set; }
         [Required(ErrorMessage = "Giá là bắt buộc")]
-        [Range(1000000,100000000,ErrorMessage ="Giá phải từ 1.000.000 đến 100.000.000")]
+        [Range(1000000, double.MaxValue, ErrorMessage = "Giá phải lớn hơn 1.000.000")]
         public double GIA { get; set; }
         public int TRANGTHAI { get; set; }
         public string HINHANH { get; set; }

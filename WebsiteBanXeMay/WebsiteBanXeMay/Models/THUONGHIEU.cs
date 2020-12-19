@@ -17,13 +17,13 @@ namespace WebsiteBanXeMay.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public THUONGHIEU()
         {
-            this.LOAISANPHAM = new HashSet<LOAISANPHAM>();
+            this.LOAISANPHAMs = new HashSet<LOAISANPHAM>();
         }
     
         public string MATH { get; set; }
         public string TENTH { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LOAISANPHAM> LOAISANPHAM { get; set; }
+        public virtual ICollection<LOAISANPHAM> LOAISANPHAMs { get; set; }
     }
 }

@@ -10,12 +10,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Nhân viên
+            Phân công phụ trách quận
         </h1>
         <ol class="breadcrumb">
             <li><i class="fa fa-dashboard"></i> Danh mục</li>
             <li><a href="#">Quản lý nhân viên</a></li>
-            <li class="active">Phân công giao hàng</li>
+            <li class="active">Phân công phụ trách quận</li>
         </ol>
     </section>
 
@@ -25,7 +25,7 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Danh sách nhân viên giao hàng</h3>
+                        <h3 class="box-title">Danh sách có: <span style="color:red">@(Model.Data.Count() > 0 ? Model.Data.Count() : 0 )</span>  nhân viên</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
