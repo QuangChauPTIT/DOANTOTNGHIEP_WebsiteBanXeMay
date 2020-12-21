@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="870bf42dbda3421c948aff814cae3352" Name="Diagram1">
+      <Diagram DiagramId="d9734668b0204f7eb55122688a88729d" Name="Diagram1">
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.CT_KHUYENMAI" Width="1.5" PointX="9.75" PointY="15.625" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.CT_PHIEUDAT" Width="1.5" PointX="12.75" PointY="11.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BANXEMAYONLINEModel.CT_PHIEUNHAP" Width="1.5" PointX="15" PointY="14.625" IsExpanded="true" />

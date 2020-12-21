@@ -38,11 +38,11 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             if (Check_Create_Backup_Devices(Constant.DATABASE) == false)
             {
                 // Chưa có backup devices ==>  Tạo 
-                if (Exec_Create_Backup_Devices(Constant.DATABASE) == 1)
+                if (Exec_Create_Backup_Devices(Constant.DATABASE) == -1)
                 {
                     check = true;
                 }
-                else
+                else 
                 {
                     check = false;
                     msg.title = "Tạo Backup devices thất bại";
@@ -52,11 +52,11 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
 
             if (check == true)
             {
-                if (BackupDatabase(flag, Constant.DATABASE) != 0)
+                if (BackupDatabase(flag, Constant.DATABASE) == -1)
                 {
                     var objTaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
                     var objBackup = lstBackup(Constant.DATABASE).FirstOrDefault();
-                    string strQuery = string.Format("UPDATE msdb.dbo.backupset SET description = '{0}' where backup_set_id = {1}", objTaiKhoan.EMAIL,objBackup.backup_set_id);
+                    string strQuery = string.Format("UPDATE msdb.dbo.backupset SET description = '{0}' where backup_set_id = {1}", objTaiKhoan.EMAIL, objBackup.backup_set_id);
                     int res = DB.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, strQuery);
                     msg.title = "Sao lưu thành công";
                     msg.error = false;
@@ -73,16 +73,16 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         public JsonResult PhuHoi(int position)
         {
             var msg = new JMessage() { error = false, title = "" };
-            if(RestoreDatabase(Constant.DATABASE,position) != 0)
+            if (RestoreDatabase(Constant.DATABASE, position) == -1)
             {
                 msg.title = "Phục hồi thành công";
                 msg.error = false;
-            }   
+            }
             else
             {
                 msg.title = "Phục hồi thất bại";
                 msg.error = true;
-            }    
+            }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
         //======================= Truy vấn database =============================
@@ -111,67 +111,45 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         //Exec tạo backup device
         private int Exec_Create_Backup_Devices(string strDatabaseName)
         {
-            try
-            {
-                var pathUpload = Path.Combine(Server.MapPath("~/Assets/upload/backupRestore/"));
-                if (!Directory.Exists(pathUpload)) Directory.CreateDirectory(pathUpload);
+            var pathUpload = Path.Combine(Server.MapPath("~/Assets/upload/backupRestore/"));
+            if (!Directory.Exists(pathUpload)) Directory.CreateDirectory(pathUpload);
 
-                string strQuery = string.Format("EXEC sp_addumpdevice '{0}','DEVICE_{1}','{2}.bak'",
-                    "DISK", strDatabaseName, pathUpload + "DEVICE_" + strDatabaseName);
-                int res = DB.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, strQuery);
-                return res;
-            }
-            catch
-            {
-                return 0;
-            }
+            string strQuery = string.Format("EXEC sp_addumpdevice '{0}','DEVICE_{1}','{2}.bak'",
+                "DISK", strDatabaseName, pathUpload + "DEVICE_" + strDatabaseName);
+            int res = DB.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, strQuery);
+            return res;
         }
 
 
         // Danh sách bản backup
         private IEnumerable<SaoLuuPhucHoiViewModel> lstBackup(string strDatabaseName)
         {
-            try
-            {
-                var strQuery = string.Format("SELECT  backup_set_id,   position, description, backup_start_date  FROM  msdb.dbo.backupset " +
-                                              " WHERE database_name = '{0}'  AND type = 'D' AND" +
-                                              "  backup_set_id >=" +
-                                              "         (SELECT MAX(backup_set_id) FROM     msdb.dbo.backupset" +
-                                              "            WHERE media_set_id =" +
-                                              "         (SELECT  MAX(media_set_id)" +
-                                              "              FROM msdb.dbo.backupset" +
-                                              "                   WHERE database_name = '{0}'  AND type = 'D')" +
-                                              "         AND position = 1" +
-                                              " ) " +
-                                              "ORDER BY position DESC", strDatabaseName);
-                var lstBackup = DB.Database.SqlQuery<SaoLuuPhucHoiViewModel>(strQuery).ToList();
-                return lstBackup;
-            }
-            catch
-            {
-                return null;
-            }
+            var strQuery = string.Format("SELECT  backup_set_id,   position, description, backup_start_date  FROM  msdb.dbo.backupset " +
+                                          " WHERE database_name = '{0}'  AND type = 'D' AND" +
+                                          "  backup_set_id >=" +
+                                          "         (SELECT MAX(backup_set_id) FROM     msdb.dbo.backupset" +
+                                          "            WHERE media_set_id =" +
+                                          "         (SELECT  MAX(media_set_id)" +
+                                          "              FROM msdb.dbo.backupset" +
+                                          "                   WHERE database_name = '{0}'  AND type = 'D')" +
+                                          "         AND position = 1" +
+                                          " ) " +
+                                          "ORDER BY position DESC", strDatabaseName);
+            var lstBackup = DB.Database.SqlQuery<SaoLuuPhucHoiViewModel>(strQuery).ToList();
+            return lstBackup;
         }
 
 
         private int BackupDatabase(bool flag, string strDatabaseName)
         {
-            try
+            string strQuery;
+            strQuery = string.Format("BACKUP DATABASE {0} TO DEVICE_{0} ", strDatabaseName);
+            if (flag == true)
             {
-                string strQuery;
-                strQuery = string.Format("BACKUP DATABASE {0} TO DEVICE_{0} ", strDatabaseName);
-                if (flag == true)
-                {
-                    strQuery += " WITH INIT";//xóa các bản sao lưu cũ để lưu bản sao mới
-                }
-                int res = DB.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, strQuery);
-                return res;
+                strQuery += " WITH INIT";//xóa các bản sao lưu cũ để lưu bản sao mới
             }
-            catch
-            {
-                return 0;
-            }
-
+            int res = DB.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, strQuery);
+            return res;
         }
 
 
@@ -188,7 +166,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             strQuery += string.Format("RESTORE DATABASE {0} FROM  DEVICE_{0}  WITH FILE= {1}, REPLACE ;", strDatabaseName, position);
             strQuery += string.Format("ALTER DATABASE {0} SET MULTI_USER ;", strDatabaseName);
 
-            int res = DB.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, strQuery);
+            int res = DB.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction,strQuery);
             return res;
         }
     }

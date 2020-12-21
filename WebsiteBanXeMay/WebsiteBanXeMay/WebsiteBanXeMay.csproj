@@ -7170,6 +7170,7 @@
     <Content Include="Areas\Admin\Views\SaoLuuPhucHoi\Index.cshtml" />
     <Content Include="Areas\Admin\Views\SanPham\Index.cshtml" />
     <Content Include="Areas\Admin\Views\SanPham\SuaSanPhamPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\KhachHang\SuaKhachHangPartial.cshtml" />
     <EntityDeploy Include="Models\BANXEMAYONLINE.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>BANXEMAYONLINE.Designer.cs</LastGenOutput>
@@ -7177,7 +7178,6 @@
     <Content Include="Models\BANXEMAYONLINE.edmx.diagram">
       <DependentUpon>BANXEMAYONLINE.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\KhachHang\SuaKhachHangPartial.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

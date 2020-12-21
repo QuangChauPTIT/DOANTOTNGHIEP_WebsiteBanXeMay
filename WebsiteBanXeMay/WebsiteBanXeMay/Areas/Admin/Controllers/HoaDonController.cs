@@ -29,6 +29,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 var objKhacHang = getKhachHang(objPhieuMua.MAKH);
                 var objNhanVienDuyet = getNhanVien(objPhieuMua.MANVD);
                 var objNhanVienGiaoHang = getNhanVien(objPhieuMua.MANVGH);
+                var objQuan_NguoiMua = getQuan(objKhacHang.MAQUAN);
+                var objQuan_NguoiNhan = getQuan(objPhieuMua.MAQUAN);
 
                 ReportDocument reportDocument = new ReportDocument();
                 reportDocument.Load(Path.Combine(Server.MapPath("~/Areas/Admin/Reports/HoaDon/CrystalReport.rpt")));
@@ -38,15 +40,14 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtNgayLapHoaDon"]).Text = string.Format("Ngày {0} tháng {1} năm {2}", objHoaDon.NGAY.Day, objHoaDon.NGAY.Month, objHoaDon.NGAY.Year);
 
                 ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtHoTenNguoiMua"]).Text = objKhacHang.HO + " " + objKhacHang.TEN;
-                ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtDiaChiNguoiMua"]).Text = objKhacHang.DIACHI;
+                ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtDiaChiNguoiMua"]).Text = string.Format("{0}, {1}, TP.Hồ Chí Minh", objKhacHang.DIACHI, objQuan_NguoiMua.TENQUAN);
                 ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtSoDienThoaiNguoiMua"]).Text = objKhacHang.SDT;
                 ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtMaSoThue"]).Text = objHoaDon.MASOTHUE ?? "";
                 ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtNgayMua"]).Text = objPhieuMua.NGAYMUA.ToString("dd/MM/yyyy");
 
                 ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtHoTenNguoiNhan"]).Text = objPhieuMua.HO + " " + objPhieuMua.TEN;
-                ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtDiaChiNguoiNhan"]).Text = objPhieuMua.DIACHI;
+                ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtDiaChiNguoiNhan"]).Text = string.Format("{0}, {1}, TP.Hồ Chí Minh", objKhacHang.DIACHI, objQuan_NguoiNhan.TENQUAN);
                 ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtSoDienThoaiNguoiNhan"]).Text = objPhieuMua.SDT;
-
 
                 ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtHoTenKhachHangNhan_2"]).Text = objPhieuMua.HO + " " + objPhieuMua.TEN;
                 ((TextObject)reportDocument.ReportDefinition.ReportObjects["txtHoTenNhanVienGiaoHang"]).Text = objNhanVienGiaoHang.HO + " " + objNhanVienGiaoHang.TEN;
@@ -94,6 +95,11 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         private KHACHHANG getKhachHang(int MaKH)
         {
             return DB.KHACHHANGs.FirstOrDefault(x => x.MAKH == MaKH);
+        }
+
+        private QUAN getQuan(int MaQuan)
+        {
+            return DB.QUANs.FirstOrDefault(x => x.MAQUAN == MaQuan);
         }
         // Danh sách sản phẩm khách hàng đặt
         private IEnumerable<HoaDonViewModel> lstSanPhamDaDatTheoPhieuMua(int MaPM)

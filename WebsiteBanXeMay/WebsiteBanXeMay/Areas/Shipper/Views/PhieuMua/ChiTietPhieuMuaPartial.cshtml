@@ -34,10 +34,10 @@
                                         <img src="@Url.Content("~/Assets/upload/images/"+PhieuMuaViewModel.HINHANH)" width="100" height="100" alt="@PhieuMuaViewModel.HINHANH ">
                                     </td>
                                     <td>
-                                        @PhieuMuaViewModel.SOLUONG
-                                    </td>
+                                        <span style="float:right">@PhieuMuaViewModel.SOLUONG</span>
+</td>
                                     <td>
-                                        <span class="money" style="color:red">@(PhieuMuaViewModel.GIA *PhieuMuaViewModel.SOLUONG)</span>
+                                        <span class="money" style="color:red;float:right">@(PhieuMuaViewModel.GIA *PhieuMuaViewModel.SOLUONG)</span>
                                     </td>
                                 </tr>
                             }
@@ -50,6 +50,17 @@
                         }
 
                     </table>
+                    @if (Model.Count() > 0)
+                    {
+                        double Tong = 0;
+                        foreach (var obj in Model)
+                        {
+                            Tong += obj.GIA * obj.SOLUONG;
+                        }
+                        <div>
+                            <span style="float:right;font-size:16px;">Tổng:  <span class="money" style="color:red">@Tong</span></span>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

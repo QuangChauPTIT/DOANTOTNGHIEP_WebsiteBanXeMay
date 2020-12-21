@@ -119,7 +119,7 @@ namespace WebsiteBanXeMay.Controllers
                                                 join quan in DB.QUANs on phieumua.MAQUAN equals quan.MAQUAN
                                                 where
                                                 (sanpham.MAPM != null)
-                                                && (TrangThai == null ? (phieumua.TRANGTHAI == 0 || phieumua.TRANGTHAI == 1 || phieumua.TRANGTHAI == 2) : phieumua.TRANGTHAI == TrangThai)
+                                                && (TrangThai == null || phieumua.TRANGTHAI == TrangThai)
                                                 && (phieumua.MAKH == MaKH)
                                                 select new
                                                 {
@@ -139,7 +139,7 @@ namespace WebsiteBanXeMay.Controllers
                                                           group query_SoLuongLoaiSanPhamDaDat by query_SoLuongLoaiSanPhamDaDat.MALOAI into g
                                                           select new
                                                           {
-                                                              MAPM = g.Select(x=>x.MAPM).FirstOrDefault(),
+                                                              MAPM = g.Select(x => x.MAPM).FirstOrDefault(),
                                                               MALOAI = g.Key,
                                                               HO = g.Select(x => x.HO).FirstOrDefault(),
                                                               TEN = g.Select(x => x.TEN).FirstOrDefault(),

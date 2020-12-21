@@ -22,7 +22,7 @@ namespace WebsiteBanXeMay.Areas.Shipper.Controllers
             var Model = new PageUtil
             {
                 PageSize = 10,
-                Data = lstPhieuMuaTheoTrangThaiVaNhanVien(TaiKhoan.MA,1),
+                Data = lstPhieuMuaTheoTrangThaiVaNhanVien(TaiKhoan.MA,1).OrderBy(x=>x.NGAYGIAO),
                 CurrentPage = Trang
             };
             return View(Model);
@@ -34,7 +34,7 @@ namespace WebsiteBanXeMay.Areas.Shipper.Controllers
             var Model = new PageUtil
             {
                 PageSize = 10,
-                Data = lstPhieuMuaTheoTrangThaiVaNhanVien(TaiKhoan.MA, 2),
+                Data = lstPhieuMuaTheoTrangThaiVaNhanVien(TaiKhoan.MA, 2).OrderByDescending(x => x.NGAYGIAO),
                 CurrentPage = Trang
             };
             return View(Model);

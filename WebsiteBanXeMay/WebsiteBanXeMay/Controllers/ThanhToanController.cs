@@ -116,7 +116,7 @@ namespace WebsiteBanXeMay.Controllers
                                     Session[Constant.SESSION_CART] = null;
                                     transaction.Commit();
                                 }
-                                catch
+                                catch(Exception ex)
                                 {
                                     transaction.Rollback();
                                     return RedirectToAction("ThemPhieuMua", "PhieuMua");

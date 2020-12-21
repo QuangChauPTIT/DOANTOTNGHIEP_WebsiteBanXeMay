@@ -22,7 +22,6 @@ namespace WebsiteBanXeMay.Models
         [StringLength(15, ErrorMessage = "Số máy không được quá 15 ký tự")]
         public string SOMAY { get; set; }
         public Nullable<int> MAPM { get; set; }
-        public Nullable<int> MAPT { get; set; }
         public int MACTPN { get; set; }
         public double GIA { get; set; }
     }
