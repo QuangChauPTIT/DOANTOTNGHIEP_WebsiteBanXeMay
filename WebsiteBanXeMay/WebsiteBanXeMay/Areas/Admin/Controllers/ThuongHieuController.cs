@@ -116,7 +116,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 catch
                 {
                     msg.error = true;
-                    msg.title = "Hiệu chỉnh lỗi";
+                    msg.title = "Không thể hiệu chỉnh thương hiệu";
                 }
             }
             else
@@ -151,7 +151,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 catch
                 {
                     msg.error = true;
-                    msg.title = "Xóa lỗi";
+                    msg.title = "Không thể xóa thương hiệu";
                 }
             }   
             else

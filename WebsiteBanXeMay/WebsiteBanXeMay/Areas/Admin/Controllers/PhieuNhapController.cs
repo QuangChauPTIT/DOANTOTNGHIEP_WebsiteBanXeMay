@@ -308,14 +308,14 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                 else if (DB.SANPHAMs.FirstOrDefault(x => x.SOKHUNG == objChiTiet.SOKHUNG) != null)
                                 {
                                     msg.error = true;
-                                    msg.title = string.Format("Số khung {0} của loại sản phẩm mã: {0} đã tồn tại", objChiTiet.SOKHUNG, objChiTiet.MALOAI);
+                                    msg.title = string.Format("Số khung {0} của loại sản phẩm mã: {1} đã tồn tại", objChiTiet.SOKHUNG, objChiTiet.MALOAI);
                                     flag = true;
                                     break;
                                 }
                                 else if (DB.SANPHAMs.FirstOrDefault(x => x.SOMAY == objChiTiet.SOMAY) != null)
                                 {
                                     msg.error = true;
-                                    msg.title = string.Format("Số máy {0} của loại sản phẩm mã: {0} đã tồn tại", objChiTiet.SOMAY, objChiTiet.MALOAI);
+                                    msg.title = string.Format("Số máy {0} của loại sản phẩm mã: {1} đã tồn tại", objChiTiet.SOMAY, objChiTiet.MALOAI);
                                     flag = true;
                                     break;
                                 }
@@ -339,7 +339,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                         MALOAI = maLoai,
                                         MAPN = objPhieuNhap.MAPN,
                                         SOLUONG = lstChiTiet.Where(x => x.MALOAI == maLoai).ToList().Count(),
-                                        GIA = lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA + (lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA * Constant.PHANTRAM)
+                                        GIA = lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA + (lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA * Constant.PHANTRAM/100)
                                     };
                                     DB.CT_PHIEUNHAP.Add(objChiTietPhieuNhap);
                                     DB.SaveChanges();
@@ -351,7 +351,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                             MACTPN = objChiTietPhieuNhap.MACTPN,
                                             SOKHUNG = objChiTiet.SOKHUNG,
                                             SOMAY = objChiTiet.SOMAY,
-                                            GIA = objChiTiet.GIA * (objChiTiet.GIA * Constant.PHANTRAM)
+                                            GIA = objChiTiet.GIA * (objChiTiet.GIA * Constant.PHANTRAM/100)
                                         };
                                         DB.SANPHAMs.Add(objSanPham);
                                         DB.SaveChanges();
@@ -582,14 +582,14 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                 else if (DB.SANPHAMs.FirstOrDefault(x => x.SOKHUNG == objChiTiet.SOKHUNG) != null)
                                 {
                                     msg.error = true;
-                                    msg.title = string.Format("Số khung {0} của loại sản phẩm mã: {0} đã tồn tại", objChiTiet.SOKHUNG, objChiTiet.MALOAI);
+                                    msg.title = string.Format("Số khung {0} của loại sản phẩm mã: {1} đã tồn tại", objChiTiet.SOKHUNG, objChiTiet.MALOAI);
                                     flag = true;
                                     break;
                                 }
                                 else if (DB.SANPHAMs.FirstOrDefault(x => x.SOMAY == objChiTiet.SOMAY) != null)
                                 {
                                     msg.error = true;
-                                    msg.title = string.Format("Số máy {0} của loại sản phẩm mã: {0} đã tồn tại", objChiTiet.SOMAY, objChiTiet.MALOAI);
+                                    msg.title = string.Format("Số máy {0} của loại sản phẩm mã: {1} đã tồn tại", objChiTiet.SOMAY, objChiTiet.MALOAI);
                                     flag = true;
                                     break;
                                 }
@@ -613,7 +613,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                         MALOAI = maLoai,
                                         MAPN = objPhieuNhap.MAPN,
                                         SOLUONG = lstChiTiet.Where(x => x.MALOAI == maLoai).ToList().Count(),
-                                        GIA = lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA + (lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA * Constant.PHANTRAM)
+                                        GIA = lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA + (lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA * Constant.PHANTRAM/100)
                                     };
                                     DB.CT_PHIEUNHAP.Add(objChiTietPhieuNhap);
                                     DB.SaveChanges();
@@ -625,7 +625,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                             MACTPN = objChiTietPhieuNhap.MACTPN,
                                             SOKHUNG = objChiTiet.SOKHUNG,
                                             SOMAY = objChiTiet.SOMAY,
-                                            GIA = objChiTiet.GIA + (objChiTiet.GIA * Constant.PHANTRAM)
+                                            GIA = objChiTiet.GIA + (objChiTiet.GIA * Constant.PHANTRAM/100)
                                         };
                                         DB.SANPHAMs.Add(objSanPham);
                                         DB.SaveChanges();

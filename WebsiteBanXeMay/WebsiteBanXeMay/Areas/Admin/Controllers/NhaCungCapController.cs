@@ -101,7 +101,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 catch
                 {
                     msg.error = true;
-                    msg.title = "Hiệu chỉnh lỗi";
+                    msg.title = "Không thể hiệu chỉnh nhà cung cấp";
                 }
             }
             else
@@ -136,7 +136,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 catch
                 {
                     msg.error = true;
-                    msg.title = "Xóa lỗi";
+                    msg.title = "Không thể xóa nhà cung cấp";
                 }
             }
             else
