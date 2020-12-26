@@ -351,7 +351,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                             MACTPN = objChiTietPhieuNhap.MACTPN,
                                             SOKHUNG = objChiTiet.SOKHUNG,
                                             SOMAY = objChiTiet.SOMAY,
-                                            GIA = objChiTiet.GIA * (objChiTiet.GIA * Constant.PHANTRAM/100)
+                                            GIA = objChiTiet.GIA + (objChiTiet.GIA * Constant.PHANTRAM/100)
                                         };
                                         DB.SANPHAMs.Add(objSanPham);
                                         DB.SaveChanges();
