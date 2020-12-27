@@ -29,11 +29,11 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <label>Từ ngày</label>
-                                    <input type="date" name="NgayBatDau" max="@DateTime.Now.ToString("yyyy-MM-dd")" value="@(ViewBag.NgayBatDau != null?ViewBag.NgayBatDau.ToString("yyyy-MM-dd"):"2020-11-01")" class="form-control" />
+                                    <input type="date" name="NgayBatDau" max="@DateTime.Now.ToString("yyyy-MM-dd")" min="2020-11-01" value="@(ViewBag.NgayBatDau != null?ViewBag.NgayBatDau.ToString("yyyy-MM-dd"):"2020-11-01")" class="form-control" />
                                 </div>
                                 <div class="col-md-4">
                                     <label>Đến ngày</label>
-                                    <input type="date" name="NgayKetThuc" max="@DateTime.Now.ToString("yyyy-MM-dd")" value="@(ViewBag.NgayKetThuc != null?ViewBag.NgayKetThuc.ToString("yyyy-MM-dd"):DateTime.Now.ToString("yyyy-MM-dd"))" class="form-control" />
+                                    <input type="date" name="NgayKetThuc"  max="@DateTime.Now.ToString("yyyy-MM-dd")" min="2020-11-01" value="@(ViewBag.NgayKetThuc != null?ViewBag.NgayKetThuc.ToString("yyyy-MM-dd"):DateTime.Now.ToString("yyyy-MM-dd"))" class="form-control" />
                                 </div>
                                 <div class="col-md-1" style="margin-top:2.3%">
                                     <button title="Tìm kiếm" class="btn btn-info"><i class="fa fa-search"></i></button>
@@ -93,7 +93,7 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="7" class="text-center"><span>Không có dữ liệu</span></td>
+                                    <td colspan="9" class="text-center"><span>Không có dữ liệu</span></td>
                                 </tr>
                             }
                         </table>
@@ -105,7 +105,7 @@
                                 Tong += LoaiSanPham.LOINHUAN;
                             }
                             <div>
-                                <span style="float:right;font-size:16px;padding-right:5%;">Tổng lợi nhuận:  <span class="money" style="color:red">@Tong</span></span>
+                                <span style="float:right;font-size:16px;">Tổng lợi nhuận:  <span class="money" style="color:red">@Tong</span></span>
                             </div>
                         }
                     </div>

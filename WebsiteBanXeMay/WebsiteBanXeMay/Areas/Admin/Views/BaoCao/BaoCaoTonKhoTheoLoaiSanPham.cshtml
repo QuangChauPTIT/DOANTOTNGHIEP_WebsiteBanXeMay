@@ -28,7 +28,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <label>Thông kê tồn kho đến ngày:</label>
-                                    <input type="date" name="Ngay" max="@DateTime.Now.ToString("yyyy-MM-dd")" value="@(ViewBag.Ngay != null?ViewBag.Ngay.ToString("yyyy-MM-dd"):DateTime.Now.ToString("yyyy-MM-dd"))" class="form-control" />
+                                    <input type="date" name="Ngay" max="@DateTime.Now.ToString("yyyy-MM-dd")" min="2020-11-01" value="@(ViewBag.Ngay != null?ViewBag.Ngay.ToString("yyyy-MM-dd"):DateTime.Now.ToString("yyyy-MM-dd"))" class="form-control" />
                                 </div>
                                 <div class="col-md-1" style="margin-top:2.3%">
                                     <button title="Tìm kiếm" class="btn btn-info"><i class="fa fa-search"></i></button>
@@ -86,7 +86,7 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="7" class="text-center"><span>Không có dữ liệu</span></td>
+                                    <td colspan="8" class="text-center"><span>Không có dữ liệu</span></td>
                                 </tr>
                             }
                         </table>

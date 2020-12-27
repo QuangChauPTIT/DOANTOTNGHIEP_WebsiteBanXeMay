@@ -27,52 +27,75 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult BaoCaoDoanhThuTheoLoaiSanPham(DateTime? NgayBatDau, DateTime? NgayKetThuc, int Trang = 1)
         {
-            DateTime begin = NgayBatDau ?? Convert.ToDateTime("2020-11-01");
-            DateTime end = NgayKetThuc ?? DateTime.Now;
+            DateTime beginTmp = NgayBatDau ?? Convert.ToDateTime("2020-11-01");
+            DateTime endTmp = NgayKetThuc ?? DateTime.Now;
+
+            string strBegin = string.Format("{0}-{1}-{2} 12:00:00 AM", beginTmp.Year, beginTmp.Month, beginTmp.Day);
+            string strEnd = string.Format("{0}-{1}-{2} 11:59:59 PM", endTmp.Year, endTmp.Month, endTmp.Day);
+
+            DateTime begin = Convert.ToDateTime(strBegin);
+            DateTime end = Convert.ToDateTime(strEnd);
+
             var Model = new PageUtil
             {
                 PageSize = 10,
                 Data = lstDoanhThuTheoLoaiSanPham(begin, end),
                 CurrentPage = Trang
             };
-            ViewBag.NgayBatDau = begin;
-            ViewBag.NgayKetThuc = end;
+            ViewBag.NgayBatDau = beginTmp;
+            ViewBag.NgayKetThuc = endTmp;
             return View(Model);
         }
 
         [HttpGet]
         public ActionResult BaoCaoTonKhoTheoLoaiSanPham(DateTime? Ngay, int Trang = 1)
         {
-            DateTime end = Ngay ?? DateTime.Now;
+            DateTime endTmp = Ngay ?? DateTime.Now;
+            string strEnd = string.Format("{0}-{1}-{2} 11:59:59 PM", endTmp.Year, endTmp.Month, endTmp.Day);
+            DateTime end = Convert.ToDateTime(strEnd);
+
             var Model = new PageUtil
             {
                 PageSize = 10,
                 Data = lsTonKhoTheoLoaiSanPham(end),
                 CurrentPage = Trang
             };
-            ViewBag.Ngay = end;
+            ViewBag.Ngay = endTmp;
             return View(Model);
         }
 
         [HttpGet]
         public ActionResult BaoCaoLoiNhuanTheoLoaiSanPham(DateTime? NgayBatDau, DateTime? NgayKetThuc, int Trang = 1)
         {
-            DateTime begin = NgayBatDau ?? Convert.ToDateTime("2020-11-01");
-            DateTime end = NgayKetThuc ?? DateTime.Now;
+            DateTime beginTmp = NgayBatDau ?? Convert.ToDateTime("2020-11-01");
+            DateTime endTmp = NgayKetThuc ?? DateTime.Now;
+
+            string strBegin = string.Format("{0}-{1}-{2} 12:00:00 AM", beginTmp.Year, beginTmp.Month, beginTmp.Day);
+            string strEnd = string.Format("{0}-{1}-{2} 11:59:59 PM", endTmp.Year, endTmp.Month, endTmp.Day);
+
+            DateTime begin = Convert.ToDateTime(strBegin);
+            DateTime end = Convert.ToDateTime(strEnd);
+
             var Model = new PageUtil
             {
                 PageSize = 10,
                 Data = lstLoiNhuanTheoLoaiSanPham(begin, end),
                 CurrentPage = Trang
             };
-            ViewBag.NgayBatDau = begin;
-            ViewBag.NgayKetThuc = end;
+            ViewBag.NgayBatDau = beginTmp;
+            ViewBag.NgayKetThuc = endTmp;
             return View(Model);
         }
         public ActionResult Export_BaoCaoDoanhThuTheoLoaiSanPham(DateTime? NgayBatDau, DateTime? NgayKetThuc)
         {
-            DateTime begin = NgayBatDau ?? Convert.ToDateTime("2020-11-01");
-            DateTime end = NgayKetThuc ?? DateTime.Now;
+            DateTime beginTmp = NgayBatDau ?? Convert.ToDateTime("2020-11-01");
+            DateTime endTmp = NgayKetThuc ?? DateTime.Now;
+
+            string strBegin = string.Format("{0}-{1}-{2} 12:00:00 AM", beginTmp.Year, beginTmp.Month, beginTmp.Day);
+            string strEnd = string.Format("{0}-{1}-{2} 11:59:59 PM", endTmp.Year, endTmp.Month, endTmp.Day);
+
+            DateTime begin = Convert.ToDateTime(strBegin);
+            DateTime end = Convert.ToDateTime(strEnd);
             try
             {
                 var objTaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
@@ -100,7 +123,9 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
 
         public ActionResult Export_BaoCaoTonKhoTheoLoaiSanPham(DateTime? Ngay)
         {
-            DateTime end = Ngay ?? DateTime.Now;
+            DateTime endTmp = Ngay ?? DateTime.Now;
+            string strEnd = string.Format("{0}-{1}-{2} 11:59:59 PM", endTmp.Year, endTmp.Month, endTmp.Day);
+            DateTime end = Convert.ToDateTime(strEnd);
             try
             {
                 var objTaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
@@ -128,8 +153,14 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
 
         public ActionResult Export_BaoCaoLoiNhuanTheoLoaiSanPham(DateTime? NgayBatDau, DateTime? NgayKetThuc)
         {
-            DateTime begin = NgayBatDau ?? Convert.ToDateTime("2020-11-01");
-            DateTime end = NgayKetThuc ?? DateTime.Now;
+            DateTime beginTmp = NgayBatDau ?? Convert.ToDateTime("2020-11-01");
+            DateTime endTmp = NgayKetThuc ?? DateTime.Now;
+
+            string strBegin = string.Format("{0}-{1}-{2} 12:00:00 AM", beginTmp.Year, beginTmp.Month, beginTmp.Day);
+            string strEnd = string.Format("{0}-{1}-{2} 11:59:59 PM", endTmp.Year, endTmp.Month, endTmp.Day);
+
+            DateTime begin = Convert.ToDateTime(strBegin);
+            DateTime end = Convert.ToDateTime(strEnd);
             try
             {
                 var objTaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
@@ -154,7 +185,6 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
 
         }
         // ==============================  Lấy dữ liệu từ database  ================================
-        //Số lượng sản phẩm bán được theo loại sản phẩm - thời gian
         private IEnumerable<BaoCaoDoanhThuTheoLoaiSanPhamViewModel> lstDoanhThuTheoLoaiSanPham(DateTime begin, DateTime end)
         {
             var queryLoaiSanPham = from sanpham in DB.SANPHAMs
@@ -164,7 +194,6 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                    join thuonghieu in DB.THUONGHIEUx on loaisanpham.MATH equals thuonghieu.MATH
                                    where
                                    (begin <= phieumua.NGAYMUA && end >= phieumua.NGAYMUA)
-                                   && (phieumua.TRANGTHAI == 1 || phieumua.TRANGTHAI == 2)
                                    select new
                                    {
                                        MALOAI = loaisanpham.MALOAI,
@@ -196,7 +225,6 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                              join phieumua in DB.PHIEUMUAs on sanpham.MAPM equals phieumua.MAPM
                                              where
                                              phieumua.NGAYMUA <= end
-                                             && (phieumua.TRANGTHAI == 1 || phieumua.TRANGTHAI == 2)
                                              group loaisanpham by loaisanpham.MALOAI into g
                                              select new
                                              {
@@ -248,7 +276,6 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                              join phieumua in DB.PHIEUMUAs on sanpham.MAPM equals phieumua.MAPM
                                              where
                                              (begin <= phieumua.NGAYMUA && end >= phieumua.NGAYMUA)
-                                             && (phieumua.TRANGTHAI == 1 || phieumua.TRANGTHAI == 2)
                                              select new
                                              {
                                                  MALOAI = loaisanpham.MALOAI,
@@ -296,7 +323,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                                 GIA = g.Sum(x => x.GIA)
                                             };
 
-            var queryDoanhThu = from query_phieunhap in dataLoaiSanPham_PhieuNhap
+            var queryLoiNhuan = from query_phieunhap in dataLoaiSanPham_PhieuNhap
                                 join query_phieumua in dataLoaiSanPham_PhieuMua on query_phieunhap.MALOAI equals query_phieumua.MALOAI into tmp
                                 from g in tmp.DefaultIfEmpty()
                                 select new BaoCaoLoiNhuanTheoLoaiSanPhamViewModel
@@ -310,7 +337,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                     GIAXUATTB = g != null ? Math.Round(g.GIA / g.SOLUONG, 0) : 0,
                                     LOINHUAN = g != null ? Math.Round(g.SOLUONG * ((g.GIA / g.SOLUONG) - (query_phieunhap.GIA / query_phieunhap.SOLUONG)), 0) : 0
                                 };
-            return queryDoanhThu.OrderBy(x => x.TENTH).ToList();
+            return queryLoiNhuan.OrderBy(x => x.TENTH).ToList();
 
         }
     }

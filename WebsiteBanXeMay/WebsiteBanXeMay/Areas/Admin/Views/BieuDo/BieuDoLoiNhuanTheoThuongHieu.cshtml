@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "BieuDoLoiNhuanTheoThuongHieu";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    @*content-wrapper*@
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Lợi nhuận
+        </h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-dashboard"></i> Biểu đồ</li>
+            <li class="active">Lợi nhuận</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <form action="/Admin/BieuDo/BieuDoLoiNhuanTheoThuongHieu" method="get">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Từ ngày</label>
+                                    <input type="date" name="NgayBatDau" max="@DateTime.Now.ToString("yyyy-MM-dd")" min="2020-11-01" value="@(ViewBag.NgayBatDau != null?ViewBag.NgayBatDau.ToString("yyyy-MM-dd"):"2020-11-01")" class="form-control" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Đến ngày</label>
+                                    <input type="date" name="NgayKetThuc" max="@DateTime.Now.ToString("yyyy-MM-dd")" min="2020-11-01" value="@(ViewBag.NgayKetThuc != null?ViewBag.NgayKetThuc.ToString("yyyy-MM-dd"):DateTime.Now.ToString("yyyy-MM-dd"))" class="form-control" />
+                                </div>
+                                <div class="col-md-1" style="margin-top:2.3%">
+                                    <button title="Tìm kiếm" class="btn btn-info"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div id="chartContainer" style="height: 370px; width: 100%; margin-top:2%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+
+
+<script>
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	theme: "light2", // "light1", "dark1", "dark2"
+	exportEnabled: true,
+	title: {
+		text: "Lợi nhuận theo thương hiệu"
+	},
+	data: [{
+		type: "column",
+        indexLabel: "{y} VND",
+		dataPoints:  @Html.Raw(ViewBag.lstLoiNhuanTheoThuongHieu)
+	}]
+});
+chart.render();
+
+}
+</script>

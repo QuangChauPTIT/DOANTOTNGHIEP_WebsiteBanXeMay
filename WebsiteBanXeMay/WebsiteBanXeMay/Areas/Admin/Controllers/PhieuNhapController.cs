@@ -339,7 +339,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                         MALOAI = maLoai,
                                         MAPN = objPhieuNhap.MAPN,
                                         SOLUONG = lstChiTiet.Where(x => x.MALOAI == maLoai).ToList().Count(),
-                                        GIA = lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA + (lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA * Constant.PHANTRAM/100)
+                                        GIA = lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA
                                     };
                                     DB.CT_PHIEUNHAP.Add(objChiTietPhieuNhap);
                                     DB.SaveChanges();
@@ -351,13 +351,13 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                             MACTPN = objChiTietPhieuNhap.MACTPN,
                                             SOKHUNG = objChiTiet.SOKHUNG,
                                             SOMAY = objChiTiet.SOMAY,
-                                            GIA = objChiTiet.GIA + (objChiTiet.GIA * Constant.PHANTRAM/100)
+                                            GIA = objChiTiet.GIA
                                         };
                                         DB.SANPHAMs.Add(objSanPham);
                                         DB.SaveChanges();
                                     }
                                     var objLoaiSanPham = DB.LOAISANPHAMs.FirstOrDefault(x => x.MALOAI == maLoai);
-                                    objLoaiSanPham.GIA = objChiTietPhieuNhap.GIA ;
+                                    objLoaiSanPham.GIA = objChiTietPhieuNhap.GIA + (objChiTietPhieuNhap.GIA * Constant.PHANTRAM / 100);
                                     objLoaiSanPham.TRANGTHAI = 0;
                                     DB.SaveChanges();
                                 }
@@ -613,7 +613,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                         MALOAI = maLoai,
                                         MAPN = objPhieuNhap.MAPN,
                                         SOLUONG = lstChiTiet.Where(x => x.MALOAI == maLoai).ToList().Count(),
-                                        GIA = lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA + (lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA * Constant.PHANTRAM/100)
+                                        GIA = lstChiTiet.FirstOrDefault(x => x.MALOAI == maLoai).GIA
                                     };
                                     DB.CT_PHIEUNHAP.Add(objChiTietPhieuNhap);
                                     DB.SaveChanges();
@@ -625,13 +625,13 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                             MACTPN = objChiTietPhieuNhap.MACTPN,
                                             SOKHUNG = objChiTiet.SOKHUNG,
                                             SOMAY = objChiTiet.SOMAY,
-                                            GIA = objChiTiet.GIA + (objChiTiet.GIA * Constant.PHANTRAM/100)
+                                            GIA = objChiTiet.GIA
                                         };
                                         DB.SANPHAMs.Add(objSanPham);
                                         DB.SaveChanges();
                                     }
                                     var objLoaiSanPham = DB.LOAISANPHAMs.FirstOrDefault(x => x.MALOAI == maLoai);
-                                    objLoaiSanPham.GIA = objChiTietPhieuNhap.GIA;
+                                    objLoaiSanPham.GIA = objChiTietPhieuNhap.GIA + (objChiTietPhieuNhap.GIA * Constant.PHANTRAM / 100);
                                     objLoaiSanPham.TRANGTHAI = 0;
                                     DB.SaveChanges();
                                 }

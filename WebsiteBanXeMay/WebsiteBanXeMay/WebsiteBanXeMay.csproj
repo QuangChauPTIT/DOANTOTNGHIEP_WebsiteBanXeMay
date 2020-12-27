@@ -143,6 +143,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BaoCaoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BieuDoController.cs" />
     <Compile Include="Areas\Admin\Controllers\HoaDonController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhachHangController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhuyenMaiController.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="Areas\Admin\Controllers\SaoLuuPhucHoiController.cs" />
     <Compile Include="Areas\Admin\Controllers\TaiKhoanController.cs" />
     <Compile Include="Areas\Admin\Controllers\ThuongHieuController.cs" />
+    <Compile Include="Areas\Admin\Models\DataPoint.cs" />
     <Compile Include="Areas\Admin\Reports\DoanhThu\LoaiSanPham\CrystalReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -7178,6 +7180,7 @@
     <Content Include="Models\BANXEMAYONLINE.edmx.diagram">
       <DependentUpon>BANXEMAYONLINE.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admin\Views\BieuDo\BieuDoLoiNhuanTheoThuongHieu.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
