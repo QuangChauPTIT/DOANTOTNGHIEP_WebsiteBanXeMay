@@ -264,13 +264,13 @@ namespace WebsiteBanXeMay.Controllers
         private bool KiemTraChoPhepDanhGia(string MaLoai, int MaKH)
         {
             var queryLoaiSanPhamDaMua = (from khachhang in DB.KHACHHANGs
-                                         join phieudat in DB.PHIEUMUAs on khachhang.MAKH equals phieudat.MAKH
-                                         join sanpham in DB.SANPHAMs on phieudat.MAPM equals sanpham.MAPM
+                                         join phieumua in DB.PHIEUMUAs on khachhang.MAKH equals phieumua.MAKH
+                                         join sanpham in DB.SANPHAMs on phieumua.MAPM equals sanpham.MAPM
                                          join ct_phieunhap in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_phieunhap.MACTPN
                                          join loaisanpham in DB.LOAISANPHAMs on ct_phieunhap.MALOAI equals loaisanpham.MALOAI
                                          where
                                          (khachhang.MAKH == MaKH)
-                                         && (phieudat.TRANGTHAI == 2)
+                                         && (phieumua.TRANGTHAI == 2)
                                          && (sanpham.MAPM != null)
                                          && (loaisanpham.MALOAI == MaLoai)
                                          select new

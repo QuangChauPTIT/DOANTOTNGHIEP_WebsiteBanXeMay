@@ -20,6 +20,15 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public ActionResult BieuDoDoanhThuTheoThangTrongNam(int? Nam)
+        {
+            int year = Nam ?? DateTime.Now.Year;
+            ViewBag.lstYear = lstYear();
+            ViewBag.lstDoanhThuTheoThangTrongNam = JsonConvert.SerializeObject(lstDoanhThuTheoThangTrongNam(year));
+            ViewBag.year = year;
+            return View();
+        }
+        [HttpGet]
         public ActionResult BieuDoLoiNhuanTheoThuongHieu(DateTime? NgayBatDau, DateTime? NgayKetThuc)
         {
             DateTime beginTmp = NgayBatDau ?? Convert.ToDateTime("2020-11-01");
@@ -31,11 +40,42 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             DateTime begin = Convert.ToDateTime(strBegin);
             DateTime end = Convert.ToDateTime(strEnd);
 
-            ViewBag.lstLoiNhuanTheoThuongHieu = JsonConvert.SerializeObject(lstLoiNhuanTheoThuongHieu(begin,end));
+            ViewBag.lstLoiNhuanTheoThuongHieu = JsonConvert.SerializeObject(lstLoiNhuanTheoThuongHieu(begin, end));
 
             ViewBag.NgayBatDau = beginTmp;
             ViewBag.NgayKetThuc = endTmp;
             return View();
+        }
+
+        private IEnumerable<int> lstYear()
+        {
+            return DB.PHIEUMUAs.Select(x => x.NGAYMUA.Year).Distinct();
+        }
+
+        private IEnumerable<DataPoint> lstDoanhThuTheoThangTrongNam(int year)
+        {
+            List<DataPoint> lstDoanhThu = new List<DataPoint>();
+            for (int i = 1; i <= 12; i++)
+            {
+                var query = (from sanpham in DB.SANPHAMs
+                             join phieumua in DB.PHIEUMUAs on sanpham.MAPM equals phieumua.MAPM
+                             join ct_phieunhap in DB.CT_PHIEUNHAP on sanpham.MACTPN equals ct_phieunhap.MACTPN
+                             join loaisanpham in DB.LOAISANPHAMs on ct_phieunhap.MALOAI equals loaisanpham.MALOAI
+                             join thuonghieu in DB.THUONGHIEUx on loaisanpham.MATH equals thuonghieu.MATH
+                             where
+                             (phieumua.NGAYMUA.Year == year && phieumua.NGAYMUA.Month == i)
+                             select new
+                             {
+                                 GIA = sanpham.GIA
+                             }).ToList();
+                var sum = query != null ? query.Sum(x => x.GIA) : 0;
+                lstDoanhThu.Add(new DataPoint
+                {
+                    Label = "Tháng " + i,
+                    Y = sum
+                });
+            }
+            return lstDoanhThu;
         }
 
         private IEnumerable<DataPoint> lstLoiNhuanTheoThuongHieu(DateTime begin, DateTime end)
