@@ -24,6 +24,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 Data = lstLoaiSanPham(TenLoai),
                 CurrentPage = Trang
             };
+            ViewBag.TENLOAI = TenLoai;
             return View(Model);
         }
 
@@ -203,6 +204,16 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
+
+        //Autocomplete tên loại sản phẩm
+        [HttpGet]
+        public JsonResult lstTenLoaiSanPham(string term)
+        {
+            var lstTenLoaiSanPham = DB.LOAISANPHAMs.Where(x => x.TENLOAI.Contains(term)).Select(x => x.TENLOAI).ToList().Take(10);
+            return Json(lstTenLoaiSanPham, JsonRequestBehavior.AllowGet);
+        }
+
         //========================  Lấy dữ liệu từ database ======================
 
         private IEnumerable<LOAISANPHAM> lstLoaiSanPham(string TenLoai)

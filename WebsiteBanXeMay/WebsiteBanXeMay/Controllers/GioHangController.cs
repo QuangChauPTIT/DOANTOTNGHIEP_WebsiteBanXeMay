@@ -206,20 +206,28 @@ namespace WebsiteBanXeMay.Controllers
                                               SOLUONGTON = g.Count()
                                           }).GroupBy(x => x.MALOAI).Select(y => new { MALOAI = y.Key, SOLUONGTON = y.Sum(z => z.SOLUONGTON) });
 
+            var queryKhuyenMai = from loaisanpham in DB.LOAISANPHAMs
+                                 join ct_khuyenmai in DB.CT_KHUYENMAI on loaisanpham.MALOAI equals ct_khuyenmai.MALOAI
+                                 join khuyenmai in DB.KHUYENMAIs on ct_khuyenmai.MAKM equals khuyenmai.MAKM
+                                 where khuyenmai.NGAYBATDAU <= DateTime.Now && khuyenmai.NGAYKETTHUC >= DateTime.Now
+                                 select new
+                                 {
+                                     MALOAI = loaisanpham.MALOAI,
+                                     PHANTRAM = ct_khuyenmai.PHANTRAM
+                                 };
+
             // Loại sản phẩm có khuyến mãi và không khuyến mãi
             var queryLoaiSanPham = (from query_soluongton in querySoLuongTonSanPham
                                     join loaisanpham in DB.LOAISANPHAMs on query_soluongton.MALOAI equals loaisanpham.MALOAI
-                                    join ct_khuyenmai in DB.CT_KHUYENMAI on loaisanpham.MALOAI equals ct_khuyenmai.MALOAI into ct_khuyenmai_T
-                                    from g1 in ct_khuyenmai_T.DefaultIfEmpty()
-                                    join khuyenmai in DB.KHUYENMAIs on g1.MAKM equals khuyenmai.MAKM into khuyenmai_T
-                                    from g2 in khuyenmai_T.DefaultIfEmpty()
+                                    join query_khuyenmai in queryKhuyenMai on loaisanpham.MALOAI equals query_khuyenmai.MALOAI into query_khuyenmai_T
+                                    from g1 in query_khuyenmai_T.DefaultIfEmpty()
                                     where ((loaisanpham.TRANGTHAI == 0 || loaisanpham.TRANGTHAI == 1) && loaisanpham.MALOAI == MaLoai && query_soluongton.SOLUONGTON > 0)
                                     select new GioHangViewModel
                                     {
                                         MALOAI = loaisanpham.MALOAI,
                                         TENLOAI = loaisanpham.TENLOAI,
                                         HINHANH = loaisanpham.HINHANH,
-                                        GIA = g1 != null ? (g2.NGAYBATDAU <= DateTime.Now && g2.NGAYKETTHUC >= DateTime.Now ? loaisanpham.GIA - loaisanpham.GIA * g1.PHANTRAM / 100 : loaisanpham.GIA) : loaisanpham.GIA
+                                        GIA = g1 != null ? loaisanpham.GIA - loaisanpham.GIA * g1.PHANTRAM / 100 : loaisanpham.GIA,
                                     }).FirstOrDefault();
             return queryLoaiSanPham;
         }

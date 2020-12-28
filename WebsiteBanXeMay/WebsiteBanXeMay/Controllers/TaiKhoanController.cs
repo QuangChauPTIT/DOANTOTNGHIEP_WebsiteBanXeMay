@@ -234,7 +234,6 @@ namespace WebsiteBanXeMay.Controllers
 
         [Authorize(Roles = "admin,staff,customer,shipper")]
         [HttpGet]
-        [AllowAnonymous]
         public ActionResult DangXuat()
         {
 

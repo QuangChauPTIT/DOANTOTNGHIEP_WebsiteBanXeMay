@@ -29,15 +29,15 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <label>Tên loại</label>
-                                    <input type="text" name="TENLOAI" value="@ViewBag.TENLOAI" class="form-control" />
+                                    <input type="text" name="TENLOAI" id="txtTenLoaiSanPham" autocomplete="off" value="@ViewBag.TENLOAI" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label>Số khung</label>
-                                    <input type="text" name="SOKHUNG" value="@ViewBag.SOKHUNG" class="form-control" />
+                                    <input type="text" name="SOKHUNG" id="txtSoKhung" autocomplete="off" value="@ViewBag.SOKHUNG" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label>Số máy</label>
-                                    <input type="text" name="SOMAY" value="@ViewBag.SOMAY" class="form-control" />
+                                    <input type="text" name="SOMAY" id="txtSoMay" autocomplete="off" value="@ViewBag.SOMAY" class="form-control" />
                                 </div>
                                 <div class="col-md-1" style="margin-top:2.3%">
                                     <button title="Tìm kiếm" class="btn btn-info"><i class="fa fa-search"></i></button>
@@ -133,6 +133,20 @@
 </div>
 
 <script>
+
+    $(function () {
+        $("#txtTenLoaiSanPham").autocomplete({
+            source: '/Admin/SanPham/lstTenLoaiSanPham'
+        });
+
+        $("#txtSoKhung").autocomplete({
+            source: '/Admin/SanPham/lstSoKhung'
+        });
+
+        $("#txtSoMay").autocomplete({
+            source: '/Admin/SanPham/lstSoMay'
+        });
+    });
     function getSuaSanPham(MaSP) {
         $.ajax({
             type: "GET",

@@ -67,6 +67,30 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
+        //Autocomplete tên loại sản phẩm
+        [HttpGet]
+        public JsonResult lstTenLoaiSanPham(string term)
+        {
+            var lstTenLoaiSanPham = DB.LOAISANPHAMs.Where(x => x.TENLOAI.Contains(term)).Select(x => x.TENLOAI).ToList().Take(10);
+            return Json(lstTenLoaiSanPham, JsonRequestBehavior.AllowGet);
+        }
+
+        //Autocomplete số khung
+        [HttpGet]
+        public JsonResult lstSoKhung(string term)
+        {
+            var lstSoKhung = DB.SANPHAMs.Where(x => x.SOKHUNG.Contains(term)).Select(x => x.SOKHUNG).ToList().Take(10);
+            return Json(lstSoKhung, JsonRequestBehavior.AllowGet);
+        }
+
+        //Autocomplete số máy
+        [HttpGet]
+        public JsonResult lstSoMay(string term)
+        {
+            var lstSoMay = DB.SANPHAMs.Where(x => x.SOMAY.Contains(term)).Select(x => x.SOMAY).ToList().Take(10);
+            return Json(lstSoMay, JsonRequestBehavior.AllowGet);
+        }
         // ===============================  Truy vấn dữ liệu từ database  =================================
         private IEnumerable<SanPhamViewModel> lstSanPham(string TenLoai, string SoKhung, string SoMay)
         {

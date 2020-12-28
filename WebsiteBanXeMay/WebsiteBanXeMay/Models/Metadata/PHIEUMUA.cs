@@ -34,6 +34,8 @@ namespace WebsiteBanXeMay.Models
         public System.DateTime NGAYGIAO { get; set; }
         public int TRANGTHAI { get; set; }
         public string NOIDUNGCHUY { get; set; }
+        [StringLength(10, ErrorMessage = "Mã số thuế không được quá 10 ký tự")]
+        public string MASOTHUE { get; set; }
         public Nullable<int> MANVD { get; set; }
         public Nullable<int> MANVGH { get; set; }
         public int MAKH { get; set; }

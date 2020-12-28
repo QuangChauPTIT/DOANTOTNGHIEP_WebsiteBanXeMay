@@ -41,7 +41,7 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <label>Tên loại</label>
-                                    <input type="text" name="TENLOAI" value="@ViewBag.TENLOAI" class="form-control" />
+                                    <input type="text" id="txtTenLoaiSanPham"  name="TENLOAI" autocomplete="off"  value="@ViewBag.TENLOAI" class="form-control" />
                                 </div>
                                 <div class="col-md-1" style="margin-top:2.3%">
                                     <button title="Tìm kiếm" class="btn btn-info"><i class="fa fa-search"></i></button>
@@ -157,6 +157,14 @@
 </div>
 <!-- /.modal -->
 <script>
+
+    $(function () {
+        $("#txtTenLoaiSanPham").autocomplete({
+            source: '/Admin/LoaiSanPham/lstTenLoaiSanPham'
+        });
+    });
+
+
     function getThemLoaiSanPham() {
         $.ajax({
             type: "GET",
