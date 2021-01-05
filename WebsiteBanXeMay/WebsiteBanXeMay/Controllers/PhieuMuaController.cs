@@ -13,13 +13,14 @@ namespace WebsiteBanXeMay.Controllers
     public class PhieuMuaController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
-        // GET: PhieuMua
+
         public ActionResult Index(int? TrangThai)
         {
             var TaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
             var lstSanPham = lstSanPhamDaDatTheoTrangThaiPhieuMua(TaiKhoan.MA, TrangThai);
             return View(lstSanPham);
         }
+
 
         [HttpGet]
         public ActionResult ThemPhieuMua()
@@ -30,6 +31,7 @@ namespace WebsiteBanXeMay.Controllers
             loadThongTinKhachHang(getKhachHang(objTaiKhoanViewModel.MA));
             return View();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -78,6 +80,8 @@ namespace WebsiteBanXeMay.Controllers
             }
             return lstLoaiSanPham;
         }
+
+
         // Load thông tin khách hàng khi tải trang lần đầu
         private void loadThongTinKhachHang(KHACHHANG objKhachHang)
         {
@@ -87,6 +91,8 @@ namespace WebsiteBanXeMay.Controllers
             ViewBag.MAQUAN = objKhachHang.MAQUAN;
             ViewBag.SDT = objKhachHang.SDT;
         }
+
+
         //Load lại model sau khi bị lỗi
         private void loadThongTinKhachHangTheoPhieuMua(PHIEUMUA objPhieuMua)
         {
@@ -97,12 +103,16 @@ namespace WebsiteBanXeMay.Controllers
             ViewBag.SDT = objPhieuMua.SDT;
         }
 
+
+
         //===========================================  Lấy dữ liệu từ Database  =========================================
         // Lấy danh sách quận 
         private IEnumerable<QUAN> lstQuan()
         {
             return DB.QUANs.ToList();
         }
+
+
         // Lấy thông tin mặc định của khách hàng theo tài khoản đăng nhập
         private KHACHHANG getKhachHang(int MaKH)
         {

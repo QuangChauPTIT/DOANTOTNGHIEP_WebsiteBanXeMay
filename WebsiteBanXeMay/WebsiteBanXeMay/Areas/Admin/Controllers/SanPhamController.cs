@@ -28,10 +28,12 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return View(Model);
         }
 
+
         public ActionResult SuaSanPhamPartial(int MaSP)
         {
             return PartialView(getSanPham(MaSP));
         }
+
 
         public JsonResult SuaSanPham(SANPHAM objSanPham)
         {
@@ -68,6 +70,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
+
         //Autocomplete tên loại sản phẩm
         [HttpGet]
         public JsonResult lstTenLoaiSanPham(string term)
@@ -75,6 +78,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             var lstTenLoaiSanPham = DB.LOAISANPHAMs.Where(x => x.TENLOAI.Contains(term)).Select(x => x.TENLOAI).ToList().Take(10);
             return Json(lstTenLoaiSanPham, JsonRequestBehavior.AllowGet);
         }
+
 
         //Autocomplete số khung
         [HttpGet]
@@ -84,6 +88,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(lstSoKhung, JsonRequestBehavior.AllowGet);
         }
 
+
         //Autocomplete số máy
         [HttpGet]
         public JsonResult lstSoMay(string term)
@@ -91,6 +96,9 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             var lstSoMay = DB.SANPHAMs.Where(x => x.SOMAY.Contains(term)).Select(x => x.SOMAY).ToList().Take(10);
             return Json(lstSoMay, JsonRequestBehavior.AllowGet);
         }
+
+
+
         // ===============================  Truy vấn dữ liệu từ database  =================================
         private IEnumerable<SanPhamViewModel> lstSanPham(string TenLoai, string SoKhung, string SoMay)
         {
@@ -112,6 +120,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                }).ToList();
             return querySanPham;
         }
+
 
         private SANPHAM getSanPham(int MaSP)
         {

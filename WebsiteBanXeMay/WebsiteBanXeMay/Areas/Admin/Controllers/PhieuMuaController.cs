@@ -23,6 +23,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return RedirectToAction("PhieuMuaChuaDuyet");
         }
 
+        [HttpGet]
         public ActionResult PhieuMuaChuaDuyet(int Trang = 1)
         {
             var Model = new PageUtil
@@ -33,6 +34,9 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             };
             return View(Model);
         }
+
+
+        [HttpGet]
         public ActionResult PhieuMuaDaDuyet(int Trang = 1)
         {
             var Model = new PageUtil
@@ -44,6 +48,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return View(Model);
         }
 
+
+        [HttpGet]
         public ActionResult PhieuMuaDaGiao(int Trang = 1)
         {
             var Model = new PageUtil
@@ -55,11 +61,15 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return View(Model);
         }
 
+
+        [HttpGet]
         public ActionResult ChiTietPhieuMuaPartial(int MaPM)
         {
             ViewBag.MaPM = MaPM;
             return PartialView(lstSanPhamDaDatTheoPhieuMua(MaPM));
         }
+
+
         [HttpGet]
         public ActionResult SuaPhieuMuaPartial(int MaPM, int MaQuan)
         {
@@ -73,6 +83,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             ViewBag.lstNhanVienGiaoHang = lstNhanVienGiaoHang;
             return PartialView();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -138,6 +149,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
+
         //==========================================  Lấy dữ liệu từ database  =====================================
         private IEnumerable<PhieuMuaAdminViewModel> lstPhieuMuaChuaDuyet()
         {
@@ -160,6 +173,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                  });
             return queryPhieuMua.ToList();
         }
+
+
         private IEnumerable<PhieuMuaAdminViewModel> lstPhieuMuaDaDuyet()
         {
             var queryPhieuMua = (from phieumua in DB.PHIEUMUAs
@@ -190,6 +205,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return queryPhieuMua.ToList();
         }
 
+
         private IEnumerable<PhieuMuaAdminViewModel> lstPhieuMuaDaGiao()
         {
             var queryPhieuMua = (from phieumua in DB.PHIEUMUAs
@@ -218,6 +234,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                  });
             return queryPhieuMua.ToList(); ;
         }
+
 
         private IEnumerable<NhanVienGiaoHangViewModel> lstNhanVienGiaoHangTheoSoPhieu(int MaQuan)
         {
@@ -251,6 +268,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return dataNhanVienGiaoHang.OrderBy(x => x.SOPHIEUDANGGIAO).ThenBy(x => x.TONGSOPHIEU).ToList();
         }
 
+
         private double TinhTongTienHoaDonTheoPhieuMua(int MaPM)
         {
             var queryTinhTongTienHoaDon = from phieumua in DB.PHIEUMUAs
@@ -262,6 +280,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                           };
             return queryTinhTongTienHoaDon.Sum(x => x.GIA);
         }
+
 
         private IEnumerable<PhieuMuaViewModel> lstSanPhamDaDatTheoPhieuMua(int MaPM)
         {

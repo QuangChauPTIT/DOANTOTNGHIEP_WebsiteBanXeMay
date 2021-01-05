@@ -15,6 +15,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
     public class TaiKhoanController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
+
+
         // GET: Admin/TaiKhoan
         public ActionResult Index()
         {
@@ -22,12 +24,14 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return View(getNhanVien(objTaiKhoan.MA));
         }
 
+
         public ActionResult DoiMatKhauPartial()
         {
             var objTaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
             ViewBag.Email = objTaiKhoan.EMAIL;
             return PartialView();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -77,6 +81,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
         //========================== Lấy dữ liệu từ database ===============================
+
 
         private NhanVienViewModel getNhanVien(int MaNV)
         {

@@ -18,6 +18,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
     public class SaoLuuPhucHoiController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
+
         // GET: Admin/SaoLuuPhucHoi
         public ActionResult Index(int Trang = 1)
         {
@@ -29,6 +30,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             };
             return View(Model);
         }
+
+
         [HttpPost]
         public JsonResult SaoLuu(bool flag)
         {
@@ -69,8 +72,10 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
+
         [HttpPost]
-        public JsonResult PhuHoi(int position)
+        public JsonResult PhucHoi(int position)
         {
             var msg = new JMessage() { error = false, title = "" };
             if (RestoreDatabase(Constant.DATABASE, position) == -1)
@@ -85,6 +90,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
+
         //======================= Truy vấn database =============================
         //Kiểm tra đã có  backup device chưa
         private bool Check_Create_Backup_Devices(string strDatabaseName)
@@ -107,6 +114,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                 return false;
             }
         }
+
 
         //Exec tạo backup device
         private int Exec_Create_Backup_Devices(string strDatabaseName)
@@ -140,6 +148,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         }
 
 
+        // Sao lưu dữ liệu
         private int BackupDatabase(bool flag, string strDatabaseName)
         {
             string strQuery;
@@ -153,6 +162,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         }
 
 
+        //Phục hồi dữ liệu
         private int RestoreDatabase(string strDatabaseName, int position)
         {
             string strQuery;

@@ -146,6 +146,8 @@ namespace WebsiteBanXeMay.Controllers
             };
             return this.payment.Execute(apiContext, paymentExecution);
         }
+
+
         private Payment CreatePayment(APIContext apiContext, List<GioHangViewModel> lstLoaiSanPham, PHIEUMUA objPhieuMua, string redirectUrl)
         {
             if (lstLoaiSanPham != null && objPhieuMua != null)

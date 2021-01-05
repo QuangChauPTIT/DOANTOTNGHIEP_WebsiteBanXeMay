@@ -159,7 +159,7 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: "POST",
-                    url: "/Admin/SaoLuuPhucHoi/PhuHoi/?position=" + position,
+                    url: "/Admin/SaoLuuPhucHoi/PhucHoi/?position=" + position,
                     success: function (res) {
                         if (res.error == false) {
                             Swal.fire({

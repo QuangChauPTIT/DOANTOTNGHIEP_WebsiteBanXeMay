@@ -14,7 +14,7 @@ namespace WebsiteBanXeMay.Controllers
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
 
-        //========================================  Action  ==================================================
+
         [HttpGet]
         public ActionResult Index(string TenLoaiSanPham, string MaTH, int? Kieu, double? GiaTu, double? GiaDen, int? MucDanhGia, string SapXep, int Trang = 1)
         {
@@ -37,6 +37,7 @@ namespace WebsiteBanXeMay.Controllers
             return View();
         }
 
+
         [HttpGet]
         public ActionResult ChiTietLoaiSanPham(string Id)
         {
@@ -51,14 +52,16 @@ namespace WebsiteBanXeMay.Controllers
             return View();
         }
 
+
         public ActionResult LoaiSanPhamLienQuanPartial(string MaLoai)
         {
             var MaTH = DB.LOAISANPHAMs.Where(x => x.MALOAI == MaLoai).Select(y => y.MATH).FirstOrDefault();
             var Model = lstLoaiSanPhamLienQuan(MaTH);
             return PartialView(Model);
         }
-        //=======================================   Lấy dữ liệu từ Database =========================================
 
+
+        //=======================================   Lấy dữ liệu từ Database =========================================
         // Loại sản phẩm
         private IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPham(string TenLoaiSanPham, string MaTH, int? Kieu, double? GiaTu, double? GiaDen, int? MucDanhGia, string SapXep)
         {
@@ -170,6 +173,8 @@ namespace WebsiteBanXeMay.Controllers
             }
             return queryLoaiSanPham.ToList();
         }
+
+
         // Loại xe : 0 : Xe số, 1 : Xe tay ga, 2 : Xe tay côn
         private IEnumerable<KieuSanPhamViewModel> lstKieuSanPham()
         {
@@ -179,11 +184,15 @@ namespace WebsiteBanXeMay.Controllers
             lstLoai.Add(new KieuSanPhamViewModel { MAKIEU = 2, TENKIEU = "Xe tay côn" });
             return lstLoai;
         }
+
+
         // Thương hiệu
         private IEnumerable<THUONGHIEU> lstThuongHieu()
         {
             return DB.THUONGHIEUx.ToList();
         }
+
+
         //Chi tiết loại sản phẩm
         private ChiTietLoaiSanPhamViewModel getChiTietLoaiSanPham(string MaLoai)
         {
@@ -260,6 +269,7 @@ namespace WebsiteBanXeMay.Controllers
             return queryLoaiSanPham;
         }
 
+
         //Kiểm tra đã mua loại sản phẩm này chưa để cho phép đánh giá
         private bool KiemTraChoPhepDanhGia(string MaLoai, int MaKH)
         {
@@ -284,6 +294,8 @@ namespace WebsiteBanXeMay.Controllers
             }
             return false;
         }
+
+
         // Danh sách loại sản phẩm liên quan về thương hiệu
         private IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPhamLienQuan(string MaTH)
         {

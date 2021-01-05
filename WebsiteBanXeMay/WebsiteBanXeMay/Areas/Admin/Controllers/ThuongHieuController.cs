@@ -24,11 +24,13 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return View(Model);
         }
 
+
         [HttpGet]
         public ActionResult ThemThuongHieuPartial()
         {
             return PartialView();
         }
+
 
         [HttpGet]
         public ActionResult SuaThuongHieuPartial(string MaTH)
@@ -36,6 +38,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             var objThuongHieu = DB.THUONGHIEUx.FirstOrDefault(x => x.MATH == MaTH);
             return PartialView(objThuongHieu);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -82,6 +85,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(msg,JsonRequestBehavior.AllowGet);
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult SuaThuongHieu(THUONGHIEU objThuongHieu)
@@ -127,6 +131,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
+
         [HttpGet]
         public JsonResult XoaThuongHieu(string MaTH)
         {
@@ -161,6 +166,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
+
         //========================  Lấy dữ liệu từ database ======================
 
         private IEnumerable<THUONGHIEU> lstThuongHieu()

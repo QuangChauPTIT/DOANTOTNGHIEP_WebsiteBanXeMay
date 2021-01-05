@@ -16,7 +16,8 @@ namespace WebsiteBanXeMay.Controllers
     public class TaiKhoanController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
-        // GET: TaiKhoan
+
+
         [HttpGet]
         [Authorize(Roles = "customer")]
         public ActionResult Index()
@@ -69,12 +70,14 @@ namespace WebsiteBanXeMay.Controllers
             return View(objKhachHang);
         }
 
+
         [HttpGet]
         [Authorize(Roles = "customer")]
         public ActionResult DoiMatKhau()
         {
             return View();
         }
+
 
         [HttpPost]
         [Authorize(Roles = "customer")]
@@ -116,6 +119,7 @@ namespace WebsiteBanXeMay.Controllers
             return View(objDoiMatKhauViewModel);
         }
 
+
         //[HttpGet]
         [AllowAnonymous]
         public ActionResult DangNhap(string ReturnUrl)
@@ -123,6 +127,7 @@ namespace WebsiteBanXeMay.Controllers
             ViewBag.ReturnUrl = ReturnUrl;
             return View();
         }
+
 
         [HttpPost]
         [AllowAnonymous]
@@ -163,6 +168,7 @@ namespace WebsiteBanXeMay.Controllers
             ViewBag.ReturnUrl = ReturnUrl;
             return View();
         }
+
 
         [HttpPost]
         [AllowAnonymous]
@@ -232,6 +238,7 @@ namespace WebsiteBanXeMay.Controllers
             return View(objKhachHangViewModel);
         }
 
+
         [Authorize(Roles = "admin,staff,customer,shipper")]
         [HttpGet]
         public ActionResult DangXuat()
@@ -242,12 +249,14 @@ namespace WebsiteBanXeMay.Controllers
             return RedirectToAction("Index", "TrangChu");
         }
 
+
         [HttpGet]
         [AllowAnonymous]
         public ActionResult QuenMatKhau()
         {
             return View();
         }
+
 
         [HttpPost]
         [AllowAnonymous]
@@ -300,6 +309,8 @@ namespace WebsiteBanXeMay.Controllers
             }
             return View(objQuenMatKhauViewModel);
         }
+
+
         private ActionResult RedirectToLocal(string ReturnUrl)
         {
             if (Url.IsLocalUrl(ReturnUrl))
@@ -311,6 +322,9 @@ namespace WebsiteBanXeMay.Controllers
                 return RedirectToAction("Index", "TrangChu");
             }
         }
+
+
+        // Phân quyền và duy trì đăng nhập
         private void PhanQuyen(string TaiKhoan, string Quyen, bool LuuDangNhap)
         {
             FormsAuthentication.Initialize();
@@ -328,6 +342,7 @@ namespace WebsiteBanXeMay.Controllers
             Response.Cookies.Add(cookie);
         }
 
+
         // Load thông tin tải trang lần đầu hoặc model lỗi lúc thay đổi thông tin
         private void loadThongTinChiTietKhachHang(KHACHHANG objKhachHang)
         {
@@ -340,13 +355,17 @@ namespace WebsiteBanXeMay.Controllers
             ViewBag.SDT = objKhachHang.SDT;
             ViewBag.EMAIL = objKhachHang.EMAIL;
         }
+
+
         //===========================================  Lấy dữ liệu từ Database  =========================================
+
         // Lấy danh sách quận 
         private IEnumerable<QUAN> lstQuan()
         {
             return DB.QUANs.ToList();
         }
 
+        // Lấy thông tin khách hàng
         private KHACHHANG getKhachHang(int MaKH)
         {
             return DB.KHACHHANGs.FirstOrDefault(x => x.MAKH == MaKH);

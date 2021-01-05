@@ -28,6 +28,7 @@ namespace WebsiteBanXeMay.Areas.Shipper.Controllers
             return View(Model);
         }
 
+
         public ActionResult PhieuMuaDaGiao(int Trang  = 1)
         {
             var TaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
@@ -40,11 +41,13 @@ namespace WebsiteBanXeMay.Areas.Shipper.Controllers
             return View(Model);
         }
 
+
         public ActionResult ChiTietPhieuMuaPartial(int MaPM)
         {
             ViewBag.MaPM = MaPM;
             return PartialView(lstSanPhamDaDatTheoPhieuMua(MaPM));
         }
+
 
         [HttpGet]
         public ActionResult SuaPhieuMua(int MaPM)
@@ -72,6 +75,7 @@ namespace WebsiteBanXeMay.Areas.Shipper.Controllers
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
         //========================= Lấy dữ liệu từ database ==================================
 
         private IEnumerable<PhieuMuaShipperViewModel> lstPhieuMuaTheoTrangThaiVaNhanVien(int MaNV, int TrangThai)
@@ -101,6 +105,7 @@ namespace WebsiteBanXeMay.Areas.Shipper.Controllers
                                  });
             return queryPhieuMua.ToList();
         }
+
 
         private IEnumerable<PhieuMuaViewModel> lstSanPhamDaDatTheoPhieuMua(int MaPM)
         {

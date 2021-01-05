@@ -52,6 +52,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return PartialView(lstNhaCungCap());
         }
 
+
         //Modal thêm chi tiết phiếu nhập tạm thời - thủ công
         [HttpGet]
         public ActionResult ThemChiTietPhieuNhapTamThoiPartial(string MaNCC, int MaPD)
@@ -61,6 +62,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return PartialView(lstLoaiSanPham(MaNCC));
         }
 
+
         //Modal import excel
         [HttpGet]
         public ActionResult ImportExcelPartial(string MaNCC, string MaPD)
@@ -69,6 +71,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             ViewBag.MAPD = MaPD;
             return PartialView();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -154,6 +157,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             msg.list = lstChiTiet;
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
 
         //[HttpPost]
         //public JsonResult SuaChiTietPhieuNhapTamThoi(string SoKhung, string SoMay, double Gia)
@@ -267,6 +271,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
+
         [HttpGet]
         public JsonResult XoaTatCaChiTietPhieuNhapTamThoi()
         {
@@ -274,6 +279,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             var msg = new JMessage() { error = false, title = "Hủy hiệu chỉnh chi tiết phiếu nhập thành công" };
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpPost]
         public JsonResult ThemChiTietPhieuNhap_ThuCong(int MaPD, DateTime NgayLap)
@@ -393,6 +399,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
+
         //Kiểm tra trạng thái phiếu đặt để import dữ liệu
         [HttpGet]
         public JsonResult KiemTraTrangThaiPhieuDat(int MaPD, string MaNCC)
@@ -419,6 +426,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpPost]
         public JsonResult ImportExcel(HttpPostedFileBase file)
@@ -527,6 +535,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             msg.list = lstChiTiet;
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpPost]
         public JsonResult ThemChiTietPhieuNhap_ImportExcel(int MaPD, DateTime NgayLap)
@@ -685,6 +694,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return queryPhieuNhap.ToList();
         }
 
+
         private IEnumerable<ChiTietPhieuDatvsNhapViewModel> lstLoaiSanPhamTheoPhieuNhap(int MaPN)
         {
             var queryChiTietPhieuNhap = from ct_phieunhap in DB.CT_PHIEUNHAP
@@ -701,20 +711,25 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return queryChiTietPhieuNhap.ToList();
         }
 
+
         private IEnumerable<NHACUNGCAP> lstNhaCungCap()
         {
             return DB.NHACUNGCAPs.ToList();
         }
+
 
         // Lấy tất cả loại sản phẩm theo nhà cung cấp dể nhập
         private IEnumerable<LOAISANPHAM> lstLoaiSanPham(string MaNCC)
         {
             return DB.LOAISANPHAMs.Where(x => x.MANCC == MaNCC && (x.TRANGTHAI == 0 || x.TRANGTHAI == 1)).ToList();
         }
+
+
         private string getTenLoaiSanPham(string MaLoai)
         {
             return DB.LOAISANPHAMs.FirstOrDefault(x => x.MALOAI == MaLoai).TENLOAI;
         }
+
 
         private NHACUNGCAP getNhaCungCap(int MaPN)
         {

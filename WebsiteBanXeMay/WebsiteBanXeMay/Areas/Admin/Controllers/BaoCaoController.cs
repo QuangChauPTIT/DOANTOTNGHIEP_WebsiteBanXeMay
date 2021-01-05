@@ -18,11 +18,12 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
     public class BaoCaoController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
-        // GET: Admin/BaoCao
+
         public ActionResult Index()
         {
             return View();
         }
+
 
         [HttpGet]
         public ActionResult BaoCaoDoanhThuTheoLoaiSanPham(DateTime? NgayBatDau, DateTime? NgayKetThuc, int Trang = 1)
@@ -47,6 +48,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return View(Model);
         }
 
+
         [HttpGet]
         public ActionResult BaoCaoTonKhoTheoLoaiSanPham(DateTime? Ngay, int Trang = 1)
         {
@@ -63,6 +65,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             ViewBag.Ngay = endTmp;
             return View(Model);
         }
+
 
         [HttpGet]
         public ActionResult BaoCaoLoiNhuanTheoLoaiSanPham(DateTime? NgayBatDau, DateTime? NgayKetThuc, int Trang = 1)
@@ -86,6 +89,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             ViewBag.NgayKetThuc = endTmp;
             return View(Model);
         }
+
+
         public ActionResult Export_BaoCaoDoanhThuTheoLoaiSanPham(DateTime? NgayBatDau, DateTime? NgayKetThuc)
         {
             DateTime beginTmp = NgayBatDau ?? Convert.ToDateTime("2020-11-01");
@@ -121,6 +126,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
 
         }
 
+
         public ActionResult Export_BaoCaoTonKhoTheoLoaiSanPham(DateTime? Ngay)
         {
             DateTime endTmp = Ngay ?? DateTime.Now;
@@ -150,6 +156,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
 
         }
+
 
         public ActionResult Export_BaoCaoLoiNhuanTheoLoaiSanPham(DateTime? NgayBatDau, DateTime? NgayKetThuc)
         {
@@ -184,6 +191,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
 
         }
+
+
         // ==============================  Lấy dữ liệu từ database  ================================
         private IEnumerable<BaoCaoDoanhThuTheoLoaiSanPhamViewModel> lstDoanhThuTheoLoaiSanPham(DateTime begin, DateTime end)
         {
@@ -215,6 +224,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                 };
             return queryDoanhThu.OrderBy(x => x.TENTH).ToList();
         }
+
 
         private IEnumerable<BaoCaoTonKhoTheoLoaiSanPhamViewModel> lsTonKhoTheoLoaiSanPham(DateTime end)
         {
@@ -266,6 +276,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                               };
             return queryTonKho.OrderBy(x => x.TENTH).ToList();
         }
+
 
         private IEnumerable<BaoCaoLoiNhuanTheoLoaiSanPhamViewModel> lstLoiNhuanTheoLoaiSanPham(DateTime begin, DateTime end)
         {

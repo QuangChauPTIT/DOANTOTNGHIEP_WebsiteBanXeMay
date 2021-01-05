@@ -14,7 +14,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
     public class PhanQuyenNhanVienController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
-        // GET: Admin/PhanQuyenNhanVien
+
+
         [HttpGet]
         public ActionResult Index(int Trang = 1)
         {
@@ -27,6 +28,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return View(Model);
         }
 
+
         [HttpGet]
         public ActionResult PhanQuyenNhanVienPartial(int MaNV)
         {
@@ -35,6 +37,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             ViewBag.MANQ = getMaNQ(MaNV);
             return PartialView(objNhanVien);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -96,8 +99,6 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
-
-
         //========================  Lấy dữ liệu từ database ======================
         private IEnumerable<NhanVienViewModel> lstNhanVien()
         {
@@ -120,10 +121,12 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return queryNhanVien.ToList();
         }
 
+
         private IEnumerable<NHOMQUYEN> lstNhomQuyenNhanVien()
         {
             return DB.NHOMQUYENs.Where(x => x.MANQ == "staff" || x.MANQ == "shipper").ToList();
         }
+
 
         private string getMaNQ(int MaNV)
         {

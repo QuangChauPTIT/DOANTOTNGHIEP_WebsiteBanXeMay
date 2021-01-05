@@ -13,7 +13,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
     public class KhachHangController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
-        // GET: Admin/KhachHang
+
+
         public ActionResult Index(string Email, string SDT, int Trang = 1)
         {
             var Model = new PageUtil
@@ -27,6 +28,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             ViewBag.SDT = SDT;
             return View(Model);
         }
+
+
         [HttpGet]
         public ActionResult SuaKhachHangPartial(int MaKH)
         {
@@ -34,6 +37,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             ViewBag.lstQuan = lstQuan();
             return PartialView(objKhachHang);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -78,6 +82,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
+
         [HttpGet]
         public JsonResult XoaKhachHang(int MaKH)
         {
@@ -105,6 +110,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
+
         //========================  Lấy dữ liệu từ database ======================
         // Lấy dánh khách hàng
         private IEnumerable<KHACHHANG> lstKhacHang(string Email, string SDT)
@@ -115,6 +122,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                  select khachhang;
             return queryKhachHang.ToList();
         }
+
 
         // Lấy danh sách quận 
         private IEnumerable<QUAN> lstQuan()

@@ -14,9 +14,7 @@ namespace WebsiteBanXeMay.Controllers
     public class DanhGiaController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
-
-        
-        //Ajax
+ 
         public ActionResult Index(string MaLoai, int Trang = 1)
         {
             var Model = new PageUtil
@@ -30,7 +28,7 @@ namespace WebsiteBanXeMay.Controllers
             return PartialView(Model);
         }
 
-        // Ajax
+
         public ActionResult DanhGiaPartial(string MaLoai)
         {
             var objTaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
@@ -55,7 +53,7 @@ namespace WebsiteBanXeMay.Controllers
             }
         }
 
-        // Ajax
+
         [Authorize(Roles = "customer")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -120,6 +118,7 @@ namespace WebsiteBanXeMay.Controllers
             return Json(new { message = "Lỗi 400 - Lỗi cú pháp trong yêu cầu và yêu cầu bị từ chối" });
         }
 
+
         [Authorize(Roles = "admin,staff,customer")]
         [HttpGet]
         public ActionResult XoaDanhGia(string MaLoai, int MaKH)
@@ -152,7 +151,11 @@ namespace WebsiteBanXeMay.Controllers
                 return Json(new { message = "Không thể xóa đánh giá" });
             }
         }
+
+
         //=======================================   Lấy dữ liệu từ Database =========================================
+
+        // Lấy danh sách đánh giá của 1 loại sản phẩm
         private IEnumerable<DanhGiaViewModel> lstDanhGia(string MaLoai)
         {
             var queryDanhGia = from danhgia in DB.DANHGIAs
@@ -172,6 +175,7 @@ namespace WebsiteBanXeMay.Controllers
             return queryDanhGia.ToList();
         }
 
+        // Lấy thông tin chi tiết đánh giá
         private DanhGiaViewModel getChiTietDanhGia(string MaLoai, int MaKH)
         {
             var objDanhGia = (from loaisanpham in DB.LOAISANPHAMs
@@ -191,6 +195,7 @@ namespace WebsiteBanXeMay.Controllers
                               }).FirstOrDefault();
             return objDanhGia;
         }
+
 
         //Kiểm tra đã mua loại sản phẩm này chưa để cho phép đánh giá
         private bool KiemTraChoPhepDanhGia(string MaLoai, int MaKH)

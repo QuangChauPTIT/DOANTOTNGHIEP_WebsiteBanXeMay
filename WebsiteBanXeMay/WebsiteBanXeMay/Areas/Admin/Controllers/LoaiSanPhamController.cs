@@ -15,7 +15,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
     public class LoaiSanPhamController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
-        // GET: Admin/LoaiSanPham
+
+
         public ActionResult Index(string TenLoai, int Trang = 1)
         {
             var Model = new PageUtil
@@ -28,6 +29,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return View(Model);
         }
 
+
         [HttpGet]
         public ActionResult ThemLoaiSanPhamPartial()
         {
@@ -36,6 +38,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             ViewBag.lstThuongHieu = lstThuongHieu();
             return PartialView();
         }
+
 
         [HttpGet]
         public ActionResult SuaLoaiSanPhamPartial(string MaLoai)
@@ -100,6 +103,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }    
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpPost]
        // [ValidateAntiForgeryToken]
@@ -170,6 +174,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
+
         [HttpGet]
         public JsonResult XoaLoaiSanPham(string MaLoai)
         {
@@ -214,8 +220,9 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(lstTenLoaiSanPham, JsonRequestBehavior.AllowGet);
         }
 
-        //========================  Lấy dữ liệu từ database ======================
 
+
+        //========================  Lấy dữ liệu từ database ======================
         private IEnumerable<LOAISANPHAM> lstLoaiSanPham(string TenLoai)
         {
             var queryLoaiSanPham = from loaisanpham in DB.LOAISANPHAMs
@@ -224,10 +231,12 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return queryLoaiSanPham.ToList();
         }
 
+
         private IEnumerable<THUONGHIEU> lstThuongHieu()
         {
             return DB.THUONGHIEUx.ToList();
         }
+
 
         private IEnumerable<KieuSanPhamViewModel> lstKieuLoaiSanPham()
         {
@@ -238,15 +247,18 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return lstLoai;
         }
 
+
         private IEnumerable<NHACUNGCAP> lstNhaCungCap()
         {
             return DB.NHACUNGCAPs.ToList();
         }
 
+
         private LOAISANPHAM getLoaiSanPham(string MaLoai)
         {
             return DB.LOAISANPHAMs.FirstOrDefault(x => x.MALOAI == MaLoai);
         }
+
 
         private IEnumerable<TrangThaiLoaiSanPhamViewModel> lstTrangThaiLoaiSanPham()
         {

@@ -27,12 +27,14 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return View(Model);
         }
 
+
         [HttpGet]
         public ActionResult PhuTrachPartial(int MaNV)
         {
             ViewBag.lstQuan = lstQuan();
             return PartialView(getNhanNVienPhuTrachQuan(MaNV));
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -92,12 +94,15 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
-        //========================  Lấy dữ liệu từ database ======================
 
+
+        //========================  Lấy dữ liệu từ database ======================
         private IEnumerable<QUAN> lstQuan()
         {
             return DB.QUANs.ToList();
         }
+
+
         private IEnumerable<PhuTrachViewModel> lstNhanVienPhuTrachQuan()
         {
             var queryQuan = from nhanvien in DB.NHANVIENs
@@ -117,6 +122,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                             };
             return queryQuan.ToList();
         }
+
 
         private PhuTrachViewModel getNhanNVienPhuTrachQuan(int MaNV)
         {

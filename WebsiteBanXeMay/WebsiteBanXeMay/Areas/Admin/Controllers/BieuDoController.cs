@@ -13,11 +13,13 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
     public class BieuDoController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
-        // GET: Admin/BieuDo
+
+
         public ActionResult Index()
         {
             return View();
         }
+
 
         [HttpGet]
         public ActionResult BieuDoDoanhThuTheoThangTrongNam(int? Nam)
@@ -28,6 +30,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             ViewBag.year = year;
             return View();
         }
+
+
         [HttpGet]
         public ActionResult BieuDoLoiNhuanTheoThuongHieu(DateTime? NgayBatDau, DateTime? NgayKetThuc)
         {
@@ -47,10 +51,13 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return View();
         }
 
+
+        // ==============================  Lấy dữ liệu từ database  ================================
         private IEnumerable<int> lstYear()
         {
             return DB.PHIEUMUAs.Select(x => x.NGAYMUA.Year).Distinct();
         }
+
 
         private IEnumerable<DataPoint> lstDoanhThuTheoThangTrongNam(int year)
         {
@@ -77,6 +84,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
             return lstDoanhThu;
         }
+
 
         private IEnumerable<DataPoint> lstLoiNhuanTheoThuongHieu(DateTime begin, DateTime end)
         {

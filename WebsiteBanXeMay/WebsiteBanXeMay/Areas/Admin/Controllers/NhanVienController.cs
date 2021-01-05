@@ -14,7 +14,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
     public class NhanVienController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
-        // GET: Admin/NhanVien
+
         [HttpGet]
         public ActionResult Index(string MaNQ, int Trang = 1)
         {
@@ -36,12 +36,14 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return PartialView(lstNhomQuyenNhanVien());
         }
 
+
         [HttpGet]
         public ActionResult SuaNhanVienPartial(int MaNV)
         {
             var objNhanVien = DB.NHANVIENs.FirstOrDefault(x => x.MANV == MaNV);
             return PartialView(objNhanVien);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -111,6 +113,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult SuaNhanVien(NHANVIEN objNhanVien)
@@ -153,6 +156,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
+
         [HttpGet]
         public JsonResult XoaNhanVien(int MaNV)
         {
@@ -181,7 +185,6 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
-
         //========================  Lấy dữ liệu từ database ======================
         private IEnumerable<NhanVienViewModel> lstNhanVien(string MaNQ)
         {
@@ -203,6 +206,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
                                  });
             return queryNhanVien.ToList();
         }
+
 
         private IEnumerable<NHOMQUYEN> lstNhomQuyenNhanVien()
         {

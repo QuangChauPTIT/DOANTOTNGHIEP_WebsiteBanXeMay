@@ -16,7 +16,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
     public class KhuyenMaiController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
-        // GET: Admin/KhuyenMai
+
+
         public ActionResult Index(int Trang = 1)
         {
             Session[Constant.SESSION_CHITIETKHUYENMAI] = null;
@@ -29,20 +30,25 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return View(Model);
         }
 
+
         public ActionResult ThemKhuyenMaiPartial()
         {
             return PartialView();
         }
 
+
         public ActionResult SuaKhuyenMaiPartial(int MaKM)
         {
             return PartialView(getKhuyenMai(MaKM));
         }
+
+
         public ActionResult ChiTietKhuyenMaiPartial(int MaKM)
         {
             ViewBag.MAKM = MaKM;
             return PartialView(lstLoaiSanPhamTheoKhuyenMai(MaKM));
         }
+
 
         public ActionResult SuaChiTietKhuyenMaiTamThoiPartial(int MaKM)
         {
@@ -52,7 +58,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return PartialView(lstLoaiSanPham());
         }
 
-        #region Thêm xóa sửa khuyến mãi
+
         [HttpPost]
         public JsonResult ThemKhuyenMai(KHUYENMAI objKhuyenMai)
         {
@@ -103,6 +109,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }    
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpPost]
         public JsonResult SuaKhuyenMai(KHUYENMAI objKhuyenMai)
@@ -166,6 +173,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
+
         [HttpGet]
         public JsonResult XoaKhuyenMai(int MaKM)
         {
@@ -192,7 +201,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
-        #endregion
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -249,6 +258,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             msg.list = lstChiTiet;
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpPost]
         public JsonResult SuaChiTietKhuyenMaiTamThoi(string MaLoai, double PhanTram)
@@ -309,6 +319,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
+
         [HttpPost]
         public JsonResult XoaChiTietKhuyenMaiTamThoi(string MaLoai)
         {
@@ -359,6 +370,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             msg.list = lstChiTiet;
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
+
         [HttpGet]
         public JsonResult XoaTatCaChiTietKhuyenMaiTamThoi()
         {
@@ -366,6 +379,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             var msg = new JMessage() { error = false, title = "Hủy hiệu chỉnh chi tiết khuyến mãi thành công" };
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
 
         public JsonResult SuaChiTietKhuyenMai(int MaKM)
         {
@@ -426,10 +440,14 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
         // ============================ Lấy dữ liệu từ database ============================
+        // Lấy thông tin khuyến mãi
         private KHUYENMAI getKhuyenMai(int MaKM)
         {
             return DB.KHUYENMAIs.FirstOrDefault(x => x.MAKM == MaKM);
         }    
+
+
+        // Lấy danh sách khuyến mãi
         private IEnumerable<KhuyenMaiViewModel> lstKhuyenMai()
         {
             var queryKhuyenMai = from khuyenmai in DB.KHUYENMAIs
@@ -449,6 +467,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return queryKhuyenMai.ToList();
         }
 
+
+        //Lấy thông tin chi tiết khuyến mãi
         private IEnumerable<ChiTietKhuyenMaiViewModel> lstLoaiSanPhamTheoKhuyenMai(int MaKM)
         {
             var queryLoaiSanPhamKhuyenMai = from khuyenmai in DB.KHUYENMAIs
@@ -465,11 +485,15 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return queryLoaiSanPhamKhuyenMai.ToList();
         }
 
+
+        // Lấy danh sách loại sản phẩm
         private IEnumerable<LOAISANPHAM> lstLoaiSanPham()
         {
             return DB.LOAISANPHAMs.Where(x=>x.TRANGTHAI == 0 || x.TRANGTHAI == 1).ToList();
         }
 
+
+        // Lấy tên loại sản phẩm
         private string getTenLoaiSanPham(string MaLoai)
         {
             return DB.LOAISANPHAMs.FirstOrDefault(x => x.MALOAI == MaLoai).TENLOAI;

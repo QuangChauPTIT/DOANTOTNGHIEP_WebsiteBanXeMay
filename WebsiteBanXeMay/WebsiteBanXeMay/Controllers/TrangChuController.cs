@@ -13,9 +13,6 @@ namespace WebsiteBanXeMay.Controllers
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
 
-
-        //========================================  Action  ==================================================
-
         // Trang chủ
         [HttpGet]
         public ActionResult Index()
@@ -25,6 +22,7 @@ namespace WebsiteBanXeMay.Controllers
             ViewBag.lstLoaiSanPhamBanChay = lstLoaiSanPham(null, true);
             return View();
         }
+
 
         //Tất cả loại sản phẩm khuyến mãi
         [HttpGet]
@@ -39,6 +37,7 @@ namespace WebsiteBanXeMay.Controllers
             return View(Model);
         }
 
+
         //Tất cả loại sản phẩm mới
         [HttpGet]
         public ActionResult LoaiSanPhamMoi(int Trang = 1)
@@ -52,6 +51,7 @@ namespace WebsiteBanXeMay.Controllers
             return View(Model);
         }
 
+
         //Tất cả loại sản phẩm bán chạy
         [HttpGet]
         public ActionResult LoaiSanPhamBanChay(int Trang = 1)
@@ -64,6 +64,7 @@ namespace WebsiteBanXeMay.Controllers
             };
             return View(Model);
         }
+
 
         // Hiển thị danh sách 10 loại sản phẩm cho 3 phần: khuyến mãi, bán chạy, mới
         [ChildActionOnly]
@@ -83,7 +84,6 @@ namespace WebsiteBanXeMay.Controllers
         }
 
 
-        //=======================================   Json  =========================================================
         //Autocomplete tên loại sản phẩm
         [HttpGet]
         public JsonResult lstTenLoaiSanPham(string term)
@@ -92,9 +92,11 @@ namespace WebsiteBanXeMay.Controllers
             return Json(lstTenLoaiSanPham, JsonRequestBehavior.AllowGet);
         }
 
+
+
         //=======================================   Lấy dữ liệu từ Database =========================================
 
-        // Truy vấn danh sách loại sản phẩm
+        // Lấy danh sách loại sản phẩm
         private IEnumerable<LoaiSanPhamViewModel> lstLoaiSanPham(int? TrangThai, bool? BanChay)
         {
             // Số sao đánh giá từ user

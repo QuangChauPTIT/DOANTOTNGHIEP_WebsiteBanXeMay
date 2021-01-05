@@ -21,12 +21,15 @@ namespace WebsiteBanXeMay.Areas.Shipper.Controllers
             var objTaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
             return View(getNhanVien(objTaiKhoan.MA));
         }
+
+
         public ActionResult DoiMatKhauPartial()
         {
             var objTaiKhoan = Session[Constant.SESSION_TAIKHOAN] as TaiKhoanViewModel;
             ViewBag.Email = objTaiKhoan.EMAIL;
             return PartialView();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -73,8 +76,9 @@ namespace WebsiteBanXeMay.Areas.Shipper.Controllers
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
-        //========================== Lấy dữ liệu từ database ===============================
 
+
+        //========================== Lấy dữ liệu từ database ===============================
         private NhanVienViewModel getNhanVien(int MaNV)
         {
             var queryNhanVien = from nhanvien in DB.NHANVIENs

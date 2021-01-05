@@ -101,6 +101,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
         {
             return DB.QUANs.FirstOrDefault(x => x.MAQUAN == MaQuan);
         }
+
+
         // Danh sách sản phẩm khách hàng đặt
         private IEnumerable<HoaDonViewModel> lstSanPhamDaDatTheoPhieuMua(int MaPM)
         {

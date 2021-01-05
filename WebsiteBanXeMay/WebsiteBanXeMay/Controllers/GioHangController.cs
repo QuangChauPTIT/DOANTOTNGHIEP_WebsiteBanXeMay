@@ -14,8 +14,6 @@ namespace WebsiteBanXeMay.Controllers
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
 
-        //=======================================  Action  =======================================
-        // GET: GioHang
         [HttpGet]
         public ActionResult Index()
         {
@@ -28,7 +26,7 @@ namespace WebsiteBanXeMay.Controllers
             return View(lstLoaiSanPham);
         }
 
-        //Ajax
+
         [ChildActionOnly]
         public ActionResult GioHangPartial()
         {
@@ -41,7 +39,7 @@ namespace WebsiteBanXeMay.Controllers
             return PartialView(lstLoaiSanPham);
         }
 
-        // Ajax
+
         [HttpPost]
         public ActionResult ThemGioHang(string MaLoai, int SoLuong = 1)
         {
@@ -135,7 +133,7 @@ namespace WebsiteBanXeMay.Controllers
             return Json(new { message = "Lỗi 400 - Lỗi cú pháp trong yêu cầu và yêu cầu bị từ chối" });
         }
 
-        // Ajax
+
         [HttpPost]
         public ActionResult XoaGioHang(string MaLoai)
         {
@@ -156,7 +154,6 @@ namespace WebsiteBanXeMay.Controllers
         }
 
 
-        //Ajax
         [HttpPost]
         public ActionResult SuaGioHang(string MaLoai, int SoLuong = 1)
         {
@@ -191,6 +188,8 @@ namespace WebsiteBanXeMay.Controllers
             Response.StatusCode = 400;
             return Json(new { message = "Lỗi 400 - Lỗi cú pháp trong yêu cầu và yêu cầu bị từ chối" });
         }
+
+
         //===========================================  Lấy dữ liệu Database =================================================
         // Lấy thông tin loại sản phẩm thâm vào giỏ hàng
         private GioHangViewModel getLoaiSanPham(string MaLoai)
@@ -231,6 +230,7 @@ namespace WebsiteBanXeMay.Controllers
                                     }).FirstOrDefault();
             return queryLoaiSanPham;
         }
+
 
         private int TinhSoLuongTonLoaiSanPham(string MaLoai)
         {

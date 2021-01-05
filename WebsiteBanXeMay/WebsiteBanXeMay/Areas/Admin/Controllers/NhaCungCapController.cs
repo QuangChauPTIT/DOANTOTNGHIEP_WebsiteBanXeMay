@@ -12,7 +12,8 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
     public class NhaCungCapController : Controller
     {
         private BANXEMAYONLINEEntities DB = new BANXEMAYONLINEEntities();
-        // GET: Admin/NhaCungCap
+
+
         public ActionResult Index(int Trang = 1)
         {
             var Model = new PageUtil
@@ -24,11 +25,13 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             return View(Model);
         }
 
+
         [HttpGet]
         public ActionResult ThemNhaCungCapPartial()
         {
             return PartialView();
         }
+
 
         [HttpGet]
         public ActionResult SuaNhaCungCapPartial(string MaNCC)
@@ -36,6 +39,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             var objNCC = DB.NHACUNGCAPs.FirstOrDefault(x => x.MANCC == MaNCC);
             return PartialView(objNCC);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -72,6 +76,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -111,6 +116,7 @@ namespace WebsiteBanXeMay.Areas.Admin.Controllers
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpGet]
         public JsonResult XoaNhaCungCap(string MaNCC)
